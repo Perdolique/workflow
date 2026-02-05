@@ -1,5 +1,5 @@
 ---
-name: code-committing
+name: commit-creator
 description: Generate semantic commit messages following conventional commits format. Use when committing code, staging changes, writing commit messages, requesting git commit, or when user mentions commit, commit message, conventional commits, semantic commits, git commit, stage changes, create commit. Supports monorepo package version tracking.
 license: Unlicense
 ---

@@ -9,8 +9,8 @@ This repository contains custom skills that extend LLM capabilities with special
 
 | Skill | Description | License |
 |-------|-------------|---------|
-| [code-committing](./code-committing/SKILL.md) | Generate semantic commit messages following conventional commits format. Supports monorepo package version tracking. Use when committing code, staging changes, or writing commit messages. | Unlicense |
-| [github-pull-request](./github-pull-request/SKILL.md) | Create GitHub pull requests directly via API from code changes. Analyzes branch commits, generates PR titles and descriptions, and creates PRs on GitHub. Use when creating or updating pull requests. | Unlicense |
+| [commit-creator](./commit-creator/SKILL.md) | Generate semantic commit messages following conventional commits format. Supports monorepo package version tracking. Use when committing code, staging changes, or writing commit messages. | Unlicense |
+| [pr-creator](./pr-creator/SKILL.md) | Create GitHub pull requests directly via API from code changes. Analyzes branch commits, generates PR titles and descriptions, and creates PRs on GitHub. Use when creating or updating pull requests. | Unlicense |
 
 ## Installation 📦
 

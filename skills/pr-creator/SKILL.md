@@ -1,5 +1,5 @@
 ---
-name: github-pull-request
+name: pr-creator
 description: Create GitHub pull requests from code changes via API or generate PR content in chat. Use when user wants to create/open/submit PR, mentions pull request/PR/merge request/code review, or asks to show/generate/display/output PR content in chat (give me PR, PR to chat, send PR to chat, etc).
 license: Unlicense
 ---
