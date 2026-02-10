@@ -113,6 +113,36 @@ while (checkPermissions(user, 'write')) {
 }
 ```
 
+### Rule: No function calls as arguments
+
+**Extract function calls** to separate variables before using them as arguments to other functions.
+
+**Exception**: See "Nested function calls as arguments on separate lines" rule for rare cases.
+
+### Examples
+
+**✅ Correct:**
+
+```typescript
+const userData = fetchUser()
+const result = processData(userData)
+const filtered = filterItems(items)
+const mapped = mapValues(filtered)
+const validation = validateInput(data)
+
+saveToDatabase(validation)
+```
+
+**❌ Wrong:**
+
+```typescript
+// Don't call functions directly in arguments
+const result = processData(fetchUser())
+const mapped = mapValues(filterItems(items))
+
+saveToDatabase(validateInput(data))
+```
+
 ### Rule: Group one-line declarations together, separate multiline declarations
 
 **One-line declarations** should stay together without blank lines. **Multiline declarations** should be separated by blank lines.
@@ -465,3 +495,39 @@ function example() {
   // ✅ No blank line needed before closing brace
 }
 ```
+
+### Rule: Nested function calls as arguments on separate lines
+
+**Exception to the "No function calls as arguments" rule**: In **rare cases** (e.g., validator schemas, DSL configurations) when using a function call as an argument is necessary for readability, **parameters should be on separate lines**.
+
+### Examples
+
+**✅ Correct:**
+
+```typescript
+// Validator schemas - rare exception
+const schema = v.string(
+  v.array()
+)
+
+const userSchema = v.object(
+  v.optional(
+    v.string()
+  )
+)
+
+const pipeline = pipe(
+  transform(config)
+)
+```
+
+**❌ Wrong:**
+
+```typescript
+// Don't keep nested function calls on the same line
+const schema = v.string(v.array())
+const userSchema = v.object(v.optional(v.string()))
+const pipeline = pipe(transform(config))
+```
+
+**Note:** Prefer extracting to variables in most cases. Use this exception sparingly.
