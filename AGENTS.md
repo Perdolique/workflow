@@ -39,4 +39,3 @@ Even "small edits" or "quick additions" are tasks that require the pre-task chec
 - [ ] **AGENTS.md files**: Did you introduce new patterns, conventions, or important context? Update relevant AGENTS.md file(s)
 - [ ] **README.md files**: Did user-facing behavior or documentation change? Update relevant README.md file(s)
 - [ ] **Only update when meaningful**: Skip updates for trivial edits that don't change conventions or user experience
-
