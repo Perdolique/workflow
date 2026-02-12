@@ -24,6 +24,26 @@ Always write in English only
 
 **Types**: feat ✨, fix 🐛, docs 📚, style 💄, refactor ♻️, perf ⚡, test ✅, build 🔧, ci 👷, chore 🔨, revert ⏪
 
+## Workflow
+
+### Staging behavior
+
+When both staged and unstaged changes exist in the working directory, and interaction is available:
+
+- Ask the user whether to:
+  - Stage all files before committing
+  - Commit only the currently staged changes
+
+### Commit error handling
+
+If the commit fails (e.g., due to pre-commit hooks, linting failures, or other validation errors):
+
+- Report the exact error message and reasons for the failure
+- Ask the user whether to:
+  - Commit with `--no-verify` flag to bypass hooks
+  - Attempt to fix the issues automatically
+  - Let the user fix the issues manually
+
 ## Examples
 
 **Simple feature:**
