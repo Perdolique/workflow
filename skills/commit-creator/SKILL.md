@@ -34,7 +34,20 @@ When both staged and unstaged changes exist in the working directory, and intera
   - Stage all files before committing
   - Commit only the currently staged changes
 
+### Running git commit
+
+After executing `git commit`, **wait for the process to exit on its own** — do not interrupt or kill it. Pre-commit hooks (linters, type checkers, test runners) can run for a long time without producing any output. Killing the process mid-run causes an exit code 130 (SIGINT) and leaves the working tree in a dirty state.
+
 ### Commit error handling
+
+**Exit code 130 (interrupted):**
+
+The commit process was interrupted — this is not a validation failure. Do **not** auto-retry. Report that the commit was interrupted and ask the user whether to:
+
+- Try again
+- Cancel
+
+**Any other non-zero exit code (validation failure):**
 
 If the commit fails (e.g., due to pre-commit hooks, linting failures, or other validation errors):
 
