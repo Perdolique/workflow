@@ -17,11 +17,11 @@ Custom AI coding agents for specific development workflows. Each agent specializ
 
 Reusable skills that provide specialized knowledge and capabilities:
 
-- **code-style-typescript** - TypeScript code style guide and formatting conventions
-- **commit-creator** - Semantic commit message generation with monorepo support
-- **pr-creator** - GitHub pull request creation via API with automated analysis
-
-[Explore skills →](./skills/)
+| Skill | Description |
+|-------|-------------|
+| [code-style-typescript](./skills/code-style-typescript/) | TypeScript code style guide and formatting conventions |
+| [commit-creator](./skills/commit-creator/) | Semantic commit message generation with monorepo support |
+| [pr-creator](./skills/pr-creator/) | GitHub pull request creation via API with automated analysis |
 
 ## Quick start
 
@@ -39,35 +39,28 @@ Agents are typically invoked through your AI coding assistant. Refer to your ass
 
 ### Non-standard Copilot instructions
 
-The repository includes custom GitHub Copilot instructions located in `non-standard/.copilot/copilot-instructions.md`.
+The repository includes custom GitHub Copilot instructions in `non-standard/copilot/instructions/`. Individual instruction files can be symlinked into Copilot's instructions directories — either globally or per project.
 
-#### For GitHub Copilot CLI
+| File | Applies to | Description |
+|------|------------|-------------|
+| [global.instructions.md](./non-standard/copilot/instructions/global.instructions.md) | `**` | Role, communication style, and code development principles |
 
-Create a symbolic link to use these instructions with CLI:
+#### Global (applies to all projects)
 
 ```bash
-ln -s /path/to/workflow/non-standard/.copilot/copilot-instructions.md ~/.copilot/copilot-instructions.md
+ln -s /path/to/workflow/non-standard/copilot/instructions/global.instructions.md ~/.copilot/instructions/global.instructions.md
+```
+
+#### Per project (applies only to that project)
+
+```bash
+ln -s /path/to/workflow/non-standard/copilot/instructions/global.instructions.md /your/project/.copilot/instructions/global.instructions.md
 ```
 
 Replace `/path/to/workflow` with the actual path to this repository.
 
-#### For VSCode extension
-
-1. Open Command Palette and run `Chat: New Instructions File...`
-2. Create a new file (e.g., `global.instructions.md`) in **User Data**
-
-3. Add frontmatter to apply globally:
-
-   ```markdown
-   ---
-   applyTo: '**'
-   ---
-   ```
-
-4. Copy the content from `non-standard/.copilot/copilot-instructions.md` into this file
-
 > [!WARNING]
-> These instructions override Copilot's default behavior globally and contain opinionated communication style preferences. Review the file before installing.
+> These instructions override Copilot's default behavior and contain opinionated communication style preferences. Review the file before installing.
 
 ## License
 

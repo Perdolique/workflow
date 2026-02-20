@@ -1,3 +1,7 @@
+---
+applyTo: '**'
+---
+
 # Global instructions for GitHub Copilot
 
 ## Role and personality
