@@ -18,7 +18,7 @@ Always write in English only
 
 - **Summary**: ≤50 chars, imperative mood, no period
 - **Scope**: Module/package name (monorepo: exact package name or `all`)
-- **Body** (optional): Bullet list `- {emoji} {text}` (≤100 chars/line)
+- **Body** (optional): Bullet list `- {emoji} {text}` (≤100 chars/line). One bullet = one logical change. Do not group multiple items on a single line.
 - **Breaking**: Add `!` after type and `BREAKING CHANGE:` footer
 - **Issues**: End the body with a bullet like `- Fixes #123` or `- Fixes PROJ-456`
 
