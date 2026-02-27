@@ -62,6 +62,44 @@ Replace `/path/to/workflow` with the actual path to this repository.
 > [!WARNING]
 > These instructions override Copilot's default behavior and contain opinionated communication style preferences. Review the file before installing.
 
+### LSP configuration
+
+The repository includes an LSP (Language Server Protocol) configuration for GitHub Copilot CLI's `/lsp` command. This configuration enables language-specific features and autocompletion by specifying LSP servers for different file types.
+
+**Configuration file**: [non-standard/copilot/lsp-config.json](./non-standard/copilot/lsp-config.json)
+
+**Supported language servers**:
+
+- TypeScript/JavaScript - `typescript-language-server`
+- Vue - `vue-language-server`
+
+#### Installation
+
+Place the configuration file in your Copilot directory:
+
+```bash
+cp /path/to/workflow/non-standard/copilot/lsp-config.json ~/.copilot/lsp-config.json
+```
+
+Or symlink it:
+
+```bash
+ln -s /path/to/workflow/non-standard/copilot/lsp-config.json ~/.copilot/lsp-config.json
+```
+
+Replace `/path/to/workflow` with the actual path to this repository.
+
+#### Prerequisites
+
+Install the required language servers globally:
+
+```bash
+npm install -g typescript-language-server typescript
+npm install -g @vue/language-server
+```
+
+Make sure the language servers are available in your PATH before using the configuration.
+
 ## License
 
 Unlicense (unless otherwise specified for individual components)
