@@ -6,7 +6,7 @@
       "fileExtensions": {
         ".ts": "typescript",
         ".tsx": "typescript",
-        ".js": "javascript"
+        ".js": "typescript"
       }
     },
     "vue": {
