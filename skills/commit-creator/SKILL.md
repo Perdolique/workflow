@@ -21,6 +21,7 @@ Always write in English only
 - **Body** (optional): Bullet list `- {emoji} {text}` (≤100 chars/line). One bullet = one logical change. Do not group multiple items on a single line.
 - **Breaking**: Add `!` after type and `BREAKING CHANGE:` footer
 - **Issues**: End the body with a bullet like `- Fixes #123` or `- Fixes PROJ-456`
+- **No co-authorship**: Never add `Co-authored-by:`, `Co-Authored-By:`, or any attribution to Copilot, AI assistants, or automated tools at the end of commit messages
 
 **Types**: feat ✨, fix 🐛, docs 📚, style 💄, refactor ♻️, perf ⚡, test ✅, build 🔧, ci 👷, chore 🔨, revert ⏪
 
