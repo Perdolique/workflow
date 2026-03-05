@@ -39,3 +39,20 @@ Even "small edits" or "quick additions" are tasks that require the pre-task chec
 - [ ] **AGENTS.md files**: Did you introduce new patterns, conventions, or important context? Update relevant AGENTS.md file(s)
 - [ ] **README.md files**: Did user-facing behavior or documentation change? Update relevant README.md file(s)
 - [ ] **Only update when meaningful**: Skip updates for trivial edits that don't change conventions or user experience
+
+### Task verification
+
+**After completing ANY task**, run verification commands to ensure quality:
+
+- [ ] **Run markdown linting**: Execute `pnpm run lint:markdown` to verify all markdown files comply with style rules
+- [ ] **Fix violations**: If linting fails, fix violations before marking task as complete
+- [ ] **Task completion criteria**: A task is considered successfully completed ONLY when all verification commands pass with exit code 0
+
+**Available verification commands:**
+
+```bash
+# Markdown linting (required for all tasks that modify .md files)
+pnpm run lint:markdown
+```
+
+**Note**: These verification commands are also enforced by git pre-commit hooks (if Husky is configured), but running them manually after completing work provides faster feedback and prevents surprises during commit.

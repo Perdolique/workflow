@@ -182,14 +182,14 @@ If you're currently using the old authentication 👇:
    + POST /api/auth/token
    ```
 
-2. Update token storage:
+1. Update token storage:
 
    ```diff
    - Store session cookie
    + Store JWT token in localStorage or httpOnly cookie
    ```
 
-3. Add token refresh logic:
+2. Add token refresh logic:
 
    ```javascript
    // Refresh token before expiry
@@ -207,7 +207,8 @@ Full migration docs: [link to docs] 📚
 BREAKING CHANGE: Authentication now uses JWT tokens instead of sessions 🔐 See migration guide above 👆
 
 Fixes #567
-```
+
+```markdown
 
 ## Example 6: Draft/WIP PR
 

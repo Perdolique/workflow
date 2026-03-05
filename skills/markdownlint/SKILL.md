@@ -15,6 +15,7 @@ license: Unlicense
    - `bun.lockb` → use `bun`
 
 2. Check `packageManager` field in package.json:
+
    ```json
    "packageManager": "pnpm@8.0.0"
    ```
@@ -22,11 +23,10 @@ license: Unlicense
 3. If no indicators, ask the user which package manager they prefer
 
 **Throughout this skill**, commands use `pnpm` as examples. Replace with the detected package manager:
+
 - `pnpm add -D` → `npm install --save-dev` / `yarn add -D` / `bun add -d`
 - `pnpm run` → `npm run` / `yarn run` / `bun run`
 - `pnpm install` → `npm install` / `yarn install` / `bun install`
-
-## Operation selection guide
 
 ## Operation selection guide
 
@@ -36,6 +36,7 @@ Identify what the user needs and read the appropriate reference file:
   - First time installation
   - Creating config files (.markdownlint.yaml, .markdownlintignore)
   - Adding npm scripts
+  - Adding verification to AGENTS.md
   - Husky integration
 
 - **Modifying Rules** → Read [references/rules.md](references/rules.md)
@@ -106,7 +107,7 @@ heading-style:
 
 `.markdownlintignore` in project root (gitignore syntax):
 
-```
+```gitignore
 node_modules
 dist/
 build/
@@ -117,7 +118,9 @@ CHANGELOG.md
 
 ### Example 1: Basic setup
 
-**User:** "Add ma[references/setup.md](references/setup.md) and follow Steps 1-8 for complete initial setup.
+**User:** "Add markdownlint to my project"
+
+**Action:** Read [references/setup.md](references/setup.md) and follow Steps 1-9 for complete initial setup.
 
 ### Example 2: Disable annoying rule
 
@@ -155,6 +158,7 @@ For complex requests that span multiple operations:
 4. **Document what was done** - Summarize changes for the user
 
 Example: "Set up markdownlint with strict rules and CI"
+
 - Read [references/setup.md](references/setup.md) → complete initial setup
 - Read [references/rules.md](references/rules.md) → enable strict rules
 - Read [references/integration.md](references/integration.md) → add CI configuration
@@ -191,6 +195,7 @@ line-length: false # Modern editors handle wrapping
 ```
 
 **Rationale:** Start permissive, enable rules gradually. The `line-length` rule is disabled by default because:
+
 - Modern editors and viewers handle text wrapping automatically
 - Fixed line length creates unnecessary friction in most projects
 - Semantic issues are more valuable to catch than presentation issues

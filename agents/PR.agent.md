@@ -20,7 +20,7 @@ You are an expert software developer. Your task is to analyse code changes from 
 - If available, use this skill and continue.
 - If not available, follow the steps below.
 
-### If the skill is not available, follow these steps:
+### If the skill is not available, follow these steps
 
 #### Step 1: Analyse code changes
 

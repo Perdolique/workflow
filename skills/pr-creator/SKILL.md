@@ -10,7 +10,7 @@ license: Unlicense
 
 Identify which mode to use based on user's request:
 
-**Mode 1: Generate PR Content in Chat**
+### Mode 1: Generate PR Content in Chat
 
 Use when user wants to see/copy PR content WITHOUT creating it on GitHub:
 
@@ -18,7 +18,7 @@ Use when user wants to see/copy PR content WITHOUT creating it on GitHub:
 - Key indicators: Words like "show", "display", "output", "give", "send to chat" without "create"/"open"
 - When unclear: If ambiguous (no existing PR, no clear "create" intent), default to this mode
 
-**Mode 2: Create PR on GitHub**
+### Mode 2: Create PR on GitHub
 
 Use when user wants to actually create PR:
 

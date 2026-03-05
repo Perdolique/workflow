@@ -7,6 +7,7 @@ Use when user wants to modify existing integrations (npm scripts, git hooks, CI)
 ## Updating npm scripts
 
 **Add additional flags:**
+
 ```json
 "scripts": {
   "lint:markdown": "markdownlint '**/*.md'",
@@ -16,6 +17,7 @@ Use when user wants to modify existing integrations (npm scripts, git hooks, CI)
 ```
 
 **Change file patterns:**
+
 ```json
 "scripts": {
   "lint:markdown": "markdownlint 'docs/**/*.md' 'README.md'"
@@ -23,6 +25,7 @@ Use when user wants to modify existing integrations (npm scripts, git hooks, CI)
 ```
 
 **Add output formatting:**
+
 ```json
 "scripts": {
   "lint:markdown": "markdownlint '**/*.md' --config .markdownlint.yaml"
@@ -32,6 +35,7 @@ Use when user wants to modify existing integrations (npm scripts, git hooks, CI)
 ## Updating Husky hooks
 
 **Add to existing pre-commit:**
+
 ```bash
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
@@ -44,6 +48,7 @@ pnpm run lint:markdown
 ```
 
 **Make it only check staged files (faster):**
+
 ```bash
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
@@ -58,6 +63,7 @@ Just delete or comment out the `pnpm run lint:markdown` line.
 ## CI integration
 
 **GitHub Actions example:**
+
 ```yaml
 # .github/workflows/lint.yml
 name: Lint Markdown
@@ -77,6 +83,7 @@ jobs:
 ```
 
 **GitLab CI example:**
+
 ```yaml
 # .gitlab-ci.yml
 lint:markdown:

@@ -1,0 +1,26 @@
+{
+  "name": "workflow",
+  "version": "1.0.0",
+  "description": "Useful tools and utilities",
+  "scripts": {
+    "lint:markdown": "markdownlint '**/*.md'",
+    "update:all": "taze --include-locked --interactive",
+    "prepare": "husky"
+  },
+  "keywords": [
+    "tools",
+    "utilities",
+    "workflow",
+    "skills",
+    "agents"
+  ],
+  "author": "Perdolique",
+  "license": "UNLICENSED",
+  "packageManager": "pnpm@10.30.3",
+  "devDependencies": {
+    "husky": "9.1.7",
+    "markdownlint": "0.40.0",
+    "markdownlint-cli": "0.48.0",
+    "taze": "19.10.0"
+  }
+}

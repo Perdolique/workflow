@@ -1,0 +1,4 @@
+$schema: ./node_modules/markdownlint/schema/markdownlint-config-schema.json
+
+line-length: false # Autowraping should be handled in editors/viewers
+first-line-heading: false # Not all markdown files need to start with a heading

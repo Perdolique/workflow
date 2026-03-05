@@ -18,6 +18,7 @@ When user wants to enable a rule that's currently disabled or add a new rule:
    - `code-block-style` - Enforce fenced vs indented code blocks
 
 2. **Update `.markdownlint.yaml`** - Add or modify the rule:
+
    ```yaml
    # Enable a boolean rule
    no-duplicate-heading: true
@@ -32,6 +33,7 @@ When user wants to enable a rule that's currently disabled or add a new rule:
    ```
 
 3. **Test the change** - Run linting to verify:
+
    ```bash
    pnpm run lint:markdown
    ```
@@ -50,6 +52,7 @@ When linting produces too many errors or user disagrees with a rule:
    - Rule name is `line-length` or `MD013`
 
 2. **Disable in `.markdownlint.yaml`**:
+
    ```yaml
    # Disable completely
    line-length: false
@@ -67,24 +70,28 @@ When linting produces too many errors or user disagrees with a rule:
 Many rules have configurable parameters. Common scenarios:
 
 **Heading style preference:**
+
 ```yaml
 heading-style:
   style: "atx"  # Use # headings, not underlined
 ```
 
 **List marker style:**
+
 ```yaml
 ul-style:
   style: "dash"  # Use - instead of * for lists
 ```
 
 **Allow trailing punctuation in headings:**
+
 ```yaml
 no-trailing-punctuation:
   punctuation: ".,;:"  # Still allow ! and ?
 ```
 
 **Code block style:**
+
 ```yaml
 code-block-style:
   style: "fenced"  # Require ``` blocks, not indentation

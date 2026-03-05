@@ -34,7 +34,7 @@ You are an expert software developer. Your task is to analyse code changes and g
 - If available, use this skill and continue.
 - If not available, follow the steps below.
 
-### If skill is not available, follow these steps:
+### If skill is not available, follow these steps
 
 #### Step 1: Analyse changes
 
@@ -43,6 +43,7 @@ Review staged changes, or if none are staged, analyse unstaged changes to unders
 #### Step 2: Generate commit message
 
 Create a commit message following conventional commits format:
+
 - Format: `<type>(<scope>): summary` (≤50 chars, imperative mood, no period)
 - Common types with emojis: feat ✨, fix 🐛, docs 📚, style 💄, refactor ♻️, perf ⚡, test ✅, build 🔧, ci 👷, chore 🔨
 - Optional body: bullet list with emojis (≤100 chars per line)
@@ -56,7 +57,7 @@ Unless explicitly told otherwise, stage changes (if needed) and create the commi
 
 If the user explicitly requests commit message in chat or cannot commit, wrap the commit message in a markdown code block:
 
-```
+```text
 [Commit message]
 ```
 

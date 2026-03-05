@@ -18,7 +18,7 @@ Custom AI coding agents for specific development workflows. Each agent specializ
 Reusable skills that provide specialized knowledge and capabilities:
 
 | Skill | Description |
-|-------|-------------|
+| --- | --- |
 | [code-style-typescript](./skills/code-style-typescript/) | TypeScript code style guide and formatting conventions |
 | [commit-creator](./skills/commit-creator/) | Semantic commit message generation with monorepo support |
 | [pr-creator](./skills/pr-creator/) | GitHub pull request creation via API with automated analysis |
@@ -42,7 +42,7 @@ Agents are typically invoked through your AI coding assistant. Refer to your ass
 The repository includes custom GitHub Copilot instructions in `non-standard/copilot/instructions/`. Individual instruction files can be symlinked into Copilot's instructions directories — either globally or per project.
 
 | File | Applies to | Description |
-|------|------------|-------------|
+| --- | --- | --- |
 | [global.instructions.md](./non-standard/copilot/instructions/global.instructions.md) | `**` | Role, communication style, and code development principles |
 
 #### Global (applies to all projects)
