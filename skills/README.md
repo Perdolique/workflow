@@ -11,6 +11,7 @@ This repository contains custom skills that extend LLM capabilities with special
 |-------|-------------|---------|
 | [code-style-typescript](./code-style-typescript/SKILL.md) | TypeScript code style guide and formatting conventions. Enforces semicolon usage rules and formatting standards. Use when writing or reviewing TypeScript code. | Unlicense |
 | [commit-creator](./commit-creator/SKILL.md) | Generate semantic commit messages following conventional commits format. Supports monorepo package version tracking. Use when committing code, staging changes, or writing commit messages. | Unlicense |
+| [markdownlint](./markdownlint/SKILL.md) | Configure, manage, and troubleshoot markdownlint in projects. Use when setting up, configuring rules, fixing violations, or integrating with tools (Husky, CI). Includes reference guides for all common operations. | Unlicense |
 | [pr-creator](./pr-creator/SKILL.md) | Create GitHub pull requests directly via API from code changes. Analyzes branch commits, generates PR titles and descriptions, and creates PRs on GitHub. Use when creating or updating pull requests. | Unlicense |
 
 ## Installation 📦
