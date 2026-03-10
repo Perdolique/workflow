@@ -23,7 +23,7 @@ license: Unlicense
 
 **Exception**: TypeScript interfaces, types, and similar type definitions **MUST use semicolons** as property separators.
 
-### Examples
+### Examples 1
 
 **✅ Correct:**
 
@@ -82,7 +82,7 @@ type Config = {
 
 **Extract method calls** to separate variables before using them in conditional statements (`if`, `while`, `for`, etc.).
 
-### Examples
+### Examples 2
 
 **✅ Correct:**
 
@@ -119,7 +119,7 @@ while (checkPermissions(user, 'write')) {
 
 **Exception**: See "Nested function calls as arguments on separate lines" rule for rare cases.
 
-### Examples
+### Examples 3
 
 **✅ Correct:**
 
@@ -147,7 +147,7 @@ saveToDatabase(validateInput(data))
 
 **One-line declarations** should stay together without blank lines. **Multiline declarations** should be separated by blank lines.
 
-### Examples
+### Examples 4
 
 **✅ Correct:**
 
@@ -196,7 +196,7 @@ const anotherObject = {
 
 **One-line JSDoc comments** should be on the same line with `/**` and `*/`.
 
-### Examples
+### Examples 5
 
 **✅ Correct:**
 
@@ -239,7 +239,7 @@ function calculateTotal(items: Item[]): number {
 
 **Shorthand properties** in objects should be ordered before regular properties.
 
-### Examples
+### Examples 6
 
 **✅ Correct:**
 
@@ -282,7 +282,7 @@ const config = {
 
 **Object keys** should be ordered alphabetically, with **shorthand properties** grouped first (also alphabetically).
 
-### Examples
+### Examples 7
 
 **✅ Correct:**
 
@@ -318,7 +318,7 @@ const user = {
 
 **Objects with more than one key** must have each key on a separate line.
 
-### Examples
+### Examples 8
 
 **✅ Correct:**
 
@@ -351,7 +351,7 @@ const config = { apiKey: 'secret', timeout: 5000 }
 
 **Multiline values** in objects should be separated by blank lines.
 
-### Examples
+### Examples 9
 
 **✅ Correct:**
 
@@ -396,7 +396,7 @@ const config = {
 
 **Never use trailing commas** in arrays, objects, or other structures.
 
-### Examples
+### Examples 10
 
 **✅ Correct:**
 
@@ -435,7 +435,7 @@ const user = {
 
 **Multiline blocks** (if/else, loops, try/catch, functions, etc.) should be separated from other code with blank lines, unless they are at the start or end of a parent block.
 
-### Examples
+### Examples 11
 
 **✅ Correct:**
 
@@ -500,7 +500,7 @@ function example() {
 
 **Exception to the "No function calls as arguments" rule**: In **rare cases** (e.g., validator schemas, DSL configurations) when using a function call as an argument is necessary for readability, **parameters should be on separate lines**.
 
-### Examples
+### Examples 12
 
 **✅ Correct:**
 

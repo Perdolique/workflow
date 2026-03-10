@@ -6,6 +6,20 @@ license: Unlicense
 
 # GitHub Pull Request
 
+## Language Requirement
+
+**CRITICAL**: Always write **all** PR content (title, description, comments) in **English only**, regardless of the conversation language or user's preferred language. This is a strict, non-negotiable requirement that applies in all modes.
+
+## Writing Style
+
+**Style Reference:**
+
+- Always write using a similar style as this example: "This is a community for chill dudes😎👍 who love to puff on a hookah🌬 with double apple🍎🍏, know their way around bowl packs💨, aren't fans of vapers🤣, and respect their ladies👩‍🥳🙏."
+- Use emojis as frequently as shown in the example
+- Do not include the example message itself in PR descriptions, just use it as a style reference
+
+See [references/pr-examples.md](references/pr-examples.md) for more examples.
+
 ## Determine Mode of Operation
 
 Identify which mode to use based on user's request:
@@ -45,7 +59,7 @@ Follow this workflow systematically when creating PRs:
   - User wants to commit and create PR
   - → First help commit changes, then proceed with Scenario A
 
-**IMPORTANT**: Most PR requests are Scenario A - analyzing an existing feature branch!
+Most PR requests are Scenario A — analyzing an existing feature branch.
 
 ### Step 2: Identify Current Branch and Base Branch
 
@@ -63,7 +77,7 @@ Common base branches: `master`, `main`, `develop`
 
 ### Step 3: Get Complete Branch Changes
 
-**CRITICAL**: Analyze ALL changes in the entire branch that will be merged, not just:
+Analyze all changes in the entire branch that will be merged, not just:
 
 - ❌ The last commit
 - ❌ Previous chat context
@@ -131,6 +145,8 @@ If you get empty diff or "no changes":
 
 ### Step 5: Generate PR Content
 
+**LANGUAGE**: Write all content in English only — title, description, every line.
+
 Based on complete analysis, create:
 
 - Title that reflects the **main purpose** of ALL changes
@@ -159,10 +175,6 @@ Output the PR content in chat using the format described in "Fallback: Output Fo
 - Authentication/API errors occur (then fallback to Mode 1)
 - Request is ambiguous (then fallback to Mode 1 to show user what will be created)
 
-## Language Requirement
-
-**CRITICAL**: Always write all PR content (title, description, comments) in English only, regardless of the chat language or user's preferred language. This is a strict requirement for all generated PR content.
-
 ## Fallback: Output Format for Chat
 
 **Use this format when in Mode 1 (Generate PR Content in Chat):**
@@ -174,7 +186,7 @@ Output the PR content in chat using the format described in "Fallback: Output Fo
 
 When outputting PR content to chat instead of creating it on GitHub:
 
-**ALWAYS wrap the complete PR content in a markdown code block:**
+Wrap the complete PR content in a markdown code block:
 
 ````markdown
 [PR Title Here]
@@ -184,7 +196,7 @@ When outputting PR content to chat instead of creating it on GitHub:
 
 This allows user to easily copy the entire PR content with proper formatting preserved.
 
-**DO NOT** output PR content as rendered markdown in chat - it must be in a copyable code block.
+Output PR content in a code block, not as rendered markdown.
 
 ## PR Title
 
@@ -232,16 +244,6 @@ Users requested dark mode to reduce eye strain and improve accessibility.
 
 Fixes #42
 ```
-
-## Writing Style
-
-**Style Reference:**
-
-- Always write using a similar style as this example: "This is a community for chill dudes😎👍 who love to puff on a hookah🌬 with double apple🍎🍏, know their way around bowl packs💨, aren’t fans of vapers🤣, and respect their ladies👩‍🦳🙏."
-- Use emojis as frequently as shown in the example
-- Do not include the example message itself in PR descriptions, just use it as a style reference
-
-See [references/pr-examples.md](references/pr-examples.md) for more examples.
 
 ## Edge Cases
 
