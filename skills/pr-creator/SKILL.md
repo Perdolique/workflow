@@ -160,8 +160,9 @@ This workflow ensures PR descriptions accurately reflect the **total scope** of 
 
 **If Mode 2 (Create PR on GitHub) - Default action:**
 
-1. Create PR using available GitHub API tools
-2. After successful creation, provide user with:
+1. Get the current authenticated GitHub user login using available tools to retrieve the current authenticated user
+2. Create PR using available GitHub API tools, setting `assignees` to the current user's login
+3. After successful creation, provide user with:
    - PR URL
    - Brief confirmation message
 

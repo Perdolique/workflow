@@ -27,6 +27,24 @@ Always write in English only
 
 ## Workflow
 
+### Branch check
+
+Before committing, check the current branch:
+
+```bash
+git branch --show-current
+git remote show origin | grep "HEAD branch"
+```
+
+**If the current branch is the default branch** (e.g. `master`, `main`) **and the user has not explicitly indicated they want to commit to it**, ask the user:
+
+- Create a new branch and commit there
+- Commit directly to the current (default) branch
+
+Wait for user's answer before proceeding.
+
+**If the user explicitly stated the target branch in their request** (e.g. "commit to master", "commit here"), skip the question and proceed.
+
 ### Staging behavior
 
 When both staged and unstaged changes exist in the working directory, and interaction is available:
