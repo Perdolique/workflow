@@ -23,6 +23,16 @@ Always write in English only
 - **Issues**: End the body with a bullet like `- Fixes #123` or `- Fixes PROJ-456`
 - **No co-authorship**: Never add `Co-authored-by:`, `Co-Authored-By:`, or any attribution to Copilot, AI assistants, or automated tools at the end of commit messages
 
+### Dependency update details
+
+When the commit includes dependency or package version updates, spell out every updated package in the body.
+
+- Use one bullet per updated package
+- Include both old and new version for each package
+- Use the format `- 📦 package-name: old-version -> new-version`
+- Never collapse multiple updates into vague text like `updated dependencies` or `bump packages`
+- If several packages changed, list all of them separately
+
 **Types**: feat ✨, fix 🐛, docs 📚, style 💄, refactor ♻️, perf ⚡, test ✅, build 🔧, ci 👷, chore 🔨, revert ⏪
 
 ## Workflow

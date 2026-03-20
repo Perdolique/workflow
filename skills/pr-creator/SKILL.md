@@ -226,6 +226,16 @@ Output PR content in a code block, not as rendered markdown.
 - Breaking Changes (with migration guide)
 - Performance Impact
 
+### Dependency update details
+
+When the branch updates dependencies or package versions, make those changes explicit in the PR description.
+
+- List every updated package separately
+- Include both old and new version for each package
+- Use the format `- package-name: old-version -> new-version`
+- Do not replace the package list with vague summaries like `updated some dependencies`
+- Keep dependency bullets in `Summary` or in a dedicated `Dependency updates` subsection when there are many of them
+
 **Example:**
 
 ```markdown
