@@ -66,14 +66,22 @@ Most PR requests are Scenario A — analyzing an existing feature branch.
 First, determine what branch you're working with:
 
 ```bash
+# Refresh remote refs first so the base comparison uses the latest remote state
+git fetch origin --prune
+
 # Get current branch name
 git branch --show-current
 
-# Identify base branch (usually main/master)
+# Identify the remote default branch ref (preferred)
+git symbolic-ref --quiet --short refs/remotes/origin/HEAD
+
+# Fallback: identify the remote default branch name if origin/HEAD is unavailable
 git remote show origin | grep "HEAD branch"
 ```
 
-Common base branches: `master`, `main`, `develop`
+Use the **remote-tracking base ref** for comparisons whenever possible (for example `origin/main`, not local `main`). `git fetch` updates remote refs, but it does **not** move your local default branch, so comparing against local `main`/`master` can miss changes or produce stale diffs.
+
+Common base refs: `origin/master`, `origin/main`, `origin/develop`
 
 ### Step 3: Get Complete Branch Changes
 
@@ -95,18 +103,20 @@ Analyze all changes in the entire branch that will be merged, not just:
 **Primary approach - Git commands (universal):**
 
 ```bash
-# Get full diff between branches
-git diff <base-branch>...<current-branch>
+# Get full diff between branches using the remote-tracking base ref
+git diff <base-ref>...<current-branch>
 
 # Example:
-git diff main...feature-branch
+git diff origin/main...feature-branch
 
 # List changed files only:
-git diff --name-status main...feature-branch
+git diff --name-status origin/main...feature-branch
 
 # See all commits in branch:
-git log <base-branch>..<current-branch> --oneline
+git log <base-ref>..<current-branch> --oneline
 ```
+
+`<base-ref>` should usually be the remote default branch ref you discovered in Step 2, such as `origin/main`.
 
 **Alternative - Use available tools in your environment:**
 
@@ -130,11 +140,12 @@ If changes are not yet committed, first check what's uncommitted using:
 
 If you get empty diff or "no changes":
 
-1. ✅ Verify you're comparing correct branches (current vs base)
-2. ✅ Check if current branch IS the base branch (can't PR main to main!)
-3. ✅ Ensure commits exist in branch: `git log --oneline -10`
-4. ✅ Try: `git log <base-branch>..<current-branch>` to see commits
-5. ❌ If truly no changes, inform user PR cannot be created without changes
+1. ✅ Verify you're comparing the current branch against the correct **remote** base ref (`origin/main`, not stale local `main`)
+2. ✅ Refresh remote refs again if needed: `git fetch origin --prune`
+3. ✅ Check if current branch IS the base branch (can't PR main to main!)
+4. ✅ Ensure commits exist in branch: `git log --oneline -10`
+5. ✅ Try: `git log <base-ref>..<current-branch>` to see commits
+6. ❌ If truly no changes, inform user PR cannot be created without changes
 
 ### Step 4: Analyze Changes Comprehensively
 
