@@ -46,12 +46,17 @@ Create a commit message following conventional commits format:
 
 - Format: `<type>(<scope>): summary` (≤50 chars, imperative mood, no period)
 - Common types with emojis: feat ✨, fix 🐛, docs 📚, style 💄, refactor ♻️, perf ⚡, test ✅, build 🔧, ci 👷, chore 🔨
-- Optional body: bullet list with emojis (≤100 chars per line)
+- Optional body: bullet list with emojis (aim for about 100 chars per line when it helps readability, but allow longer lines for package/version bullets, URLs, and other awkward-to-wrap tokens; no blank lines between bullets unless separate paragraphs are intentional)
 - Breaking changes: add `!` after type and `BREAKING CHANGE:` footer
 
 #### Step 3: Stage and commit
 
 Unless explicitly told otherwise, stage changes (if needed) and create the commit with the generated message.
+
+If the commit body spans multiple lines, do not build the command with one `-m` flag per bullet. Git treats each extra `-m` as a separate paragraph and inserts blank lines between them. Use either:
+
+- `git commit -m "<summary>" -m "<full multiline body>"`
+- `git commit -F` or `git commit -F-` when passing the full message is clearer
 
 #### Fallback: text output
 

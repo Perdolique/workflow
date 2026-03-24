@@ -18,7 +18,7 @@ Always write in English only
 
 - **Summary**: ≤50 chars, imperative mood, no period
 - **Scope**: Module/package name (monorepo: exact package name or `all`)
-- **Body** (optional): Bullet list `- {emoji} {text}` (≤100 chars/line). One bullet = one logical change. Do not group multiple items on a single line.
+- **Body** (optional): Bullet list `- {emoji} {text}`. Aim to keep explanatory bullets within about 100 characters when that preserves readability, but allow longer lines for package/version entries, URLs, or other tokens that become awkward when wrapped. One bullet = one logical change. Do not group multiple items on a single line or leave empty lines between bullets unless you intentionally want separate paragraphs.
 - **Breaking**: Add `!` after type and `BREAKING CHANGE:` footer
 - **Issues**: End the body with a bullet like `- Fixes #123` or `- Fixes PROJ-456`
 - **No co-authorship**: Never add `Co-authored-by:`, `Co-Authored-By:`, or any attribution to Copilot, AI assistants, or automated tools at the end of commit messages
@@ -32,6 +32,25 @@ When the commit includes dependency or package version updates, spell out every 
 - Use the format `- 📦 package-name: old-version -> new-version`
 - Never collapse multiple updates into vague text like `updated dependencies` or `bump packages`
 - If several packages changed, list all of them separately
+
+### Message assembly
+
+Git treats every extra `-m` flag as a separate paragraph and inserts a blank line between paragraphs.
+
+- If the commit has only a summary, use a single `-m`
+- If the commit has a body, use exactly one additional `-m` for the entire body, with plain newlines between bullet lines
+- Never use one `-m` flag per bullet, per package update, or per issue reference
+- If multiline quoting becomes awkward, write the whole message with `git commit -F` or `git commit -F-`
+
+Keep the final message layout like this:
+
+```text
+<type>(<scope>): summary
+
+- first bullet
+- second bullet
+- third bullet
+```
 
 **Types**: feat ✨, fix 🐛, docs 📚, style 💄, refactor ♻️, perf ⚡, test ✅, build 🔧, ci 👷, chore 🔨, revert ⏪
 
@@ -66,6 +85,26 @@ When both staged and unstaged changes exist in the working directory, and intera
 ### Running git commit
 
 After executing `git commit`, **wait for the process to exit on its own** — do not interrupt or kill it. Pre-commit hooks (linters, type checkers, test runners) can run for a long time without producing any output. Killing the process mid-run causes an exit code 130 (SIGINT) and leaves the working tree in a dirty state.
+
+When the commit body spans multiple lines, prefer one of these command shapes:
+
+```bash
+git commit -m "chore(deps): update development dependencies" -m "- 📦 eslint: 8.57.0 -> 9.0.0
+- 📦 prettier: 2.8.8 -> 3.0.0
+- 🔧 Update lint configuration for new versions"
+```
+
+```bash
+git commit -F- <<'EOF'
+chore(deps): update development dependencies
+
+- 📦 eslint: 8.57.0 -> 9.0.0
+- 📦 prettier: 2.8.8 -> 3.0.0
+- 🔧 Update lint configuration for new versions
+EOF
+```
+
+Do not generate `git commit -m "summary" -m "bullet 1" -m "bullet 2"` unless you explicitly want blank lines between those body paragraphs.
 
 ### Commit error handling
 
