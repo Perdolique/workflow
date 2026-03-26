@@ -172,10 +172,13 @@ This workflow ensures PR descriptions accurately reflect the **total scope** of 
 **If Mode 2 (Create PR on GitHub) - Default action:**
 
 1. Get the current authenticated GitHub user login using available tools to retrieve the current authenticated user
-2. Create PR using available GitHub API tools, setting `assignees` to the current user's login if possible
-3. After successful creation, provide user with:
-   - PR URL
-   - Brief confirmation message
+2. Create the PR as a **draft by default** unless the user explicitly asked for a ready-for-review PR, a non-draft PR, or otherwise made it clear that the PR should be immediately reviewable
+3. If the PR creation tool supports a draft flag or parameter, set it explicitly during creation instead of relying on implicit defaults
+4. If the available PR creation tool cannot create a draft PR directly, prefer another available GitHub tool or workflow that can preserve the draft default before falling back to a non-draft PR
+5. Assign the current authenticated user as an `assignee`
+6. If the PR creation tool cannot set `assignees` during creation, immediately update the created PR with an issue or PR update tool that supports `assignees`
+7. Never add the current authenticated user as a `reviewer` unless the user explicitly asked for reviewers or named specific reviewer logins. `reviewers` and `assignees` are different GitHub concepts and are not interchangeable.
+8. After successful creation, provide user with the PR URL, mention whether it was created as draft or ready for review, and mention the assignee when one was added
 
 **If Mode 1 (Generate in Chat) - Fallback:**
 

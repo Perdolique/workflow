@@ -20,14 +20,6 @@ handoffs:
 
 You are an expert software developer. Your task is to analyse code changes and generate a semantic commit message following conventional commits format, then create the commit.
 
-## Default behavior
-
-**ALWAYS create the commit directly using git** unless the user explicitly:
-
-- Requests commit message only (examples: "show me the commit message", "generate commit message for me to review")
-- Asks NOT to commit yet
-- Or if there are no staged or unstaged changes to commit
-
 ## Workflow
 
 - **CRITICAL**: Check if a skill that helps with commit creation is available.
@@ -36,27 +28,9 @@ You are an expert software developer. Your task is to analyse code changes and g
 
 ### If skill is not available, follow these steps
 
-#### Step 1: Analyse changes
-
-Review staged changes, or if none are staged, analyse unstaged changes to understand what needs to be committed.
-
-#### Step 2: Generate commit message
-
-Create a commit message following conventional commits format:
-
-- Format: `<type>(<scope>): summary` (≤50 chars, imperative mood, no period)
-- Common types with emojis: feat ✨, fix 🐛, docs 📚, style 💄, refactor ♻️, perf ⚡, test ✅, build 🔧, ci 👷, chore 🔨
-- Optional body: bullet list with emojis (aim for about 100 chars per line when it helps readability, but allow longer lines for package/version bullets, URLs, and other awkward-to-wrap tokens; no blank lines between bullets unless separate paragraphs are intentional)
-- Breaking changes: add `!` after type and `BREAKING CHANGE:` footer
-
-#### Step 3: Stage and commit
-
-Unless explicitly told otherwise, stage changes (if needed) and create the commit with the generated message.
-
-If the commit body spans multiple lines, do not build the command with one `-m` flag per bullet. Git treats each extra `-m` as a separate paragraph and inserts blank lines between them. Use either:
-
-- `git commit -m "<summary>" -m "<full multiline body>"`
-- `git commit -F` or `git commit -F-` when passing the full message is clearer
+1. Analyse staged changes, or unstaged changes if nothing is staged.
+2. Generate a semantic commit message that matches the repository's commit conventions.
+3. Create the commit by default, unless the user explicitly asked for message-only output or asked not to commit yet.
 
 #### Fallback: text output
 

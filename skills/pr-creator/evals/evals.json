@@ -1,0 +1,60 @@
+{
+  "skill_name": "pr-creator",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Create a PR on GitHub for my current branch and assign it to me after creation. Do not ask me to copy anything into chat.",
+      "expected_output": "The workflow creates the PR directly on GitHub and assigns the authenticated user as an assignee, not as a reviewer.",
+      "files": [],
+      "expectations": [
+        "The workflow uses assignee assignment semantics for the authenticated user.",
+        "The workflow does not add the authenticated user as a reviewer by default.",
+        "The workflow says to update the created PR after creation if the create call cannot set assignees directly."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Open a pull request for this branch, keep the PR text in English, and make sure I am the assignee on the PR.",
+      "expected_output": "The workflow keeps PR content in English and uses assignee assignment semantics for the authenticated user.",
+      "files": [],
+      "expectations": [
+        "The workflow keeps title and description in English.",
+        "The workflow assigns the current authenticated user as assignee.",
+        "The workflow does not treat reviewer assignment as equivalent to assignee assignment."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Create the PR directly on GitHub. After it exists, put me on it as the assignee. Do not add me as a reviewer unless I explicitly ask for reviewers.",
+      "expected_output": "The workflow separates assignee handling from reviewer handling and avoids adding the current user as a reviewer by default.",
+      "files": [],
+      "expectations": [
+        "The workflow explicitly avoids adding the current authenticated user as reviewer by default.",
+        "The workflow uses a follow-up update step to assign the PR when needed.",
+        "The workflow allows reviewer assignment only when the user explicitly requests it."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Create a pull request on GitHub for this branch. I did not say anything about review readiness.",
+      "expected_output": "The workflow creates the PR as a draft by default when the user did not explicitly request a ready-for-review PR.",
+      "files": [],
+      "expectations": [
+        "The workflow creates the PR as draft by default when review readiness was not specified.",
+        "The workflow prefers an explicit draft flag or draft-capable creation path when one is available.",
+        "The workflow reports whether the PR was created as draft or ready for review."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Create a ready-for-review PR on GitHub for this branch. Do not leave it in draft state.",
+      "expected_output": "The workflow respects an explicit request for a non-draft PR and does not force the draft default in that case.",
+      "files": [],
+      "expectations": [
+        "The workflow does not force draft state when the user explicitly requested a ready-for-review PR.",
+        "The workflow treats the draft state as a default that can be overridden by explicit user intent.",
+        "The workflow reports whether the PR was created as draft or ready for review."
+      ]
+    }
+  ]
+}
