@@ -133,6 +133,7 @@ vi.spyOn(window.location, 'hostname', 'get').mockReturnValue('test.com');
 // Fake timers
 vi.useFakeTimers();
 vi.setSystemTime(new Date('2024-01-01'));
+vi.advanceTimersByTimeAsync(1000); // Use async version for promise-based timers
 
 // Cleanup
 vi.restoreAllMocks();

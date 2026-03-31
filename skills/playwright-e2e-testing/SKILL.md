@@ -17,6 +17,10 @@ This skill provides patterns and conventions for writing Playwright E2E tests fo
 - Mocking API endpoints for E2E tests
 - Debugging failing Playwright tests
 
+## Project configuration
+
+When setting up or modifying `playwright.config.ts`, see [references/configuration.md](references/configuration.md) for conventions on web server setup, reporters, traces, screenshots, and CI behavior.
+
 ## Test imports
 
 If the project has a custom fixture file that extends Playwright's `test` object (common for API interception, shared setup, etc.), always import `test` and `expect` from that fixture — not from `@playwright/test` directly. Check the project's test directory for a `fixtures/` folder or `global.fixtures.ts`.
@@ -375,4 +379,5 @@ Before considering an E2E test complete, verify:
 
 ## Reference files
 
+- [references/configuration.md](references/configuration.md) — Playwright config setup: web server, reporters, traces, screenshots, CI behavior
 - [references/fixtures.md](references/fixtures.md) — Complete fixture patterns, factory functions, variant pattern details

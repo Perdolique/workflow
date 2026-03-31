@@ -245,6 +245,52 @@ test('debounce works correctly', () => {
 });
 ```
 
+### Advance timers asynchronously
+
+When the code under test uses async patterns with timers (e.g., `Promise.allSettled` with `setTimeout`, or libraries like `delay` that wrap `setTimeout` in a promise), synchronous `vi.advanceTimersByTime()` won't resolve the pending promises. Use `vi.advanceTimersByTimeAsync()` instead — it advances timers and flushes the microtask queue so that promise callbacks run.
+
+```typescript
+test('should wait for minimum delay before resolving', async () => {
+  vi.useFakeTimers();
+
+  const promise = withMinimumDelay(Promise.resolve('result'), 500);
+
+  let resolved = false;
+
+  void (async () => {
+    await promise;
+
+    resolved = true;
+  })();
+
+  await vi.advanceTimersByTimeAsync(499);
+
+  expect(resolved).toBeFalsy();
+
+  await vi.advanceTimersByTimeAsync(1);
+
+  expect(resolved).toBeTruthy();
+
+  vi.useRealTimers();
+});
+```
+
+#### Rejected promises with fake timers
+
+When testing promise rejection alongside fake timers, subscribe to the rejection **before** advancing timers. Otherwise Vitest catches an unhandled rejection and fails the test — the rejection fires when timer advances, but no `.catch()` or `expect().rejects` is listening yet.
+
+```typescript
+// ❌ Unhandled rejection — advance fires rejection with no handler attached
+await vi.advanceTimersByTimeAsync(500);
+await expect(promise).rejects.toThrow('error');
+
+// ✅ Subscribe to rejection first, then advance timers
+const rejection = expect(promise).rejects.toThrow('error');
+
+await vi.advanceTimersByTimeAsync(500);
+await rejection;
+```
+
 ## Cleanup
 
 ### Restore after each test
