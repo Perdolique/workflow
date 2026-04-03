@@ -4,6 +4,7 @@
   "description": "Useful tools and utilities",
   "scripts": {
     "lint:markdown": "markdownlint '**/*.md'",
+    "lint:skills": "./scripts/lint-skills.sh",
     "update:all": "taze --include-locked --interactive",
     "prepare": "husky"
   },

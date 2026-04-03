@@ -7,4 +7,5 @@
 
 ## Skill workflow guidelines
 
-- After every change in skills thoroghly review the entire skill using `skill-creator` skill.
+- After every change in `skills/`, run `pnpm run lint:skills`.
+- After every change in skills, thoroughly review the entire skill using the `skill-creator` skill.

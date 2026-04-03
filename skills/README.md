@@ -36,6 +36,27 @@ pnpx skills add anthropics/skills --skill skill-creator
 
 This skill provides comprehensive guidance for creating effective skills with proper structure, metadata, and best practices.
 
+### Local validation
+
+Install `skill-validator` before working on skills locally:
+
+```bash
+brew tap agent-ecosystem/tap
+brew install skill-validator
+```
+
+Or install it with Go:
+
+```bash
+go install github.com/agent-ecosystem/skill-validator/cmd/skill-validator@latest
+```
+
+Run the local validator after changing anything under `skills/`:
+
+```bash
+pnpm run lint:skills
+```
+
 ## Resources 🔗
 
 - [Vercel Skills CLI](https://github.com/vercel-labs/skills) - Tool for managing skills

@@ -1,2 +1,5 @@
 /node_modules
 /skills/*-workspace/
+
+# FIXME: WEIRD CODEX EMPTY FILE
+/.codex

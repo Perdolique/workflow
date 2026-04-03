@@ -1,6 +1,6 @@
 ---
 name: playwright-e2e-testing
-description: Create and maintain Playwright E2E tests for web applications. Use when the user asks to write E2E tests, create Playwright tests, test user flows, test page navigation, mock API responses for E2E, create test fixtures, or mentions Playwright, E2E, end-to-end testing, integration tests, browser tests, page tests, or anything related to testing user-facing flows in the browser. Do NOT use for Vitest unit tests — use the vitest-unit-testing skill instead.
+description: Write and maintain Playwright end-to-end tests for web apps. Use when the user asks for browser or E2E coverage, navigation flow tests, API mocking, fixtures, or Playwright-specific assertions.
 license: Unlicense
 ---
 

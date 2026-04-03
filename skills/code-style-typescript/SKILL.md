@@ -1,6 +1,6 @@
 ---
 name: code-style-typescript
-description: TypeScript code style guide and formatting conventions. Use when writing TypeScript code, reviewing TypeScript files, refactoring .ts code, formatting TypeScript, or when working with TypeScript interfaces, classes, functions, or any .ts files. Apply these rules during code generation, code review, and when user mentions TypeScript style, formatting, conventions, semicolons, or code quality.
+description: TypeScript style rules for writing, reviewing, and refactoring `.ts` code. Use when working on TypeScript formatting, semicolon conventions, object layout, or function call structure.
 license: Unlicense
 ---
 
@@ -16,6 +16,8 @@ license: Unlicense
 - When formatting or cleaning up code
 
 ## Rules
+
+For additional examples covering trailing commas, multiline block spacing, and nested call exceptions, see [references/examples.md](references/examples.md).
 
 ### Rule: No semicolons at the end of statements
 
@@ -396,138 +398,16 @@ const config = {
 
 **Never use trailing commas** in arrays, objects, or other structures.
 
-### Examples 10
-
-**✅ Correct:**
-
-```typescript
-const items = [
-  'first',
-  'second',
-  'third'
-]
-
-const user = {
-  age: 30,
-  city: 'New York',
-  name: 'John'
-}
-```
-
-**❌ Wrong:**
-
-```typescript
-// Don't use trailing commas
-const items = [
-  'first',
-  'second',
-  'third',
-]
-
-const user = {
-  age: 30,
-  city: 'New York',
-  name: 'John'
-}
-```
+See [references/examples.md](references/examples.md) for examples.
 
 ### Rule: Separate multiline blocks with blank lines
 
 **Multiline blocks** (if/else, loops, try/catch, functions, etc.) should be separated from other code with blank lines, unless they are at the start or end of a parent block.
 
-### Examples 11
-
-**✅ Correct:**
-
-```typescript
-function processUser(user: User) {
-  const isValid = validateUser(user)
-
-  if (isValid) {
-    console.log('Valid user')
-    saveToDatabase(user)
-  }
-
-  return isValid
-}
-
-const result = calculate()
-
-for (const item of items) {
-  processItem(item)
-  updateCounter(item)
-}
-
-const total = getTotal()
-```
-
-**❌ Wrong:**
-
-```typescript
-// Don't keep multiline blocks together with other code
-function processUser(user: User) {
-  const isValid = validateUser(user)
-  if (isValid) {
-    console.log('Valid user')
-    saveToDatabase(user)
-  }
-  return isValid
-}
-
-const result = calculate()
-for (const item of items) {
-  processItem(item)
-  updateCounter(item)
-}
-const total = getTotal()
-```
-
-**Note:** Blank lines at the start or end of parent blocks are not needed:
-
-```typescript
-// ✅ No blank line needed after opening brace
-function example() {
-  const value = 10
-
-  if (value > 5) {
-    doSomething()
-  }
-  // ✅ No blank line needed before closing brace
-}
-```
+See [references/examples.md](references/examples.md) for examples.
 
 ### Rule: Nested function calls as arguments on separate lines
 
 **Exception to the "No function calls as arguments" rule**: In **rare cases** (e.g., validator schemas, DSL configurations) when using a function call as an argument is necessary for readability, **parameters should be on separate lines**.
 
-### Examples 12
-
-**✅ Correct:**
-
-```typescript
-// Validator schemas - rare exception
-const schema = v.string(
-  v.array()
-)
-
-const userSchema = v.object(
-  v.optional(
-    v.string()
-  )
-)
-
-const pipeline = pipe(
-  transform(config)
-)
-```
-
-**❌ Wrong:**
-
-```typescript
-// Don't keep nested function calls on the same line
-const schema = v.string(v.array())
-const userSchema = v.object(v.optional(v.string()))
-const pipeline = pipe(transform(config))
-```
-
-**Note:** Prefer extracting to variables in most cases. Use this exception sparingly.
+Prefer extracting to variables in most cases. Use this exception sparingly. See [references/examples.md](references/examples.md) for examples.

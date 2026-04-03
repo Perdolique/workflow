@@ -1,6 +1,6 @@
 ---
 name: vitest-unit-testing
-description: Creates and maintains unit tests using Vitest for TypeScript projects. Use when the user asks to write unit tests, add test coverage, test a function/service/store/utility, create test files, or mentions Vitest, test files, spec files, mocking, vi.fn, vi.mock, vi.spyOn, or component testing. Also use when reviewing or debugging existing Vitest tests. Do NOT use for Playwright E2E/browser tests — use the playwright-e2e-testing skill instead.
+description: Write and maintain Vitest unit tests for TypeScript code. Use when the user needs unit coverage for utilities, services, or stores, or asks for Vitest-based tests with mocks, spies, and assertions.
 license: Unlicense
 ---
 
