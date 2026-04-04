@@ -84,6 +84,12 @@ type Config = {
 
 **Extract method calls** to separate variables before using them in conditional statements (`if`, `while`, `for`, etc.).
 
+### Rule: Use explicit presence checks in typed code
+
+When checking whether a typed value exists, use **explicit comparisons** such as `value === undefined`, `value !== undefined`, `value === null`, or `value === ''`.
+
+Do not rely on truthy/falsy narrowing for presence checks in normal application code.
+
 ### Examples 2
 
 **✅ Correct:**
@@ -100,6 +106,16 @@ const hasPermission = checkPermissions(user, 'write')
 while (hasPermission) {
   // Do something
 }
+
+const property = item.property
+
+if (property === undefined) {
+  return result
+}
+
+if (itemId === '') {
+  throw new Error('Missing item id')
+}
 ```
 
 **❌ Wrong:**
@@ -112,6 +128,14 @@ if (user.isAdmin()) {
 
 while (checkPermissions(user, 'write')) {
   // Do something
+}
+
+if (!item.property) {
+  return result
+}
+
+if (!itemId) {
+  throw new Error('Missing item id')
 }
 ```
 
@@ -147,7 +171,7 @@ saveToDatabase(validateInput(data))
 
 ### Rule: Group one-line declarations together, separate multiline declarations
 
-**One-line declarations** should stay together without blank lines. **Multiline declarations** should be separated by blank lines.
+**One-line `const` and `let` declarations** should stay together without blank lines. Add a blank line when moving between one-line and multiline declarations, or between separate multiline declarations.
 
 ### Examples 4
 
@@ -192,6 +216,30 @@ const anotherObject = {
   bar: 'baz',
   foo: 'bar'
 }
+```
+
+### Rule: No unclear abbreviations in local names
+
+Use **clear local variable names**. Avoid non-obvious abbreviations such as `pv`, `prop`, `cat`, or `cfg` when a full word is short and clearer.
+
+Well-known technical identifiers such as `id`, `db`, `URL`, and `HTML` are fine.
+
+### Examples 4a
+
+**✅ Correct:**
+
+```typescript
+const category = categories[0]
+const property = propertyValue.property
+const userConfig = loadUserConfig()
+```
+
+**❌ Wrong:**
+
+```typescript
+const cat = categories[0]
+const prop = pv.property
+const cfg = loadUserConfig()
 ```
 
 ### Rule: Inline JSDoc comments on one line
@@ -407,6 +455,35 @@ const config = {
 
 See [references/examples.md](references/examples.md) for examples.
 
+### Rule: Compute derived data before `return`
+
+When a handler or function needs derived data, compute it in a separate variable first and keep the final `return` simple and explicit.
+
+Avoid rebuilding objects through `...spread` just to replace one field when an explicit object is clearer.
+
+### Examples 9a
+
+**✅ Correct:**
+
+```typescript
+const properties = category.properties.map((property) => normalizeProperty(property))
+
+return {
+  id: category.id,
+  name: category.name,
+  properties
+}
+```
+
+**❌ Wrong:**
+
+```typescript
+return {
+  ...category,
+  properties: category.properties.map((property) => normalizeProperty(property))
+}
+```
+
 ### Rule: Separate multiline blocks and trailing returns with blank lines
 
 **Multiline blocks** (if/else, loops, try/catch, functions, etc.) should be separated from other code with blank lines, unless they are at the start or end of a parent block. Add the same blank line before `return` when earlier statements appear in the same block.
@@ -415,6 +492,6 @@ See [references/examples.md](references/examples.md) for examples.
 
 ### Rule: Nested function calls as arguments on separate lines
 
-**Exception to the "No function calls as arguments" rule**: In **rare cases** (e.g., validator schemas, DSL configurations) when using a function call as an argument is necessary for readability, **parameters should be on separate lines**.
+**Exception to the "No function calls as arguments" rule**: In **rare cases** (e.g., validator schemas, DSL configurations, query builders, matcher APIs) when using a function call as an argument is necessary for readability, keep the nested call on separate lines.
 
 Prefer extracting to variables in most cases. Use this exception sparingly. See [references/examples.md](references/examples.md) for examples.
