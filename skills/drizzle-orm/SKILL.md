@@ -7,6 +7,8 @@ description: Drizzle ORM query patterns for TypeScript. Use when writing, review
 
 These patterns assume modern Drizzle projects using relational queries v2 (`db.query.*`) alongside the SQL builder. If the codebase is still on older relational query APIs, verify the installed Drizzle version before applying the examples below.
 
+For formatting of nested relational queries, especially when a query mixes `columns`, `where`, and `with`, read [references/formatting.md](references/formatting.md). Use that layout consistently in generated examples and code review suggestions because deep Drizzle objects get hard to scan when everything is packed onto a few lines.
+
 ## Relational API vs SQL builder
 
 Drizzle has two distinct query APIs. Choosing the wrong one causes TypeScript errors.
@@ -32,11 +34,15 @@ Drizzle has two distinct query APIs. Choosing the wrong one causes TypeScript er
 ```typescript
 // ✅ Correct — object matching column names to values
 const item = await db.query.items.findFirst({
-  where: { id }
+  where: {
+    id
+  }
 })
 
 const category = await db.query.categories.findFirst({
-  where: { slug }
+  where: {
+    slug
+  }
 })
 
 const approved = await db.query.items.findMany({
@@ -57,13 +63,15 @@ Use `eq()` and similar helpers in SQL builder queries. In relational queries v2,
 
 ```typescript
 const brand = await db.query.brands.findFirst({
-  where: { slug },
-
   columns: {
     id: true,
     name: true,
     slug: true
-  } // exclude updatedAt, createdAt, etc.
+  }, // exclude updatedAt, createdAt, etc.
+
+  where: {
+    slug
+  }
 })
 ```
 
@@ -71,12 +79,14 @@ const brand = await db.query.brands.findFirst({
 
 ```typescript
 const category = await db.query.categories.findFirst({
-  where: { slug },
-
   columns: {
     id: true,
     name: true,
     slug: true
+  },
+
+  where: {
+    slug
   },
 
   with: {
@@ -106,17 +116,34 @@ const category = await db.query.categories.findFirst({
 
 ```typescript
 const brand = await db.query.brands.findFirst({
-  where: { slug },
+  columns: {
+    id: true,
+    name: true,
+    slug: true
+  },
+
+  where: {
+    slug
+  },
 
   with: {
     items: {
+      columns: {
+        id: true,
+        name: true
+      },
+
       where: {
         status: 'approved'
       }, // filter applied to the nested relation
 
-      columns: {
-        id: true,
-        name: true
+      with: {
+        category: {
+          columns: {
+            name: true,
+            slug: true
+          }
+        }
       }
     }
   }
@@ -153,7 +180,10 @@ if (search) {
 }
 
 const results = await db
-  .select({ id: items.id, name: items.name })
+  .select({
+    id: items.id,
+    name: items.name
+  })
   .from(items)
   .where(and(...conditions))
   .limit(limit)
@@ -188,7 +218,7 @@ const [rows, [{ total }]] = await Promise.all([
       and(...conditions)
     )
     .limit(limit)
-    .offset(offset)
+    .offset(offset),
 
   db
     .select({ total: count() })
@@ -213,9 +243,9 @@ import { eq } from 'drizzle-orm'
 
 const results = await db
   .select({
+    brandName: brands.name,
     id: items.id,
-    name: items.name,
-    brandName: brands.name
+    name: items.name
   })
   .from(items)
   .innerJoin(brands, eq(items.brandId, brands.id))
