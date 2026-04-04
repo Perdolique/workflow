@@ -194,15 +194,19 @@ const results = await db
 
 ### Count query (aggregation)
 
+`count()` returns exactly one row at runtime, but with `noUncheckedIndexedAccess` TypeScript still treats indexed access as possibly `undefined`. Avoid array destructuring here and read the first row safely.
+
 ```typescript
 import { count } from 'drizzle-orm'
 
-const [{ total }] = await db
+const countRows = await db
   .select({ total: count() })
   .from(items)
   .where(
     and(...conditions)
   )
+
+const total = countRows[0]?.total ?? 0
 ```
 
 ### Parallel data + count queries
