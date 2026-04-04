@@ -9,19 +9,20 @@ This repository contains custom skills that extend LLM capabilities with special
 
 | Skill | Description | License |
 | --- | --- | --- |
-| [code-style-typescript](./code-style-typescript/SKILL.md) | TypeScript code style guide and formatting conventions. Enforces semicolon usage rules and formatting standards. Use when writing or reviewing TypeScript code. | Unlicense |
-| [commit-creator](./commit-creator/SKILL.md) | Generate semantic commit messages following conventional commits format. Supports monorepo package version tracking. Use when committing code, staging changes, or writing commit messages. | Unlicense |
-| [markdownlint](./markdownlint/SKILL.md) | Configure, manage, and troubleshoot markdownlint in projects. Use when setting up, configuring rules, fixing violations, or integrating with tools (Husky, CI). Includes reference guides for all common operations. | Unlicense |
-| [playwright-e2e-testing](./playwright-e2e-testing/SKILL.md) | Create and maintain Playwright E2E tests for web applications. Covers selectors, assertions, API mocking, test data fixtures, and SPA-specific patterns. Use when writing browser/E2E tests. | Unlicense |
-| [pr-creator](./pr-creator/SKILL.md) | Create GitHub pull requests directly via API from code changes. Analyzes branch commits, generates PR titles and descriptions, and creates PRs on GitHub. Use when creating or updating pull requests. | Unlicense |
-| [vitest-unit-testing](./vitest-unit-testing/SKILL.md) | Create and maintain unit tests using Vitest for TypeScript projects. Covers mocking, assertions, parametrized tests, and best practices. Use when writing unit tests. | Unlicense |
+| [code-style-typescript](./code-style-typescript/SKILL.md) | TypeScript style rules for writing, reviewing, and refactoring `.ts` code. Use when working on TypeScript formatting, semicolon conventions, object layout, or function call structure. | Unlicense |
+| [commit-creator](./commit-creator/SKILL.md) | Create English conventional commit messages for the current changes. Use when the user wants to commit code, asks for a commit message, or needs monorepo scopes and version updates handled correctly. | Unlicense |
+| [drizzle-orm](./drizzle-orm/SKILL.md) | Drizzle ORM query patterns for TypeScript. Use when writing, reviewing, or debugging Drizzle queries, especially when choosing between relational queries and the SQL builder, building dynamic filters, loading relations, or fixing Drizzle query-shape and type mismatches. Also apply during code review when a file contains non-trivial query construction with `drizzle-orm`. | Unlicense |
+| [markdownlint](./markdownlint/SKILL.md) | Configure, manage, and troubleshoot markdownlint in projects. Use when user wants to setup/install/configure markdownlint, add/remove/modify linting rules, fix markdown validation issues, customize .markdownlint.yaml, update ignore patterns, integrate with tools (Husky, CI), or troubleshoot markdown linting errors. Use even when user mentions markdown formatting problems, quality issues, or style consistency without explicitly saying "markdownlint". | Unlicense |
+| [playwright-e2e-testing](./playwright-e2e-testing/SKILL.md) | Write and maintain Playwright end-to-end tests for web apps. Use when the user asks for browser or E2E coverage, navigation flow tests, API mocking, fixtures, or Playwright-specific assertions. | Unlicense |
+| [pr-creator](./pr-creator/SKILL.md) | Create GitHub pull requests from code changes via API or generate PR content in chat. Use when user wants to create/open/submit PR, mentions pull request/PR/merge request/code review, or asks to show/generate/display/output PR content in chat (give me PR, PR to chat, send PR to chat, etc). | Unlicense |
+| [vitest-unit-testing](./vitest-unit-testing/SKILL.md) | Write and maintain Vitest unit tests for TypeScript code. Use when the user needs unit coverage for utilities, services, or stores, or asks for Vitest-based tests with mocks, spies, and assertions. | Unlicense |
 
 ## Installation 📦
 
 To install all skills from this repository:
 
 ```bash
-pnpx skills add Perdolique/skills
+pnpx skills add Perdolique/workflow
 ```
 
 ## For developers 👨‍💻

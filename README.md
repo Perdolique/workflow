@@ -8,8 +8,8 @@ A collection of custom AI coding agents and reusable skills that extend LLM capa
 
 Custom AI coding agents for specific development workflows. Each agent specializes in a particular task:
 
-- **Commit** - Generate semantic commit messages and create commits following conventional commits format
-- **PR** - Create and manage GitHub pull requests with automated analysis and descriptions
+- **Commit** - Generate a conventional commit message from the current changes and create the commit
+- **PR** - Analyze branch changes and create or update a GitHub pull request, or provide the PR content in chat
 
 [Explore agents →](./agents/)
 
@@ -19,9 +19,13 @@ Reusable skills that provide specialized knowledge and capabilities:
 
 | Skill | Description |
 | --- | --- |
-| [code-style-typescript](./skills/code-style-typescript/) | TypeScript code style guide and formatting conventions |
-| [commit-creator](./skills/commit-creator/) | Semantic commit message generation with monorepo support |
-| [pr-creator](./skills/pr-creator/) | GitHub pull request creation via API with automated analysis |
+| [code-style-typescript](./skills/code-style-typescript/) | TypeScript style rules for writing, reviewing, and refactoring `.ts` code |
+| [commit-creator](./skills/commit-creator/) | Create English conventional commit messages for the current changes |
+| [drizzle-orm](./skills/drizzle-orm/) | Drizzle ORM query patterns for TypeScript, including relational queries, SQL builder usage, and query-shape fixes |
+| [markdownlint](./skills/markdownlint/) | Configure, manage, and troubleshoot markdownlint in projects |
+| [playwright-e2e-testing](./skills/playwright-e2e-testing/) | Write and maintain Playwright end-to-end tests for web apps |
+| [pr-creator](./skills/pr-creator/) | Create GitHub pull requests from code changes or generate PR content in chat |
+| [vitest-unit-testing](./skills/vitest-unit-testing/) | Write and maintain Vitest unit tests for TypeScript code |
 
 ## Quick start
 
