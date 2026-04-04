@@ -92,6 +92,8 @@ function example() {
 }
 ```
 
+Apply the same rule to `return`: if the block already contains earlier statements, leave a blank line before the `return`. If `return` is the first statement in the block, no extra blank line is needed.
+
 ## Nested function calls on separate lines
 
 **✅ Correct:**

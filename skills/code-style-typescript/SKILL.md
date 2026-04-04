@@ -316,23 +316,29 @@ const user = {
 }
 ```
 
-### Rule: Multiple object keys on separate lines
+### Rule: Expand multi-value object and array literals
 
-**Objects with more than one key** must have each key on a separate line.
+**Single-key objects** and **single-item arrays** may stay on one line. **Objects with more than one key** and **arrays with more than one item** should use one entry per line.
 
 ### Examples 8
 
 **✅ Correct:**
 
 ```typescript
-// Single key - can stay on one line
+// Single value - can stay on one line
 const point = { x: 10 }
+const statuses = ['active']
 
-// Multiple keys - separate lines
+// Multiple values - separate lines
 const user = {
   age: 30,
   name: 'John'
 }
+
+const items = [
+  'first',
+  'second'
+]
 
 const config = {
   apiKey: 'secret',
@@ -343,8 +349,9 @@ const config = {
 **❌ Wrong:**
 
 ```typescript
-// Don't put multiple keys on one line
+// Don't put multiple values on one line
 const user = { name: 'John', age: 30 }
+const items = ['first', 'second']
 
 const config = { apiKey: 'secret', timeout: 5000 }
 ```
@@ -400,9 +407,9 @@ const config = {
 
 See [references/examples.md](references/examples.md) for examples.
 
-### Rule: Separate multiline blocks with blank lines
+### Rule: Separate multiline blocks and trailing returns with blank lines
 
-**Multiline blocks** (if/else, loops, try/catch, functions, etc.) should be separated from other code with blank lines, unless they are at the start or end of a parent block.
+**Multiline blocks** (if/else, loops, try/catch, functions, etc.) should be separated from other code with blank lines, unless they are at the start or end of a parent block. Add the same blank line before `return` when earlier statements appear in the same block.
 
 See [references/examples.md](references/examples.md) for examples.
 

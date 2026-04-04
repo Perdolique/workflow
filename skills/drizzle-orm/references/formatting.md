@@ -1,10 +1,10 @@
-# Formatting nested relational queries
+# Formatting relational and SQL builder queries
 
-Use this layout when a relational query config contains more than one top-level block or any nested `with` tree.
+Use this layout when a relational query config contains more than one top-level block, any nested `with` tree, or a SQL builder chain with a non-trivial `.select()` or `.where()` call.
 
 ## Why this layout helps
 
-Deep Drizzle query objects become hard to review when `columns`, `where`, and `with` are compressed together. A vertical layout makes it easier to verify three things quickly:
+Deep Drizzle queries become hard to review when `columns`, `where`, `with`, or builder arguments are compressed together. A vertical layout makes it easier to verify three things quickly:
 
 - Which fields are selected
 - Which filters apply at each level
@@ -123,3 +123,36 @@ const brand = await event.context.dbHttp.query.brands.findFirst({
 ```
 
 Use the packed version only for trivial one-block examples. Once the query config has nested relations or multiple top-level sections, switch to the expanded layout.
+
+## SQL builder formatting
+
+Use the same vertical style in SQL builder chains when a builder step contains structure that deserves scanning on its own.
+
+## SQL builder rules
+
+1. Expand `.select({ ... })` to multiline form when selecting more than one field.
+2. Put the argument to `.where()` on the next line when it contains a helper call such as `eq()`, `ilike()`, `and()`, or `or()`.
+3. Keep the chain readable from top to bottom so reviewers can scan selected fields before filters.
+
+## Preferred SQL builder example
+
+```typescript
+const matchingBrands = await db
+  .select({
+    id: brands.id,
+    name: brands.name
+  })
+  .from(brands)
+  .where(
+    ilike(brands.name, `%${escaped}%`)
+  )
+```
+
+## Avoid packed SQL builder formatting
+
+```typescript
+const matchingBrands = await db
+  .select({ id: brands.id, name: brands.name })
+  .from(brands)
+  .where(ilike(brands.name, `%${escaped}%`))
+```

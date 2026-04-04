@@ -7,7 +7,7 @@ description: Drizzle ORM query patterns for TypeScript. Use when writing, review
 
 These patterns assume modern Drizzle projects using relational queries v2 (`db.query.*`) alongside the SQL builder. If the codebase is still on older relational query APIs, verify the installed Drizzle version before applying the examples below.
 
-For formatting of nested relational queries, especially when a query mixes `columns`, `where`, and `with`, read [references/formatting.md](references/formatting.md). Use that layout consistently in generated examples and code review suggestions because deep Drizzle objects get hard to scan when everything is packed onto a few lines.
+For formatting of relational queries and SQL builder chains, especially when a query mixes `columns`, `where`, and `with` or builder helpers like `.select()` and `.where()`, read [references/formatting.md](references/formatting.md). Use that layout consistently in generated examples and code review suggestions because deep Drizzle configs get hard to scan when everything is packed onto a few lines.
 
 ## Relational API vs SQL builder
 
@@ -171,8 +171,8 @@ if (categoryId) {
 
 if (search) {
   const escaped = search
-    .replaceAll('%', '\\%')
-    .replaceAll('_', '\\_')
+    .replaceAll('%', String.raw`\%`)
+    .replaceAll('_', String.raw`\_`)
 
   conditions.push(
     ilike(items.name, `%${escaped}%`)
@@ -207,10 +207,12 @@ const [{ total }] = await db
 
 ### Parallel data + count queries
 
-Run independent queries with `Promise.all` to avoid sequential round-trips:
+Run independent queries with `Promise.all` to avoid sequential round-trips.
+
+> **Note:** `count()` always returns exactly one row but TypeScript (with `noUncheckedIndexedAccess`) sees array element access as `T | undefined`. Use `[0]?.total ?? 0` to stay type-safe.
 
 ```typescript
-const [rows, [{ total }]] = await Promise.all([
+const [rows, countRows] = await Promise.all([
   db
     .select()
     .from(items)
@@ -227,6 +229,8 @@ const [rows, [{ total }]] = await Promise.all([
       and(...conditions)
     )
 ])
+
+const total = countRows[0]?.total ?? 0
 
 return {
   items: rows,
@@ -249,5 +253,7 @@ const results = await db
   })
   .from(items)
   .innerJoin(brands, eq(items.brandId, brands.id))
-  .where(eq(items.status, 'approved'))
+  .where(
+    eq(items.status, 'approved')
+  )
 ```
