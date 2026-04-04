@@ -1,6 +1,6 @@
 ---
 name: playwright-e2e-testing
-description: Write and maintain Playwright end-to-end tests for web apps. Use when the user asks for browser or E2E coverage, navigation flow tests, API mocking, fixtures, or Playwright-specific assertions.
+description: Write and maintain Playwright end-to-end tests for web apps. Use when the user asks for browser or E2E coverage, navigation flow tests, API mocking, fixtures, Playwright-specific assertions, API request context tests, or authentication fixtures. Also use when writing tests that call backend API endpoints directly (without a browser) using Playwright's APIRequestContext.
 license: Unlicense
 ---
 
@@ -139,6 +139,7 @@ test('completes purchase flow', async ({ page }) => {
 
   await test.step('verify purchase request', async () => {
     const request = await purchaseRequestPromise;
+
     expect(request.postDataJSON()).toEqual({
       items: [{ id: 'product-1', date: '2088-04-21T11:00:00.000Z' }]
     });
@@ -336,7 +337,87 @@ Factory functions stay private to the fixture file. Exported variants compose th
 | Use clearly fake IDs with consistent prefixes | Easy to grep, obviously not real data |
 | Spread from base, override only what matters | Makes test intent clear |
 
-## Running tests
+## API request testing
+
+For testing server-side API endpoints directly, use Playwright's `APIRequestContext` — no browser needed.
+
+### Worker-scoped fixtures for authentication
+
+Use worker-scoped fixtures instead of `beforeAll` + shared mutable `let` variables. Worker scope creates the context once per worker thread (same performance), eliminates shared mutable state, and integrates cleanly with Playwright's teardown lifecycle.
+
+```typescript
+// tests/playwright/fixtures.ts
+import { test as base, type APIRequestContext } from '@playwright/test'
+import { appBaseUrl } from './constants'
+
+interface WorkerFixtures {
+  authedRequest: APIRequestContext;
+}
+
+export const test = base.extend<Record<never, never>, WorkerFixtures>({
+  authedRequest: [
+    async ({ playwright }, use) => {
+      const request = await playwright.request.newContext({ baseURL: appBaseUrl })
+      await request.post('/api/auth/create-session')
+      await use(request)
+      await request.dispose()
+    },
+    { scope: 'worker' },
+  ],
+})
+```
+
+Import `test` from this file in API test files. The fixture is available as `{ authedRequest }` in the test callback.
+
+### Type-safe JSON parsing
+
+`APIResponse.json()` returns `Promise<any>` (Playwright's `Serializable = any`). Assigning `any` directly to a typed variable triggers `no-unsafe-assignment`. Use `unknown` as the intermediate type, then parse with a validation library:
+
+```typescript
+// ✅ Correct — breaks out of any safely
+const raw: unknown = await response.json()
+const body = v.parse(mySchema, raw)  // Valibot accepts unknown, returns typed result
+
+// ❌ Wrong — casting any → specific type bypasses runtime check
+const body = await response.json() as MyResponseType
+
+// ❌ Wrong — no-await-expression-member: don't chain .json() onto an await
+const raw: unknown = await (await request.get('/api/items')).json()
+```
+
+When using Valibot, split request and parse onto separate lines — Valibot's `parse` throws a descriptive error if the shape doesn't match, which makes test failures easy to diagnose.
+
+### What to assert in API tests
+
+When a validation schema already enforces response shape, shape assertions add zero value — the schema throws before assertions are even reached. Focus on assertions TypeScript and schemas can't verify:
+
+```typescript
+// ❌ Redundant when v.parse(schema, raw) already validates the shape
+expect(body).toMatchObject({ id: expect.any(Number), name: expect.any(String) })
+
+// ✅ Tests actual behavior — HTTP contract, correct data, filter logic, auth
+expect(response.status()).toBe(200)
+expect(body.name).toBe('MSR')
+expect(body.items.length).toBeGreaterThan(0)
+expect(filteredBody.items.every(item => item.category.slug === 'sleeping-pads')).toBe(true)
+```
+
+High-value API assertions: status codes, specific values (names, slugs, IDs confirming correct record), filter correctness, pagination boundaries, auth enforcement (401 without session).
+
+### Testing 401 / unauthenticated responses
+
+Create an anonymous context inline — never reuse the authenticated fixture for negative auth tests:
+
+```typescript
+test('returns 401 without session cookie', async ({ playwright }) => {
+  const anonRequest = await playwright.request.newContext({ baseURL: appBaseUrl })
+  const response = await anonRequest.get('/api/equipment/groups')
+
+  expect(response.status()).toBe(401)
+
+  await anonRequest.dispose()
+})
+```
 
 ```bash
 # Run all Playwright tests
@@ -375,6 +456,10 @@ Before considering an E2E test complete, verify:
 - [ ] Regex patterns use `/u` flag
 - [ ] `.first()` used when multiple matching elements exist
 - [ ] No external services left unmocked (check console for blocked request warnings)
+- [ ] **API tests**: `const raw: unknown = await response.json()` — never assign `any` directly
+- [ ] **API tests**: Schema validation (Valibot/Zod) used; shape-only `toMatchObject` assertions removed
+- [ ] **API tests**: Auth tests use inline anonymous context, not the authenticated fixture
+- [ ] **API tests**: Worker-scoped fixtures used for authentication (not `beforeAll` + `let`)
 - [ ] Test runs successfully
 
 ## Reference files
