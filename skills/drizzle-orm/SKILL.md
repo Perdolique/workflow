@@ -9,6 +9,25 @@ These patterns assume modern Drizzle projects using relational queries v2 (`db.q
 
 For formatting of relational queries and SQL builder chains, especially when a query mixes `columns`, `where`, and `with` or builder helpers like `.select()` and `.where()`, read [references/formatting.md](references/formatting.md). Use that layout consistently in generated examples and code review suggestions because deep Drizzle configs get hard to scan when everything is packed onto a few lines.
 
+## Driver caveats
+
+Drizzle query advice depends not only on query shape, but also on the database driver in use. Before suggesting transactions or multi-step write fixes, check which client the code is actually using.
+
+### Neon HTTP vs WebSocket
+
+If the code uses `drizzle-orm/neon-http`, do not suggest a normal `db.transaction(async (tx) => ...)` fix. The Neon HTTP driver does not support Drizzle transaction callbacks, so advice that assumes transactional writes is incorrect for that client.
+
+If the code uses `drizzle-orm/neon-serverless` with a WebSocket or `Pool` client, transactions are supported and `db.transaction(...)` is a valid option.
+
+### Review guidance for multi-step writes
+
+When a handler performs multiple writes that must succeed or fail together, first identify the client:
+
+- If it is an HTTP Neon client, call out the atomicity issue, but do not recommend `db.transaction(...)` on that same client without verifying a supported transactional path.
+- If it is a WebSocket/serverless client with transaction support, recommending a transaction is appropriate.
+
+This is especially important during code review: avoid suggesting fixes that the current driver cannot execute.
+
 ## Relational API vs SQL builder
 
 Drizzle has two distinct query APIs. Choosing the wrong one causes TypeScript errors.
