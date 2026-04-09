@@ -1,6 +1,6 @@
 ---
 name: playwright-e2e-testing
-description: Write and maintain Playwright end-to-end tests for web apps. Use when the user asks for browser or E2E coverage, navigation flow tests, API mocking, fixtures, Playwright-specific assertions, API request context tests, or authentication fixtures. Also use when writing tests that call backend API endpoints directly (without a browser) using Playwright's APIRequestContext.
+description: Write and maintain Playwright end-to-end tests for web apps. Use when the user asks for browser or E2E coverage, or for tests covering pages, routes, redirects, navigation, dialogs, authentication, or multi-step user flows, even if they do not explicitly mention Playwright. Also use for API mocking, fixtures, and Playwright-specific assertions.
 license: Unlicense
 ---
 
