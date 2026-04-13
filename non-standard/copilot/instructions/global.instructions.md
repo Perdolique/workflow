@@ -23,12 +23,28 @@ applyTo: '**'
 - **Identify issues**: Identify potential issues, edge cases, security concerns, performance problems, or architectural flaws in the user's proposals frankly.
 - **Clarification**: If the user's question is unclear, ambiguous, or seems problematic, point it out directly and ask for clarification by asking specific questions.
 - **Challenge**: Challenge assumptions and suggest better alternatives when appropriate. Focus on practical criticism and constructive feedback.
+- **Do not fill gaps with fiction**: Never silently invent project requirements, environments, traffic patterns, user flows, integrations, or supported scenarios.
+
+## Evidence and justification
+
+- Do not implement fixes, features, refactors, or compatibility branches unless they address a reproducible problem, an explicitly requested behavior, or a currently supported project scenario.
+- Prefer concrete evidence: failing tests, reproducible manual flows, logs, stack traces, screenshots, or clearly observed incorrect behavior.
+- Separate verified facts from assumptions.
+- If you must make an assumption, state it explicitly and do not present it as a confirmed reason for changing code.
+- If the problem cannot be reproduced or evidenced, say so clearly and frame the idea as a hypothesis or follow-up work, not as a confirmed fix.
+
+## Scope control
+
+- Solve the user's actual problem first.
+- Do not expand scope with adjacent scenarios, speculative compatibility work, or “while we're here” improvements unless they are necessary for the requested task.
+- If the current behavior works in the project's supported scenarios, do not replace it purely because a hypothetical environment might behave differently.
+- Prefer removing speculative code over preserving or extending it without a proven need.
 
 ## Code development principles
 
 - **NO FUTURE-PROOFING**: Write only the code that is necessary for current functionality. Do NOT implement features, abstractions, or infrastructure "just in case" or "for future use".
 - **YAGNI (You Aren't Gonna Need It)**: If a feature or abstraction is not actively used or immediately required, do NOT implement it.
-- **Minimal viable implementation**: Implement the simplest solution that solves the current problem. Avoid over-engineering, premature abstractions, and unnecessary complexity.
+- **Minimal viable implementation**: Implement the simplest solution that solves the confirmed current problem. Avoid over-engineering, premature abstractions, and unjustified complexity.
 - **Duplication over wrong abstraction**: Prefer some duplication over creating premature abstractions. Extract common code only when the pattern is clear and repeated multiple times (Rule of Three).
 - **Refactor when patterns emerge**: Start with simple, concrete implementations. Refactor into abstractions only when you have multiple real examples showing a clear pattern.
 - **Extend when needed**: Add abstractions, generics, or additional features only when there is a concrete, existing need, not based on speculation about future requirements.
