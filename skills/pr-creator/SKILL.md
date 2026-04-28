@@ -95,7 +95,8 @@ Analyze all changes in the entire branch that will be merged, not just:
 
 - Complete diff between current branch and base branch
 - List of all modified files
-- All commit messages in the branch
+- Ordered commit metadata for every commit in the branch: subject, full SHA, and short SHA
+- Repository URL context for GitHub link generation (owner/repo or a canonical GitHub remote URL)
 - Full context of what changed
 
 **How to get this information:**
@@ -114,6 +115,12 @@ git diff --name-status origin/main...feature-branch
 
 # See all commits in branch:
 git log <base-ref>..<current-branch> --oneline
+
+# Capture commit subjects with both full and short SHAs:
+git log --reverse --format='%H%x09%h%x09%s' <base-ref>..<current-branch>
+
+# Capture the canonical GitHub remote URL when you need commit links:
+git remote get-url origin
 ```
 
 `<base-ref>` should usually be the remote default branch ref you discovered in Step 2, such as `origin/main`.
@@ -164,6 +171,16 @@ Based on complete analysis, create:
 - Summary listing **all significant modifications**
 - Motivation explaining **why** these changes were needed
 - Related issues with proper linking
+- A `Commits` section at the end **only when the branch has more than one commit**
+
+For the `Commits` section:
+
+- Use one bullet per commit in branch order
+- Start each bullet with a short commit summary derived from the commit subject
+- End each bullet with the short hash as a markdown link in parentheses
+- In Mode 1 (text/chat output), link each short hash to the standard commit URL: `https://github.com/<owner>/<repo>/commit/<full-sha>`
+- In Mode 2 (create/open PR), create the PR first, then update the PR body so each short hash links to the PR-specific changes view: `https://github.com/<owner>/<repo>/pull/<pr-number>/changes/<full-sha>`
+- Never fabricate a PR number in advance. If you cannot update the PR body after creation with the available tools, fall back to standard commit URLs and mention that limitation clearly
 
 This workflow ensures PR descriptions accurately reflect the **total scope** of changes being merged.
 
@@ -178,7 +195,8 @@ This workflow ensures PR descriptions accurately reflect the **total scope** of 
 5. Assign the current authenticated user as an `assignee`
 6. If the PR creation tool cannot set `assignees` during creation, immediately update the created PR with an issue or PR update tool that supports `assignees`
 7. Never add the current authenticated user as a `reviewer` unless the user explicitly asked for reviewers or named specific reviewer logins. `reviewers` and `assignees` are different GitHub concepts and are not interchangeable.
-8. After successful creation, provide user with the PR URL, mention whether it was created as draft or ready for review, and mention the assignee when one was added
+8. If the branch has more than one commit, update the PR body after creation so the final `Commits` section uses PR-scoped links in the form `.../pull/<pr-number>/changes/<full-sha>`
+9. After successful creation, provide user with the PR URL, mention whether it was created as draft or ready for review, and mention the assignee when one was added
 
 **If Mode 1 (Generate in Chat) - Fallback:**
 
@@ -233,12 +251,25 @@ Output PR content in a code block, not as rendered markdown.
 1. **Summary** - What changed (bullet points, mention affected packages/modules)
 2. **Motivation** - Why these changes were necessary, impact on project
 3. **Related Issues** - `Fixes #123`, `Closes #456`, `Related to #789`
+4. **Commits** - Include this section only when the branch has more than one commit. Place it at the end of the description
 
 **Optional sections:**
 
 - Testing Notes
 - Breaking Changes (with migration guide)
 - Performance Impact
+
+### Commits section details
+
+When a branch contains more than one commit, append a `## Commits` section after the other sections in the PR description.
+
+- Use one bullet per commit, ordered from oldest to newest
+- Use the commit subject as the default short summary unless it is clearly too noisy, then trim it lightly without changing meaning
+- Format each bullet like this: `- docs(copilot): add LSP configuration and documentation ([87722d74](https://github.com/Perdolique/workflow/pull/3/changes/87722d74bf2a6f70f613f1f4f21c0b4749932c0f))`
+- Keep the summary text plain; only the short hash should be linked
+- In Mode 1 (generate in chat), use `.../commit/<full-sha>` links because no PR number exists yet
+- In Mode 2 (create/open PR), prefer `.../pull/<pr-number>/changes/<full-sha>` links after the PR has been created
+- Do not include the `Commits` section for single-commit branches
 
 ### Dependency update details
 

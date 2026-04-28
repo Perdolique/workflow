@@ -272,3 +272,28 @@ Design team requested new button variants to match the updated design system. Th
 
 Fixes #789
 ```
+
+## Example 8: Multi-commit PR with commit links
+
+```markdown
+## Summary
+
+Tightens the release workflow and makes the generated PR output easier to review 🔧✨
+
+- Added a conditional `Commits` section for multi-commit branches 📚
+- Switched commit links to use PR-scoped change views after PR creation 🔗
+- Kept chat-mode output compatible by falling back to standard commit URLs 💬
+
+## Motivation
+
+Reviewing a stacked branch was annoying because the PR description only showed the final aggregate diff 😤 This adds a quick commit-by-commit map so reviewers can jump straight to the exact changeset they care about ⚡
+
+## Related Issues
+
+Related to #812
+
+## Commits
+
+- docs(copilot): add LSP configuration and documentation ([87722d74](https://github.com/Perdolique/workflow/pull/3/changes/87722d74bf2a6f70f613f1f4f21c0b4749932c0f))
+- Update non-standard/copilot/lsp-config.json ([1bb1df2b](https://github.com/Perdolique/workflow/pull/3/changes/1bb1df2be64563d6160df6db081a66a00a59b39d))
+```
