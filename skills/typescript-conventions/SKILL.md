@@ -45,3 +45,33 @@ const reservationSchema = v.object({
   endDate: v.string()
 })
 ```
+
+## Prefer flat interface structures
+
+Keep `interface` declarations and named object `type` aliases to one level of named properties. When a property needs an object shape, extract that shape into a separate named interface and reference it from the parent type.
+
+Apply this to direct object properties, arrays of objects, and nullable or union forms such as `brand: { ... }`, `items: { ... }[]`, and `brand: { ... } | null`.
+
+This rule covers type declarations only. It does not apply to runtime object literals, validator schemas, framework configuration objects, or library DSL values where the object shape is executable configuration rather than a reusable type contract.
+
+```typescript
+// Avoid inline object shapes in interfaces
+interface ItemDetailResponse {
+  brand: {
+    id: number;
+    name: string;
+  };
+  id: string;
+}
+
+// Prefer named nested contracts
+interface ItemDetailBrand {
+  id: number;
+  name: string;
+}
+
+interface ItemDetailResponse {
+  brand: ItemDetailBrand;
+  id: string;
+}
+```
