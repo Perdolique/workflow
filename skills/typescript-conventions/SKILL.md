@@ -24,19 +24,19 @@ Only allow nesting for declarative validator or schema-builder DSL calls where t
 
 ```typescript
 // Avoid nested calls in arguments
-const activeReservation = getRedirectReservation()
+const value = getValue()
 
-navigateToReservation(activeReservation)
+runTask(value)
 
 // Avoid hiding async work inside another call
-const reservationPromise = getRedirectReservation()
+const dataPromise = loadData()
 
-await withMinimumDelay(reservationPromise, splashDelay)
+await withMinimumDelay(dataPromise, splashDelay)
 
 // Avoid complex inline conditionals as arguments
-const redirectTarget = hasReservation ? routes.stay : routes.checkIn
+const target = hasValue ? routes.primary : routes.fallback
 
-replaceRoute(redirectTarget)
+replaceRoute(target)
 
 // Allowed: declarative validator DSL
 const reservationSchema = v.object({
@@ -44,6 +44,32 @@ const reservationSchema = v.object({
   startDate: v.string(),
   endDate: v.string()
 })
+```
+
+## Avoid meaningless pass-through wrapper functions
+
+Do not create a function whose only job is to call another function and immediately return its result or await it without adding any behavior. If the wrapper does not name a real concept and does not own logic such as validation, branching, retries, mapping, instrumentation, or error handling, inline the call at the usage site or rename the underlying function instead.
+
+Use a wrapper only when it creates a clearer domain boundary or adds behavior that the caller should not repeat.
+
+```typescript
+// Avoid wrappers that add no behavior
+function getPath() : string {
+  return buildPath()
+}
+
+const path = buildPath()
+
+replaceRoute(path)
+
+// Allowed: wrapper adds real behavior
+async function loadUser() : Promise<User> {
+  const user = await fetchUser()
+
+  trackLoad('user')
+
+  return user
+}
 ```
 
 ## Prefer flat interface structures
