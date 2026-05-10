@@ -72,6 +72,26 @@ async function loadUser() : Promise<User> {
 }
 ```
 
+## Prefer explicit property lists when shaping objects
+
+When creating a new runtime object from an existing object, list each property explicitly instead of spreading the source object into the result. This keeps the final object shape visible at the construction site, improves readability during review, and prevents unrelated properties from being copied into the new value.
+
+Apply this when returning view models, API payloads, or other reshaped objects. Prefer explicit property selection even when most fields currently match the source object.
+
+```typescript
+// Avoid hiding the resulting shape behind a spread
+const payload = {
+  ...formState
+}
+
+// Prefer explicit object construction
+const payload = {
+  description: formState.description,
+  isArchived: formState.isArchived,
+  name: formState.name
+}
+```
+
 ## Prefer flat interface structures
 
 Keep `interface` declarations and named object `type` aliases to one level of named properties. When a property needs an object shape, extract that shape into a separate named interface and reference it from the parent type.
