@@ -76,7 +76,9 @@ async function loadUser() : Promise<User> {
 
 When creating a new runtime object from an existing object, list each property explicitly instead of spreading the source object into the result. This keeps the final object shape visible at the construction site, improves readability during review, and prevents unrelated properties from being copied into the new value.
 
-Apply this when returning view models, API payloads, or other reshaped objects. Prefer explicit property selection even when most fields currently match the source object.
+Apply this when returning view models, API payloads, or other reshaped objects in production code. Prefer explicit property selection even when most fields currently match the source object.
+
+This rule is intentionally scoped to durable application code. In tests, fixtures, and other low-risk support code, use the form that keeps setup and assertions easiest to read. Object spread is fine there when it keeps the example concise.
 
 ```typescript
 // Avoid hiding the resulting shape behind a spread
