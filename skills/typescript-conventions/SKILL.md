@@ -116,6 +116,8 @@ When creating a new runtime object from an existing object, list each property e
 
 Apply this when returning view models, API payloads, or other reshaped objects in production code. Prefer explicit property selection even when most fields currently match the source object.
 
+When an object property depends on a helper call or other derived expression, compute that value in a named `const` before constructing the object. Do not hide non-trivial transforms inside object literal properties.
+
 This rule is intentionally scoped to durable application code. In tests, fixtures, and other low-risk support code, use the form that keeps setup and assertions easiest to read. Object spread is fine there when it keeps the example concise.
 
 ```typescript
@@ -130,6 +132,22 @@ const payload = {
   isArchived: formState.isArchived,
   name: formState.name
 }
+
+// Avoid helper calls hidden inside object properties
+const suggestions = suggestionValues.map((value) => ({
+  label: getPhoneCodeLabel(value),
+  value
+}))
+
+// Prefer naming the derived property first
+const suggestions = suggestionValues.map((value) => {
+  const label = getPhoneCodeLabel(value)
+
+  return {
+    label,
+    value
+  }
+})
 ```
 
 ## Prefer flat interface structures
