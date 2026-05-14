@@ -46,6 +46,44 @@ const reservationSchema = v.object({
 })
 ```
 
+## Prefer named intermediate values in conditions and guards
+
+Do not hide helper calls, transforms, or other non-trivial expressions directly inside `if`, `while`, ternaries, or early-return guards. If a condition depends on derived data, compute that data first, store it in a clearly named `const`, and then branch on that value.
+
+This keeps guards easy to scan, makes intent explicit during review, and avoids repeating the same normalization or parsing work across adjacent branches.
+
+Passing simple values directly in conditions is fine:
+
+- identifiers
+- property access
+- primitive comparisons
+- simple boolean flags
+
+```typescript
+// Avoid helper calls hidden inside the condition
+if (trimToUndefined(currentValue) !== undefined) {
+  return []
+}
+
+// Prefer naming the derived value first
+const normalizedCurrentValue = trimToUndefined(currentValue)
+
+if (normalizedCurrentValue !== undefined) {
+  return []
+}
+
+// Avoid complex transforms in guards
+if (items.filter(isVisible).length === 0) {
+  return null
+}
+
+const visibleItems = items.filter(isVisible)
+
+if (visibleItems.length === 0) {
+  return null
+}
+```
+
 ## Avoid meaningless pass-through wrapper functions
 
 Do not create a function whose only job is to call another function and immediately return its result or await it without adding any behavior. If the wrapper does not name a real concept and does not own logic such as validation, branching, retries, mapping, instrumentation, or error handling, inline the call at the usage site or rename the underlying function instead.
