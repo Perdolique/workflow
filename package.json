@@ -5,6 +5,8 @@
   "scripts": {
     "lint:markdown": "markdownlint '**/*.md'",
     "lint:skills": "./scripts/lint-skills.sh",
+    "setup:skills": "./scripts/setup-global-skills.sh",
+    "update:skills": "vpx skills update --global",
     "update:all": "taze --include-locked --interactive",
     "prepare": "husky"
   },
@@ -17,11 +19,11 @@
   ],
   "author": "Perdolique",
   "license": "UNLICENSED",
-  "packageManager": "pnpm@11.0.6",
+  "packageManager": "pnpm@11.2.2",
   "devDependencies": {
     "husky": "9.1.7",
     "markdownlint": "0.40.0",
     "markdownlint-cli": "0.48.0",
-    "taze": "19.11.0"
+    "taze": "19.13.0"
   }
 }
