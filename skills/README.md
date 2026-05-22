@@ -19,23 +19,31 @@ This repository contains custom skills that extend LLM capabilities with special
 
 ## Installation 📦
 
-To install all skills from this repository:
+Bootstrap the global skill setup used with this repository:
 
 ```bash
-pnpx skills add Perdolique/workflow
+pnpm run setup:skills
+```
+
+The command expects Vite+ `vpx` and `vp` commands on `PATH`. It installs skills
+from this repository and selected third-party skills from their latest upstream
+sources, installs `@playwright/cli@latest`, and downloads the Playwright CLI
+Chromium browser binary without OS dependencies. It creates
+`~/.playwright/cli.config.json` only when the file is missing and leaves an
+existing Playwright CLI config untouched.
+
+To install only the skills from this repository:
+
+```bash
+vpx skills add perdolique/workflow --global --skill '*' --agent universal --yes
 ```
 
 ## For developers 👨‍💻
 
 ### Creating or updating skills
 
-When you need to create a new skill or update an existing one, make sure you have the `skill-creator` skill installed:
-
-```bash
-pnpx skills add anthropics/skills --skill skill-creator
-```
-
-This skill provides comprehensive guidance for creating effective skills with proper structure, metadata, and best practices.
+Run the bootstrap command above before creating or updating skills so the
+`skill-creator` skill is available with the rest of the global setup.
 
 ### Local validation
 

@@ -31,10 +31,23 @@ Reusable skills that provide specialized knowledge and capabilities:
 
 ### Using skills
 
-Install skills from this repository using the Vercel Skills CLI:
+Bootstrap the global skills and Playwright CLI setup used with this repository:
 
 ```bash
-pnpx skills add Perdolique/workflow
+pnpm run setup:skills
+```
+
+The bootstrap command expects Vite+ `vpx` and `vp` commands on `PATH`. It installs
+skills from this repository and selected third-party skills from their latest
+upstream sources, installs `@playwright/cli@latest`, and downloads the Playwright
+CLI Chromium browser binary without OS dependencies. It creates
+`~/.playwright/cli.config.json` only when the file is missing and leaves an
+existing Playwright CLI config untouched.
+
+To install only the skills from this repository:
+
+```bash
+vpx skills add perdolique/workflow --global --skill '*' --agent universal --yes
 ```
 
 ### Using agents
