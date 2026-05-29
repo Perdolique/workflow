@@ -139,9 +139,7 @@ The auth code was scattered across multiple files 🤦‍♂️ Making it hard t
 
 Created a central `auth-utils` module that handles all the token validation, refresh logic, and expiry checks 🧠✨ Now all modules use the same battle-tested code 💯 DRY principles for the win! 🎯👍
 
-## No Breaking Changes
-
-This is purely internal refactoring 🔧 The public API remains unchanged 🙏 All existing tests still pass plus we added a bunch more 🧪 Zero risk, all gains 😎🔥
+This is purely internal refactoring 🔧 The public API remains unchanged 🙏 Existing tests still pass plus we added a bunch more 🧪 Zero risk, all gains 😎🔥
 ```
 
 ## Example 5: Breaking Change
@@ -155,7 +153,7 @@ Updated authentication.
 
 ### 🎉 Engaging (Breaking)
 
-```markdown
+````markdown
 ## Summary
 
 ⚠️ **BREAKING CHANGE**: Redesigned authentication flow 🔥
@@ -166,6 +164,8 @@ This is a significant change that affects how authentication works across the en
 - 🔄 Added refresh token rotation for better security 🛡️💯
 - 📦 New `/api/auth/token` endpoint replaces `/api/auth/login` ✨
 - 🗑️ Removed deprecated `/api/auth/session` endpoint 👋
+- ✅ Updated unit and integration coverage for the new auth flow 🧪
+- 🎯 Verified the migration path with the staging environment
 
 ## Why The Breaking Change
 
@@ -198,17 +198,11 @@ If you're currently using the old authentication 👇:
 
 Full migration docs: [link to docs] 📚
 
-## Testing
-
-- ✅ All unit tests updated 🧪
-- ✅ Integration tests pass ✨
-- ✅ Tested migration path with staging environment 🎯
-
 BREAKING CHANGE: Authentication now uses JWT tokens instead of sessions 🔐 See migration guide above 👆
 
 Fixes #567
 
-```markdown
+````
 
 ## Example 6: Draft/WIP PR
 
@@ -259,16 +253,12 @@ Changes:
 - 📦 @ui/button: v2.1.0 → v2.2.0
 - 📦 @ui/forms: v1.5.3 → v1.5.4
 - 📦 @marketing/landing: v0.8.0 → v0.8.1
+- ✅ Updated Storybook coverage for the new variants 🧪
+- 🎯 Completed visual regression checks and accessibility audit
 
 ## Motivation
 
 Design team requested new button variants to match the updated design system. These changes ensure consistency across all our packages.
-
-## Testing
-
-- ✅ Visual regression tests passed
-- ✅ Storybook updated with new variants
-- ✅ Accessibility audit completed
 
 Fixes #789
 ```

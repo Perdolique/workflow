@@ -158,8 +158,8 @@ Based on complete analysis, create:
 
 - Title that reflects the **main purpose** of ALL changes
 - Summary listing **all significant modifications**
-- Motivation explaining **why** these changes were needed
-- Related issues with proper linking
+- Additional supported sections only when concrete content exists
+- Related issues only when actual issue references are present
 
 This workflow ensures PR descriptions accurately reflect the **total scope** of changes being merged.
 
@@ -224,17 +224,21 @@ Output PR content in a code block, not as rendered markdown.
 
 ## PR Description
 
-**Required sections:**
+**Section inclusion rules:**
 
-1. **Summary** - What changed (bullet points, mention affected packages/modules)
-2. **Motivation** - Why these changes were necessary, impact on project
-3. **Related Issues** - `Fixes #123`, `Closes #456`, `Related to #789`
+- Always include `Summary` with concrete changes. If you cannot identify at least one substantive change, stop and report that PR content cannot be generated from the available changes.
+- Include `Motivation` only when the reason is supported by issue context, commit messages, user context, or a directly observable project need. Do not invent motivation.
+- Include `Related Issues` only when actual issue numbers, URLs, or user-provided issue references exist.
+- Include `Breaking Changes` only when the branch changes public behavior, APIs, configuration, or data formats that require migration.
+- Include `Performance Impact` only when performance is directly affected and you have concrete details.
+- Include `Dependency updates` only when dependency or package versions changed.
+- Omit every section that has no concrete content. Never output placeholder headings with `N/A`, `None`, `Not applicable`, `No related issues`, or similar filler.
 
-**Optional sections:**
+**Forbidden sections:**
 
-- Testing Notes
-- Breaking Changes (with migration guide)
-- Performance Impact
+- Do not create a `Testing`, `Tests`, `Testing Notes`, `Validation`, or similarly named testing-only section.
+- When tests or verification changes are part of the branch, mention them inside `Summary` as normal branch changes.
+- Do not add manual testing notes to the PR body unless the user explicitly asks for that exact content, and even then include them as bullets inside `Summary` or another supported section with concrete content.
 
 ### Dependency update details
 

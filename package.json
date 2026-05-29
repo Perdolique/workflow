@@ -19,11 +19,11 @@
   ],
   "author": "Perdolique",
   "license": "UNLICENSED",
-  "packageManager": "pnpm@11.2.2",
+  "packageManager": "pnpm@11.4.0",
   "devDependencies": {
     "husky": "9.1.7",
     "markdownlint": "0.40.0",
     "markdownlint-cli": "0.48.0",
-    "taze": "19.13.0"
+    "taze": "19.14.1"
   }
 }
