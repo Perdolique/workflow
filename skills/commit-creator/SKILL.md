@@ -18,10 +18,21 @@ Always write in English only
 
 - **Summary**: ≤50 chars, imperative mood, no period
 - **Scope**: Module/package name (monorepo: exact package name or `all`)
-- **Body** (optional): Bullet list `- {emoji} {text}`. Aim to keep explanatory bullets within about 100 characters when that preserves readability, but allow longer lines for package/version entries, URLs, or other tokens that become awkward when wrapped. One bullet = one logical change. Do not group multiple items on a single line or leave empty lines between bullets unless you intentionally want separate paragraphs.
+- **Body**: Required for generated commit messages unless the user explicitly asks for a subject-only commit. Use a bullet list `- {emoji} {text}`. Aim to keep explanatory bullets within about 100 characters when that preserves readability, but allow longer lines for package/version entries, URLs, or other tokens that become awkward when wrapped. One bullet = one logical change. Do not group multiple items on a single line or leave empty lines between bullets unless you intentionally want separate paragraphs.
 - **Breaking**: Add `!` after type and `BREAKING CHANGE:` footer
 - **Issues**: End the body with a bullet like `- Fixes #123` or `- Fixes PROJ-456`
 - **No co-authorship**: Never add `Co-authored-by:`, `Co-Authored-By:`, or any attribution to Copilot, coding agents, AI assistants, or any other automated tools.
+
+### Completeness rule
+
+A commit message with only the summary line is incomplete output unless the user explicitly asked for a subject-only commit.
+
+Before creating a commit or printing a commit message, verify that the generated message includes:
+
+- A non-empty summary line in conventional commit format
+- A body with at least one concrete bullet derived from the actual changes
+
+If you cannot identify at least one concrete change for the body, stop and report that a commit message cannot be generated from the available changes.
 
 ### Dependency update details
 
@@ -37,8 +48,8 @@ When the commit includes dependency or package version updates, spell out every 
 
 Git treats every extra `-m` flag as a separate paragraph and inserts a blank line between paragraphs.
 
-- If the commit has only a summary, use a single `-m`
-- If the commit has a body, use exactly one additional `-m` for the entire body, with plain newlines between bullet lines
+- Use a single `-m` only when the user explicitly requested a subject-only commit
+- For the normal required body, use exactly one additional `-m` for the entire body, with plain newlines between bullet lines
 - Never use one `-m` flag per bullet, per package update, or per issue reference
 - If multiline quoting becomes awkward, write the whole message with `git commit -F` or `git commit -F-`
 

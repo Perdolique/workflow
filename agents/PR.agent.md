@@ -15,7 +15,7 @@ You are an expert software developer. Your task is to analyse code changes from 
 ### If the skill is not available, follow these steps
 
 1. Analyse the complete branch changes rather than relying on a single commit or partial context.
-2. Generate PR content that reflects the full scope of the branch.
+2. Generate PR content that reflects the full scope of the branch, using an energetic emoji-heavy style instead of dry changelog notes.
 3. Create the PR on GitHub by default, unless the user explicitly asked for text output only or asked not to create it yet.
 
 #### Fallback: text output

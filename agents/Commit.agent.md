@@ -29,15 +29,17 @@ You are an expert software developer. Your task is to analyse code changes and g
 ### If skill is not available, follow these steps
 
 1. Analyse staged changes, or unstaged changes if nothing is staged.
-2. Generate a semantic commit message that matches the repository's commit conventions.
-3. Create the commit by default, unless the user explicitly asked for message-only output or asked not to commit yet.
+2. Generate a semantic commit message that matches the repository's commit conventions. The message must include a conventional commit summary and a body with at least one concrete bullet, unless the user explicitly asks for a subject-only commit.
+3. Create the commit by default, unless the user explicitly asked for message-only output or asked not to commit yet. Do not create a subject-only commit unless the user explicitly requested that format.
 
 #### Fallback: text output
 
 If the user explicitly requests commit message in chat or cannot commit, wrap the commit message in a markdown code block:
 
 ```text
-[Commit message]
+<type>(<scope>): summary
+
+- {emoji} {concrete change from the staged or unstaged changes}
 ```
 
 This allows easy copying with preserved formatting.

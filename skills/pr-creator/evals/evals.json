@@ -55,6 +55,18 @@
         "The workflow treats the draft state as a default that can be overridden by explicit user intent.",
         "The workflow reports whether the PR was created as draft or ready for review."
       ]
+    },
+    {
+      "id": 6,
+      "prompt": "Create a PR for this branch. Keep the description in the style from the PR creator examples.",
+      "expected_output": "The workflow uses the engaging PR examples as the style guide and avoids dry changelog-style notes.",
+      "files": [],
+      "expectations": [
+        "The workflow reads or follows the `Engaging (do this)` examples before drafting the PR description.",
+        "The workflow avoids terse dry notes such as `Modified X`, `Updated Y`, or `Fixed Z` without context.",
+        "The workflow uses concrete branch context with an energetic emoji-heavy tone.",
+        "The workflow does not copy example text verbatim."
+      ]
     }
   ]
 }

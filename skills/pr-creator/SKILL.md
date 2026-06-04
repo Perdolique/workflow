@@ -18,7 +18,16 @@ license: Unlicense
 - Use emojis as frequently as shown in the example
 - Do not include the example message itself in PR descriptions, just use it as a style reference
 
-See [references/pr-examples.md](references/pr-examples.md) for more examples.
+Before drafting the PR description, read [references/pr-examples.md](references/pr-examples.md) and follow the `Engaging (do this)` examples.
+
+**Style completeness rule:** Dry changelog notes are invalid PR descriptions. Avoid terse lines like `Modified validation logic`, `Updated tests`, or `Fixed edge case` unless they are expanded with concrete context and the requested expressive style.
+
+Before creating the PR or outputting PR content, verify that the description:
+
+- Uses the same energetic, emoji-heavy tone as the engaging examples
+- Includes concrete context instead of bare action notes
+- Uses emojis in the summary paragraph and most bullets
+- Does not copy text from any example verbatim
 
 ## Determine Mode of Operation
 
