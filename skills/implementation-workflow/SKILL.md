@@ -79,13 +79,29 @@ Avoid implementation-detail overload before a slice starts. Plans should be deta
 Work in small independent slices:
 
 1. Make the smallest change that moves the task toward a finished result.
-2. Preserve user changes and unrelated work in the tree.
+2. Before editing, inspect the working tree enough to identify changes in files you may touch.
 3. Reuse local patterns before adding new abstractions.
 4. Verify after risky boundaries such as schema changes, shared utilities, public APIs, stateful UI flows, migrations, and authentication paths.
 5. Update the user when the plan changes, a risk is resolved, or a blocker appears.
 6. Record follow-up work only when it is backed by evidence, a failing check, or an explicit user decision.
 
+Do not block on unrelated dirty state. If existing changes overlap the requested work, read them and build on them; ask the user only when those changes make safe progress impossible. Never revert or overwrite unrelated user changes.
+
 If a slice uncovers a larger design choice, stop expanding scope by default. Capture the choice and continue only if it is necessary for the requested result.
+
+## Parallel Work
+
+Use subagents when the task can be split into independent discovery, planning, review, or implementation slices. Prefer subagents for read-only research, risk analysis, test discovery, architecture comparison, and isolated changes that do not touch the same files.
+
+Give each subagent:
+
+- A narrow objective.
+- The exact files, modules, commands, or evidence to inspect.
+- Clear boundaries and non-goals.
+- Whether it may edit files or must stay read-only.
+- A required response format with findings, evidence, risks, and recommended next steps.
+
+The orchestrator owns synthesis, final decisions, integration, conflict resolution, and verification. Do not use subagents when coordination overhead is larger than the task, when file edits would overlap, or when the repository or tooling cannot safely support parallel work.
 
 ## Verification Strategy
 
@@ -123,6 +139,7 @@ Avoid:
 - Invented requirements or unsupported scenarios.
 - Full-CI reflex for tiny changes and shallow verification for risky changes.
 - Mixing completed work, active scope, and speculative follow-up in the same task list.
+- Treating unrelated dirty state as a blocker, or ignoring overlapping local changes in files being edited.
 
 ## Close-Out
 
