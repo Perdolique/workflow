@@ -54,30 +54,64 @@ vpx skills add perdolique/workflow --global --skill '*' --agent universal --yes
 
 Agents are typically invoked through your AI coding assistant. Refer to your assistant's documentation for specific usage instructions.
 
-### Non-standard Copilot instructions
+### Non-standard coding assistant instructions
 
-The repository includes custom GitHub Copilot instructions in `non-standard/copilot/instructions/`. Individual instruction files can be symlinked into Copilot's instructions directories — either globally or per project.
+This repository includes my personal custom instructions for coding assistants.
+The canonical file is `non-standard/codex/AGENTS.md`; Copilot-specific files
+point to it where that setup is useful for my tools.
 
-| File | Applies to | Description |
+| File | Target | Description |
 | --- | --- | --- |
-| [global.instructions.md](./non-standard/copilot/instructions/global.instructions.md) | `**` | Role, communication style, and code development principles |
+| [AGENTS.md](./non-standard/codex/AGENTS.md) | Codex | Role, communication style, and code development principles |
+| [copilot-instructions.md](./non-standard/copilot/copilot-instructions.md) | GitHub Copilot CLI | Symlink to the canonical Codex instructions |
 
-#### Global (applies to all projects)
+#### Codex global instructions
+
+Codex reads my global guidance from `~/.codex/AGENTS.md`.
 
 ```bash
-ln -s /path/to/workflow/non-standard/copilot/instructions/global.instructions.md ~/.copilot/instructions/global.instructions.md
+mkdir -p ~/.codex
+ln -s /path/to/workflow/non-standard/codex/AGENTS.md ~/.codex/AGENTS.md
 ```
 
-#### Per project (applies only to that project)
+#### GitHub Copilot CLI instructions
+
+GitHub Copilot CLI reads local user instructions from
+`$HOME/.copilot/copilot-instructions.md`.
 
 ```bash
-ln -s /path/to/workflow/non-standard/copilot/instructions/global.instructions.md /your/project/.copilot/instructions/global.instructions.md
+mkdir -p ~/.copilot
+ln -s /path/to/workflow/non-standard/copilot/copilot-instructions.md ~/.copilot/copilot-instructions.md
+```
+
+#### GitHub Copilot in VS Code
+
+VS Code can use repository-wide instructions from `.github/copilot-instructions.md`
+or `AGENTS.md`. For my user-level prompt instructions, VS Code can also read
+`.instructions.md` files from `~/.copilot/instructions/`. Those files need
+`applyTo` frontmatter to apply automatically, so do not symlink the Codex
+`AGENTS.md` file directly as a VS Code instructions file.
+
+```bash
+mkdir -p ~/.copilot/instructions
+{
+  printf '%s\n' '---' 'applyTo: "**"' '---' ''
+  cat /path/to/workflow/non-standard/codex/AGENTS.md
+} > ~/.copilot/instructions/global.instructions.md
 ```
 
 Replace `/path/to/workflow` with the actual path to this repository.
 
+Official references:
+
+- [Codex AGENTS.md guidance](https://developers.openai.com/codex/codex-manual.md#custom-instructions-with-agentsmd)
+- [GitHub Copilot CLI custom instructions](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-custom-instructions)
+- [GitHub Copilot custom instructions support](https://docs.github.com/en/copilot/reference/custom-instructions-support)
+- [VS Code custom instructions](https://code.visualstudio.com/docs/copilot/customization/custom-instructions)
+
 > [!WARNING]
-> These instructions override Copilot's default behavior and contain opinionated communication style preferences. Review the file before installing.
+> These instructions override assistant defaults and contain opinionated
+> communication style preferences. Review the file before installing.
 
 ### LSP configuration
 

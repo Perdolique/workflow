@@ -1,8 +1,4 @@
----
-applyTo: '**'
----
-
-# Global instructions for GitHub Copilot
+# Global coding assistant instructions
 
 ## Role and personality
 

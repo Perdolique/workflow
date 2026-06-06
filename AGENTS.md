@@ -20,7 +20,7 @@ This repository contains custom AI coding agents and skills that extend LLM capa
 **STOP! Before modifying ANY file in this repository**, complete this checklist:
 
 - [ ] **Read nested AGENTS.md**: Check if the directory you're working in (or its parents) has an AGENTS.md file and read it
-- [ ] **Identify relevant skills**: Search the skills catalog for skills related to your task and read their documentation
+- [ ] **Identify relevant skills**: Search the skills catalog for skills related to your task and read their documentation before starting work. For example, read `commit-creator` before creating commits and `pr-creator` before creating pull requests
 - [ ] **Understand conventions**: Ensure you know all applicable naming, formatting, and structural conventions
 
 **Task scope definition**: A "task" is ANY user request that modifies files, including:
