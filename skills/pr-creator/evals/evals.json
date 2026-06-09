@@ -67,6 +67,17 @@
         "The workflow uses concrete branch context with an energetic emoji-heavy tone.",
         "The workflow does not copy example text verbatim."
       ]
+    },
+    {
+      "id": 7,
+      "prompt": "Create a PR on GitHub for this branch. I ran pnpm test and pnpm lint locally, but I did not ask you to include those commands in the PR body.",
+      "expected_output": "The workflow creates the PR without adding a testing-only section or listing local check commands in the PR description.",
+      "files": [],
+      "expectations": [
+        "The workflow does not create a Testing, Tests, Validation, Verification, Local Verification, QA, or similarly named testing-only section.",
+        "The workflow does not list local test, lint, or check commands in the PR body unless explicitly requested.",
+        "The workflow mentions test or verification-related code changes only as normal Summary bullets when they are part of the branch."
+      ]
     }
   ]
 }

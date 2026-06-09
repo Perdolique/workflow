@@ -29,6 +29,24 @@ Before creating the PR or outputting PR content, verify that the description:
 - Uses emojis in the summary paragraph and most bullets
 - Does not copy text from any example verbatim
 
+## Hard PR body rules
+
+Never add a testing-only section to PR descriptions.
+
+Forbidden section names include:
+
+- `Testing`
+- `Tests`
+- `Testing Notes`
+- `Validation`
+- `Verification`
+- `Local Verification`
+- `QA`
+
+If tests, checks, or verification changes are part of the branch, mention them as normal branch-change bullets inside `Summary`.
+
+If local commands were run, do not list those commands in the PR body unless the user explicitly asks for that exact content.
+
 ## Determine Mode of Operation
 
 Identify which mode to use based on user's request:
@@ -167,8 +185,10 @@ Based on complete analysis, create:
 
 - Title that reflects the **main purpose** of ALL changes
 - Summary listing **all significant modifications**
-- Additional supported sections only when concrete content exists
+- Optional sections only from the allowed PR description section list below
 - Related issues only when actual issue references are present
+
+Testing-only sections are never supported, even when test commands were actually run.
 
 This workflow ensures PR descriptions accurately reflect the **total scope** of changes being merged.
 
@@ -184,6 +204,12 @@ This workflow ensures PR descriptions accurately reflect the **total scope** of 
 6. If the PR creation tool cannot set `assignees` during creation, immediately update the created PR with an issue or PR update tool that supports `assignees`
 7. Never add the current authenticated user as a `reviewer` unless the user explicitly asked for reviewers or named specific reviewer logins. `reviewers` and `assignees` are different GitHub concepts and are not interchangeable.
 8. After successful creation, provide user with the PR URL, mention whether it was created as draft or ready for review, and mention the assignee when one was added
+
+Before creating or updating the PR, check the PR body:
+
+- It has no `Testing`, `Tests`, `Testing Notes`, `Validation`, `Verification`, `Local Verification`, `QA`, or similarly named testing-only section.
+- It does not list local test/lint/check commands unless the user explicitly asked for that exact content.
+- Test and verification changes, if relevant, are summarized as normal branch changes inside `Summary`.
 
 **If Mode 1 (Generate in Chat) - Fallback:**
 
@@ -236,11 +262,13 @@ Output PR content in a code block, not as rendered markdown.
 **Section inclusion rules:**
 
 - Always include `Summary` with concrete changes. If you cannot identify at least one substantive change, stop and report that PR content cannot be generated from the available changes.
+- Only use these optional sections when they have concrete content: `Motivation`, `Related Issues`, `Breaking Changes`, `Performance Impact`, and `Dependency updates`.
 - Include `Motivation` only when the reason is supported by issue context, commit messages, user context, or a directly observable project need. Do not invent motivation.
 - Include `Related Issues` only when actual issue numbers, URLs, or user-provided issue references exist.
 - Include `Breaking Changes` only when the branch changes public behavior, APIs, configuration, or data formats that require migration.
 - Include `Performance Impact` only when performance is directly affected and you have concrete details.
 - Include `Dependency updates` only when dependency or package versions changed.
+- Do not create other headings unless the user explicitly asks for them.
 - Omit every section that has no concrete content. Never output placeholder headings with `N/A`, `None`, `Not applicable`, `No related issues`, or similar filler.
 
 **Forbidden sections:**
