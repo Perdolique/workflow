@@ -36,6 +36,10 @@
 - If the current behavior works in the project's supported scenarios, do not replace it purely because a hypothetical environment might behave differently.
 - Prefer removing speculative code over preserving or extending it without a proven need.
 
+## Staged changes
+
+- The user may stage files while the agent is working to review or compare changes. Do not unstage or restage those files unless the user explicitly asks.
+
 ## Code development principles
 
 - **NO FUTURE-PROOFING**: Write only the code that is necessary for current functionality. Do NOT implement features, abstractions, or infrastructure "just in case" or "for future use".
