@@ -16,6 +16,7 @@ This repository contains custom skills that extend LLM capabilities with special
 | [playwright-e2e-testing](./playwright-e2e-testing/SKILL.md) | Write and maintain Playwright end-to-end tests for web apps. Use when the user asks for browser or E2E coverage, navigation flow tests, API mocking, fixtures, or Playwright-specific assertions. | Unlicense |
 | [pr-creator](./pr-creator/SKILL.md) | Create GitHub pull requests from code changes via API or generate PR content in chat. Use when user wants to create/open/submit PR, mentions pull request/PR/merge request/code review, or asks to show/generate/display/output PR content in chat (give me PR, PR to chat, send PR to chat, etc). | Unlicense |
 | [vitest-unit-testing](./vitest-unit-testing/SKILL.md) | Write and maintain Vitest unit tests for TypeScript code. Use when the user needs unit coverage for utilities, services, or stores, or asks for Vitest-based tests with mocks, spies, and assertions. | Unlicense |
+| [vue-components](./vue-components/SKILL.md) | Vue component conventions for building, refactoring, and reviewing Vue 3 + TypeScript components. Use whenever work touches `.vue` files, Vue SFCs, props, emits, slots, v-model, template refs, component styling, accessibility, or Vue-driven UI behavior. | Unlicense |
 
 ## Installation 📦
 

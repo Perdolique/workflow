@@ -87,6 +87,8 @@ Wait for user's answer before proceeding.
 
 ### Staging behavior
 
+When the user asks to commit without extra scope limits, do not stage only files changed by the agent. Treat all current changes as intended unless the user asks for a narrower scope.
+
 When both staged and unstaged changes exist in the working directory, and interaction is available:
 
 - Ask the user whether to:

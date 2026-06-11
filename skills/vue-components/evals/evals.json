@@ -1,0 +1,67 @@
+{
+  "skill_name": "vue-components",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I need to refactor a Vue 3 component that currently has ternaries and boolean chains directly in template class bindings. Keep the public props the same, and do not invent a reusable abstraction unless the component actually repeats the pattern.",
+      "expected_output": "The agent should move non-trivial template logic into named computed values or local helpers, preserve the component API, inspect nearby patterns, and avoid unnecessary config-driven rendering.",
+      "files": [],
+      "expectations": [
+        "The workflow inspects nearby component conventions before choosing the final shape.",
+        "The workflow moves non-trivial template expressions into named script values.",
+        "The workflow preserves existing props, emits, slots, and visual behavior unless the task requires a change.",
+        "The workflow avoids adding generic abstractions for a small fixed UI."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Build a small openable Vue component with TypeScript. It should support v-model, have an icon-only close button, and be safe for keyboard and screen reader users.",
+      "expected_output": "The agent should use defineModel only for the two-way open state, call out the defineModel default caveat, provide accessible labeling/focus expectations, and prefer existing overlay primitives if the repository has them.",
+      "files": [],
+      "expectations": [
+        "The workflow uses defineModel only for the real v-model contract.",
+        "The workflow does not use defineModel for ordinary submit, cancel, click, or analytics events.",
+        "The workflow accounts for accessible names, keyboard access, visible focus, and semantic markup.",
+        "The workflow checks for existing overlay primitives or focus/scroll-lock composables before building plumbing."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Review this Nuxt page change that mixes useFetch calls, a Pinia store mutation, and a child Vue component prop cleanup. I only want component-level feedback from the Vue skill.",
+      "expected_output": "The agent should keep the Vue skill scoped to the child component surface and route Nuxt data fetching, Pinia state, and tests to local conventions or more specific skills only when those skills are available.",
+      "files": [],
+      "expectations": [
+        "The workflow limits Vue skill feedback to component props, emits, template, styling, accessibility, and component TypeScript.",
+        "The workflow treats Nuxt useFetch or app-level data fetching as outside this skill's core scope.",
+        "The workflow treats Pinia state shape and store mutations as outside this skill's core scope.",
+        "The workflow recommends repository test conventions or a unit-testing skill if one is available, without assuming a specific skill is installed."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "This Vue component now has repeated open/close state, Escape key handling, and derived aria IDs. Extract a composable if that is justified, but do not hide component markup or styling rules inside it.",
+      "expected_output": "The agent should extract only reusable state/effect logic into a `use*` composable, return a plain object of refs/computed values/functions, keep markup and styling in the component, and own cleanup for listeners or effects.",
+      "files": [],
+      "expectations": [
+        "The workflow extracts a composable only when there is a reusable named behavior or real component complexity.",
+        "The workflow names the composable with a `use` prefix.",
+        "The workflow keeps markup, slots, and styling decisions in the component instead of hiding them inside the composable.",
+        "The workflow returns a plain object containing refs, computed values, and functions so destructuring remains reactive.",
+        "The workflow owns cleanup for event listeners, observers, timers, or subscriptions created by the composable."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Update a Vue component that uses CSS Modules. The template currently binds several `$style` classes to the same element for state variants. Keep the same visual states, but align the class pattern with the Vue component skill.",
+      "expected_output": "The agent should bind one `$style` class per styled template element, use global modifier classes for state, and define the modifiers nested in the module CSS with `:global(.modifier)`.",
+      "files": [],
+      "expectations": [
+        "The workflow keeps one `$style` class per styled template element.",
+        "The workflow uses global modifier classes for state variants instead of multiple `$style` state classes.",
+        "The workflow defines modifier styles nested under the module class with `:global(.modifier)`.",
+        "The workflow defers detailed styling rules to repository styling conventions or a styling/CSS skill if one is available.",
+        "The workflow preserves the existing styling system instead of switching away from CSS Modules."
+      ]
+    }
+  ]
+}
