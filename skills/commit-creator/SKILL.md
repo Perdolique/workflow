@@ -21,7 +21,6 @@ Always write in English only
 - **Body**: Required for generated commit messages unless the user explicitly asks for a subject-only commit. Use a bullet list `- {emoji} {text}`. Aim to keep explanatory bullets within about 100 characters when that preserves readability, but allow longer lines for package/version entries, URLs, or other tokens that become awkward when wrapped. One bullet = one logical change. Do not group multiple items on a single line or leave empty lines between bullets unless you intentionally want separate paragraphs.
 - **Breaking**: Add `!` after type and `BREAKING CHANGE:` footer
 - **Issues**: End the body with a bullet like `- Fixes #123` or `- Fixes PROJ-456`
-- **No co-authorship**: Never add `Co-authored-by:`, `Co-Authored-By:`, or any attribution to Copilot, coding agents, AI assistants, or any other automated tools.
 
 ### Completeness rule
 
