@@ -248,6 +248,7 @@ Output PR content in a code block, not as rendered markdown.
 
 - ≤50 characters, imperative mood ("Add feature" not "Added" or "Adds")
 - Accurately reflect main purpose of changes
+- Never prefix titles with `[codex]`, `Codex:`, agent names, or other tool markers unless the user explicitly asks for that exact prefix.
 - No issue numbers in title (use description)
 - For monorepos, consider a scoped title (e.g., `feat(scope): description`)
 
