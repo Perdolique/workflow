@@ -1,5 +1,7 @@
 # Commit Message Examples
 
+For commits created by an AI agent or automated coding tool, append the active tool's real `Co-authored-by` trailer after the message body or other trailers. Do not copy placeholder values literally, and do not attribute a commit to a different agent.
+
 ## Simple Feature
 
 ```text
@@ -8,6 +10,8 @@ feat(button): add loading state
 - ✨ Add spinner icon during async operations
 - 📦 @ui/icons: v1.0.0 → v1.1.0
 - Fixes #42
+
+Co-authored-by: <current-agent-name> <current-agent-email>
 ```
 
 ## Bug Fix

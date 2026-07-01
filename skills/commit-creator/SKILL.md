@@ -21,7 +21,7 @@ Always write in English only
 - **Body**: Required for generated commit messages unless the user explicitly asks for a subject-only commit. Use a bullet list `- {emoji} {text}`. Aim to keep explanatory bullets within about 100 characters when that preserves readability, but allow longer lines for package/version entries, URLs, or other tokens that become awkward when wrapped. One bullet = one logical change. Do not group multiple items on a single line or leave empty lines between bullets unless you intentionally want separate paragraphs.
 - **Breaking**: Add `!` after type and `BREAKING CHANGE:` footer
 - **Issues**: End the body with a bullet like `- Fixes #123` or `- Fixes PROJ-456`
-- **Attribution**: Preserve or include the configured `Co-authored-by` trailer for the agent or tool creating the commit, unless the user explicitly asks to omit co-authorship.
+- **Attribution**: Preserve or append a `Co-authored-by` trailer for the current agent or tool creating the commit, unless the user explicitly asks to omit co-authorship. Use the active tool's real configured trailer; do not attribute the commit to a different agent or copy placeholder values from examples. If no current-agent trailer is known, ask the user for the exact trailer instead of inventing one.
 
 ### Completeness rule
 
@@ -61,7 +61,11 @@ Keep the final message layout like this:
 - first bullet
 - second bullet
 - third bullet
+
+Co-authored-by: <current-agent-name> <current-agent-email>
 ```
+
+Replace the attribution placeholder with the current agent or tool identity before committing. Do not include the placeholder literally.
 
 **Types**: feat ✨, fix 🐛, docs 📚, style 💄, refactor ♻️, perf ⚡, test ✅, build 🔧, ci 👷, chore 🔨, revert ⏪
 
@@ -114,6 +118,8 @@ chore(deps): update development dependencies
 - 📦 eslint: 8.57.0 -> 9.0.0
 - 📦 prettier: 2.8.8 -> 3.0.0
 - 🔧 Update lint configuration for new versions
+
+Co-authored-by: <current-agent-name> <current-agent-email>
 EOF
 ```
 
@@ -148,6 +154,8 @@ feat(button): add loading state
 - ✨ Add spinner icon during async operations
 - 📦 @ui/icons: v1.0.0 → v1.1.0
 - Fixes #42
+
+Co-authored-by: <current-agent-name> <current-agent-email>
 ```
 
 **Breaking change:**
@@ -160,6 +168,8 @@ feat(theme)!: redesign color tokens
 - 📦 @ui/theme: v2.1.0 → v3.0.0
 
 BREAKING CHANGE: Color token values changed from RGB to HSL format
+
+Co-authored-by: <current-agent-name> <current-agent-email>
 ```
 
 For more examples, see [references/examples.md](references/examples.md)
