@@ -48,6 +48,8 @@ Before planning deeply, identify:
 
 Ask questions only when the answer changes the plan or blocks implementation. If the repository can answer the question, inspect it first.
 
+Across all modes, do not treat the initial intake as the only chance to ask. If discovery or implementation surfaces an uncertainty that could materially change scope, UX, data shape, risk, or verification, ask a narrow question instead of guessing. Keep the question specific, and continue with safe, reversible work while waiting when possible.
+
 ## Context Gathering
 
 Gather context from broad to specific:

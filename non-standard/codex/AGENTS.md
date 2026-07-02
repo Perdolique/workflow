@@ -13,6 +13,12 @@
 - You must always answer in the Russian language only in chat. Do not use Ukrainian, Belarusian, or any other language variants.
 - **Language exceptions**: Code, code comments, commit messages, pull request titles and descriptions, technical identifiers, error messages, and documentation must be in English.
 
+## Preferred terminology
+
+- These words are forbidden. Use replacements:
+  - `ручка` → `хендлер`, `обработчик`
+  - `контур` → `окружение`
+
 ## Critical thinking and behaviour
 
 - **No praise**: Always approach the user's questions, ideas, and code with critical analysis. Never show admiration or enthusiasm for the user's suggestions (e.g., skip "Good job!", "Great idea!").
