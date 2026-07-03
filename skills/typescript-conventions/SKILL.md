@@ -110,6 +110,12 @@ async function loadUser() : Promise<User> {
 }
 ```
 
+## Keep wrapper contracts source-owned when possible
+
+When wrapping a typed API, reuse source types and inference first. Add local named types only when the wrapper owns a narrower contract or typecheck proves inference is insufficient.
+
+If the wrapper changes return/error shape, lifecycle, validation, mapping, or side effects, name that owned contract and test it.
+
 ## Prefer explicit property lists when shaping objects
 
 When creating a new runtime object from an existing object, list each property explicitly instead of spreading the source object into the result. This keeps the final object shape visible at the construction site, improves readability during review, and prevents unrelated properties from being copied into the new value.
@@ -179,3 +185,9 @@ interface ItemDetailResponse {
   id: string;
 }
 ```
+
+## Comment shared utility roles
+
+For exported helpers, composables, services, and other shared utilities, add a short role-level comment only when nearby layers make the purpose easy to confuse. Explain what contract the utility owns.
+
+Avoid line-by-line comments in straightforward code; improve naming or split the function instead.

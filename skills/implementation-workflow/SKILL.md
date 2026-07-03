@@ -76,6 +76,8 @@ For non-trivial work, produce or maintain a concise plan with:
 
 Avoid implementation-detail overload before a slice starts. Plans should be detailed enough to act, not so detailed that they become stale while the code is being read.
 
+For broad migrations/refactors, briefly map public entry points, internal helpers, removed legacy paths, and shared behavior ownership before coding.
+
 ## Implementation Loop
 
 Work in small independent slices:
@@ -90,6 +92,8 @@ Work in small independent slices:
 Do not block on unrelated dirty state. If existing changes overlap the requested work, read them and build on them; ask the user only when those changes make safe progress impossible. Never revert or overwrite unrelated user changes.
 
 If a slice uncovers a larger design choice, stop expanding scope by default. Capture the choice and continue only if it is necessary for the requested result.
+
+If review comments repeat around naming, types, wrappers, or plumbing, fix the shared design issue before applying one-off edits.
 
 ## Parallel Work
 
