@@ -52,12 +52,13 @@
     },
     {
       "id": 5,
-      "prompt": "Update a Vue component that uses CSS Modules. The template currently binds several `$style` classes to the same element for state variants. Keep the same visual states, but align the class pattern with the Vue component skill.",
-      "expected_output": "The agent should bind one `$style` class per styled template element, use global modifier classes for state, and define the modifiers nested in the module CSS with `:global(.modifier)`.",
+      "prompt": "Update a Vue component that uses CSS Modules. The template currently binds `[$style.button, $style.active, $style.disabled]` to one element for state variants. Keep the same visual states, but convert the class pattern to match the Vue component skill.",
+      "expected_output": "The agent should bind only one `$style.*` class to that element, use literal global modifier classes such as `isActive` and `isDisabled` for state, and define those modifiers nested in the module CSS with `:global(.modifier)`.",
       "files": [],
       "expectations": [
         "The workflow keeps one `$style` class per styled template element.",
-        "The workflow uses global modifier classes for state variants instead of multiple `$style` state classes.",
+        "The workflow uses literal global modifier classes for state variants instead of multiple `$style` state classes.",
+        "The workflow avoids `$style` bindings for state or variant modifiers on the same element.",
         "The workflow defines modifier styles nested under the module class with `:global(.modifier)`.",
         "The workflow defers detailed styling rules to repository styling conventions or a styling/CSS skill if one is available.",
         "The workflow preserves the existing styling system instead of switching away from CSS Modules."

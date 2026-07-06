@@ -123,12 +123,29 @@ interface Emits {
 - Do not switch between `<style module>`, `<style scoped>`, plain CSS, or SCSS just because this skill mentions a pattern. Match nearby components. Otherwise, prefer `<style module>` because of its encapsulation and maintainability benefits.
 - Prefer existing design tokens, CSS custom properties, typography surfaces, and spacing/color helpers over ad-hoc values.
 - Put a root `.component` class on styled components when that is the local convention or when it clarifies style ownership.
-- For CSS Modules, bind one `$style` class per styled template element; use global modifier classes and define them nested with `:global(.modifier)`.
 - For CSS-specific patterns, refer to a styling/CSS skill if one is available.
+
+### CSS modules class bindings
+
+For CSS Modules, bind one `$style.*` class per styled template element. Use
+literal global classes for variants and state, then define those modifiers
+nested under the module class with `:global(.modifier)`.
+
+Wrong:
 
 ```vue
 <template>
-  <button :class="[$style.button, { isActive }]">
+  <button :class="[$style.button, $style.active, $style.disabled]">
+    Save
+  </button>
+</template>
+```
+
+Right:
+
+```vue
+<template>
+  <button :class="[$style.button, { isActive, isDisabled }]">
     Save
   </button>
 </template>
@@ -140,9 +157,17 @@ interface Emits {
     &:global(.isActive) {
       color: var(--accent);
     }
+
+    &:global(.isDisabled) {
+      opacity: 0.5;
+    }
   }
 </style>
 ```
+
+This keeps the component-owned class scoped while making state modifiers visible
+in template bindings. Do not stack module-local state classes such as
+`[$style.button, $style.active, $style.disabled]` on one element.
 
 - Prefer component-owned class selectors over broad nested tag selectors when styling owned markup.
 - Use modern CSS features when the repository's browser baseline supports them; do not add legacy fallbacks without a current supported scenario.
