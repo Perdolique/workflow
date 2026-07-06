@@ -1,11 +1,11 @@
-# Agents and skills workflow repository
+# Skills workflow repository
 
-This repository contains custom AI coding agents and skills that extend LLM capabilities with specialized knowledge and workflows.
+This repository contains reusable skills and assistant instructions that extend LLM capabilities with specialized knowledge and workflows.
 
 ## Project structure
 
-- `agents/` - Custom AI coding agents (*.agent.md files)
 - `skills/` - Reusable skills for specialized tasks (each in its own directory with SKILL.md)
+- `non-standard/` - Personal coding assistant instructions and related tool configs
 
 ## General guidelines
 

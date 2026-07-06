@@ -1,19 +1,10 @@
-# Workflow - AI Coding Agents & Skills
+# Workflow - AI coding skills
 
-A collection of custom AI coding agents and reusable skills that extend LLM capabilities with specialized knowledge and workflows.
+A collection of reusable skills and assistant instructions that extend LLM capabilities with specialized knowledge and workflows.
 
 ## What's inside
 
-### 🤖 Agents
-
-Custom AI coding agents for specific development workflows. Each agent specializes in a particular task:
-
-- **Commit** - Generate a conventional commit message from the current changes and create the commit
-- **PR** - Analyze branch changes and create or update a GitHub pull request, or provide the PR content in chat
-
-[Explore agents →](./agents/)
-
-### 🎯 Skills
+### Skills
 
 Reusable skills that provide specialized knowledge and capabilities:
 
@@ -49,10 +40,6 @@ To install only the skills from this repository:
 ```bash
 vpx skills add perdolique/workflow --global --skill '*' --agent universal --yes
 ```
-
-### Using agents
-
-Agents are typically invoked through your AI coding assistant. Refer to your assistant's documentation for specific usage instructions.
 
 ### Non-standard coding assistant instructions
 
@@ -158,4 +145,4 @@ Unlicense (unless otherwise specified for individual components)
 ---
 
 > [!NOTE]
-> This is a personal collection of opinionated and sometimes quirky agents and skills. Feel free to explore, use, and adapt them for your own projects.
+> This is a personal collection of opinionated and sometimes quirky skills. Feel free to explore, use, and adapt them for your own projects.

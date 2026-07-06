@@ -99,6 +99,18 @@ When both staged and unstaged changes exist in the working directory, and intera
   - Stage all files before committing
   - Commit only the currently staged changes
 
+### Pre-commit checks
+
+Do not run extra project checks solely because you are creating a commit. Commit-only requests are about staging and committing the current changes; rely on the repository's git hooks to run commit-time validation, and wait for those hooks during `git commit`.
+
+Run checks before committing only when:
+
+- The user explicitly asks for them.
+- You also made code or content changes in the same task and project instructions require verification before completion.
+- A previous hook or check failure needs diagnosis or a targeted fix.
+
+Do not treat repository post-task verification instructions as commit-time steps when the only requested action is committing existing changes.
+
 ### Running git commit
 
 After executing `git commit`, **wait for the process to exit on its own** — do not interrupt or kill it. Pre-commit hooks (linters, type checkers, test runners) can run for a long time without producing any output. Killing the process mid-run causes an exit code 130 (SIGINT) and leaves the working tree in a dirty state.
