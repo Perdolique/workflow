@@ -63,6 +63,19 @@
         "The workflow defers detailed styling rules to repository styling conventions or a styling/CSS skill if one is available.",
         "The workflow preserves the existing styling system instead of switching away from CSS Modules."
       ]
+    },
+    {
+      "id": 6,
+      "prompt": "Update a Vue list component where `.listItem` and `.emptyItem` both use `padding: 0 12px`, and changing one without the other has caused visual drift before. Keep the same styling system and avoid adding broad abstractions.",
+      "expected_output": "The agent should define a component-scoped semantic CSS custom property for the shared padding on the nearest owning root class, reuse it from both selectors, prefer existing spacing tokens for raw values when available, and avoid extracting unrelated coincidental values.",
+      "files": [],
+      "expectations": [
+        "The workflow recognizes repeated `listItem` and `emptyItem` padding as one synchronized component-level styling value.",
+        "The workflow defines a component-scoped semantic custom property on the nearest owning root class.",
+        "The workflow reuses the custom property with `var(...)` in both selectors instead of duplicating the literal padding value.",
+        "The workflow prefers existing spacing tokens for raw values when the repository provides them.",
+        "The workflow avoids creating variables for one-off values or unrelated selectors that only coincidentally share the same literal value."
+      ]
     }
   ]
 }

@@ -122,6 +122,36 @@ interface Emits {
 - Follow the repository's styling system first: CSS Modules, scoped CSS, SCSS, utility classes, design tokens, and component libraries are project-specific.
 - Do not switch between `<style module>`, `<style scoped>`, plain CSS, or SCSS just because this skill mentions a pattern. Match nearby components. Otherwise, prefer `<style module>` because of its encapsulation and maintainability benefits.
 - Prefer existing design tokens, CSS custom properties, typography surfaces, and spacing/color helpers over ad-hoc values.
+
+### Component-local custom properties
+
+When multiple component-owned selectors share a non-trivial value that must stay
+visually synchronized, define a semantic custom property on the nearest owning
+root class and reuse it with `var(...)`. Use existing project tokens for the raw
+value when they exist, and name the custom property by component meaning rather
+than by the literal CSS value.
+
+```vue
+<style module>
+  .component {
+    --option-padding: 0 var(--spacing-16);
+  }
+
+  .listItem {
+    padding: var(--option-padding);
+  }
+
+  .emptyItem {
+    padding: var(--option-padding);
+  }
+</style>
+```
+
+Scope these properties to `.component`, `.list`, or the nearest owned root
+class. Prefer semantic names such as `--option-padding`, `--item-gap`, or
+`--empty-state-padding`. Do not create a custom property for a one-off value, or
+for unrelated selectors that only coincidentally share a value such as `12px`.
+
 - Put a root `.component` class on styled components when that is the local convention or when it clarifies style ownership.
 - For CSS-specific patterns, refer to a styling/CSS skill if one is available.
 
