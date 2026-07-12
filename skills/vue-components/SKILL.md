@@ -106,6 +106,7 @@ interface Emits {
 - In older Vue projects, preserve the existing `ref<T | null>(null)` template ref pattern instead of forcing an upgrade-specific API.
 - Do not access `document`, `window`, `navigator`, or element refs during setup in SSR/test-sensitive code.
 - Prefer lifecycle-safe composables for DOM work. Use VueUse helpers when the project already uses VueUse.
+- For newly standardized HTML elements, verify that Vue treats the tag as native during SSR and hydration. If Vue resolves it as a component, configure `compilerOptions.isCustomElement` and cover hydration or unresolved-component warnings in the browser console; typecheck and DOM assertions are insufficient.
 
 ## Accessibility
 
@@ -119,47 +120,14 @@ interface Emits {
 
 ## Styling
 
-- Follow the repository's styling system first: CSS Modules, scoped CSS, SCSS, utility classes, design tokens, and component libraries are project-specific.
-- Do not switch between `<style module>`, `<style scoped>`, plain CSS, or SCSS just because this skill mentions a pattern. Match nearby components. Otherwise, prefer `<style module>` because of its encapsulation and maintainability benefits.
-- Prefer existing design tokens, CSS custom properties, typography surfaces, and spacing/color helpers over ad-hoc values.
-
-### Component-local custom properties
-
-When multiple component-owned selectors share a non-trivial value that must stay
-visually synchronized, define a semantic custom property on the nearest owning
-root class and reuse it with `var(...)`. Use existing project tokens for the raw
-value when they exist, and name the custom property by component meaning rather
-than by the literal CSS value.
-
-```vue
-<style module>
-  .component {
-    --option-padding: 0 var(--spacing-16);
-  }
-
-  .listItem {
-    padding: var(--option-padding);
-  }
-
-  .emptyItem {
-    padding: var(--option-padding);
-  }
-</style>
-```
-
-Scope these properties to `.component`, `.list`, or the nearest owned root
-class. Prefer semantic names such as `--option-padding`, `--item-gap`, or
-`--empty-state-padding`. Do not create a custom property for a one-off value, or
-for unrelated selectors that only coincidentally share a value such as `12px`.
-
-- Put a root `.component` class on styled components when that is the local convention or when it clarifies style ownership.
-- For CSS-specific patterns, refer to a styling/CSS skill if one is available.
+- Use `<style module>`, never `<style scoped>`.
+- Use `.component` as the root class for every styled component.
+- Apply a styling/CSS skill when one is available.
 
 ### CSS modules class bindings
 
-For CSS Modules, bind one `$style.*` class per styled template element. Use
-literal global classes for variants and state, then define those modifiers
-nested under the module class with `:global(.modifier)`.
+Bind one `$style.*` class per styled template element directly in the template.
+Do not use `useCssModule()` only to assemble class lists in script.
 
 Wrong:
 
@@ -194,13 +162,6 @@ Right:
   }
 </style>
 ```
-
-This keeps the component-owned class scoped while making state modifiers visible
-in template bindings. Do not stack module-local state classes such as
-`[$style.button, $style.active, $style.disabled]` on one element.
-
-- Prefer component-owned class selectors over broad nested tag selectors when styling owned markup.
-- Use modern CSS features when the repository's browser baseline supports them; do not add legacy fallbacks without a current supported scenario.
 
 ## Component boundaries
 

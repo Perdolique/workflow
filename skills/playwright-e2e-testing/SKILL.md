@@ -39,6 +39,8 @@ Standalone types are always fine to import directly:
 import type { Page, Locator } from '@playwright/test';
 ```
 
+Use the shared fixture to fail on application `pageerror`, `console.error`, hydration warnings, and unresolved components. Exclude only browser-generated resource errors that tests assert explicitly.
+
 ## Directory structure
 
 Organize tests by feature domain. Each domain typically has its own fixture file:
@@ -264,6 +266,10 @@ await page.route('**/api/properties/**', async (route) => {
   await route.fulfill({ json: customPropertyData });
 });
 ```
+
+### Verify request cancellation
+
+When cancellation matters, hold the stale response, register `requestfailed` before triggering its replacement, assert the abort (`ERR_ABORTED` in Chromium), then release the mock and verify only current data renders. Final UI alone does not prove transport cancellation; never fulfill an already-aborted route.
 
 ### Mock third-party services
 
