@@ -1,0 +1,77 @@
+{
+  "skill_name": "implementation-workflow",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Plan a migration from our legacy session store to the new adapter. Do not modify files yet. While inspecting the repository, ask me if you find a choice that changes data migration or rollback behavior.",
+      "expected_output": "The agent stays read-only, inspects repository evidence before asking questions, and produces a scoped migration plan with verification and residual risks.",
+      "files": [],
+      "expectations": [
+        "The workflow makes no file changes in plan-only mode.",
+        "The workflow inspects repository evidence before asking questions the repository can answer.",
+        "The plan covers result, boundaries, order, touched surfaces, verification, and residual risk.",
+        "The workflow asks a narrow question if migration or rollback semantics remain materially uncertain."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Implement this cross-cutting authentication fix across middleware, the session store, and browser tests. Inspect current changes first, keep the patch narrow, and finish the implementation rather than stopping after a plan.",
+      "expected_output": "The agent plans briefly, implements in small slices, protects existing changes, and verifies the authentication flow proportionally to its blast radius.",
+      "files": [],
+      "expectations": [
+        "The workflow continues from planning into implementation.",
+        "The workflow inspects existing changes before editing overlapping files.",
+        "The workflow verifies authentication boundaries with focused and broader relevant checks.",
+        "The workflow reviews the final diff before completion."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Continue the interrupted refactor in this dirty worktree. A typecheck is already failing, and another developer has staged unrelated files. Recover the current state, determine whether our changes caused the failure, and do not disturb their work.",
+      "expected_output": "The agent reconstructs current state, preserves unrelated changes and staging, attributes the failure with evidence, and does not claim completion with a change-caused failing check.",
+      "files": [],
+      "expectations": [
+        "The workflow treats unrelated dirty state as non-blocking.",
+        "The workflow does not revert, overwrite, unstage, or restage unrelated user changes.",
+        "The workflow attributes the failing check using concrete evidence.",
+        "The workflow does not mark the task complete while an in-scope check fails because of the change."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Change one typo in README.md and run the repository's required Markdown check.",
+      "expected_output": "The agent performs the simple edit without planning ceremony, subagents, broad discovery, or unrelated verification.",
+      "files": [],
+      "expectations": [
+        "The workflow recognizes that the request does not need a non-trivial plan.",
+        "The workflow does not use subagents.",
+        "The workflow runs only the repository-required documentation verification.",
+        "The workflow avoids unrelated cleanup or full-suite verification."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Refactor this multi-file Vue checkout flow and add focused browser coverage. Use the repository's Vue and end-to-end testing conventions, but keep ownership of the overall implementation sequence and verification plan.",
+      "expected_output": "The workflow skill manages sequencing while more specific Vue and end-to-end testing skills control technical details.",
+      "files": [],
+      "expectations": [
+        "The workflow loads and follows relevant domain skills.",
+        "The workflow retains responsibility for task boundaries, ordering, and final verification.",
+        "The workflow does not duplicate or override domain-specific component and test guidance.",
+        "The workflow verifies the focused browser scenario before considering a broader suite."
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Split this large migration into PR-sized tasks. I only want the task breakdown, not code changes or new Codex tasks. Keep every task independently shippable and verifiable.",
+      "expected_output": "The agent produces a plan-only sequence of useful PR-sized tasks without editing files or spawning subagents.",
+      "files": [],
+      "expectations": [
+        "The workflow stays in plan-only mode.",
+        "Each task has an independently useful result and verification step.",
+        "Dependencies and ordering are explicit.",
+        "The workflow does not create files, code changes, or subagents."
+      ]
+    }
+  ]
+}

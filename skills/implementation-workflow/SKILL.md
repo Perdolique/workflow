@@ -1,157 +1,93 @@
 ---
 name: implementation-workflow
-description: Plan and drive non-trivial coding work from ambiguous request to scoped implementation and verification. Use when the user asks to plan before coding, plan then implement, split work into iterations or PR-sized tasks, tackle a risky multi-file feature, refactor, migration, or recover after failed work. Do not use for simple one-step edits, commit or PR creation, pure framework/domain conventions, or repo-specific roadmap docs where a more specific planning skill applies.
+description: Use when non-trivial coding work needs discovery or phased execution. Trigger for risky multi-file features, cross-cutting fixes, refactors, migrations, recovery, iteration plans, and PR-sized task splits. Skip simple edits and publication-only or review-only requests. Domain conventions belong to a more specific skill.
 ---
 
-# Implementation Workflow
+# Implementation workflow
 
-Use this skill to manage the shape of non-trivial coding work. It guides discovery, planning, implementation sequencing, verification, and close-out. It does not replace project instructions or domain skills; it helps the agent use them at the right time.
+Manage task flow. Local instructions and domain skills remain authoritative.
 
-## Scope
+## Select a mode
 
-Use this skill for:
+- **Plan only**: inspect and propose without changing files.
+- **Plan and implement**: plan enough to reduce risk, then continue into code.
+- **Continue or recover**: reconstruct current state, then make the smallest safe move.
 
-- Ambiguous implementation requests that need discovery before coding.
-- Multi-file features, refactors, migrations, or bug fixes with meaningful risk.
-- Requests to split work into iterations, milestones, or PR-sized tasks.
-- Plan-before-coding and plan-then-implement workflows.
-- Recovery work after interrupted implementation or failing checks.
+When asked to split work, make each task independently useful and verifiable. State whether the split is plan-only or will be executed.
 
-Do not use this skill for:
+Do not stop at a plan when the user asked for implementation unless blocked or told to pause.
 
-- Simple one-step edits where planning would add ceremony.
-- Commit messages, pull requests, release notes, or review summaries.
-- Framework, database, testing, or UI conventions covered by a more specific skill.
-- Repository-specific roadmap files when a more specific planning or documentation skill applies.
+## Establish scope
 
-## Mode Selection
+Before planning:
 
-Choose the lightest useful mode:
+1. Read local instructions and relevant domain skills.
+2. Inspect the working tree, nearby patterns, tests, and available evidence.
+3. Identify the result, constraints, non-goals, blast radius, and verification needs.
 
-- **Plan only**: the user asks for a plan, trade-off analysis, iteration split, or implementation strategy without code changes.
-- **Plan then implement**: the user asks to start or complete work. Plan just enough to reduce risk, then continue into implementation.
-- **Continue or recover**: work is already in progress, interrupted, or broken. Reconstruct current state first, then make the smallest safe move.
-- **Split into independent tasks**: the user wants a sequence of shippable tasks. Keep each task independently useful and verifiable.
+Inspect the repository before asking questions it can answer. Ask only when the answer changes scope, UX, data shape, risk, or verification.
 
-When the user asks for implementation, do not stop after writing a plan unless blocked or explicitly told to pause.
+Ask narrow questions whenever material uncertainty appears, not only during intake. Continue only work allowed by the selected mode; plan-only work stays read-only.
 
-## Intake
+Keep assumptions explicit. Never invent requirements, integrations, or supported scenarios.
 
-Before planning deeply, identify:
+## Plan
 
-- The user-visible or API-visible result.
-- Evidence of the problem or need: failing tests, logs, screenshots, current behavior, or an explicit requested behavior.
-- Constraints from local instructions, existing architecture, supported environments, and user requirements.
-- Non-goals and work that should stay out of scope.
-- Risk level and likely blast radius.
-- Verification expectations and any checks already known to be relevant.
+Maintain a concise plan for non-trivial work. Cover the result, boundaries, order, touched surfaces, verification, and residual risk.
 
-Ask questions only when the answer changes the plan or blocks implementation. If the repository can answer the question, inspect it first.
+For broad migrations or refactors, map public entry points, internal helpers, removed legacy paths, and shared behavior ownership before editing.
 
-Across all modes, do not treat the initial intake as the only chance to ask. If discovery or implementation surfaces an uncertainty that could materially change scope, UX, data shape, risk, or verification, ask a narrow question instead of guessing. Keep the question specific, and continue with safe, reversible work while waiting when possible.
+Avoid low-level detail before its slice starts. Update the plan when evidence changes it.
 
-## Context Gathering
+## Implement
 
-Gather context from broad to specific:
+- Work in the smallest useful slices.
+- Inspect existing changes before touching an overlapping file.
+- Reuse local patterns before adding abstractions.
+- Verify after risky boundaries such as schemas, shared utilities, public APIs, stateful UI, migrations, and authentication.
+- Update the user when scope changes, a risk is resolved, or a blocker appears.
 
-1. Read applicable local instructions and more specific skills.
-2. Inspect the current working tree before editing.
-3. Search for existing patterns, nearby implementations, and tests.
-4. Read errors, logs, failing test output, or user-provided evidence before guessing.
-5. Use domain-specific skills for framework, database, testing, UI, or documentation rules.
-6. If essential answers are still missing after those steps, ask the user a small number of specific blocking questions.
+Unrelated dirty state is not a blocker. Never revert or overwrite unrelated user changes. If overlapping changes make safe progress impossible, show the conflict and ask.
 
-Keep assumptions explicit. Do not invent requirements, supported scenarios, integrations, or future needs.
+If a slice exposes a larger design choice, stop expanding scope. Continue only when the choice is required for the requested result.
 
-## Planning Shape
+If review feedback repeats around naming, types, wrappers, or plumbing, fix the shared cause before applying one-off patches.
 
-For non-trivial work, produce or maintain a concise plan with:
+Record follow-up work only when backed by evidence, a failing check, or an explicit user decision.
 
-- **Result**: the concrete behavior or artifact after the task is done.
-- **Boundaries**: what is included, what is excluded, and why.
-- **Order**: the smallest safe sequence of steps, noting which can run in parallel.
-- **Touched surfaces**: likely files, modules, routes, schemas, UI views, tests, or docs.
-- **Verification**: checks proportional to the risk and repository instructions.
-- **Residual risk**: anything intentionally deferred, unverified, or dependent on a user decision.
+## Use parallel work selectively
 
-Avoid implementation-detail overload before a slice starts. Plans should be detailed enough to act, not so detailed that they become stale while the code is being read.
+Use subagents only when independent work can run concurrently and the benefit exceeds coordination cost. Prefer read-only research, risk analysis, test discovery, and architecture comparison.
 
-For broad migrations/refactors, briefly map public entry points, internal helpers, removed legacy paths, and shared behavior ownership before coding.
+Give each subagent a narrow objective, exact evidence to inspect, boundaries, edit permission, and required output. Avoid overlapping edits. The orchestrator integrates decisions and runs final verification.
 
-## Implementation Loop
+## Verify and finish
 
-Work in small independent slices:
+Follow the repository's verification matrix. Otherwise choose checks by blast radius:
 
-1. Make the smallest change that moves the task toward a finished result.
-2. Before editing, inspect the working tree enough to identify changes in files you may touch.
-3. Reuse local patterns before adding new abstractions.
-4. Verify after risky boundaries such as schema changes, shared utilities, public APIs, stateful UI flows, migrations, and authentication paths.
-5. Update the user when the plan changes, a risk is resolved, or a blocker appears.
-6. Record follow-up work only when it is backed by evidence, a failing check, or an explicit user decision.
+- Documentation changes need relevant lint or format checks.
+- Type or UI changes need type checks, lint, focused tests, and browser coverage when flows change.
+- Shared utilities, schemas, data models, authentication, persistence, and public contracts need broader tests.
+- New browser flows should run the focused scenario before the full suite.
 
-Do not block on unrelated dirty state. If existing changes overlap the requested work, read them and build on them; ask the user only when those changes make safe progress impossible. Never revert or overwrite unrelated user changes.
+Do not run a full suite reflexively for a tiny change. Do not under-verify a risky change.
 
-If a slice uncovers a larger design choice, stop expanding scope by default. Capture the choice and continue only if it is necessary for the requested result.
-
-If review comments repeat around naming, types, wrappers, or plumbing, fix the shared design issue before applying one-off edits.
-
-## Parallel Work
-
-Use subagents when the task can be split into independent discovery, planning, review, or implementation slices. Prefer subagents for read-only research, risk analysis, test discovery, architecture comparison, and isolated changes that do not touch the same files.
-
-Give each subagent:
-
-- A narrow objective.
-- The exact files, modules, commands, or evidence to inspect.
-- Clear boundaries and non-goals.
-- Whether it may edit files or must stay read-only.
-- A required response format with findings, evidence, risks, and recommended next steps.
-
-The orchestrator owns synthesis, final decisions, integration, conflict resolution, and verification. Do not use subagents when coordination overhead is larger than the task, when file edits would overlap, or when the repository or tooling cannot safely support parallel work.
-
-## Verification Strategy
-
-Select checks by blast radius and local repository instructions:
-
-- Documentation-only changes usually need documentation linting or format checks.
-- Type or UI changes usually need type checks, linting, focused unit tests, and focused browser or integration tests when user flows change.
-- Shared utilities, schemas, data models, auth, persistence, and public contracts need broader tests because regressions can spread across modules.
-- New browser flows should usually run the focused scenario before the full suite.
-- Avoid running expensive full suites reflexively for tiny low-risk edits, but do not under-verify high-risk changes.
-
-If the repository defines a verification matrix, follow it over generic rules.
-
-## Boundaries With Other Skills
-
-Use this workflow skill to decide how to move through the task. Use more specific skills for the technical substance:
-
-- Framework and application skills for routing, data fetching, components, rendering, and build conventions.
-- Database or ORM skills for migrations, query construction, and persistence semantics.
-- Unit and end-to-end testing skills for test design and assertions.
-- Documentation or roadmap skills for repository-specific planning files.
-- Commit and pull-request skills for commit messages and PR content.
-
-When another skill is more specific, load it and let its rules control the implementation details.
-
-## Anti-Patterns
-
-Avoid:
-
-- Planning theater: long plans for tiny edits.
-- Plan-only trap: stopping at a plan when the user asked for implementation.
-- Speculative future-proofing, compatibility branches, or abstractions without a current need.
-- Giant backlog dumps that are not ordered, independently shippable, or verifiable.
-- Stale checklists that do not change as the code reveals new facts.
-- Invented requirements or unsupported scenarios.
-- Full-CI reflex for tiny changes and shallow verification for risky changes.
-- Mixing completed work, active scope, and speculative follow-up in the same task list.
-- Treating unrelated dirty state as a blocker, or ignoring overlapping local changes in files being edited.
-
-## Close-Out
+If a check fails, determine whether the change caused it. Fix change-caused failures. Do not mark the task complete while an in-scope check fails; report unrelated or pre-existing failures with evidence.
 
 Before finishing:
 
-- Confirm the implemented result matches the newest user request.
-- Summarize changed surfaces and key decisions.
-- Report verification that ran and anything that could not be run.
-- Call out residual risks or follow-up work only when they are concrete.
+1. Inspect the final working tree and diff. Remove task-created debug or generated files; preserve pre-existing changes.
+2. Confirm the result matches the newest user request.
+3. Report changed surfaces, verification run, checks not run, and concrete residual risk.
+
+## Combine with domain skills
+
+This skill controls task flow. More specific skills control framework, database, testing, UI, and documentation details. Use both when a domain task still needs non-trivial planning or sequencing. Use commit and pull-request skills for publication work.
+
+## Avoid
+
+- Long plans for tiny edits.
+- Stopping after planning when implementation was requested.
+- Speculative compatibility, abstractions, or backlog items.
+- Stale task lists that mix completed work, active scope, and ideas.
+- Generic warnings without a concrete failure condition or recovery action.
