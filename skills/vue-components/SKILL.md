@@ -94,8 +94,35 @@ interface Emits {
 
 ## Template logic
 
-- Keep template bindings simple: identifiers, refs, props, and named computed values.
-- Move ternaries, boolean chains, route comparisons, formatting, and repeated conditions into computed values or small helpers.
+- Keep templates declarative: bind identifiers, refs, props, and named computed values instead of embedding logic in template expressions.
+- Treat derived expressions as script logic even when they contain only one operation. Move negations, comparisons, ternaries, Boolean chains, formatting, collection access, and function calls used for rendering into named computed values. Keep logic inline only when Vue syntax requires it and extracting it would not produce a meaningful rendered-state name.
+
+Wrong:
+
+```vue
+<button :disabled="isSaving || items.length === 0">
+  Save
+</button>
+```
+
+Right:
+
+```vue
+<script setup lang="ts">
+  import { computed } from 'vue'
+
+  const isSaveDisabled = computed(
+    () => isSaving.value || items.value.length === 0
+  )
+</script>
+
+<template>
+  <button :disabled="isSaveDisabled">
+    Save
+  </button>
+</template>
+```
+
 - Prefer direct template markup for a small, known set of elements. Use config-driven rendering only for genuinely dynamic or repeated structures.
 - Keep text and labels in the project's i18n or copy system. Avoid dynamic translation keys when local tooling depends on literals.
 - Use full, readable names for props, state, classes, and variants. Avoid ad-hoc abbreviations such as `cnt`, `curr`, `md`, or `sm` unless they are part of an existing design-token API.
