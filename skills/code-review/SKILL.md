@@ -17,6 +17,10 @@ Review code without modifying it unless the user asks for fixes.
 
 ## Review areas
 
+### Correctness
+
+Verify changed behavior against its contract. Flag reachable logic errors, broken edge cases, invalid state transitions, data loss, and regressions.
+
 ### Waste
 
 Flag code with no current purpose: unused, dead, unreachable, or duplicate code; debug or temporary artifacts; commented-out implementations; unsupported compatibility paths; meaningless wrappers; speculative abstractions; stale TODOs; accidental generated files. Recommend deletion. A shorter alternative alone does not make code waste.
