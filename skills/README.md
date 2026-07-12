@@ -9,6 +9,7 @@ This repository contains custom skills that extend LLM capabilities with special
 
 | Skill | Description | License |
 | --- | --- | --- |
+| [code-review](./code-review/SKILL.md) | Review changed code and report evidence-backed findings. | Unlicense |
 | [typescript-conventions](./typescript-conventions/SKILL.md) | TypeScript coding conventions for writing, reviewing, refactoring, and debugging TypeScript code. Use when working on TypeScript in any file format, including `.ts`, `.tsx`, and typed sections inside files such as Vue or Astro, as well as TypeScript snippets, type-driven refactors, and general code organization. | Unlicense |
 | [commit-creator](./commit-creator/SKILL.md) | Create English conventional commit messages for the current changes. Use when the user wants to commit code, asks for a commit message, or needs monorepo scopes and version updates handled correctly. | Unlicense |
 | [drizzle-orm](./drizzle-orm/SKILL.md) | Drizzle ORM query patterns for TypeScript. Use when writing, reviewing, or debugging Drizzle queries, especially when choosing between relational queries and the SQL builder, building dynamic filters, loading relations, or fixing Drizzle query-shape and type mismatches. Also apply during code review when a file contains non-trivial query construction with `drizzle-orm`. | Unlicense |

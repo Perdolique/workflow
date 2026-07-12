@@ -10,6 +10,7 @@ Reusable skills that provide specialized knowledge and capabilities:
 
 | Skill | Description |
 | --- | --- |
+| [code-review](./skills/code-review/) | Review changed code and report evidence-backed findings |
 | [commit-creator](./skills/commit-creator/) | Create English conventional commit messages for the current changes |
 | [drizzle-orm](./skills/drizzle-orm/) | Drizzle ORM query patterns for TypeScript, including relational queries, SQL builder usage, and query-shape fixes |
 | [markdownlint](./skills/markdownlint/) | Configure, manage, and troubleshoot markdownlint in projects |
