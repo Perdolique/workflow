@@ -1,0 +1,8 @@
+# This file is opt-in. Review every rule before installing it globally.
+
+prefix_rule(pattern=["git", "add", "backend/src/lib/nickname.ts"], decision="allow")
+prefix_rule(pattern=["git", "ls-files", "backend/.env"], decision="allow")
+prefix_rule(pattern=["pnpm", "--filter"], decision="allow")
+prefix_rule(pattern=["pnpm", "install"], decision="allow")
+prefix_rule(pattern=["pnpm", "run"], decision="allow")
+prefix_rule(pattern=["sort"], decision="allow")
