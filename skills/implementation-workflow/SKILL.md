@@ -35,6 +35,8 @@ Keep assumptions explicit. Never invent requirements, integrations, or supported
 
 Maintain a concise plan for non-trivial work. Cover the result, boundaries, order, touched surfaces, verification, and residual risk.
 
+Use persistent plan storage when available. Otherwise save the final plan to a task-specific `plan.md` in the system temp directory and report its path. Re-read it after compaction and before continuing, update it when the plan changes, and delete it when the task completes or is cancelled. If plan mode forbids writes, create it first after leaving plan mode, before implementation.
+
 For broad migrations or refactors, map public entry points, internal helpers, removed legacy paths, and shared behavior ownership before editing.
 
 Avoid low-level detail before its slice starts. Update the plan when evidence changes it.

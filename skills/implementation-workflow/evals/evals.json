@@ -3,13 +3,14 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Plan a migration from our legacy session store to the new adapter. Do not modify files yet. While inspecting the repository, ask me if you find a choice that changes data migration or rollback behavior.",
-      "expected_output": "The agent stays read-only, inspects repository evidence before asking questions, and produces a scoped migration plan with verification and residual risks.",
+      "prompt": "Plan a migration from our legacy session store to the new adapter. Do not modify project files yet. There is no persistent plan tool, but temp writes are allowed. While inspecting the repository, ask me if you find a choice that changes data migration or rollback behavior.",
+      "expected_output": "The agent inspects repository evidence, produces a scoped migration plan, and saves it to a reported task-specific temp path without changing project files.",
       "files": [],
       "expectations": [
-        "The workflow makes no file changes in plan-only mode.",
+        "The workflow makes no project file changes in plan-only mode.",
         "The workflow inspects repository evidence before asking questions the repository can answer.",
         "The plan covers result, boundaries, order, touched surfaces, verification, and residual risk.",
+        "The workflow saves the plan to a reported task-specific plan.md in the system temp directory.",
         "The workflow asks a narrow question if migration or rollback semantics remain materially uncertain."
       ]
     },
@@ -71,6 +72,18 @@
         "Each task has an independently useful result and verification step.",
         "Dependencies and ordering are explicit.",
         "The workflow does not create files, code changes, or subagents."
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Plan and implement this multi-file refactor. There is no persistent plan tool, and plan mode forbids all file writes.",
+      "expected_output": "The agent waits until plan mode ends, then saves the plan to temp before changing project files and uses it through completion.",
+      "files": [],
+      "expectations": [
+        "The workflow does not write files while plan mode forbids it.",
+        "The workflow creates a task-specific temp plan.md before implementation.",
+        "The workflow reports and reuses the temp plan path.",
+        "The workflow updates changed plans and deletes the file after completion or cancellation."
       ]
     }
   ]
