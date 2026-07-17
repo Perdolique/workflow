@@ -23,6 +23,8 @@
 - These words are forbidden. Use replacements:
   - `ручка` → `хендлер`, `обработчик`
   - `контур` → `окружение`
+  - `функционал` → `функциональность`
+  - `поток` → `флоу`
 
 ## Critical thinking and behaviour
 
