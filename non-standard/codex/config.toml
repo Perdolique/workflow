@@ -1,11 +1,10 @@
 #:schema https://developers.openai.com/codex/config-schema.json
 
 approval_policy = "on-request"
-model = "gpt-5.6-sol"
-model_reasoning_effort = "xhigh"
 model_verbosity = "medium"
 personality = "friendly"
-sandbox_mode = "danger-full-access"
+sandbox_mode = "workspace-write"
+approvals_reviewer = "user"
 plan_mode_reasoning_effort = "max"
 
 developer_instructions = """
@@ -28,10 +27,28 @@ The prohibition on praise means avoiding generic or unearned praise. It must not
 memories = true
 prevent_idle_sleep = true
 
-[memories]
-consolidation_model = "gpt-5.6-terra"
+[sandbox_workspace_write]
+network_access = true
+
+[mcp_servers.vuetify]
+url = "https://mcp.vuetifyjs.com/mcp"
+
+[mcp_servers.vuetify.tools.get_exposed_exports]
+approval_mode = "approve"
+
+[mcp_servers.vuetify.tools.get_vuetify0_component_guide]
+approval_mode = "approve"
+
+[mcp_servers.context7]
+url = "https://mcp.context7.com/mcp"
+
+[mcp_servers.openaiDeveloperDocs]
+url = "https://developers.openai.com/mcp"
 
 [tui]
 status_line = ["model-with-reasoning", "current-dir", "git-branch", "five-hour-limit", "weekly-limit", "total-input-tokens", "total-output-tokens", "context-used"]
 status_line_use_colors = true
-theme = "one-half-dark"
+
+[[skills.config]]
+name = "github:yeet"
+enabled = false
