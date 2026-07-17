@@ -1,4 +1,5 @@
 /node_modules
+/.DS_Store
 /skills/*-workspace/
 
 # FIXME: WEIRD CODEX EMPTY FILE
