@@ -31,6 +31,14 @@ Ask narrow questions whenever material uncertainty appears, not only during inta
 
 Keep assumptions explicit. Never invent requirements, integrations, or supported scenarios.
 
+## Explain decisions before asking
+
+Before asking the user to choose between approaches, explain each option in chat:
+how it works, pros, cons, and concrete consequences or risks. Recommend one with
+a reason. Only then ask using the same option names and order. Do not rely on picker
+descriptions for the analysis. Ask factual clarifications directly without
+inventing alternatives.
+
 ## Plan
 
 Maintain a concise plan for non-trivial work. Cover the result, boundaries, order, touched surfaces, verification, and residual risk.
