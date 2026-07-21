@@ -13,6 +13,7 @@ Review code without modifying it unless the user asks for fixes.
 - Read repository instructions and relevant domain skills.
 - Review changed code and only the context needed to understand it.
 - Review the full repository only when requested.
+- Do not run repository linters, type checks, builds, or tests during review; use focused non-mutating reproductions only to verify specific issues.
 - Report only verified issues introduced, exposed, or worsened by the change, including pre-existing issues it depends on.
 
 ## Review areas
