@@ -3,12 +3,12 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "I need to refactor a Vue 3 component that currently has ternaries and boolean chains directly in template class bindings. Keep the public props the same, and do not invent a reusable abstraction unless the component actually repeats the pattern.",
-      "expected_output": "The agent should move non-trivial template logic into named computed values or local helpers, preserve the component API, inspect nearby patterns, and avoid unnecessary config-driven rendering.",
+      "prompt": "I need to refactor a Vue 3 component that has comparisons, collection length checks, and function calls in template directives, bindings, and interpolation. Keep the public props the same, and do not invent a reusable abstraction unless the component actually repeats the pattern.",
+      "expected_output": "The agent should scan the entire template, move every derived rendering expression into named computed state or view-model fields, preserve the component API, inspect nearby patterns, and avoid unnecessary config-driven rendering.",
       "files": [],
       "expectations": [
         "The workflow inspects nearby component conventions before choosing the final shape.",
-        "The workflow moves non-trivial template expressions into named script values.",
+        "The workflow scans the entire template and moves every derived rendering expression into named script values.",
         "The workflow preserves existing props, emits, slots, and visual behavior unless the task requires a change.",
         "The workflow avoids adding generic abstractions for a small fixed UI."
       ]

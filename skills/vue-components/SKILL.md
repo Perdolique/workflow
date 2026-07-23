@@ -94,8 +94,11 @@ interface Emits {
 
 ## Template logic
 
-- Keep templates declarative: bind identifiers, refs, props, and named computed values instead of embedding logic in template expressions.
-- Treat derived expressions as script logic even when they contain only one operation. Move negations, comparisons, ternaries, Boolean chains, formatting, collection access, and function calls used for rendering into named computed values. Keep logic inline only when Vue syntax requires it and extracting it would not produce a meaningful rendered-state name.
+- Bind template conditions and rendered values to named identifiers.
+- Before finishing, scan the entire `<template>`. Move negations, comparisons,
+  ternaries, Boolean expressions, collection checks, formatting, and function
+  calls into named computed state or view-model fields. Leave only Vue syntax
+  such as `item in items` and slot bindings inline.
 
 Wrong:
 
@@ -154,7 +157,8 @@ Right:
 ### CSS modules class bindings
 
 Bind one `$style.*` class per styled template element directly in the template.
-Do not use `useCssModule()` only to assemble class lists in script.
+Do not use `useCssModule()` to pass presentation classes through render
+configuration. Expose a slot when callers need to style rendered elements.
 
 Wrong:
 
