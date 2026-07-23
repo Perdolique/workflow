@@ -8,6 +8,11 @@ license: Unlicense
 
 Follow the target repository's browser baseline, styling system, resets, tokens, and nearby patterns first.
 
+## Browser support
+
+- Inspect `.browserslistrc`, the `browserslist` field in `package.json`, and relevant build configuration before choosing CSS features, prefixes, polyfills, or fallbacks.
+- Treat the repository's declared browser targets as the compatibility boundary. Do not add workarounds for older browsers outside that boundary, and do not use unsupported features without the fallback required by browsers inside it.
+
 ## Existing styles and tokens
 
 - Inspect global reset and base styles before adding local resets. Do not repeat `margin`, `padding`, or `list-style` resets already applied to the target element.
