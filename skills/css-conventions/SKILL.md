@@ -6,7 +6,7 @@ license: Unlicense
 
 # CSS conventions
 
-Follow the target repository's browser baseline, styling system, resets, tokens, and nearby patterns first. Use modern web guidance for current platform capabilities; use this skill for stable authoring conventions.
+Follow the target repository's browser baseline, styling system, resets, tokens, and nearby patterns first.
 
 ## Existing styles and tokens
 

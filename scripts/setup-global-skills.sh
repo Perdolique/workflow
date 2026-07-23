@@ -20,7 +20,6 @@ require_command vpx
 require_command vp
 
 vpx skills add perdolique/workflow --global --skill '*' --agent universal --yes
-vpx skills add GoogleChrome/modern-web-guidance --global --skill modern-web-guidance --agent universal --yes
 vpx skills add microsoft/playwright-cli --global --skill playwright-cli --agent universal --yes
 vpx skills add anthropics/skills --global --skill skill-creator --agent universal --yes
 
