@@ -1,264 +1,59 @@
-# PR Description Examples
+# PR description examples
 
-This file contains examples of boring vs engaging PR descriptions to demonstrate the preferred writing style.
+These examples demonstrate tone and structure only. Replace every claim with facts supported by the actual branch and task context.
 
-## Example 1: Email Validation Fix
-
-### 😴 Boring (don't do this)
+## Focused bug fix
 
 ```markdown
 ## Summary
 
-Modified validation logic.
-Updated tests.
-Fixed edge case.
-```
+Stops duplicate focus events without disturbing normal keyboard behavior 🐛⌨️ The fix stays narrow and keeps the existing component API intact 😎👍
 
-### 🎉 Engaging (do this)
+- 🐛 Ignore repeated notifications from the same focus interaction
+- ♿ Preserve keyboard and pointer focus behavior
+- ✅ Cover the reproduced duplicate-event scenario
 
-```markdown
-## Summary
+## Motivation
 
-Rewrote the email validation to handle all those weird edge cases we kept hitting! 🎯💪 This thing is SOLID now 😎👍
+The existing regression test reproduces two events for one focus interaction. This change restores the documented single-event contract 🎯
 
-- ✅ Now supports plus addressing (user+tag@example.com) 📧
-- ✅ Handles international domains correctly 🌍💯
-- ✅ Added 15 new test cases for the tricky stuff 🧪🔥
-- 🐛 Fixed the bug where empty strings were passing validation (oops!) 🤣
-
-## Why This Matters
-
-Users were getting frustrated when their perfectly valid emails were rejected 😤 Turns out our regex from 2015 wasn't cutting it anymore 🙈 This brings us up to RFC 5322 compliance and should handle 99% of real-world email formats 🚀 No more angry support tickets! 🎉
-
-## The Tricky Part
-
-International domain names were a pain 💀 Had to use punycode conversion. Not the prettiest solution, but it works reliably across all browsers 💪 Sometimes you gotta do what you gotta do 😎
+## Related issues
 
 Fixes #156
 ```
 
-## Example 2: Feature - Dark Mode
-
-### 😴 Boring
-
-```markdown
-Added dark mode.
-Created toggle component.
-Updated theme variables.
-```
-
-### 🎉 Engaging
+## Dependency update
 
 ```markdown
 ## Summary
 
-Finally bringing dark mode to life! 🌙✨ Been waiting for this FOREVER 😎🔥
+Keeps the test toolchain on one compatible patch release 📦🧪 No mystery bumps hiding in the lockfile 😎
 
-The community has been asking for this since day one, and it's ready to ship 🚀💯:
+- 📦 Update the affected package manifests
+- 🔧 Refresh the lockfile for the selected versions
 
-- 🎨 Complete dark color palette with semantic tokens 🖌️👌
-- 🔄 Smooth theme switching with CSS variable swaps ⚡
-- 💾 Persists user preference to localStorage 📦
-- ♿ Respects system prefers-color-scheme 🙏
-- 📦 New `<ThemeToggle>` component anyone can drop in 🎁
+## Dependency updates
 
-## How It Works
-
-Instead of duplicating styles, we're using CSS custom properties that swap values based on a `[data-theme="dark"]` attribute on the root element 🧠 This means zero runtime overhead and instant theme switching! 💨 Pretty neat, right? 😏
-
-## What's Next
-
-This lays the groundwork for user-customizable themes in the future 🎨🚀 Right now it's just light/dark, but the architecture supports any number of themes 💪 Sky's the limit! ✨
-
-Fixes #42
+- `vitest`: 4.1.9 -> 4.1.10
+- `@vitest/ui`: 4.1.9 -> 4.1.10
 ```
 
-## Example 3: Performance Optimization
-
-### 😴 Boring (Performance)
-
-```markdown
-Optimized table rendering.
-Implemented virtual scrolling.
-```
-
-### 🎉 Engaging (Performance)
+## Breaking change
 
 ```markdown
 ## Summary
 
-Massively improved table performance for large datasets! ⚡💪 This thing FLIES now 🚀😎
+Renames the public theme tokens and removes the legacy aliases 🎨⚠️ The new names now match the documented semantic palette across the package 💪
 
-- 📊 Virtual scrolling now handles 10k+ rows smoothly 💯
-- 🎯 Reduced initial render time by 60% 🔥
-- 🧪 Added performance benchmarks to prevent regressions 👍
+- ✨ Expose the new token names from the public theme API
+- 🗑️ Remove the legacy aliases
+- 📚 Update consumer examples to the new names
 
-## The Problem
+## Breaking changes
 
-Users with large datasets were experiencing 3-5 second load times and janky scrolling 😤💀 Not a great experience when you're trying to analyze data quickly! Had to fix this ASAP 🏃‍♂️
+Consumers using the removed token names must update before upgrading.
 
-## The Solution
+## Migration
 
-Implemented virtual scrolling using a windowing technique 🧠✨ We only render rows visible in the viewport plus a small buffer. As you scroll, rows are recycled instead of created from scratch 🔄 Smart, right? 😏
-
-## Benchmarks
-
-Before: ~4200ms to render 5000 rows 🐌
-After: ~180ms to render 5000 rows ⚡
-
-That's a 23x improvement! 🚀🔥 Absolutely crushing it 💪😎
-
-Fixes #234
-```
-
-## Example 4: Refactoring
-
-### 😴 Boring (Refactoring)
-
-```markdown
-Refactored authentication code.
-Moved functions to utilities.
-```
-
-### 🎉 Engaging (Refactoring)
-
-```markdown
-## Summary
-
-Cleaned up the authentication flow and made it way more maintainable 🧹✨ Code quality is FIRE now 🔥😎
-
-- ♻️ Extracted token validation into reusable utilities 📦💪
-- 🎯 Reduced code duplication across 5 different modules 🎉
-- ✅ Added comprehensive unit tests (coverage went from 40% to 95%) 📈🚀
-
-## Why This Refactor
-
-The auth code was scattered across multiple files 🤦‍♂️ Making it hard to track down bugs and add new features 😤 Every time we needed to validate a token, we were copy-pasting the same logic 🙈 Not cool! Had to clean this mess up 💪
-
-## What Changed
-
-Created a central `auth-utils` module that handles all the token validation, refresh logic, and expiry checks 🧠✨ Now all modules use the same battle-tested code 💯 DRY principles for the win! 🎯👍
-
-This is purely internal refactoring 🔧 The public API remains unchanged 🙏 Existing tests still pass plus we added a bunch more 🧪 Zero risk, all gains 😎🔥
-```
-
-## Example 5: Breaking Change
-
-### 😴 Boring (Breaking)
-
-```markdown
-Changed API endpoints.
-Updated authentication.
-```
-
-### 🎉 Engaging (Breaking)
-
-````markdown
-## Summary
-
-⚠️ **BREAKING CHANGE**: Redesigned authentication flow 🔥
-
-This is a significant change that affects how authentication works across the entire app 💪😎:
-
-- 🔐 Switched from session-based to JWT token authentication 🎯
-- 🔄 Added refresh token rotation for better security 🛡️💯
-- 📦 New `/api/auth/token` endpoint replaces `/api/auth/login` ✨
-- 🗑️ Removed deprecated `/api/auth/session` endpoint 👋
-- ✅ Updated unit and integration coverage for the new auth flow 🧪
-- 🎯 Verified the migration path with the staging environment
-
-## Why The Breaking Change
-
-Session-based auth was causing scaling issues 😤 And didn't work well with our microservices architecture 🤦‍♂️ JWT tokens allow for stateless authentication and make it easier to scale horizontally 🚀 Had to rip the band-aid off and do this right! 💪🔥
-
-## Migration Guide
-
-If you're currently using the old authentication 👇:
-
-1. Replace login calls:
-
-   ```diff
-   - POST /api/auth/login
-   + POST /api/auth/token
-   ```
-
-1. Update token storage:
-
-   ```diff
-   - Store session cookie
-   + Store JWT token in localStorage or httpOnly cookie
-   ```
-
-2. Add token refresh logic:
-
-   ```javascript
-   // Refresh token before expiry
-   await refreshToken(currentToken);
-   ```
-
-Full migration docs: [link to docs] 📚
-
-BREAKING CHANGE: Authentication now uses JWT tokens instead of sessions 🔐 See migration guide above 👆
-
-Fixes #567
-
-````
-
-## Example 6: Draft/WIP PR
-
-```markdown
-## Summary
-
-🚧 **[WIP] Work in progress** - New dashboard implementation
-
-This is a draft PR to get early feedback on the dashboard architecture. Not ready to merge yet!
-
-What's done:
-- ✅ Basic layout structure
-- ✅ Chart components scaffolding
-- ✅ Data fetching hooks
-
-Still TODO:
-- ⏳ Implement actual chart rendering
-- ⏳ Add filters and controls
-- ⏳ Write tests
-- ⏳ Optimize performance
-
-## Questions for Reviewers
-
-1. Does this component structure make sense?
-2. Should we use library X or library Y for charts?
-3. Any concerns about the data fetching approach?
-
-Feel free to leave comments even though it's not complete!
-```
-
-## Example 7: Monorepo PR
-
-```markdown
-## Summary
-
-Update button components across all packages 🎨
-
-This PR updates button styling and adds new variants across the monorepo:
-
-**Packages affected:**
-- `@ui/button` - Core button component
-- `@ui/forms` - Form button integrations
-- `@marketing/landing` - Landing page buttons
-
-Changes:
-- 💄 New outlined and ghost button variants
-- ♿ Improved focus states for accessibility
-- 📦 @ui/button: v2.1.0 → v2.2.0
-- 📦 @ui/forms: v1.5.3 → v1.5.4
-- 📦 @marketing/landing: v0.8.0 → v0.8.1
-- ✅ Updated Storybook coverage for the new variants 🧪
-- 🎯 Completed visual regression checks and accessibility audit
-
-## Motivation
-
-Design team requested new button variants to match the updated design system. These changes ensure consistency across all our packages.
-
-Fixes #789
+Replace each removed legacy token with its documented semantic equivalent 🧭
 ```

@@ -1,0 +1,72 @@
+{
+  "skill_name": "commit-creator",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Commit the currently staged changes only. I also have unrelated unstaged work that must stay untouched.",
+      "expected_output": "The workflow inspects both diffs, preserves the existing staging, and commits only the staged changes.",
+      "files": [],
+      "expectations": [
+        "The workflow inspects the staged and unstaged changes before writing the message.",
+        "The workflow does not stage, unstage, or include the unrelated unstaged work.",
+        "The message describes only the staged changes."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Commit all current changes. I am on main but did not say whether I want the commit there.",
+      "expected_output": "The workflow confirms the target branch before committing to the default branch.",
+      "files": [],
+      "expectations": [
+        "The workflow detects that the current branch is the default branch.",
+        "The workflow asks whether to create a branch or commit directly to the default branch.",
+        "The workflow does not create the commit before the user chooses."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Commit these dependency updates: vitest 4.1.9 to 4.1.10 and @vitest/ui 4.1.9 to 4.1.10.",
+      "expected_output": "The commit body lists every dependency with its old and new version.",
+      "files": [],
+      "expectations": [
+        "The message uses an English conventional commit summary.",
+        "The body contains a separate bullet for vitest with both versions.",
+        "The body contains a separate bullet for @vitest/ui with both versions.",
+        "The message does not use a vague dependency-update summary in place of the package list."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Give me only a subject line for the current documentation change. Do not create the commit.",
+      "expected_output": "The workflow returns one English conventional commit subject without requiring a body or changing Git state.",
+      "files": [],
+      "expectations": [
+        "The output contains one conventional commit subject at most 50 characters long.",
+        "The workflow does not require a body because the user explicitly requested a subject-only message.",
+        "The workflow does not stage files or create a commit."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Commit the current changes. The pre-commit hook failed with a lint error.",
+      "expected_output": "The workflow reports the exact failure and does not bypass hooks without approval.",
+      "files": [],
+      "expectations": [
+        "The workflow reports the exact hook error.",
+        "The workflow offers to fix the failure or leave it for the user.",
+        "The workflow does not use --no-verify without explicit user approval."
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Commit the current changes with a normal message and body.",
+      "expected_output": "The workflow creates a conventional commit without adding agent attribution.",
+      "files": [],
+      "expectations": [
+        "The message contains a conventional commit summary and concrete body bullets.",
+        "The message contains no authorship trailer.",
+        "The workflow waits for git hooks to finish naturally."
+      ]
+    }
+  ]
+}

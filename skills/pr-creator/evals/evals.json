@@ -3,80 +3,113 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Create a PR on GitHub for my current branch and assign it to me after creation. Do not ask me to copy anything into chat.",
-      "expected_output": "The workflow creates the PR directly on GitHub and assigns the authenticated user as an assignee, not as a reviewer.",
+      "prompt": "Create a PR on GitHub for my current branch and assign it to me. Do not add reviewers.",
+      "expected_output": "The workflow creates or updates the PR and assigns the authenticated user without adding a reviewer.",
       "files": [],
       "expectations": [
-        "The workflow uses assignee assignment semantics for the authenticated user.",
-        "The workflow does not add the authenticated user as a reviewer by default.",
-        "The workflow says to update the created PR after creation if the create call cannot set assignees directly."
+        "The workflow checks for an existing PR before creating a new one.",
+        "The workflow assigns the authenticated user as assignee.",
+        "The workflow does not add the authenticated user or anyone else as reviewer."
       ]
     },
     {
       "id": 2,
-      "prompt": "Open a pull request for this branch, keep the PR text in English, and make sure I am the assignee on the PR.",
-      "expected_output": "The workflow keeps PR content in English and uses assignee assignment semantics for the authenticated user.",
+      "prompt": "Create a pull request for this branch. I did not specify whether it is ready for review.",
+      "expected_output": "The workflow creates the PR as a draft by default.",
       "files": [],
       "expectations": [
-        "The workflow keeps title and description in English.",
-        "The workflow assigns the current authenticated user as assignee.",
-        "The workflow does not treat reviewer assignment as equivalent to assignee assignment."
+        "The workflow creates a new PR as draft when readiness was not specified.",
+        "The workflow reports the resulting draft state.",
+        "The workflow preserves the state of an existing PR instead of forcing it back to draft."
       ]
     },
     {
       "id": 3,
-      "prompt": "Create the PR directly on GitHub. After it exists, put me on it as the assignee. Do not add me as a reviewer unless I explicitly ask for reviewers.",
-      "expected_output": "The workflow separates assignee handling from reviewer handling and avoids adding the current user as a reviewer by default.",
+      "prompt": "Create a ready-for-review PR for this branch and assign it to me.",
+      "expected_output": "The workflow respects the explicit ready state and assigns the authenticated user.",
       "files": [],
       "expectations": [
-        "The workflow explicitly avoids adding the current authenticated user as reviewer by default.",
-        "The workflow uses a follow-up update step to assign the PR when needed.",
-        "The workflow allows reviewer assignment only when the user explicitly requests it."
+        "The workflow does not apply the draft default.",
+        "The workflow assigns the authenticated user as assignee.",
+        "The workflow reports that the PR is ready for review."
       ]
     },
     {
       "id": 4,
-      "prompt": "Create a pull request on GitHub for this branch. I did not say anything about review readiness.",
-      "expected_output": "The workflow creates the PR as a draft by default when the user did not explicitly request a ready-for-review PR.",
+      "prompt": "Show me the PR title and description in chat. Do not create or update anything on GitHub.",
+      "expected_output": "The workflow returns copyable English PR content without external changes.",
       "files": [],
       "expectations": [
-        "The workflow creates the PR as draft by default when review readiness was not specified.",
-        "The workflow prefers an explicit draft flag or draft-capable creation path when one is available.",
-        "The workflow reports whether the PR was created as draft or ready for review."
+        "The output contains the title and complete description in one markdown code block.",
+        "All PR content is in English.",
+        "The workflow does not create, update, assign, or push a PR."
       ]
     },
     {
       "id": 5,
-      "prompt": "Create a ready-for-review PR on GitHub for this branch. Do not leave it in draft state.",
-      "expected_output": "The workflow respects an explicit request for a non-draft PR and does not force the draft default in that case.",
+      "prompt": "Create a PR for a branch with five commits. The last commit only updates tests, while earlier commits contain the feature.",
+      "expected_output": "The workflow describes the cumulative branch changes rather than only the last commit.",
       "files": [],
       "expectations": [
-        "The workflow does not force draft state when the user explicitly requested a ready-for-review PR.",
-        "The workflow treats the draft state as a default that can be overridden by explicit user intent.",
-        "The workflow reports whether the PR was created as draft or ready for review."
+        "The workflow fetches the remote default branch and compares its remote-tracking ref with HEAD.",
+        "The workflow reviews the full branch diff and commit range.",
+        "The title and Summary reflect the feature from all commits rather than only the final test commit."
       ]
     },
     {
       "id": 6,
-      "prompt": "Create a PR for this branch. Keep the description in the style from the PR creator examples.",
-      "expected_output": "The workflow uses the engaging PR examples as the style guide and avoids dry changelog-style notes.",
+      "prompt": "Create a PR for my local branch. It has commits but has never been pushed.",
+      "expected_output": "The workflow publishes the branch before creating the PR.",
       "files": [],
       "expectations": [
-        "The workflow reads or follows the `Engaging (do this)` examples before drafting the PR description.",
-        "The workflow avoids terse dry notes such as `Modified X`, `Updated Y`, or `Fixed Z` without context.",
-        "The workflow uses concrete branch context with an energetic emoji-heavy tone.",
-        "The workflow does not copy example text verbatim."
+        "The workflow detects that the branch has no upstream.",
+        "The workflow pushes the current branch and establishes an upstream.",
+        "The workflow creates the PR only after the branch is available remotely."
       ]
     },
     {
       "id": 7,
-      "prompt": "Create a PR on GitHub for this branch. I ran pnpm test and pnpm lint locally, but I did not ask you to include those commands in the PR body.",
-      "expected_output": "The workflow creates the PR without adding a testing-only section or listing local check commands in the PR description.",
+      "prompt": "Create a PR for this branch, but there is already an open PR from the same branch.",
+      "expected_output": "The workflow updates the existing PR instead of creating a duplicate.",
       "files": [],
       "expectations": [
-        "The workflow does not create a Testing, Tests, Validation, Verification, Local Verification, QA, or similarly named testing-only section.",
-        "The workflow does not list local test, lint, or check commands in the PR body unless explicitly requested.",
-        "The workflow mentions test or verification-related code changes only as normal Summary bullets when they are part of the branch."
+        "The workflow finds the existing PR for the current branch.",
+        "The workflow updates that PR instead of creating another one.",
+        "The workflow preserves unrelated metadata and the existing draft state."
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Create a PR. I ran pnpm test and pnpm lint locally, but do not put those commands in the description.",
+      "expected_output": "The PR body contains no testing-only section or local command list.",
+      "files": [],
+      "expectations": [
+        "The workflow does not add a Testing, Tests, Validation, Verification, Local verification, QA, or similar section.",
+        "The workflow does not list pnpm test or pnpm lint in the PR body.",
+        "Test-related code changes are mentioned only as normal Summary bullets when present in the branch."
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "Generate PR content for a dependency branch that updates vitest 4.1.9 to 4.1.10 and @vitest/ui 4.1.9 to 4.1.10.",
+      "expected_output": "The PR description lists every changed dependency and both versions.",
+      "files": [],
+      "expectations": [
+        "The description includes a separate entry for vitest with both versions.",
+        "The description includes a separate entry for @vitest/ui with both versions.",
+        "The description does not replace the package details with a vague dependency-update statement."
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "Create a PR description from this refactor. We have no issue, user research, performance measurements, or migration requirement.",
+      "expected_output": "The PR content stays energetic but does not invent unsupported context.",
+      "files": [],
+      "expectations": [
+        "The Summary uses concrete facts from the branch with an energetic emoji-heavy tone.",
+        "The description follows the concrete style reference instead of relying only on abstract style adjectives.",
+        "The description does not invent issue references, user demand, metrics, motivation, or future plans.",
+        "The description omits unsupported optional sections."
       ]
     }
   ]

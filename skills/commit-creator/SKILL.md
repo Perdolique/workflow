@@ -1,187 +1,86 @@
 ---
 name: commit-creator
-description: Create English conventional commit messages for the current changes. Use when the user wants to commit code, asks for a commit message, or needs monorepo scopes and version updates handled correctly.
+description: Create English conventional commit messages and commits from the current changes. Use when the user wants to commit code, asks for a commit message, or needs monorepo scopes and dependency updates represented accurately.
 license: Unlicense
 ---
 
-# Code Committing
+# Commit creation
 
-## Format
+## Inspect the changes
 
-### Language Requirement
+Base the message on the repository state, not conversation memory alone:
 
-Always write in English only
-
-```text
-<type>(<scope>): summary
+```bash
+git status --short --branch
+git diff --cached
+git diff
 ```
 
-- **Summary**: ≤50 chars, imperative mood, no period
-- **Scope**: Module/package name (monorepo: exact package name or `all`)
-- **Body**: Required for generated commit messages unless the user explicitly asks for a subject-only commit. Use a bullet list `- {emoji} {text}`. Aim to keep explanatory bullets within about 100 characters when that preserves readability, but allow longer lines for package/version entries, URLs, or other tokens that become awkward when wrapped. One bullet = one logical change. Do not group multiple items on a single line or leave empty lines between bullets unless you intentionally want separate paragraphs.
-- **Breaking**: Add `!` after type and `BREAKING CHANGE:` footer
-- **Issues**: End the body with a bullet like `- Fixes #123` or `- Fixes PROJ-456`
-- **Attribution**: Preserve or append a `Co-authored-by` trailer for the current agent or tool creating the commit, unless the user explicitly asks to omit co-authorship. Use the active tool's real configured trailer; do not attribute the commit to a different agent or copy placeholder values from examples. If no current-agent trailer is known, ask the user for the exact trailer instead of inventing one.
+Identify the concrete behavior, files, packages, issue references, and version changes that belong to the requested commit. If there is no substantive change, stop instead of inventing a message.
 
-### Completeness rule
+## Choose the branch and scope
 
-A commit message with only the summary line is incomplete output unless the user explicitly asked for a subject-only commit.
-
-Before creating a commit or printing a commit message, verify that the generated message includes:
-
-- A non-empty summary line in conventional commit format
-- A body with at least one concrete bullet derived from the actual changes
-
-If you cannot identify at least one concrete change for the body, stop and report that a commit message cannot be generated from the available changes.
-
-### Dependency update details
-
-When the commit includes dependency or package version updates, spell out every updated package in the body.
-
-- Use one bullet per updated package
-- Include both old and new version for each package
-- Use the format `- 📦 package-name: old-version -> new-version`
-- Never collapse multiple updates into vague text like `updated dependencies` or `bump packages`
-- If several packages changed, list all of them separately
-
-### Message assembly
-
-Git treats every extra `-m` flag as a separate paragraph and inserts a blank line between paragraphs.
-
-- Use a single `-m` only when the user explicitly requested a subject-only commit
-- For the normal required body, use exactly one additional `-m` for the entire body, with plain newlines between bullet lines
-- Never use one `-m` flag per bullet, per package update, or per issue reference
-- If multiline quoting becomes awkward, write the whole message with `git commit -F` or `git commit -F-`
-
-Keep the final message layout like this:
-
-```text
-<type>(<scope>): summary
-
-- first bullet
-- second bullet
-- third bullet
-
-Co-authored-by: <current-agent-name> <current-agent-email>
-```
-
-Replace the attribution placeholder with the current agent or tool identity before committing. Do not include the placeholder literally.
-
-**Types**: feat ✨, fix 🐛, docs 📚, style 💄, refactor ♻️, perf ⚡, test ✅, build 🔧, ci 👷, chore 🔨, revert ⏪
-
-## Workflow
-
-### Branch check
-
-Before committing, check the current branch:
+Check the current branch and, when available, the remote default branch:
 
 ```bash
 git branch --show-current
-git remote show origin | grep "HEAD branch"
+git symbolic-ref --quiet --short refs/remotes/origin/HEAD
 ```
 
-**If the current branch is the default branch** (e.g. `master`, `main`) **and the user has not explicitly indicated they want to commit to it**, ask the user:
+Use `git remote show origin` only as a fallback when `origin/HEAD` is unavailable.
 
-- Create a new branch and commit there
-- Commit directly to the current (default) branch
+If the current branch is the default branch and the user did not explicitly ask to commit there, ask whether to create a branch or commit to the default branch. If the user named the target branch or said to commit on the current branch, proceed without asking again.
 
-Wait for user's answer before proceeding.
+Respect existing staging:
 
-**If the user explicitly stated the target branch in their request** (e.g. "commit to master", "commit here"), skip the question and proceed.
+- With only staged changes, commit the staged changes.
+- With only unstaged changes and no narrower scope, stage all current changes.
+- With both staged and unstaged changes, ask whether to commit only the staged changes or stage everything.
+- Never unstage or restage user-staged files unless explicitly asked.
 
-### Staging behavior
+## Write the message
 
-When the user asks to commit without extra scope limits, do not stage only files changed by the agent. Treat all current changes as intended unless the user asks for a narrower scope.
-
-When both staged and unstaged changes exist in the working directory, and interaction is available:
-
-- Ask the user whether to:
-  - Stage all files before committing
-  - Commit only the currently staged changes
-
-### Pre-commit checks
-
-Do not run extra project checks solely because you are creating a commit. Commit-only requests are about staging and committing the current changes; rely on the repository's git hooks to run commit-time validation, and wait for those hooks during `git commit`.
-
-Run checks before committing only when:
-
-- The user explicitly asks for them.
-- You also made code or content changes in the same task and project instructions require verification before completion.
-- A previous hook or check failure needs diagnosis or a targeted fix.
-
-Do not treat repository post-task verification instructions as commit-time steps when the only requested action is committing existing changes.
-
-### Running git commit
-
-After executing `git commit`, **wait for the process to exit on its own** — do not interrupt or kill it. Pre-commit hooks (linters, type checkers, test runners) can run for a long time without producing any output. Killing the process mid-run causes an exit code 130 (SIGINT) and leaves the working tree in a dirty state.
-
-When the commit body spans multiple lines, prefer one of these command shapes:
-
-```bash
-git commit -m "chore(deps): update development dependencies" -m "- 📦 eslint: 8.57.0 -> 9.0.0
-- 📦 prettier: 2.8.8 -> 3.0.0
-- 🔧 Update lint configuration for new versions"
-```
-
-```bash
-git commit -F- <<'EOF'
-chore(deps): update development dependencies
-
-- 📦 eslint: 8.57.0 -> 9.0.0
-- 📦 prettier: 2.8.8 -> 3.0.0
-- 🔧 Update lint configuration for new versions
-
-Co-authored-by: <current-agent-name> <current-agent-email>
-EOF
-```
-
-Do not generate `git commit -m "summary" -m "bullet 1" -m "bullet 2"` unless you explicitly want blank lines between those body paragraphs.
-
-### Commit error handling
-
-**Exit code 130 (interrupted):**
-
-The commit process was interrupted — this is not a validation failure. Do **not** auto-retry. Report that the commit was interrupted and ask the user whether to:
-
-- Try again
-- Cancel
-
-**Any other non-zero exit code (validation failure):**
-
-If the commit fails (e.g., due to pre-commit hooks, linting failures, or other validation errors):
-
-- Report the exact error message and reasons for the failure
-- Ask the user whether to:
-  - Commit with `--no-verify` flag to bypass hooks
-  - Attempt to fix the issues automatically
-  - Let the user fix the issues manually
-
-## Examples
-
-**Simple feature:**
+Write the complete message in English:
 
 ```text
-feat(button): add loading state
+<type>(<scope>): summary
 
-- ✨ Add spinner icon during async operations
-- 📦 @ui/icons: v1.0.0 → v1.1.0
-- Fixes #42
-
-Co-authored-by: <current-agent-name> <current-agent-email>
+- {emoji} concrete change
+- {emoji} concrete change
 ```
 
-**Breaking change:**
+- Keep the summary at 50 characters or fewer, in imperative mood, without a period.
+- Use the exact package or module as the scope; use `all` only for a genuinely cross-package change.
+- Include at least one concrete body bullet unless the user explicitly asks for a subject-only message.
+- Keep one logical change per bullet and avoid empty lines between bullets.
+- Add `!` and a `BREAKING CHANGE:` footer only for an actual breaking change.
+- Add issue-closing bullets only for issue references supported by the task or repository context.
+
+Use these types:
+
+`feat` ✨, `fix` 🐛, `docs` 📚, `style` 💄, `refactor` ♻️, `perf` ⚡, `test` ✅, `build` 🔧, `ci` 👷, `chore` 🔨, `revert` ⏪
+
+### Dependency updates
+
+List every changed dependency separately with its old and new version:
 
 ```text
-feat(theme)!: redesign color tokens
-
-- ✨ Replace RGB values with HSL format
-- 💄 Update all component styles to use new tokens
-- 📦 @ui/theme: v2.1.0 → v3.0.0
-
-BREAKING CHANGE: Color token values changed from RGB to HSL format
-
-Co-authored-by: <current-agent-name> <current-agent-email>
+- 📦 package-name: old-version -> new-version
 ```
 
-For more examples, see [references/examples.md](references/examples.md)
+Do not replace the list with a vague dependency-update bullet.
+
+## Create the commit
+
+Do not run extra project checks solely for a commit-only request. Run them when the user asks, the same task changed files and repository instructions require verification, or a failed hook needs diagnosis.
+
+Use one `-m` for the summary and one for the complete body, or use `git commit -F-` when multiline quoting is awkward. Do not pass one `-m` per bullet because Git turns each one into a separate paragraph.
+
+After starting `git commit`, wait for it to exit naturally. Hooks can remain silent for a long time.
+
+Handle failures without hiding them:
+
+- Report the exact error and offer to fix it, leave it for the user, or use `--no-verify`.
+- Never bypass hooks without explicit user approval.
+
+See [references/examples.md](references/examples.md) when an example is useful.
