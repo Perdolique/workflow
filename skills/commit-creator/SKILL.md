@@ -72,14 +72,10 @@ Do not replace the list with a vague dependency-update bullet.
 
 ## Create the commit
 
-Do not run extra project checks solely for a commit-only request. Run them when the user asks, the same task changed files and repository instructions require verification, or a failed hook needs diagnosis.
-
-Use one `-m` for the summary and one for the complete body, or use `git commit -F-` when multiline quoting is awkward. Do not pass one `-m` per bullet because Git turns each one into a separate paragraph.
-
-After starting `git commit`, wait for it to exit naturally. Hooks can remain silent for a long time.
-
-Handle failures without hiding them:
-
+- Do not run extra project checks solely for a commit-only request. Run them when the user asks, the same task changed files and repository instructions require verification, or a failed hook needs diagnosis.
+- Use one `-m` for the summary and one for the complete body, or use `git commit -F-` when multiline quoting is awkward.
+- Do not pass one `-m` per bullet because Git turns each one into a separate paragraph.
+- Do not set an execution timeout for `git commit`. Wait until Git and all hooks exit naturally. Git hooks can run silently for several minutes, so a timeout may terminate required checks before they finish.
 - Report the exact error and offer to fix it, leave it for the user, or use `--no-verify`.
 - Never bypass hooks without explicit user approval.
 

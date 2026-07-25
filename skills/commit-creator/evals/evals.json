@@ -67,6 +67,16 @@
         "The message contains no authorship trailer.",
         "The workflow waits for git hooks to finish naturally."
       ]
+    },
+    {
+      "id": 7,
+      "prompt": "Commit the current changes. This repository has pre-commit hooks that can run silently for several minutes.",
+      "expected_output": "The workflow runs the commit without an execution timeout and waits for Git to exit naturally.",
+      "files": [],
+      "expectations": [
+        "The workflow does not set an execution timeout for git commit.",
+        "The workflow waits until Git and all hooks exit naturally."
+      ]
     }
   ]
 }
