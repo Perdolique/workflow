@@ -15,6 +15,7 @@ Follow the target repository's browser baseline, styling system, resets, tokens,
 
 ## Existing styles and tokens
 
+- Do not choose semantic elements for their default display; use `<p>` for paragraphs, `<span>` for inline text, and `<div>` for generic block containers.
 - Inspect global reset and base styles before adding local resets. Do not repeat `margin`, `padding`, or `list-style` resets already applied to the target element.
 - Reuse existing semantic design tokens and verify each referenced custom property is declared. Do not invent a token or a new size for every literal value.
 
