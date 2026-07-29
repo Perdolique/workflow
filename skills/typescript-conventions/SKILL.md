@@ -8,6 +8,16 @@ license: Unlicense
 
 Apply conventions from the documentation, AGENTS.md files, lint rules, and configuration of the repository containing the active file first. Then use this skill for general TypeScript guidance, including TypeScript embedded in other file formats. Combine it with more specific framework, testing, or library-focused skills when needed.
 
+## Avoid `return undefined`
+
+Do not use `return undefined`. When exiting a function without a value, use a bare `return`.
+
+```typescript
+if (!item) {
+  return
+}
+```
+
 ## Prefer named intermediate values for function arguments
 
 Do not pass function calls or other non-trivial expressions directly as arguments to another function. If an argument would be a call, awaited value, chained transform, inline conditional, or other derived expression, assign it to a clearly named `const` first and pass that variable instead.
