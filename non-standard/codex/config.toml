@@ -37,6 +37,9 @@ url = "https://mcp.context7.com/mcp"
 [mcp_servers.openaiDeveloperDocs]
 url = "https://developers.openai.com/mcp"
 
+[mcp_servers.cloudflare-api]
+url = "https://mcp.cloudflare.com/mcp"
+
 [tui]
 status_line = ["model-with-reasoning", "current-dir", "git-branch", "five-hour-limit", "weekly-limit", "total-input-tokens", "total-output-tokens", "context-used"]
 status_line_use_colors = true

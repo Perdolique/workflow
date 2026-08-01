@@ -22,6 +22,7 @@ require_command vp
 vpx skills add perdolique/workflow --global --skill '*' --agent universal --yes
 vpx skills add microsoft/playwright-cli --global --skill playwright-cli --agent universal --yes
 vpx skills add anthropics/skills --global --skill skill-creator --agent universal --yes
+vpx skills add cloudflare/skills --global --skill cloudflare cloudflare-email-service durable-objects turnstile-spin web-perf workers-best-practices wrangler --agent universal --yes
 
 vp install -g @playwright/cli@latest
 playwright-cli install-browser chromium
