@@ -128,12 +128,14 @@ Keep release notes concise and concrete:
 - Removed or replaced outdated behavior when the diff clearly shows it.
 
 ## Dependency updates
+
 - `package-name`: `old-version` -> `new-version`
 
 **Full Changelog**: https://github.com/<owner>/<repo>/compare/<previous-tag>...<target-tag>
 ```
 
-Use nested bullets inside generated release notes when they make the GitHub release easier to read.
+- Describe only substantive changes between the compared tags. Even if previous releases contain one, do not add a bullet whose only information is the project, package, or workspace version bump represented by the release tag; the title and tag already identify the version.
+- Use nested bullets inside generated release notes when they make the GitHub release easier to read.
 
 ## Create the release
 
