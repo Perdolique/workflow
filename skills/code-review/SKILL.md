@@ -16,11 +16,16 @@ Strictly follow the workflow below to ensure a consistent and high-quality revie
 
 On this step your goal is to identify high-level review targets and their associated specialists using one separate subagent, just for this purpose. You don't need to perform any code review yet on this stage, just identify targets and specialists and report them to the orchestrator.
 
-The subagent should:
+**The subagent should:**
 
 - Identify code changes to be reviewed, including branch, commit, or pull request. Ask the user for clarification if needed.
 - Identify high-level review targets from code changes and specialists required for each target from the [Specialist roles](#specialist-roles) section.
 - Report identified review targets and associated specialists to the orchestrator.
+
+**Additional instructions:**
+
+- If user asks for review of uncommitted changes, you should treat both staged and unstaged changes as part of review target. Do not separate them into different review targets.
+- Do not report any potential findings or guess about code or logic to orchestrator. Only report review targets and associated specialists. Reporting any guesses may give false confidence to orchestrator or specialists.
 
 ### Step 2: Assign specialists and perform review
 
@@ -29,6 +34,8 @@ On this step your goal is to assign specialists to each review target and perfor
 The orchestrator should:
 
 - Assign specialists to each review target based on the report from Step 1.
+- Instruct each specialist subagent to perform code review on their assigned target and produce review report.
+- Include [general instructions for each specialist subagent](#general-instructions-for-specialists) in addition to their specific instructions.
 - Collect review reports from each specialist subagent.
 
 ### Step 3: Produce final review report
@@ -41,6 +48,12 @@ Each review report should include:
 - Assigned specialist
 - Summary of findings
 - Detailed comments and suggestions
+
+## General instructions for specialists
+
+- Do not treat staged or unstaged changes separately and do not focus on this fact. Treat them as one review target. If part of code is staged and part is unstaged, you should still review them together as one review target unless user explicitly requests otherwise.
+- Before reporting any results, print list of checked parts or logic. It will help user to understand what was checked.
+- Report only actual findings to orchestrator. If no issues are found, just report "No issues found."
 
 ## Specialist roles
 
