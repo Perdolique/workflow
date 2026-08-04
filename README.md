@@ -10,14 +10,18 @@ Reusable skills that provide specialized knowledge and capabilities:
 
 | Skill | Description |
 | --- | --- |
-| [code-review](./skills/code-review/) | Review changed code and report evidence-backed findings |
+| [code-review](./skills/code-review/) | Orchestrate evidence-based code reviews across focused subagents |
+| [css-conventions](./skills/css-conventions/) | CSS conventions for authoring and reviewing styles, CSS Modules, design tokens, and responsive layouts |
 | [commit-creator](./skills/commit-creator/) | Create English conventional commit messages for the current changes |
 | [drizzle-orm](./skills/drizzle-orm/) | Drizzle ORM query patterns for TypeScript, including relational queries, SQL builder usage, and query-shape fixes |
+| [github-release](./skills/github-release/) | Create or draft GitHub releases from existing tags and repository history |
+| [implementation-workflow](./skills/implementation-workflow/) | Guide discovery and phased execution for non-trivial coding work |
 | [markdownlint](./skills/markdownlint/) | Configure, manage, and troubleshoot markdownlint in projects |
 | [playwright-e2e-testing](./skills/playwright-e2e-testing/) | Write and maintain Playwright end-to-end tests for web apps |
 | [pr-creator](./skills/pr-creator/) | Create GitHub pull requests from code changes or generate PR content in chat |
 | [typescript-conventions](./skills/typescript-conventions/) | TypeScript coding conventions for typed code in `.ts`, `.tsx`, and embedded TypeScript files |
 | [vitest-unit-testing](./skills/vitest-unit-testing/) | Write and maintain Vitest unit tests for TypeScript code |
+| [vue-components](./skills/vue-components/) | Vue 3 and TypeScript component conventions for component behavior, APIs, styling, and accessibility |
 
 ## Quick start
 

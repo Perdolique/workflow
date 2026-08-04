@@ -1,48 +1,77 @@
 ---
 name: code-review
-description: Review changed code and report evidence-backed findings. Use whenever the user asks for a code review or wants code inspected for problems, including pull requests and other diffs.
+description: Orchestrate evidence-based code reviews across focused subagents. Use when a code review is requested by the user or triggered by automated analysis.
 license: Unlicense
 ---
 
 # Code review
 
-Review code without modifying it unless the user asks for fixes.
+Coordinate focused subagents to review code changes and produce one verified review report.
 
-## Scope
+## Workflow
 
-- Read repository instructions and relevant domain skills.
-- Review changed code and only the context needed to understand it.
-- Review the full repository only when requested.
-- Do not run repository linters, type checks, builds, or tests during review; use focused non-mutating reproductions only to verify specific issues.
-- Report only verified issues introduced, exposed, or worsened by the change, including pre-existing issues it depends on.
+Strictly follow the workflow below to ensure a consistent and high-quality review process.
 
-## Review areas
+### Step 1: Target and identify specialists
 
-### Correctness
+On this step your goal is to identify high-level review targets and their associated specialists using one separate subagent, just for this purpose. You don't need to perform any code review yet on this stage, just identify targets and specialists and report them to the orchestrator.
 
-- Flag contract violations, reachable logic errors, broken edge cases, invalid state transitions, data loss, and regressions.
+The subagent should:
 
-### Style
+- Identify code changes to be reviewed, including branch, commit, or pull request. Ask the user for clarification if needed.
+- Identify high-level review targets from code changes and specialists required for each target from the [Specialist roles](#specialist-roles) section.
+- Report identified review targets and associated specialists to the orchestrator.
 
-- Flag violations of project conventions and concrete readability or consistency problems.
-- Include subjective style suggestions, clearly labeled as preferences.
+### Step 2: Assign specialists and perform review
 
-### Waste
+On this step your goal is to assign specialists to each review target and perform code review using one separate subagent per specialist. Each subagent should strictly focus on their assigned target and produce a review report to the orchestrator.
 
-- Flag unused, dead, duplicate, temporary, or speculative code and artifacts.
-- Recommend deletion when they have no current purpose.
+The orchestrator should:
 
-### Security
+- Assign specialists to each review target based on the report from Step 1.
+- Collect review reports from each specialist subagent.
 
-- Flag plausible vulnerabilities with a concrete attacker path and consequence.
+### Step 3: Produce final review report
 
-### Performance
+On this step your goal is to produce the final review report based on collected review reports from Step 2. Verify the reported evidence against the code, merge duplicate findings by root cause, and reject unsupported claims before assigning final priorities. You should strictly follow the format below and provide clear and actionable feedback.
 
-- Flag material problems in supported workloads and state the triggering workload and impact.
-- Do not suggest optimizations without a material benefit.
+Each review report should include:
 
-## Findings
+- Review target
+- Assigned specialist
+- Summary of findings
+- Detailed comments and suggestions
 
-- Use one finding per root cause at the narrowest relevant `file:line`.
-- Explain the trigger, impact, and smallest correction.
-- If no findings exist, say `No actionable findings.`
+## Specialist roles
+
+### Behavioral and contract
+
+**Primary responsibility:** behavioral logic, state transitions, cross-file behavior, regressions, API contracts, and backward compatibility. Does code do what it is supposed to do on the surface, and does it continue to do so in the future?
+
+### Data and concurrency
+
+**Primary responsibility:** data loss, invalid lifecycle transitions, transaction boundaries, idempotency, races, and production-data assumptions. Does code handle data correctly and safely in a concurrent environment?
+
+### Security and vulnerability
+
+**Primary responsibility:** concrete attacker paths, authorization mistakes, unsafe data exposure, and security consequences. Does code introduce security vulnerabilities or unsafe data exposure?
+
+### Privacy and data protection
+
+**Primary responsibility:** privacy violations, data leaks, and unsafe data handling. Does code handle sensitive data in a privacy-preserving way?
+
+### Performance and resource usage
+
+**Primary responsibility:** time and space complexity, algorithmic efficiency, caching, and resource management. Does code perform efficiently and use resources wisely under supported workloads?
+
+### Test and regressions
+
+**Primary responsibility:** whether tests protect intended contract, fail when that contract is removed, and cover material negative cases.
+
+### Waste and maintainability
+
+**Primary responsibility:** dead, duplicate, temporary, speculative, or unnecessarily complex code and artifacts.
+
+### Frontend and user experience
+
+**Primary responsibility:** user-visible states, accessibility, interaction behavior, layout risks, and visual regressions. Does code provide a comfortable, consistent, and up-to-date user experience?

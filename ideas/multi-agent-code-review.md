@@ -2,7 +2,7 @@
 
 ## Status
 
-Idea for later evaluation. This document does not define active repository instructions or an implemented skill.
+Implemented as the [code-review skill](../skills/code-review/SKILL.md). This document remains a design and evaluation note and does not define active repository instructions.
 
 ## Motivation
 
