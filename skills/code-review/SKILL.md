@@ -8,9 +8,15 @@ license: Unlicense
 
 Coordinate focused subagents to review code changes and produce one verified review report.
 
+## General instructions for specialists
+
+- Do not treat staged or unstaged changes separately and do not focus on this fact. Treat them as one review target. If part of code is staged and part is unstaged, you should still review them together as one review target unless user explicitly requests otherwise.
+- Before reporting any results, print list of checked parts or logic. It will help user to understand what was checked.
+- Report only actual findings to orchestrator. If no issues are found, just report "No issues found."
+
 ## Workflow
 
-Strictly follow the workflow below to ensure a consistent and high-quality review process.
+Strictly follow the workflow below step by step to ensure a consistent and high-quality review process.
 
 ### Step 1: Target and identify specialists
 
@@ -34,11 +40,11 @@ On this step your goal is to assign specialists to each review target and perfor
 The orchestrator should:
 
 - Assign specialists to each review target based on the report from Step 1.
+- Include general instructions from [general instructions for each specialist subagent](#general-instructions-for-specialists) in addition to each specialist's specific instructions.
 - Instruct each specialist subagent to perform code review on their assigned target and produce review report.
-- Include [general instructions for each specialist subagent](#general-instructions-for-specialists) in addition to their specific instructions.
 - Collect review reports from each specialist subagent.
 
-### Step 3: Produce final review report
+### Step 3: Produce final review report to user
 
 On this step your goal is to produce the final review report based on collected review reports from Step 2. Verify the reported evidence against the code, merge duplicate findings by root cause, and reject unsupported claims before assigning final priorities. You should strictly follow the format below and provide clear and actionable feedback.
 
@@ -48,12 +54,6 @@ Each review report should include:
 - Assigned specialist
 - Summary of findings
 - Detailed comments and suggestions
-
-## General instructions for specialists
-
-- Do not treat staged or unstaged changes separately and do not focus on this fact. Treat them as one review target. If part of code is staged and part is unstaged, you should still review them together as one review target unless user explicitly requests otherwise.
-- Before reporting any results, print list of checked parts or logic. It will help user to understand what was checked.
-- Report only actual findings to orchestrator. If no issues are found, just report "No issues found."
 
 ## Specialist roles
 
