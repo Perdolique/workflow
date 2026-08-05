@@ -19,6 +19,10 @@ Style must not change the conclusion, evidence, agreement, or severity.
 memories = true
 prevent_idle_sleep = true
 
+[features.multi_agent_v2]
+enabled = true
+usage_hint_text = 'When calling spawn_agent, always set fork_turns="none" unless inherited conversation history is explicitly required for the task.'
+
 [sandbox_workspace_write]
 network_access = true
 
