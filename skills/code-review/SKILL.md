@@ -8,11 +8,18 @@ license: Unlicense
 
 Coordinate focused subagents to review code changes and produce one verified review report.
 
-## General instructions
+## Orchestrator instructions
 
+- Treat each subagent as single-use. Spawn a fresh subagent for every assignment or retry; never resume or delegate follow-up work to an existing subagent.
 - Ignore staged versus unstaged status. Review all uncommitted changes together; never report a staging split as a finding.
-- Review only assigned behavior, following relevant code wherever needed; ignore unrelated concerns.
+- Give every review specialist its assignment packet, [delegated review instructions](#delegated-review-instructions), and applicable [specialist role](#specialist-roles); do not ask specialists to rediscover scope.
 - Report checked scope and actual findings. Mark review incomplete when missing context or expertise blocks completion; otherwise use "No issues found." when none exist.
+
+## Delegated review instructions
+
+- Review only assigned behavior, following relevant code wherever needed; ignore unrelated concerns.
+- If delegating any review work, treat each subagent as single-use and pass this section, a narrower assignment packet, and the applicable specialist role.
+- Return checked scope and actual findings. Mark the review incomplete when missing context or expertise blocks completion; otherwise return "No issues found." when none exist.
 
 ## Workflow
 
@@ -24,8 +31,8 @@ Coordinate focused subagents to review code changes and produce one verified rev
 
 ### Step 2: Assign specialists and perform review
 
-- Spawn one subagent per specialist. Give assigned packets, [general instructions](#general-instructions), and role instructions; do not ask specialists to rediscover scope.
-- Collect reports. Resolve incomplete reviews before Step 3 by supplying missing context or expertise and rerunning affected specialists.
+- Spawn one fresh subagent per specialist.
+- Collect reports. Resolve incomplete reviews before Step 3 by supplying missing context or expertise to a fresh specialist.
 
 ### Step 3: Produce final review report to user
 
