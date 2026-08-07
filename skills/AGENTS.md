@@ -4,6 +4,8 @@
 
 - Always use English for file contents and generations.
 - Titles in markdown files should use sentence case.
+- Keep skills focused, complete, and concise. Prefer rewording or removing existing instructions before adding new ones.
+- Prefer concise imperative phrasing in generated instructions. Omit articles only when grammar and meaning stay clear; keep them when needed for correctness, specificity, or quantity.
 
 ## Skill workflow guidelines
 

@@ -8,83 +8,60 @@ license: Unlicense
 
 Coordinate focused subagents to review code changes and produce one verified review report.
 
-## General instructions for specialists
+## General instructions
 
-- Do not treat staged or unstaged changes separately and do not focus on this fact. Treat them as one review target. If part of code is staged and part is unstaged, you should still review them together as one review target unless user explicitly requests otherwise.
-- Before reporting any results, print list of checked parts or logic. It will help user to understand what was checked.
-- Report only actual findings to orchestrator. If no issues are found, just report "No issues found."
+- Ignore staged versus unstaged status. Review all uncommitted changes together; never report a staging split as a finding.
+- Review only assigned behavior, following relevant code wherever needed; ignore unrelated concerns.
+- Report checked scope and actual findings. Mark review incomplete when missing context or expertise blocks completion; otherwise use "No issues found." when none exist.
 
 ## Workflow
 
-Strictly follow the workflow below step by step to ensure a consistent and high-quality review process.
-
 ### Step 1: Target and identify specialists
 
-On this step your goal is to identify high-level review targets and their associated specialists using one separate subagent, just for this purpose. You don't need to perform any code review yet on this stage, just identify targets and specialists and report them to the orchestrator.
-
-**The subagent should:**
-
-- Identify code changes to be reviewed, including branch, commit, or pull request. Ask the user for clarification if needed.
-- Identify high-level review targets from code changes and specialists required for each target from the [Specialist roles](#specialist-roles) section.
-- Report identified review targets and associated specialists to the orchestrator.
-
-**Additional instructions:**
-
-- If user asks for review of uncommitted changes, you should treat both staged and unstaged changes as part of review target. Do not separate them into different review targets.
-- Do not report any potential findings or guess about code or logic to orchestrator. Only report review targets and associated specialists. Reporting any guesses may give false confidence to orchestrator or specialists.
+- Use one subagent to identify review source: branch, commit, pull request, or uncommitted changes. Ask user when source is unclear.
+- Split changes into assignment packets containing behavior or contract, changed entry points, and [specialists](#specialist-roles). Cover every change; overlap only for cross-target behavior.
+- Return packets only; do not report findings or guesses.
 
 ### Step 2: Assign specialists and perform review
 
-On this step your goal is to assign specialists to each review target and perform code review using one separate subagent per specialist. Each subagent should strictly focus on their assigned target and produce a review report to the orchestrator.
-
-The orchestrator should:
-
-- Assign specialists to each review target based on the report from Step 1.
-- Include general instructions from [general instructions for each specialist subagent](#general-instructions-for-specialists) in addition to each specialist's specific instructions.
-- Instruct each specialist subagent to perform code review on their assigned target and produce review report.
-- Collect review reports from each specialist subagent.
+- Spawn one subagent per specialist. Give assigned packets, [general instructions](#general-instructions), and role instructions; do not ask specialists to rediscover scope.
+- Collect reports. Resolve incomplete reviews before Step 3 by supplying missing context or expertise and rerunning affected specialists.
 
 ### Step 3: Produce final review report to user
 
-On this step your goal is to produce the final review report based on collected review reports from Step 2. Verify the reported evidence against the code, merge duplicate findings by root cause, and reject unsupported claims before assigning final priorities. You should strictly follow the format below and provide clear and actionable feedback.
-
-Each review report should include:
-
-- Review target
-- Assigned specialist
-- Summary of findings
-- Detailed comments and suggestions
+- Verify evidence against code, merge duplicate root causes, reject unsupported claims, and assign final priorities.
+- Report review target, specialist, findings summary, and detailed comments.
 
 ## Specialist roles
 
 ### Behavioral and contract
 
-**Primary responsibility:** behavioral logic, state transitions, cross-file behavior, regressions, API contracts, and backward compatibility. Does code do what it is supposed to do on the surface, and does it continue to do so in the future?
+Review behavioral logic, state transitions, cross-file behavior, regressions, API contracts, and backward compatibility.
 
 ### Data and concurrency
 
-**Primary responsibility:** data loss, invalid lifecycle transitions, transaction boundaries, idempotency, races, and production-data assumptions. Does code handle data correctly and safely in a concurrent environment?
+Review data loss, invalid lifecycle transitions, transaction boundaries, idempotency, races, and production-data assumptions.
 
 ### Security and vulnerability
 
-**Primary responsibility:** concrete attacker paths, authorization mistakes, unsafe data exposure, and security consequences. Does code introduce security vulnerabilities or unsafe data exposure?
+Review concrete attacker paths, authorization mistakes, unsafe data exposure, and security consequences.
 
 ### Privacy and data protection
 
-**Primary responsibility:** privacy violations, data leaks, and unsafe data handling. Does code handle sensitive data in a privacy-preserving way?
+Review privacy violations, data leaks, and unsafe data handling.
 
 ### Performance and resource usage
 
-**Primary responsibility:** time and space complexity, algorithmic efficiency, caching, and resource management. Does code perform efficiently and use resources wisely under supported workloads?
+Review time and space complexity, algorithmic efficiency, caching, and resource management under supported workloads.
 
 ### Test and regressions
 
-**Primary responsibility:** whether tests protect intended contract, fail when that contract is removed, and cover material negative cases.
+Review whether tests protect intended contract, fail when that contract is removed, and cover material negative cases.
 
 ### Waste and maintainability
 
-**Primary responsibility:** dead, duplicate, temporary, speculative, or unnecessarily complex code and artifacts.
+Review dead, duplicate, temporary, speculative, or unnecessarily complex code and artifacts.
 
 ### Frontend and user experience
 
-**Primary responsibility:** user-visible states, accessibility, interaction behavior, layout risks, and visual regressions. Does code provide a comfortable, consistent, and up-to-date user experience?
+Review user-visible states, accessibility, interaction behavior, layout risks, and visual regressions.
