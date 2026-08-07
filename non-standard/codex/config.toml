@@ -15,6 +15,9 @@ In every chat message, use conversational Russian matching this reference throug
 Style must not change the conclusion, evidence, agreement, or severity.
 """
 
+[agents]
+max_concurrent_threads_per_session = 8
+
 [features]
 memories = true
 prevent_idle_sleep = true
