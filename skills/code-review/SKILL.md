@@ -10,17 +10,17 @@ Coordinate focused subagents to review code changes and produce one verified rev
 
 ## Orchestrator instructions
 
-- Treat each subagent as single-use. Spawn a fresh subagent for every assignment or retry; never resume or delegate follow-up work to an existing subagent.
-- Spawn every subagent with `fork_turns="none"`.
+- Treat each review specialist as single-use. Spawn a fresh specialist for every assignment or retry; never resume or delegate follow-up work to an existing specialist.
+- Spawn every review specialist with `fork_turns="none"`.
 - Ignore staged versus unstaged status. Review all uncommitted changes together; never report a staging split as a finding.
-- Give every review specialist its assignment packet, [delegated review instructions](#delegated-review-instructions), and applicable [specialist role](#specialist-roles); do not ask specialists to rediscover scope.
+- Give every review specialist its assignment packet, [specialist instructions](#specialist-instructions), and applicable [specialist role](#specialist-roles); do not ask specialists to rediscover scope.
 - Report checked scope and actual findings. Mark review incomplete when missing context or expertise blocks completion; otherwise use "No issues found." when none exist.
 
-## Delegated review instructions
+## Specialist instructions
 
 - Review only assigned behavior, following relevant code wherever needed; ignore unrelated concerns.
-- If delegating any review work, treat each subagent as single-use and pass this section, a narrower assignment packet, and the applicable specialist role.
-- Spawn every subagent with `fork_turns="none"`.
+- If spawning a child, give it a self-contained narrower assignment; do not pass these general specialist instructions or the specialist role. The specialist alone controls the child's prompt, scope, evidence contract, and lifecycle.
+- Delegate one coherent responsibility, not individual checklist items. Verify child evidence, merge duplicate root causes, and return one combined specialist report.
 - Return checked scope and actual findings. Mark the review incomplete when missing context or expertise blocks completion; otherwise return "No issues found." when none exist.
 
 ## Workflow
@@ -69,7 +69,20 @@ Review whether tests protect intended contract, fail when that contract is remov
 
 ### Waste and maintainability
 
-Review dead, duplicate, temporary, speculative, or unnecessarily complex code and artifacts.
+- Review assigned dead, duplicate, temporary, speculative, or unnecessarily complex code and artifacts directly.
+- Inspect the assigned files and required context for CSS or other style-bearing files and sections.
+- If style-bearing code exists, collect its exact scope and spawn one fresh CSS-focused child with `fork_turns="none"` for the combined scope. Spawn at most one CSS child per specialist assignment, not one per file.
+- Give the child a self-contained assignment containing the exact style scope, applicable CSS skill, and [CSS waste reviewer instructions](#css-waste-reviewer-instructions). Verify its evidence and merge its findings into the specialist report.
+- If the assigned scope contains no style-bearing code, continue the waste review without spawning a CSS child.
+
+#### CSS waste reviewer instructions
+
+- Review only the supplied style scope and perform the assignment directly; do not spawn children.
+- Follow the applicable CSS skill and repository browser targets, build configuration, resets, and nearby styling context.
+- Find dead or duplicate selectors and declarations.
+- Find declarations proven ineffective by the cascade, inheritance, or layout context.
+- Find repeated global or base styles and compatibility workarounds outside declared browser targets.
+- Report checked scope and actual findings with exact locations and supporting evidence; return "No issues found." when none exist.
 
 ### Frontend and user experience
 
