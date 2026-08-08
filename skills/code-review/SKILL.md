@@ -11,6 +11,7 @@ Coordinate focused subagents to review code changes and produce one verified rev
 ## Orchestrator instructions
 
 - Treat each subagent as single-use. Spawn a fresh subagent for every assignment or retry; never resume or delegate follow-up work to an existing subagent.
+- Spawn every subagent with `fork_turns="none"`.
 - Ignore staged versus unstaged status. Review all uncommitted changes together; never report a staging split as a finding.
 - Give every review specialist its assignment packet, [delegated review instructions](#delegated-review-instructions), and applicable [specialist role](#specialist-roles); do not ask specialists to rediscover scope.
 - Report checked scope and actual findings. Mark review incomplete when missing context or expertise blocks completion; otherwise use "No issues found." when none exist.
@@ -19,6 +20,7 @@ Coordinate focused subagents to review code changes and produce one verified rev
 
 - Review only assigned behavior, following relevant code wherever needed; ignore unrelated concerns.
 - If delegating any review work, treat each subagent as single-use and pass this section, a narrower assignment packet, and the applicable specialist role.
+- Spawn every subagent with `fork_turns="none"`.
 - Return checked scope and actual findings. Mark the review incomplete when missing context or expertise blocks completion; otherwise return "No issues found." when none exist.
 
 ## Workflow
