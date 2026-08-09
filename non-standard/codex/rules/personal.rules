@@ -1,7 +1,7 @@
-
 # This file is opt-in. Review every rule before installing it globally.
 prefix_rule(pattern=["cd"], decision="allow")
 prefix_rule(pattern=["gh", "api", "--method", "GET"], decision="allow")
+prefix_rule(pattern=["gh", "pr", "checks"], decision="allow")
 prefix_rule(pattern=["gh", "pr", "diff"], decision="allow")
 prefix_rule(pattern=["gh", "pr", "list"], decision="allow")
 prefix_rule(pattern=["gh", "pr", "view"], decision="allow")

@@ -69,11 +69,20 @@ Review whether tests protect intended contract, fail when that contract is remov
 
 ### Waste and maintainability
 
-- Review assigned dead, duplicate, temporary, speculative, or unnecessarily complex code and artifacts directly.
-- Inspect the assigned files and required context for CSS or other style-bearing files and sections.
+- Review assigned dead, duplicate, temporary, or speculative code and artifacts directly.
+- Inspect the assigned files and required context for code and style-bearing sections.
+- If non-style code exists, collect its exact scope and spawn one fresh readability-focused child with `fork_turns="none"` for the combined scope. Spawn at most one readability child per specialist assignment.
+- Give the child a self-contained assignment containing the exact code scope, applicable repository instructions and language or framework skills, and [code readability reviewer instructions](#code-readability-reviewer-instructions). Verify its evidence and merge its findings into the specialist report.
 - If style-bearing code exists, collect its exact scope and spawn one fresh CSS-focused child with `fork_turns="none"` for the combined scope. Spawn at most one CSS child per specialist assignment, not one per file.
 - Give the child a self-contained assignment containing the exact style scope, applicable CSS skill, and [CSS waste reviewer instructions](#css-waste-reviewer-instructions). Verify its evidence and merge its findings into the specialist report.
-- If the assigned scope contains no style-bearing code, continue the waste review without spawning a CSS child.
+
+#### Code readability reviewer instructions
+
+- Review only the supplied code scope and perform the assignment directly; do not spawn children.
+- Follow the supplied repository and applicable language or framework instructions.
+- Find code whose intent or execution order is materially obscured by dense expressions, nesting, mixed abstraction levels, misleading names, or unnecessary indirection. Treat these as signals, not an exhaustive checklist.
+- Recommend the smallest correction that preserves behavior and supported performance characteristics; do not report formatting preferences or clear simple code.
+- Report checked scope and actual findings with exact locations and supporting evidence; return "No issues found." when none exist.
 
 #### CSS waste reviewer instructions
 

@@ -13,84 +13,31 @@ Apply conventions from the documentation, AGENTS.md files, lint rules, and confi
 Do not use `return undefined`. When exiting a function without a value, use a bare `return`.
 
 ```typescript
-if (!item) {
+if (item) {
   return
 }
 ```
 
-## Prefer named intermediate values for function arguments
+## Prefer named intermediate values
 
-Do not pass function calls or other non-trivial expressions directly as arguments to another function. If an argument would be a call, awaited value, chained transform, inline conditional, or other derived expression, assign it to a clearly named `const` first and pass that variable instead.
-
-Passing simple values directly is fine:
-
-- identifiers
-- property access
-- primitive literals
-- enum members and named constants
-- simple object or array literals assembled from existing values
-
-Only allow nesting for declarative validator or schema-builder DSL calls where the schema shape is the primary focus of the code. For example, Valibot calls such as `v.string()`, `v.number()`, `v.optional(...)`, `v.object(...)`, and `v.pipe(...)` are allowed to remain nested.
+- Keep each statement's primary action easy to identify and arrange dependent steps in execution order: resolve input, transform it, then consume the result.
+- Extract calls, awaited values, chained transforms, inline conditionals, fallbacks, and other derived expressions into clearly named `const` values when they obscure intent or execution order. Apply this to arguments, conditions, loop inputs, spreads, and literal properties.
+- Keep identifiers, property access, literals, simple comparisons, and already-clear expressions inline.
+- Allow nested declarative validator or schema-builder DSL calls when the schema shape is the primary focus.
+- Preserve behavior and algorithmic complexity; do not add intermediate collections or passes solely for formatting.
 
 ```typescript
-// Avoid nested calls in arguments
-const value = getValue()
+const properties = categoryDetail.value?.properties ?? []
 
-runTask(value)
+for (const property of properties) {
+  const enumOptions = property.enumOptions ?? []
+  const selectableOptions = enumOptions.map(toOption)
+  const options = [defaultOption, ...selectableOptions]
 
-// Avoid hiding async work inside another call
-const dataPromise = loadData()
-
-await withMinimumDelay(dataPromise, splashDelay)
-
-// Avoid complex inline conditionals as arguments
-const target = hasValue ? routes.primary : routes.fallback
-
-replaceRoute(target)
-
-// Allowed: declarative validator DSL
-const reservationSchema = v.object({
-  slug: v.string(),
-  startDate: v.string(),
-  endDate: v.string()
-})
-```
-
-## Prefer named intermediate values in conditions and guards
-
-Do not hide helper calls, transforms, or other non-trivial expressions directly inside `if`, `while`, ternaries, or early-return guards. If a condition depends on derived data, compute that data first, store it in a clearly named `const`, and then branch on that value.
-
-This keeps guards easy to scan, makes intent explicit during review, and avoids repeating the same normalization or parsing work across adjacent branches.
-
-Passing simple values directly in conditions is fine:
-
-- identifiers
-- property access
-- primitive comparisons
-- simple boolean flags
-
-```typescript
-// Avoid helper calls hidden inside the condition
-if (trimToUndefined(currentValue) !== undefined) {
-  return []
-}
-
-// Prefer naming the derived value first
-const normalizedCurrentValue = trimToUndefined(currentValue)
-
-if (normalizedCurrentValue !== undefined) {
-  return []
-}
-
-// Avoid complex transforms in guards
-if (items.filter(isVisible).length === 0) {
-  return null
-}
-
-const visibleItems = items.filter(isVisible)
-
-if (visibleItems.length === 0) {
-  return null
+  groups.push({
+    name: property.name,
+    options
+  })
 }
 ```
 
@@ -132,8 +79,6 @@ When creating a new runtime object from an existing object, list each property e
 
 Apply this when returning view models, API payloads, or other reshaped objects in production code. Prefer explicit property selection even when most fields currently match the source object.
 
-When an object property depends on a helper call or other derived expression, compute that value in a named `const` before constructing the object. Do not hide non-trivial transforms inside object literal properties.
-
 This rule is intentionally scoped to durable application code. In tests, fixtures, and other low-risk support code, use the form that keeps setup and assertions easiest to read. Object spread is fine there when it keeps the example concise.
 
 ```typescript
@@ -148,22 +93,6 @@ const payload = {
   isArchived: formState.isArchived,
   name: formState.name
 }
-
-// Avoid helper calls hidden inside object properties
-const suggestions = suggestionValues.map((value) => ({
-  label: getPhoneCodeLabel(value),
-  value
-}))
-
-// Prefer naming the derived property first
-const suggestions = suggestionValues.map((value) => {
-  const label = getPhoneCodeLabel(value)
-
-  return {
-    label,
-    value
-  }
-})
 ```
 
 ## Prefer flat interface structures
