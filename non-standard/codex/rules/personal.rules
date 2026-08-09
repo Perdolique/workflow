@@ -1,5 +1,5 @@
-# This file is opt-in. Review every rule before installing it globally.
 
+# This file is opt-in. Review every rule before installing it globally.
 prefix_rule(pattern=["cd"], decision="allow")
 prefix_rule(pattern=["gh", "api", "--method", "GET"], decision="allow")
 prefix_rule(pattern=["gh", "pr", "diff"], decision="allow")
@@ -25,4 +25,5 @@ prefix_rule(pattern=["pnpm", "run"], decision="allow")
 prefix_rule(pattern=["pnpm", "typecheck"], decision="allow")
 prefix_rule(pattern=["pnpm", "view"], decision="allow")
 prefix_rule(pattern=["pnpm", "why"], decision="allow")
+prefix_rule(pattern=["vp", "install"], decision="allow")
 prefix_rule(pattern=["vp", "run"], decision="allow")
