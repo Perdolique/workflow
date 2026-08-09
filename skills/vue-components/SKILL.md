@@ -36,7 +36,7 @@ Use this skill for concrete, idiomatic Vue component work. Project-local instruc
 - Use a named `Props` interface or type for non-trivial prop sets.
 - Do not add `readonly` to prop interface fields unless the local codebase already requires it.
 - Prefer type-based `defineProps<Props>()` for TypeScript components.
-- For Vue 3.5+ projects or repositories already using reactive props destructure, use destructuring defaults for optional props:
+- Use reactive props destructuring with defaults for optional props:
 
 ```ts
 interface Props {
@@ -51,8 +51,6 @@ const {
 ```
 
 - Avoid `= false` for optional Boolean props; absent Boolean props are already `false` in Vue.
-- In Vue 3.4 or older projects, or where the codebase standardizes on it, preserve `withDefaults(defineProps<Props>(), { ... })`.
-- For object or array defaults with `withDefaults`, use factory functions.
 
 ## Composables
 
@@ -132,8 +130,8 @@ Right:
 
 ## Template refs and browser APIs
 
-- In Vue 3.5+ projects, prefer `useTemplateRef('name')` for static refs; do not pass a generic unless inference fails.
-- In older Vue projects, preserve the existing `ref<T | null>(null)` template ref pattern instead of forcing an upgrade-specific API.
+- Prefer `useTemplateRef('name')` for static refs; do not pass a generic unless inference fails.
+- Use `useId()` instead of hard-coded IDs for component-internal element relationships such as `for`, `form`, `list`, `popovertarget`, and ARIA references. Bind the generated ID to the target `id` and each reference so component instances remain unique and SSR hydration stays stable.
 - Do not access `document`, `window`, `navigator`, or element refs during setup in SSR/test-sensitive code.
 - Prefer lifecycle-safe composables for DOM work. Use VueUse helpers when the project already uses VueUse.
 - For newly standardized HTML elements, verify that Vue treats the tag as native during SSR and hydration. If Vue resolves it as a component, configure `compilerOptions.isCustomElement` and cover hydration or unresolved-component warnings in the browser console; typecheck and DOM assertions are insufficient.
