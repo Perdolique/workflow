@@ -22,6 +22,7 @@ Coordinate focused subagents to review code changes and produce one verified rev
 - If spawning a child, give it a self-contained narrower assignment; do not pass these general specialist instructions or the specialist role. The specialist alone controls the child's prompt, scope, evidence contract, and lifecycle.
 - Delegate one coherent responsibility, not individual checklist items. Verify child evidence, merge duplicate root causes, and return one combined specialist report.
 - Return checked scope and actual findings. Mark the review incomplete when missing context or expertise blocks completion; otherwise return "No issues found." when none exist.
+- Keep findings, incomplete reviews, and human-review candidates separate. Use human review for material decisions or confirmations requiring project context unavailable in the repository; use incomplete review when technical analysis is unfinished. Include the location, missing context, consequence, and required human action.
 
 ## Workflow
 
@@ -39,7 +40,7 @@ Coordinate focused subagents to review code changes and produce one verified rev
 ### Step 3: Produce final review report to user
 
 - Verify evidence against code, merge duplicate root causes, reject unsupported claims, and assign final priorities.
-- Report review target, specialist, findings summary, and detailed comments.
+- Report review target, specialist, findings summary, detailed comments, and a verified, deduplicated `Human review` section; use `None.` when no human review is required.
 
 ## Specialist roles
 
