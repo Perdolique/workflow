@@ -29,6 +29,7 @@
 - Do not change working behaviour for a hypothetical environment or unsupported scenario.
 - A replacement test must fail when the protected behaviour or contract is removed; a passing happy-path test alone proves nothing.
 - Preserve raw technical errors in telemetry while showing users safe, appropriate messages.
+- On macOS, use `/tmp` instead of `/private/tmp` for temporary files.
 - After changing any Codex `config.toml`, validate the edited configuration with the installed Codex CLI, not only with a TOML parser or schema. Run `codex doctor --json` against the active config and require `checks.config.load.status` to be `ok`; for a non-active config, load it through a temporary `CODEX_HOME`. Also use `--strict-config` with a supported command when checking for unknown fields.
 - Do not unstage or restage files unless the user explicitly asks.
 
