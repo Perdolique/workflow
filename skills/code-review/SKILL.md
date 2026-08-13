@@ -6,19 +6,23 @@ license: Unlicense
 
 # Code review
 
-Coordinate focused subagents to review code changes and produce one verified review report.
+Coordinate focused subagents to review an existing change set as read-only input and produce one evidence-backed report.
 
 ## Orchestrator instructions
 
 - Treat each review specialist as single-use. Spawn a fresh specialist for every assignment or retry; never resume or delegate follow-up work to an existing specialist.
 - Spawn every review specialist with `fork_turns="none"`.
 - Ignore staged versus unstaged status. Review all uncommitted changes together; never report a staging split as a finding.
+- Treat review as read-only. Repository task-completion verification instructions apply to implementation work, not review.
+- Use validation results available when review starts; record the validation baseline as `Unavailable` when none exist.
 - Give every review specialist its assignment packet, [specialist instructions](#specialist-instructions), and applicable [specialist role](#specialist-roles); do not ask specialists to rediscover scope.
+- If code inspection leaves a material candidate finding unresolved, assign one agent the smallest read-only command that can distinguish whether the finding is real and share its result with every specialist that needs it.
 - Report checked scope and actual findings. Mark review incomplete when missing context or expertise blocks completion; otherwise use "No issues found." when none exist.
 
 ## Specialist instructions
 
 - Review only assigned behavior, following relevant code wherever needed; ignore unrelated concerns.
+- Establish each finding from a cited code path with a concrete trigger and consequence. Use supplied validation as context and return claims that code inspection cannot settle as unresolved candidates.
 - If spawning a child, give it a self-contained narrower assignment; do not pass these general specialist instructions or the specialist role. The specialist alone controls the child's prompt, scope, evidence contract, and lifecycle.
 - Delegate one coherent responsibility, not individual checklist items. Verify child evidence, merge duplicate root causes, and return one combined specialist report.
 - Return checked scope and actual findings. Mark the review incomplete when missing context or expertise blocks completion; otherwise return "No issues found." when none exist.
@@ -29,13 +33,13 @@ Coordinate focused subagents to review code changes and produce one verified rev
 ### Step 1: Target and identify specialists
 
 - Use one subagent to identify review source: branch, commit, pull request, or uncommitted changes. Ask user when source is unclear.
-- Split changes into assignment packets containing behavior or contract, changed entry points, and [specialists](#specialist-roles). Cover every change; overlap only for cross-target behavior.
+- Split changes into assignment packets containing behavior or contract, changed entry points, recorded validation baseline, and [specialists](#specialist-roles). Cover every change; overlap only for cross-target behavior.
 - Return packets only; do not report findings or guesses.
 
 ### Step 2: Assign specialists and perform review
 
 - Spawn one fresh subagent per specialist.
-- Collect reports. Resolve incomplete reviews before Step 3 by supplying missing context or expertise to a fresh specialist.
+- Collect reports and finding-specific reproduction results. Resolve incomplete reviews before Step 3 by supplying missing context or expertise to a fresh specialist.
 
 ### Step 3: Produce final review report to user
 
