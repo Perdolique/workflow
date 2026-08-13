@@ -36,4 +36,7 @@ When the user asks what an update contains, review official release notes for ev
 
 ## Apply updates
 
-Prefer the discovered repository workflow; otherwise use the ecosystem's standard update method. Keep affected manifests, lockfiles, and version pins consistent, then run relevant repository checks.
+- Prefer the discovered repository workflow; otherwise use the ecosystem's standard update method. Keep affected manifests, lockfiles, and version pins consistent.
+- After updating declared Node.js dependencies, run `vp update` to update transitive dependencies in the lockfile.
+- Run relevant repository checks after all update steps.
+- Report every updated direct and transitive package as a bullet in the form `package: old version → new version`.
