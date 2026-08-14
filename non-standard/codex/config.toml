@@ -41,7 +41,6 @@ usage_hint_text = 'When calling spawn_agent, always set fork_turns="none" unless
 network_access = true
 
 [apps._default]
-approvals_reviewer = "user"
 default_tools_approval_mode = "writes"
 
 [auto_review]
@@ -113,19 +112,15 @@ policy = """
 - Do not assign `high` or `critical` solely because a path is outside the writable workspace roots. Benign local filesystem actions are usually `low` risk.
 - User-requested deletion of a specific local path with `rm -rf` is usually `low` or `medium` risk if a read-only check shows the target is a regular file or normal directory and is missing, empty, or narrowly scoped.
 
-### Human Confirmation for User-Attributable Actions
-- User-attributable actions include creating or rewriting commits or tags; pushing commits or tags; creating, updating, merging, closing, or reopening pull requests or issues; submitting reviews; posting, editing, or deleting comments or messages; publishing releases, packages, deployments, or other artifacts; and any other external action performed under the user's identity or credentials.
-- Require fresh explicit authorization from trusted user content after the exact action, target, material content, and material side effects have been presented to the user.
-- A general request made before those details are available does not count as final authorization. Authorization for one action does not authorize later or similar actions.
-- Read-only inspection, local working-tree edits, and test execution are not user-attributable actions under this section.
-- Outcome rule: deny a user-attributable action until the required fresh explicit authorization is present, so the main agent must stop and ask the user.
-- Outcome rule: allow an exactly authorized user-attributable action only when no other rule in this policy requires denial.
-
-### Human Confirmation for User-Level Configuration
-- Mutations to user-level or system-level configuration outside the active workspace require fresh explicit user confirmation. This includes files under `CODEX_HOME`, `~/.config`, shell profiles, and Git, SSH, cloud, or tool configuration.
-- Before requesting confirmation, present the exact file paths and material changes or side effects.
-- The initial task request does not count as final confirmation, even when it names the configuration to update.
-- Outcome rule: deny the mutation until the user confirms after reviewing those details, so the main agent must stop and ask the user.
+### User Authorization
+- Protected actions under this section are: creating or rewriting commits or tags; pushing commits or tags; creating, updating, merging, closing, or reopening pull requests or issues; submitting reviews; posting, editing, or deleting comments or messages; publishing releases, packages, deployments, or other artifacts; any other external action performed under the user's identity or credentials; and modifying user-level or system-level configuration outside the active workspace, including files under `CODEX_HOME`, `~/.config`, shell profiles, and Git, SSH, cloud, or tool configuration.
+- Treat an explicit request in trusted user content to perform a protected action, or a direct affirmative response to a clearly presented action, as authorization for that action within the current task.
+- Authorization covers routine implementation details and every protected action explicitly named in the same request, even when exact content, file paths, command arguments, commit hashes, or other details become available later. Do not require redundant confirmation solely because those details were not available earlier.
+- Authorization is limited to the requested target and material scope. It does not extend to materially different side effects, unrelated later actions, or submissions and publications that were not requested.
+- A request to amend or otherwise rewrite a commit and push it authorizes a necessary one-ref `--force-with-lease` update. A plain push request does not authorize force-pushing or rewriting unrelated history.
+- Requests to inspect, review, draft, prepare, or suggest do not authorize submitting or publishing the result. Read-only inspection, local working-tree edits, and test execution are not protected actions.
+- Outcome rule: allow an explicitly authorized protected action when no other rule in this policy requires denial.
+- Outcome rule: deny a protected action when matching explicit authorization is absent, so the main agent must stop and ask the user.
 """
 
 [mcp_servers.vuetify]
