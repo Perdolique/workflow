@@ -120,6 +120,12 @@ policy = """
 - Read-only inspection, local working-tree edits, and test execution are not user-attributable actions under this section.
 - Outcome rule: deny a user-attributable action until the required fresh explicit authorization is present, so the main agent must stop and ask the user.
 - Outcome rule: allow an exactly authorized user-attributable action only when no other rule in this policy requires denial.
+
+### Human Confirmation for User-Level Configuration
+- Mutations to user-level or system-level configuration outside the active workspace require fresh explicit user confirmation. This includes files under `CODEX_HOME`, `~/.config`, shell profiles, and Git, SSH, cloud, or tool configuration.
+- Before requesting confirmation, present the exact file paths and material changes or side effects.
+- The initial task request does not count as final confirmation, even when it names the configuration to update.
+- Outcome rule: deny the mutation until the user confirms after reviewing those details, so the main agent must stop and ask the user.
 """
 
 [mcp_servers.vuetify]
