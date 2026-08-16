@@ -32,7 +32,7 @@ Coordinate focused subagents to review an existing change set as read-only input
 
 ### Step 1: Target and identify specialists
 
-- Use one subagent to identify review source: branch, commit, pull request, or uncommitted changes. Ask user when source is unclear.
+- Use one subagent to identify review source: branch, commit, pull request, or uncommitted changes. Unless the user specifies one, review all uncommitted changes when any exist; otherwise fetch remote `master` and review the entire current branch against it.
 - Split changes into assignment packets containing behavior or contract, changed entry points, recorded validation baseline, and [specialists](#specialist-roles). Cover every change; overlap only for cross-target behavior.
 - Return packets only; do not report findings or guesses.
 
