@@ -1,6 +1,6 @@
 ---
 name: repository-updater
-description: Analyze repositories for available dependency, tooling, runtime, and infrastructure updates and their repository-relevant release impact. Use for update discovery, dependency update analysis, release-impact and breaking-change review, or requests to update repository dependencies, tooling, runtimes, or infrastructure versions.
+description: Analyze repositories for available dependency, tooling, runtime, and infrastructure updates, aggregate changelogs across every version from the current version through each target, and summarize every direct candidate's most important repository-relevant changes. Use for update discovery, dependency update analysis, release-impact and breaking-change review, or requests to update repository dependencies, tooling, runtimes, or infrastructure versions.
 ---
 
 # Repository updater
@@ -49,7 +49,14 @@ If `.node-version` exists, compare its value with the official [Node.js release 
 
 ## Analyze release impact
 
-For every update candidate, review official release notes or changelogs for every version after the current version through the target version. In apply mode, extend this research to transitive version changes found in the final lockfile diff so every reported package has an evidence-based summary. Prefer exact upstream sources or local package changelogs over generic search results.
+Discovering the current and target versions is not a complete update analysis. For every direct update candidate:
+
+1. Enumerate every released version after the current version through and including the target version.
+2. Review the official release notes or changelog entries for that entire version range. Do not inspect only the target release when intermediate versions exist.
+3. Combine the material findings from all covered versions into one candidate-level summary of the difference between the current and target versions. Do not emit a version-by-version changelog dump.
+4. Confirm that the summary includes the most important repository-relevant changes from the complete range before reporting the candidate.
+
+Apply this release-impact research only to direct update candidates. For transitive dependency changes, capture only the package name and old and new resolved versions from the lockfile; do not research changelogs or summarize their impact. Prefer exact upstream sources or local package changelogs over generic search results. If official notes for part of a direct candidate's version range cannot be found, identify the uncovered versions and report the analysis as incomplete instead of implying that the target-only notes cover the whole update.
 
 Summarize only the most important changes for this repository:
 
@@ -60,7 +67,7 @@ Summarize only the most important changes for this repository:
 
 Do not report a breaking change merely because upstream labels it as breaking. Verify it against the repository's current files and usage. For each applicable breaking change, state the affected repository surface, the expected impact, and the required migration or decision. Omit breaking changes that do not apply to this repository.
 
-Exclude minor fixes, documentation changes, internal refactors, and other changelog noise. If no material repository-relevant change is established for a candidate, say so instead of inventing importance.
+Exclude minor bug fixes, documentation changes, internal refactors, and other changelog noise from the final summary. This importance filter applies to changelog details, not update candidates: report every direct candidate even when no material repository-relevant change is established across its complete version range. In that case, say `No material repository-relevant changes` instead of omitting the candidate or inventing importance.
 
 ## Report analysis
 
@@ -82,7 +89,7 @@ In analysis mode, do not modify files. Report the result in this form:
   - `Breaking impact:` affected surface, impact, and required action. Include this only when an applicable breaking change exists.
   - `Sources:` official release-note or changelog links.
 
-Populate the second section only with candidates added or changed by `--maturity-period 0`. A package belongs in both sections when the two runs produce different targets. If no positive maturity period applies, say that no separate newly published group is needed. Keep every summary short and omit details that do not materially affect the update decision. If a section has no candidates, say `None`.
+Populate the second section only with candidates added or changed by `--maturity-period 0`. A package belongs in both sections when the two runs produce different targets. If no positive maturity period applies, say that no separate newly published group is needed. Include every direct candidate in the applicable section and give each one a summary, using `No material repository-relevant changes` when the importance filter removes all changelog details. Keep every summary short and omit details that do not materially affect the update decision. If a section has no candidates, say `None`.
 
 ## Apply updates
 
@@ -92,7 +99,7 @@ Populate the second section only with candidates added or changed by `--maturity
 4. Keep affected manifests, lockfiles, and version pins consistent.
 5. After updating declared Node.js dependencies, run `vp update` to update transitive dependencies in the lockfile.
 6. Run relevant repository checks after all update steps.
-7. Inspect the final diff and lockfile changes to identify every direct and transitive package, runtime, tool, or infrastructure version that actually changed.
+7. Inspect the final diff and lockfile changes to confirm that every selected direct update was applied, identify every transitive package version that changed, and verify that the resulting manifest, lockfile, and version-pin changes are consistent.
 
 Finish with this form:
 
@@ -105,9 +112,12 @@ Finish with this form:
 - `package: old version → new version` — concise summary of the most important repository-relevant changes.
   - `Breaking impact:` affected surface, impact, and completed or still-required action. Include this only when an applicable breaking change exists.
 
+Use one top-level bullet for every direct version that actually changed and give each one a summary, using `No material repository-relevant changes` when the importance filter removes all changelog details. Say `None` only when there are no direct updates. Keep summaries focused on material changes.
+
 #### Transitive updates
 
-- `package: old version → new version` — concise summary of the most important repository-relevant changes.
-  - `Breaking impact:` affected surface, impact, and completed or still-required action. Include this only when an applicable breaking change exists.
+| Package | Old version | New version |
+| --- | --- | --- |
+| `package` | `old version` | `new version` |
 
-Derive the direct list from changed declarations and the transitive list from resolved lockfile changes without a corresponding declaration change. Use one top-level bullet for every version that actually changed and say `None` when either section has no entries. Keep summaries focused on material changes. Then report the verification commands and results, plus any explicitly requested update that could not be applied.
+Derive the transitive list from resolved lockfile changes without a corresponding declaration change. Include one row for every distinct transitive version change. Do not add changelog details, impact summaries, breaking-change notes, or sources. If no transitive dependency changed, say `None` instead of rendering the table. Then report the verification commands and results, plus any explicitly requested update that could not be applied.
