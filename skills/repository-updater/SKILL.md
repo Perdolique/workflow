@@ -100,7 +100,14 @@ Finish with this form:
 
 **Mode:** `applied`
 
+#### Direct updates
+
 - `package: old version → new version` — concise summary of the most important repository-relevant changes.
   - `Breaking impact:` affected surface, impact, and completed or still-required action. Include this only when an applicable breaking change exists.
 
-Use one top-level bullet for every version that actually changed, including transitive packages. Keep summaries focused on material changes. Then report the verification commands and results, plus any explicitly requested update that could not be applied.
+#### Transitive updates
+
+- `package: old version → new version` — concise summary of the most important repository-relevant changes.
+  - `Breaking impact:` affected surface, impact, and completed or still-required action. Include this only when an applicable breaking change exists.
+
+Derive the direct list from changed declarations and the transitive list from resolved lockfile changes without a corresponding declaration change. Use one top-level bullet for every version that actually changed and say `None` when either section has no entries. Keep summaries focused on material changes. Then report the verification commands and results, plus any explicitly requested update that could not be applied.
