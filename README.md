@@ -19,7 +19,7 @@ Reusable skills that provide specialized knowledge and capabilities:
 | [markdownlint](./skills/markdownlint/) | Configure, manage, and troubleshoot markdownlint in projects |
 | [playwright-e2e-testing](./skills/playwright-e2e-testing/) | Write and maintain Playwright end-to-end tests for web apps |
 | [pr-creator](./skills/pr-creator/) | Create GitHub pull requests from code changes or generate PR content in chat |
-| [repository-updater](./skills/repository-updater/) | Inspect repositories for available updates and apply explicitly requested updates |
+| [repository-updater](./skills/repository-updater/) | Analyze repository updates and their relevant release impact by default, then apply explicitly requested updates |
 | [typescript-conventions](./skills/typescript-conventions/) | TypeScript coding conventions for typed code in `.ts`, `.tsx`, and embedded TypeScript files |
 | [vitest-unit-testing](./skills/vitest-unit-testing/) | Write and maintain Vitest unit tests for TypeScript code |
 | [vue-components](./skills/vue-components/) | Vue 3 and TypeScript component conventions for component behavior, APIs, styling, and accessibility |
