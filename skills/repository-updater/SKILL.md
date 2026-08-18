@@ -34,12 +34,12 @@ When Node.js powers the application or tooling, inspect package update workflows
 
 Determine whether each candidate reports or applies updates before running it. In analysis mode, use a non-writing command. If no updater is available, use `vpx taze <mode> --json --include-locked` to report package updates without writing. Check `vpx taze --help` first and choose a supported mode matching the requested range; omit `<mode>` to respect declared ranges.
 
-Inspect the repository's Taze configuration and package-manager release-age policy to determine the effective maturity period. If no positive maturity period applies, one analysis run is sufficient.
+Inspect the repository's Taze configuration and package-manager release-age policy to understand the ordinary result, but always run the same non-writing Taze analysis twice with `--force`:
 
-If a positive maturity period applies and the inspected Taze version supports `--maturity-period 0`, run the same non-writing analysis twice:
+1. Omit `--maturity-period` to preserve the repository and Taze defaults.
+2. Add `--maturity-period 0` to expose newly published versions that those defaults may hide.
 
-1. Preserve the repository policy for the ordinary result.
-2. Add `--maturity-period 0` to expose newly published versions that the policy currently hides.
+Do not skip either run based on configuration, package-manager defaults, help text, or an expectation that the results will match. Only the comparison establishes whether fresher candidates exist.
 
 Compare the results by package and target version. Treat the ordinary result as updates within repository policy. Treat a package as an additional newly published candidate when it appears only in the zero-maturity result or receives a newer target there. List the same package in both groups when the target versions differ so the safer and fresher choices remain explicit.
 
@@ -89,7 +89,7 @@ In analysis mode, do not modify files. Report the result in this form:
   - `Breaking impact:` affected surface, impact, and required action. Include this only when an applicable breaking change exists.
   - `Sources:` official release-note or changelog links.
 
-Populate the second section only with candidates added or changed by `--maturity-period 0`. A package belongs in both sections when the two runs produce different targets. If no positive maturity period applies, say that no separate newly published group is needed. Include every direct candidate in the applicable section and give each one a summary, using `No material repository-relevant changes` when the importance filter removes all changelog details. Keep every summary short and omit details that do not materially affect the update decision. If a section has no candidates, say `None`.
+Populate the second section only with candidates added or changed by `--maturity-period 0`. A package belongs in both sections when the two runs produce different targets. Include every direct candidate in the applicable section and give each one a summary, using `No material repository-relevant changes` when the importance filter removes all changelog details. Keep every summary short and omit details that do not materially affect the update decision. If a section has no candidates, say `None`.
 
 ## Apply updates
 
