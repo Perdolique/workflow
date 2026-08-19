@@ -1,6 +1,8 @@
 #:schema https://developers.openai.com/codex/config-schema.json
 
 approval_policy = "on-request"
+model_context_window = 320000
+model_auto_compact_token_limit = 270000
 model_verbosity = "medium"
 personality = "none"
 sandbox_mode = "workspace-write"
@@ -32,6 +34,14 @@ default_subagent_reasoning_effort = "xhigh"
 default_mode_request_user_input = true
 memories = true
 prevent_idle_sleep = true
+
+[memories]
+use_memories = true
+generate_memories = true
+max_raw_memories_for_consolidation = 96
+max_unused_days = 14
+min_rollout_idle_hours = 12
+min_rate_limit_remaining_percent = 35
 
 [features.multi_agent_v2]
 enabled = true
