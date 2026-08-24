@@ -1,0 +1,61 @@
+{
+  "skill_name": "cost-aware-development",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Plan the smallest implementation change that adds one structured console.log for every authenticated request in a public app on Cloudflare Workers Paid. Production and staging share one account, Workers Logs is enabled with head_sampling_rate 1, and monthly request volume and current account log usage are unknown. Do not reduce the requested logging or sampling without approval. Explain the implementation plan and any blocker.",
+      "expected_output": "The agent identifies the additional Workers Logs event as a potentially material account-scoped cost without being explicitly asked for a price review, avoids inventing traffic or remaining allowance, and presents any sampling or logging reduction as an operational trade-off requiring a decision.",
+      "files": [],
+      "expectations": [
+        "The response identifies one additional written log event per sampled authenticated request as the incremental billing dimension.",
+        "The response treats the 20 million included events and any overage as shared at the Cloudflare account level.",
+        "The response uses the current $0.60 per additional million log events rate.",
+        "The response gives a correct threshold or formula that isolates the new log event's incremental overage from existing account usage.",
+        "The response does not invent request volume, current usage, remaining allowance, or an exact monthly cost.",
+        "The response does not silently reduce logging or head sampling when that would reduce diagnostic visibility.",
+        "The response does not block the requested logging change on approval when no cost-control trade-off has been proposed."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "This repository uses Cloudflare Workers Paid and Neon Free. Rename a local TypeScript test-helper variable from sessionToken to token without changing runtime code, test behavior, CI, infrastructure, or generated artifacts. Describe the focused change and verification needed.",
+      "expected_output": "The agent keeps the response focused on the behavior-preserving refactor and does not recite provider prices, propose cost controls, or manufacture an infrastructure cost effect.",
+      "files": [],
+      "expectations": [
+        "The response limits the implementation to the test-helper identifier and its references.",
+        "The response proposes focused test or type verification rather than infrastructure checks or a full suite.",
+        "The response does not mention provider prices, allowances, metered usage, or subscription changes.",
+        "The response does not propose caching, sampling, quotas, retention, batching, or other cost controls."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Plan adding Cloudflare Email Sending to an existing Workers Paid account. Production sends 250 accepted emails per day and staging sends 20 accepted emails per day, both from the same account, over a 30-day billing month. No other account email usage exists. Preserve delivery to arbitrary recipients in both production and staging. Explain the implementation plan and any blocker.",
+      "expected_output": "The agent proactively combines production and staging usage, calculates 8,100 accepted emails, 5,100 emails above the 3,000-email allowance, and approximately $1.79 in monthly overage at $0.35 per 1,000 without inventing an unnecessary cost-control trade-off.",
+      "files": [],
+      "expectations": [
+        "The response combines production and staging into 8,100 accepted emails for the month.",
+        "The response applies one shared account allowance of 3,000 outbound emails.",
+        "The response calculates 5,100 billable emails and approximately $1.79 in monthly overage at $0.35 per 1,000 emails.",
+        "The response distinguishes the incremental Email Sending overage from the already-paid Workers subscription.",
+        "The response does not invent a behavior-changing recipient restriction or other unrequested cost control.",
+        "The response does not claim that user approval is required when no material implementation trade-off is established."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Plan an image-library feature in a project that already uses Cloudflare Images Paid. The account currently stores 80,000 hosted images and delivers 4,000,000 hosted images per month. The feature adds 30,000 hosted originals and 600,000 monthly browser deliveries. Existing URLs use predefined variants on the Images delivery URL; preserve Cloudflare-hosted storage and URL behavior. No Images binding transforms or remote images are involved. Explain the incremental monthly cost and any blocker.",
+      "expected_output": "The agent treats the existing $5 as one hosted-storage increment rather than an all-inclusive subscription, calculates a $5 storage increase and $6 delivery increase for $11 total incremental monthly cost, does not add transformation charges, and identifies the second storage increment as the only required capacity step.",
+      "files": [],
+      "expectations": [
+        "The response explains that the existing $5 charge covers one 100,000-image hosted-storage increment rather than all Images usage.",
+        "The response calculates that increasing hosted storage from 80,000 to 110,000 images crosses into a second storage increment and adds $5 per month.",
+        "The response calculates that 600,000 additional monthly hosted-image deliveries add $6 at $1 per 100,000 deliveries.",
+        "The response calculates a total incremental Cloudflare Images cost of $11 per month.",
+        "The response treats predefined variants served through the Images delivery URL as delivery usage rather than transformation usage.",
+        "The response does not add a transformation charge, recommend an unnecessary Images binding path, or invent remote-image usage.",
+        "The response identifies adding the second 100,000-image storage increment as the only cost or capacity prerequisite and does not manufacture another blocker or approval requirement."
+      ]
+    }
+  ]
+}

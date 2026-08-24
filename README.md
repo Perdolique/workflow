@@ -11,6 +11,7 @@ Reusable skills that provide specialized knowledge and capabilities:
 | Skill | Description |
 | --- | --- |
 | [code-review](./skills/code-review/) | Orchestrate evidence-based code reviews across focused subagents |
+| [cost-aware-development](./skills/cost-aware-development/) | Apply current service pricing and subscription context to implementation decisions with material cost impact |
 | [css-conventions](./skills/css-conventions/) | CSS conventions for authoring and reviewing styles, CSS Modules, design tokens, and responsive layouts |
 | [commit-creator](./skills/commit-creator/) | Create English conventional commit messages for the current changes |
 | [drizzle-orm](./skills/drizzle-orm/) | Drizzle ORM query patterns for TypeScript, including relational queries, SQL builder usage, and query-shape fixes |
