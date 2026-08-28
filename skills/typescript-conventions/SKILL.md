@@ -18,11 +18,12 @@ if (item) {
 }
 ```
 
-## Prefer named intermediate values
+## Extract non-trivial intermediate computations
 
-- Keep each statement's primary action easy to identify and arrange dependent steps in execution order: resolve input, transform it, then consume the result.
-- Extract calls, awaited values, chained transforms, inline conditionals, fallbacks, and other derived expressions into clearly named `const` values when they obscure intent or execution order. Apply this to arguments, conditions, loop inputs, spreads, and literal properties.
-- Keep identifiers, property access, literals, simple comparisons, and already-clear expressions inline.
+- Before embedding a non-trivial computation in an argument, property value, array element, condition, loop input, spread source, return value, or larger expression, assign it to a named `const` or `let`.
+- Always extract calls, awaited values, constructors, chained transforms, template-built values, ternaries, and multi-operator expressions when they are nested inside another consumer or computation.
+- Exception: keep immediately clear elementary expressions inline, including property or element access, optional chaining, `??`, unary checks, simple comparisons, and one-step arithmetic. Do not split them solely to satisfy this rule. An initializer that already gives its result a meaningful name may contain a clear calculation.
+- Arrange dependent statements in execution order: resolve input, transform it, then consume the result.
 - Allow nested declarative validator or schema-builder DSL calls when the schema shape is the primary focus.
 - Preserve behavior and algorithmic complexity; do not add intermediate collections or passes solely for formatting.
 
@@ -34,10 +35,12 @@ for (const property of properties) {
   const selectableOptions = enumOptions.map(toOption)
   const options = [defaultOption, ...selectableOptions]
 
-  groups.push({
+  const group = {
     name: property.name,
     options
-  })
+  }
+
+  groups.push(group)
 }
 ```
 
@@ -73,25 +76,33 @@ When wrapping a typed API, reuse source types and inference first. Add local nam
 
 If the wrapper changes return/error shape, lifecycle, validation, mapping, or side effects, name that owned contract and test it.
 
-## Prefer explicit property lists when shaping objects
+## Require a concrete reason for every spread
 
-When creating a new runtime object from an existing object, list each property explicitly instead of spreading the source object into the result. This keeps the final object shape visible at the construction site, improves readability during review, and prevents unrelated properties from being copied into the new value.
+Every object or array spread must serve a concrete purpose at that construction site, such as changing selected fields immutably, merging collections, or creating a required ownership boundary. If the original value will not be mutated and sharing it is safe, reuse it directly instead of making a shallow copy. Do not spread defensively or merely to make code look immutable.
 
-Apply this when returning view models, API payloads, or other reshaped objects in production code. Prefer explicit property selection even when most fields currently match the source object.
+When creating a view model, API payload, or other deliberately shaped object, list its properties explicitly. Do not use a broad source spread that hides the resulting contract or copies unrelated fields. Spread is shallow; do not use it when the required isolation is deeper.
 
-This rule is intentionally scoped to durable application code. In tests, fixtures, and other low-risk support code, use the form that keeps setup and assertions easiest to read. Object spread is fine there when it keeps the example concise.
+During authoring and review, be able to state the purpose of each spread. Add a short code comment only when that purpose is not evident from the surrounding operation. Apply the same standard to production code, tests, and fixtures; a focused fixture override is a valid purpose, while an unnecessary copy is not.
 
 ```typescript
-// Avoid hiding the resulting shape behind a spread
-const payload = {
-  ...formState
-}
+// Avoid an unnecessary shallow copy
+const copiedOptions = { ...options }
+runTask(copiedOptions)
 
-// Prefer explicit object construction
+// Reuse the safe, unmodified value
+runTask(options)
+
+// Make a deliberately shaped payload explicit
 const payload = {
   description: formState.description,
   isArchived: formState.isArchived,
   name: formState.name
+}
+
+// Spread has a concrete purpose: replace one field without mutating the source
+const archivedPayload = {
+  ...payload,
+  isArchived: true
 }
 ```
 
