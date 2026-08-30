@@ -7,6 +7,7 @@
       "expected_output": "The final report includes both confirmed findings, orders them by priority without filtering the Low cleanup, and reports zero omitted confirmed findings.",
       "files": [],
       "expectations": [
+        "Step 3 performs no code inspection and spawns no agents because every input finding is already validated.",
         "The final findings include behavior-1 and its image-loss consequence.",
         "The final findings include waste-1 and its behavior-preserving cleanup even though it is Low priority.",
         "The final report does not describe waste-1 as cosmetic or non-material grounds for omission.",
@@ -19,6 +20,7 @@
       "expected_output": "The final report merges the duplicate authorization findings with both source IDs, preserves the unique Low waste finding, and accounts for every confirmed ID exactly once.",
       "files": [],
       "expectations": [
+        "Step 3 merges the duplicate IDs without inspecting code, rerunning validation, or spawning a resolver or validator.",
         "The final report contains one merged authorization finding rather than two duplicate comments.",
         "The merged authorization finding explicitly accounts for both behavior-1 and security-1.",
         "The final findings include waste-1 even though it is a Low cleanup.",
@@ -34,11 +36,61 @@
       ],
       "expectations": [
         "The nonempty candidate package is checked by exactly one independent final finding validator.",
+        "The final finding validator performs its internal assignment without invoking the code-review workflow or spawning children.",
         "The validator preserves both candidate IDs and confirms waste-1 with file evidence.",
         "The validator rejects waste-2 with the contradicting renderTask call as evidence.",
         "The validator also checks the readability child's supported one-call indirection candidate.",
         "The final findings include waste-1 and the confirmed readability cleanup, and do not present waste-2 as a finding.",
+        "Step 3 spawns no agents after the validator returns its dispositions.",
         "The accounting reports two confirmed specialist findings, two final comments, zero duplicate merges, and zero omitted findings."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Execute specialist finalization and Step 3 for a Behavioral and contract specialist that checked the supplied scope and returned no candidate findings. Do not edit files.",
+      "expected_output": "The specialist returns checked scope and No issues found. without spawning a validator, and Step 3 reports no findings without spawning any agents.",
+      "files": [],
+      "expectations": [
+        "The empty candidate package does not spawn a final finding validator or any other child.",
+        "The specialist reports its checked scope and exactly No issues found.",
+        "Step 3 performs no code inspection and spawns no agents."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Continue the code-review workflow from one validated specialist report containing confirmed ID behavior-1 and unresolved ID behavior-2. The final validator already ran the smallest available reproduction for behavior-2 and reported that production-only state unavailable in the repository is still required. No new context or expertise is available. Produce Step 2 recovery and the final report without editing files.",
+      "expected_output": "The workflow preserves behavior-1, reports behavior-2 as an incomplete review, and does not rerun the specialist assignment, reproduction, or validation because no new evidence can settle the unresolved ID.",
+      "files": [],
+      "expectations": [
+        "The workflow does not spawn a retry specialist, resolver, reproducer, or validator when no new evidence can settle behavior-2.",
+        "The completed reproduction for behavior-2 is not repeated.",
+        "The confirmed behavior-1 disposition is not revisited and appears in the final findings.",
+        "Behavior-2 remains separate as an incomplete review with the missing production-only context."
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Execute Waste and maintainability specialist finalization and Step 3 for a style-only scope containing `.card { min-width: 0; }`. The supplied layout evidence proves `.card` is a block in normal flow with no flex or grid constraint. Do not edit files.",
+      "expected_output": "The parent partitions the style scope without reviewing its waste, one internal CSS child reports the ineffective declaration, one final validator checks the resulting candidate, and Step 3 performs no further review or agent work.",
+      "files": [],
+      "expectations": [
+        "The Waste specialist identifies the style scope but does not independently review the min-width declaration.",
+        "Exactly one CSS child owns the style waste review and reports the ineffective declaration with its layout evidence.",
+        "The CSS child performs its internal assignment without invoking code-review orchestration or spawning children.",
+        "Exactly one final finding validator checks the merged candidate list.",
+        "Step 3 spawns no agents after validation."
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Continue the code-review workflow from one specialist report containing confirmed ID behavior-1 and unresolved ID behavior-2. The final validator already attempted the smallest repository reproduction for behavior-2 and recorded its result. A new authoritative contract is now available and can settle behavior-2. Perform Step 2 recovery and Step 3 without editing files.",
+      "expected_output": "The workflow gives only behavior-2, the prior reproduction result, and the new contract to one fresh resolver; it preserves behavior-1 unchanged and does not rerun the specialist assignment or completed reproduction.",
+      "files": [],
+      "expectations": [
+        "Exactly one fresh resolver receives only unresolved ID behavior-2, all prior evidence, and the new contract.",
+        "The original specialist assignment and completed reproduction are not repeated.",
+        "Confirmed ID behavior-1 is not revisited.",
+        "Step 3 consumes the resolver disposition without spawning another validator."
       ]
     }
   ]
