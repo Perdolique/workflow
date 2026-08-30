@@ -16,6 +16,7 @@ Coordinate focused subagents to review an existing change set as read-only input
 - Treat review as read-only. Repository task-completion verification instructions apply to implementation work, not review.
 - Use validation results available when review starts; record the validation baseline as `Unavailable` when none exist.
 - Give every review specialist its assignment packet, [specialist instructions](#specialist-instructions), and applicable [specialist role](#specialist-roles); do not ask specialists to rediscover scope.
+- Schedule or batch specialists so each specialist can spawn its required children without exceeding the available agent limit.
 - If code inspection leaves a material candidate finding unresolved, assign one agent the smallest read-only command that can distinguish whether the finding is real and share its result with every specialist that needs it.
 - Report checked scope and actual findings. Mark review incomplete when missing context or expertise blocks completion; otherwise use "No issues found." when none exist.
 
@@ -24,9 +25,19 @@ Coordinate focused subagents to review an existing change set as read-only input
 - Review only assigned behavior, following relevant code wherever needed; ignore unrelated concerns.
 - Establish each finding from a cited code path with a concrete trigger and consequence. Use supplied validation as context and return claims that code inspection cannot settle as unresolved candidates.
 - If spawning a child, give it a self-contained narrower assignment; do not pass these general specialist instructions or the specialist role. The specialist alone controls the child's prompt, scope, evidence contract, and lifecycle.
-- Delegate one coherent responsibility, not individual checklist items. Verify child evidence, merge duplicate root causes, and return one combined specialist report.
-- Return checked scope and actual findings. Mark the review incomplete when missing context or expertise blocks completion; otherwise return "No issues found." when none exist.
+- Delegate one coherent responsibility, not individual checklist items. Verify child evidence and merge duplicate root causes into one candidate list, but do not remove a supported candidate because it is low priority, cosmetic, readability-related, or easy to fix.
+- Assign a stable finding ID to every candidate after merging the specialist's own work and its children's work.
+- When the merged candidate list is empty, return checked scope and "No issues found." without spawning a validator.
+- When the merged candidate list is nonempty, spawn exactly one fresh final finding validator with `fork_turns="none"`. Give it the exact candidate list with IDs, exact code scope, applicable repository instructions and domain skills, and [final finding validator instructions](#final-finding-validator-instructions).
+- Return every validator-confirmed finding with its stable ID. Keep validator-rejected candidates out of findings, and return validator-unresolved candidates separately as an incomplete review.
 - Keep findings, incomplete reviews, and human-review candidates separate. Use human review for material decisions or confirmations requiring project context unavailable in the repository; use incomplete review when technical analysis is unfinished. Include the location, missing context, consequence, and required human action.
+
+### Final finding validator instructions
+
+- Review only the supplied candidate findings and the code needed to validate them. Do not search for new findings and do not spawn children.
+- Independently establish or refute each candidate from its cited code path, concrete trigger, and consequence. Run the smallest relevant read-only reproduction when code inspection cannot settle the claim.
+- Preserve every candidate ID and return exactly one disposition for each: `Confirmed` with supporting evidence, `Rejected` with contradicting evidence, or `Unresolved` with the missing context or validation needed.
+- Do not suppress or downgrade a confirmed candidate because it is low priority, cosmetic, readability-related, or easy to fix. Priority is assigned after validation.
 
 ## Workflow
 
@@ -38,13 +49,15 @@ Coordinate focused subagents to review an existing change set as read-only input
 
 ### Step 2: Assign specialists and perform review
 
-- Spawn one fresh subagent per specialist.
-- Collect reports and finding-specific reproduction results. Resolve incomplete reviews before Step 3 by supplying missing context or expertise to a fresh specialist.
+- Spawn one fresh subagent per specialist, in batches when necessary to leave capacity for specialist-owned children.
+- Collect validated specialist reports and finding-specific reproduction results. Resolve incomplete reviews before Step 3 by supplying missing context or expertise to a fresh specialist.
 
 ### Step 3: Produce final review report to user
 
-- Verify evidence against code, merge duplicate root causes, reject unsupported claims, and assign final priorities.
-- Report review target, specialist, findings summary, detailed comments, and a verified, deduplicated `Human review` section; use `None.` when no human review is required.
+- Build a finding ledger from every validator-confirmed stable ID. Merge IDs only when they describe the same root cause; if validated reports conflict, assign a fresh resolver before finalizing instead of silently discarding a finding.
+- Account for every confirmed ID exactly once as its own final finding or as a source of an explicitly merged final finding. Do not omit confirmed findings because of priority, materiality, report length, readability, or ease of cleanup; priority only controls ordering and labels.
+- Reconcile the ledger before responding and report a compact accounting line with confirmed specialist findings, final comments, duplicate merges, and omitted findings. The omitted count must be zero.
+- Report review target, specialists, findings summary, every confirmed detailed comment, and a verified, deduplicated `Human review` section; use `None.` when no human review is required.
 
 ## Specialist roles
 

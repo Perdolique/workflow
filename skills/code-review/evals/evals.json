@@ -1,0 +1,45 @@
+{
+  "skill_name": "code-review",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Perform only Step 3 of the code-review workflow from these already validated specialist reports. Behavioral specialist confirmed finding behavior-1: replacing an image deletes the current object before the replacement upload succeeds, so an upload failure loses the existing image; priority P1. Waste specialist confirmed finding waste-1: a one-variant wrapper enum adds unnecessary indirection and can be replaced directly without changing behavior; priority Low. Produce the final review report without re-reviewing code or spawning agents.",
+      "expected_output": "The final report includes both confirmed findings, orders them by priority without filtering the Low cleanup, and reports zero omitted confirmed findings.",
+      "files": [],
+      "expectations": [
+        "The final findings include behavior-1 and its image-loss consequence.",
+        "The final findings include waste-1 and its behavior-preserving cleanup even though it is Low priority.",
+        "The final report does not describe waste-1 as cosmetic or non-material grounds for omission.",
+        "The accounting reports two confirmed specialist findings, two final comments, zero duplicate merges, and zero omitted findings."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Perform only Step 3 of the code-review workflow from these already validated specialist reports. Behavioral specialist confirmed behavior-1: an authorization check runs after the protected mutation. Security specialist confirmed security-1: the same mutation can occur before authorization. Waste specialist confirmed waste-1: a dead test-only counter is incremented but never read. Treat behavior-1 and security-1 as the same root cause. Produce the final review report without re-reviewing code or spawning agents.",
+      "expected_output": "The final report merges the duplicate authorization findings with both source IDs, preserves the unique Low waste finding, and accounts for every confirmed ID exactly once.",
+      "files": [],
+      "expectations": [
+        "The final report contains one merged authorization finding rather than two duplicate comments.",
+        "The merged authorization finding explicitly accounts for both behavior-1 and security-1.",
+        "The final findings include waste-1 even though it is a Low cleanup.",
+        "The accounting reports three confirmed specialist findings, two final comments, one duplicate merge, and zero omitted findings."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Execute the specialist-finalization and Step 3 portions of the code-review workflow for one Waste and maintainability specialist. The exact scope is skills/code-review/evals/files/validator-fixture.ts. The specialist has two candidates: waste-1 says unusedLabel is dead because it has no references; waste-2 says formatTask is dead because it has no references. The candidates are not yet independently validated. Do not edit files. Use the skill's required validation workflow, then produce the final review report.",
+      "expected_output": "The specialist uses one independent final finding validator, confirms waste-1 and the readability child's one-call indirection finding, rejects waste-2 because renderTask calls formatTask, and includes every confirmed cleanup with lossless accounting.",
+      "files": [
+        "evals/files/validator-fixture.ts"
+      ],
+      "expectations": [
+        "The nonempty candidate package is checked by exactly one independent final finding validator.",
+        "The validator preserves both candidate IDs and confirms waste-1 with file evidence.",
+        "The validator rejects waste-2 with the contradicting renderTask call as evidence.",
+        "The validator also checks the readability child's supported one-call indirection candidate.",
+        "The final findings include waste-1 and the confirmed readability cleanup, and do not present waste-2 as a finding.",
+        "The accounting reports two confirmed specialist findings, two final comments, zero duplicate merges, and zero omitted findings."
+      ]
+    }
+  ]
+}
