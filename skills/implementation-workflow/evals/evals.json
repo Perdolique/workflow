@@ -85,6 +85,19 @@
         "The workflow reports and reuses the temp plan path.",
         "The workflow updates changed plans and deletes the file after completion or cancellation."
       ]
+    },
+    {
+      "id": 8,
+      "prompt": "Plan Mode has ended. Implement the approved plan below. There is no native full-plan storage; update_plan is available only as a progress checklist. Before editing project files, persist and re-read the plan.\n\n<proposed_plan>\n# Миграция сессий\n\n- Сначала читать session_v2, затем старое хранилище; новые записи пока отправлять в оба.\n- Сохранить POST /v1/session/refresh и cookie sid без изменения публичного контракта.\n- После backfill переключить запись только на session_v2.\n- Rollback возвращает старый reader и не удаляет новые записи.\n- Не переименовывать колонки и не менять auth UI.\n- Проверить expired session, concurrent refresh, backfill и rollback.\n</proposed_plan>",
+      "expected_output": "The agent saves the complete approved plan in its original language without the wrapper tags, reads it before the first project edit, and keeps any progress checklist separate.",
+      "files": [],
+      "expectations": [
+        "The workflow creates a task-specific temp plan.md before editing project files and reports its path.",
+        "The temp file preserves the complete Russian plan body, including session_v2, POST /v1/session/refresh, sid, dual writes, rollback behavior, non-goals, and every verification scenario.",
+        "The workflow does not translate, summarize, or replace the approved plan with the update_plan checklist.",
+        "The workflow re-reads the temp plan before the first project edit.",
+        "The workflow keeps the complete plan current and deletes the temp file after completion or cancellation."
+      ]
     }
   ]
 }

@@ -43,7 +43,9 @@ inventing alternatives.
 
 Maintain a concise plan for non-trivial work. Cover the result, boundaries, order, touched surfaces, verification, and residual risk.
 
-Use persistent plan storage when available. Otherwise save the final plan to a task-specific `plan.md` in the system temp directory and report its path. Re-read it after compaction and before continuing, update it when the plan changes, and delete it when the task completes or is cancelled. If plan mode forbids writes, create it first after leaving plan mode, before implementation.
+- Keep the approved plan separate from progress checklists such as `update_plan`. Use native plan storage only when it preserves the complete plan and can be re-read; otherwise save it to a task-specific `plan.md` in the system temp directory.
+- Persist the complete current approved plan, not a summary. After Plan Mode, copy the latest `<proposed_plan>` body without its tags; preserve its language and every material decision, interface, boundary, example, verification step, assumption, and non-goal. The temporary plan is task state, not repository content.
+- Report the path and re-read the plan before the first project edit and after compaction. Replace it with the complete updated plan when decisions change, then delete it when the task completes or is cancelled. If Plan Mode forbids writes, create it immediately after leaving Plan Mode and before implementation.
 
 For broad migrations or refactors, map public entry points, internal helpers, removed legacy paths, and shared behavior ownership before editing.
 

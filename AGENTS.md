@@ -9,7 +9,7 @@ This repository contains reusable skills and assistant instructions that extend 
 
 ## General guidelines
 
-- **Language**: Always use English for file contents and any generated content (code, documentation, commit messages, etc.)
+- **Language**: Always use English for repository files and generated project content (code, documentation, commit messages, etc.). A task-specific plan in the system temp directory is task state, not project content; preserve the approved plan's language unless the user requests translation.
 - **Markdown titles**: Use sentence case for all markdown headings
 - **Markdown line wrapping**: Do not hard-wrap prose or list items at 80 columns or any other fixed width. Keep each paragraph and list item on a single physical line unless a line break is semantically required by Markdown.
 - **Nested instructions**: Some subdirectories contain their own AGENTS.md files with more specific instructions for that context. These nested files take precedence when working within those directories.
