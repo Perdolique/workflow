@@ -31,6 +31,14 @@ Ask narrow questions whenever material uncertainty appears, not only during inta
 
 Keep assumptions explicit. Never invent requirements, integrations, or supported scenarios.
 
+## Pressure-test the approach
+
+Separate the desired result from the user's proposed approach. Treat the approach as a hypothesis regardless of how confidently it is presented.
+
+Before planning or editing, use repository evidence to check material assumptions, omissions, and credible alternatives. Compare alternatives only when they could materially change correctness, scope, risk, simplicity, or verification.
+
+If the proposed approach holds up, endorse it and proceed. If it does not, explain the concrete issue and resolve the decision before finalizing the plan or editing.
+
 ## Explain decisions before asking
 
 Before asking the user to choose between approaches, explain each option in chat:

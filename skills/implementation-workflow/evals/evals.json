@@ -98,6 +98,31 @@
         "The workflow re-reads the temp plan before the first project edit.",
         "The workflow keeps the complete plan current and deletes the temp file after completion or cancellation."
       ]
+    },
+    {
+      "id": 9,
+      "prompt": "Reduce session lookup latency across middleware and refresh handling. I am certain the right fix is adding a second process-local cache in the refresh handler, so plan and implement that approach. Repository inspection shows that an existing shared session cache already owns TTL, invalidation, and concurrency behavior with focused tests.",
+      "expected_output": "The agent separates the latency goal from the proposed second cache, uses repository ownership evidence to challenge the approach, and resolves the material design issue before editing.",
+      "files": [],
+      "expectations": [
+        "The workflow treats the requested second cache as a hypothesis despite the user's confidence.",
+        "The workflow distinguishes the desired latency improvement from the proposed implementation.",
+        "The workflow uses the existing shared cache ownership and tests as evidence when evaluating the approach.",
+        "The workflow explains the concrete invalidation or concurrency risk of a second cache and presents reuse of the existing owner as the credible simpler alternative.",
+        "The workflow resolves the material design decision before finalizing the plan or editing the cache."
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "Plan and implement a multi-file refactor that replaces the internals of RetryPolicy while preserving its public interface. Repository inspection confirms RetryPolicy is the single behavior owner, all consumers use that interface, and focused contract tests cover the required behavior. I believe a direct internal replacement is the simplest approach.",
+      "expected_output": "The agent verifies that the proposed ownership boundary is sound, endorses the direct replacement, and proceeds without inventing competing architectures or unrelated hardening.",
+      "files": [],
+      "expectations": [
+        "The workflow checks the proposed replacement against the repository ownership and contract-test evidence.",
+        "The workflow endorses the proposed approach when the evidence supports it.",
+        "The workflow does not manufacture alternative architectures, compatibility layers, or unrelated hardening.",
+        "The workflow continues from the validated approach into a scoped plan and implementation."
+      ]
     }
   ]
 }
