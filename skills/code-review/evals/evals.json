@@ -11,7 +11,7 @@
         "The final findings include behavior-1 and its image-loss consequence.",
         "The final findings include waste-1 and its behavior-preserving cleanup even though it is Low priority.",
         "The final report does not describe waste-1 as cosmetic or non-material grounds for omission.",
-        "The accounting reports two confirmed specialist findings, two final comments, zero duplicate merges, and zero omitted findings."
+        "The accounting reports two confirmed review findings, two final comments, zero duplicate merges, and zero omitted findings."
       ]
     },
     {
@@ -24,7 +24,7 @@
         "The final report contains one merged authorization finding rather than two duplicate comments.",
         "The merged authorization finding explicitly accounts for both behavior-1 and security-1.",
         "The final findings include waste-1 even though it is a Low cleanup.",
-        "The accounting reports three confirmed specialist findings, two final comments, one duplicate merge, and zero omitted findings."
+        "The accounting reports three confirmed review findings, two final comments, one duplicate merge, and zero omitted findings."
       ]
     },
     {
@@ -42,7 +42,7 @@
         "The validator also checks the readability child's supported one-call indirection candidate.",
         "The final findings include waste-1 and the confirmed readability cleanup, and do not present waste-2 as a finding.",
         "Step 3 spawns no agents after the validator returns its dispositions.",
-        "The accounting reports two confirmed specialist findings, two final comments, zero duplicate merges, and zero omitted findings."
+        "The accounting reports two confirmed review findings, two final comments, zero duplicate merges, and zero omitted findings."
       ]
     },
     {
@@ -91,6 +91,56 @@
         "The original specialist assignment and completed reproduction are not repeated.",
         "Confirmed ID behavior-1 is not revisited.",
         "Step 3 consumes the resolver disposition without spawning another validator."
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Perform only Step 1 of the code-review workflow. The review target contains two uncommitted TypeScript files: src/normalizeTitle.ts changes a private pure helper to trim a title before returning it, and src/normalizeTitle.test.ts adds the matching focused assertion. The change has one local responsibility, no I/O or mutable state, no authorization, privacy, data-loss, migration, transaction, concurrency, public API, backward-compatibility, infrastructure, style, dependency, or cross-system behavior, and all required context is supplied. Eight lines changed and the focused test passed. Select the review mode and return planning output only.",
+      "expected_output": "The planning agent selects compact mode for semantic reasons and returns one complete assignment packet for a compact reviewer without spawning reviewers or reporting findings.",
+      "files": [],
+      "expectations": [
+        "The planning agent selects exactly compact mode because the target has one coherent local responsibility and all applicable concerns fit one direct review assignment.",
+        "The selection rationale does not treat the small file or line count as sufficient evidence by itself.",
+        "Exactly one combined compact assignment packet covers both changed files, the title-normalization behavior, changed entry points, focused-test validation baseline, every applicable review role, and the TypeScript domain skill.",
+        "The planning agent does not spawn reviewers or report findings and guesses."
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "Perform only Step 1 of the code-review workflow. The review target changes one line in src/deleteAccount.ts so the authorization check now runs after the account deletion. No other files changed and the diff is otherwise fully supplied. Select the review mode and return planning output only.",
+      "expected_output": "The planning agent selects specialist mode despite the tiny diff because authorization and data-loss risk require focused review, then returns complete specialist packets without reporting findings.",
+      "files": [],
+      "expectations": [
+        "The planning agent selects exactly specialist mode rather than compact mode.",
+        "The selection rationale identifies authorization, mutation-before-permission, and data-loss risk instead of classifying by line count.",
+        "The planning output covers Behavioral and contract, Data and concurrency, Security and vulnerability, and Test and regressions responsibilities in focused packets that each name their responsible specialist.",
+        "The planning agent does not spawn reviewers or present the supplied risk as a validated finding."
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "Continue the code-review workflow from a completed Step 1 result that selected compact mode. The one combined packet covers a private pure TypeScript title-normalization helper and its focused test, includes the Behavioral and contract, Test and regressions, and Waste and maintainability roles plus the TypeScript domain skill, and supplies all required code and a passing validation baseline. Direct inspection establishes the intended behavior and leaves no candidates. Execute Step 2 and Step 3 without editing files.",
+      "expected_output": "The orchestrator uses exactly one compact reviewer, the reviewer performs every listed role directly without children, no validator is spawned for the empty candidate list, and the final report says No issues found.",
+      "files": [],
+      "expectations": [
+        "Exactly one fresh compact reviewer receives the combined packet and every applicable review role.",
+        "The compact reviewer performs the full assignment directly without spawning specialist, readability, CSS, or validator children.",
+        "The empty candidate list does not spawn a final finding validator.",
+        "The final report identifies compact mode, reports checked scope and No issues found., and spawns no agents during Step 3."
+      ]
+    },
+    {
+      "id": 11,
+      "prompt": "Continue the code-review workflow from a completed Step 1 result that selected compact mode. The combined packet covers src/normalizeTitle.ts with exact code `const staleLabel = 'task'; export function normalizeTitle(title: string): string { return title.trim(); }`, its focused test, the Behavioral and contract, Test and regressions, and Waste and maintainability roles, and the TypeScript domain skill. The compact reviewer establishes that staleLabel has no references and the helper behavior is correct. Execute Step 2 and Step 3 without editing files.",
+      "expected_output": "One compact reviewer directly returns a stable dead-code candidate without children, the orchestrator sends it to exactly one independent final validator, and the validated finding reaches the final lossless ledger.",
+      "files": [],
+      "expectations": [
+        "Exactly one fresh compact reviewer performs every listed role directly and spawns no children or validators.",
+        "The compact reviewer assigns a stable ID to the staleLabel dead-code candidate and returns its exact evidence without confirming it itself.",
+        "The orchestrator spawns exactly one fresh final finding validator with the candidate ID, evidence, packet scope, and applicable instructions.",
+        "The validator confirms the staleLabel candidate from its lack of references, and Step 3 reports it once with zero duplicate merges and zero omitted findings.",
+        "The finding does not infer compiler, build, deployment, or runtime effects without supplied evidence.",
+        "Step 3 spawns no agents after receiving the validator disposition."
       ]
     }
   ]
