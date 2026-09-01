@@ -83,47 +83,53 @@
     },
     {
       "id": 7,
-      "prompt": "Continue the code-review workflow from one specialist report containing confirmed ID behavior-1 and unresolved ID behavior-2. The final validator already attempted the smallest repository reproduction for behavior-2 and recorded its result. A new authoritative contract is now available and can settle behavior-2. Perform Step 2 recovery and Step 3 without editing files.",
-      "expected_output": "The workflow gives only behavior-2, the prior reproduction result, and the new contract to one fresh resolver; it preserves behavior-1 unchanged and does not rerun the specialist assignment or completed reproduction.",
+      "prompt": "Continue the code-review workflow from one specialist report. Confirmed ID behavior-1 establishes that src/normalizeTitle.ts:1 declares const staleLabel = 'task' without references, so the declaration is dead source. Unresolved ID behavior-2 claims that src/normalizeTitle.ts:3 incorrectly preserves repeated interior spaces, which would violate canonical title normalization. The final validator already ran the smallest repository reproduction for behavior-2: normalizeTitle('  A  B  ') returned 'A  B'. A new authoritative contract is now available: normalizeTitle must remove leading and trailing whitespace while preserving interior whitespace exactly. Perform Step 2 recovery and Step 3 without editing files.",
+      "expected_output": "The workflow gives only behavior-2, its exact prior reproduction result, and the new preservation contract to one fresh resolver; the resolver rejects behavior-2, behavior-1 remains confirmed, and the workflow does not rerun the specialist assignment or completed reproduction.",
       "files": [],
       "expectations": [
         "Exactly one fresh resolver receives only unresolved ID behavior-2, all prior evidence, and the new contract.",
         "The original specialist assignment and completed reproduction are not repeated.",
         "Confirmed ID behavior-1 is not revisited.",
+        "The resolver rejects behavior-2 because the reproduced preservation of interior whitespace matches the authoritative contract.",
         "Step 3 consumes the resolver disposition without spawning another validator."
       ]
     },
     {
       "id": 8,
       "prompt": "Perform only Step 1 of the code-review workflow. The review target contains two uncommitted TypeScript files: src/normalizeTitle.ts changes a private pure helper to trim a title before returning it, and src/normalizeTitle.test.ts adds the matching focused assertion. The change has one local responsibility, no I/O or mutable state, no authorization, privacy, data-loss, migration, transaction, concurrency, public API, backward-compatibility, infrastructure, style, dependency, or cross-system behavior, and all required context is supplied. Eight lines changed and the focused test passed. Select the review mode and return planning output only.",
-      "expected_output": "The planning agent selects compact mode for semantic reasons and returns one complete assignment packet for a compact reviewer without spawning reviewers or reporting findings.",
+      "expected_output": "The planning agent selects compact mode once in shared context, returns one scope-only assignment packet plus separate reviewer routing and Available validation evidence, and does not spawn reviewers or report findings.",
       "files": [],
       "expectations": [
         "The planning agent selects exactly compact mode because the target has one coherent local responsibility and all applicable concerns fit one direct review assignment.",
         "The selection rationale does not treat the small file or line count as sufficient evidence by itself.",
-        "Exactly one combined compact assignment packet covers both changed files, the title-normalization behavior, changed entry points, focused-test validation baseline, every applicable review role, and the TypeScript domain skill.",
+        "The shared context declares compact mode once and records the changed behavior, entry points, and the focused test under Available validation evidence.",
+        "Exactly one assignment packet covers both changed files and the title-normalization responsibility without repeating mode or first-level lifecycle instructions such as internal or direct-execution restrictions.",
+        "Separate reviewer routing maps the packet to every applicable review role and the known applicable TypeScript domain skill.",
         "The planning agent does not spawn reviewers or report findings and guesses."
       ]
     },
     {
       "id": 9,
       "prompt": "Perform only Step 1 of the code-review workflow. The review target changes one line in src/deleteAccount.ts so the authorization check now runs after the account deletion. No other files changed and the diff is otherwise fully supplied. Select the review mode and return planning output only.",
-      "expected_output": "The planning agent selects specialist mode despite the tiny diff because authorization and data-loss risk require focused review, then returns complete specialist packets without reporting findings.",
+      "expected_output": "The planning agent selects specialist mode once in shared context despite the tiny diff, returns focused scope-only packets with separate reviewer routing, and does not report findings.",
       "files": [],
       "expectations": [
         "The planning agent selects exactly specialist mode rather than compact mode.",
         "The selection rationale identifies authorization, mutation-before-permission, and data-loss risk instead of classifying by line count.",
-        "The planning output covers Behavioral and contract, Data and concurrency, Security and vulnerability, and Test and regressions responsibilities in focused packets that each name their responsible specialist.",
+        "The shared context declares specialist mode once rather than repeating it inside each assignment packet.",
+        "Separate reviewer routing maps focused packets to Behavioral and contract, Data and concurrency, Security and vulnerability, and Test and regressions responsibilities.",
+        "Each assignment packet contains only its coherent responsibility and relevant code or context, without packet-level mode, internal markers, or direct-execution restrictions.",
         "The planning agent does not spawn reviewers or present the supplied risk as a validated finding."
       ]
     },
     {
       "id": 10,
-      "prompt": "Continue the code-review workflow from a completed Step 1 result that selected compact mode. The one combined packet covers a private pure TypeScript title-normalization helper and its focused test, includes the Behavioral and contract, Test and regressions, and Waste and maintainability roles plus the TypeScript domain skill, and supplies all required code and a passing validation baseline. Direct inspection establishes the intended behavior and leaves no candidates. Execute Step 2 and Step 3 without editing files.",
-      "expected_output": "The orchestrator uses exactly one compact reviewer, the reviewer performs every listed role directly without children, no validator is spawned for the empty candidate list, and the final report says No issues found.",
+      "prompt": "Continue the code-review workflow from a completed Step 1 result that selected compact mode once in shared context. One scope-only packet covers src/normalizeTitle.ts with exact code `export function normalizeTitle(title: string): string { const normalizedTitle = title.trim(); return normalizedTitle; }`. Its focused test passes input `' task '` to normalizeTitle and asserts that the returned value is `'task'`; the test passed. Separate reviewer routing assigns Behavioral and contract, Test and regressions, and Waste and maintainability roles plus the TypeScript domain skill. Direct inspection establishes the intended trimming behavior and leaves no candidates. Execute Step 2 and Step 3 without editing files.",
+      "expected_output": "The orchestrator builds one compact launch envelope from shared context, routing, and the scope-only packet; exactly one reviewer performs every assigned role directly without children; no validator is spawned for the empty candidate list; and the final report says No issues found.",
       "files": [],
       "expectations": [
-        "Exactly one fresh compact reviewer receives the combined packet and every applicable review role.",
+        "Exactly one fresh compact reviewer receives a launch envelope containing the shared context, scope-only packet, compact reviewer instructions, every assigned review role, and the TypeScript domain skill.",
+        "The launch envelope does not turn the packet itself into a container for mode, role, skill, or lifecycle routing metadata.",
         "The compact reviewer performs the full assignment directly without spawning specialist, readability, CSS, or validator children.",
         "The empty candidate list does not spawn a final finding validator.",
         "The final report identifies compact mode, reports checked scope and No issues found., and spawns no agents during Step 3."
@@ -131,16 +137,30 @@
     },
     {
       "id": 11,
-      "prompt": "Continue the code-review workflow from a completed Step 1 result that selected compact mode. The combined packet covers src/normalizeTitle.ts with exact code `const staleLabel = 'task'; export function normalizeTitle(title: string): string { return title.trim(); }`, its focused test, the Behavioral and contract, Test and regressions, and Waste and maintainability roles, and the TypeScript domain skill. The compact reviewer establishes that staleLabel has no references and the helper behavior is correct. Execute Step 2 and Step 3 without editing files.",
+      "prompt": "Continue the code-review workflow from a completed Step 1 result that selected compact mode once in shared context. One scope-only packet covers src/normalizeTitle.ts with exact code `const staleLabel = 'task'; export function normalizeTitle(title: string): string { const normalizedTitle = title.trim(); return normalizedTitle; }` and its focused test. Separate reviewer routing assigns Behavioral and contract, Test and regressions, and Waste and maintainability roles plus the TypeScript domain skill. The compact reviewer establishes that staleLabel has no references and the helper behavior is correct. Execute Step 2 and Step 3 without editing files.",
       "expected_output": "One compact reviewer directly returns a stable dead-code candidate without children, the orchestrator sends it to exactly one independent final validator, and the validated finding reaches the final lossless ledger.",
       "files": [],
       "expectations": [
-        "Exactly one fresh compact reviewer performs every listed role directly and spawns no children or validators.",
+        "Exactly one fresh compact reviewer receives the launch envelope, performs every assigned role directly, and spawns no children or validators.",
         "The compact reviewer assigns a stable ID to the staleLabel dead-code candidate and returns its exact evidence without confirming it itself.",
-        "The orchestrator spawns exactly one fresh final finding validator with the candidate ID, evidence, packet scope, and applicable instructions.",
+        "The orchestrator spawns exactly one fresh final finding validator with the candidate ID, packet code scope, prior evidence, applicable repository instructions and domain skills, and validator instructions rather than reusing the reviewer launch envelope.",
         "The validator confirms the staleLabel candidate from its lack of references, and Step 3 reports it once with zero duplicate merges and zero omitted findings.",
         "The finding does not infer compiler, build, deployment, or runtime effects without supplied evidence.",
         "Step 3 spawns no agents after receiving the validator disposition."
+      ]
+    },
+    {
+      "id": 12,
+      "prompt": "Perform only Step 1 of the code-review workflow. Review range ec6a36342918c444ef2c29a6437b13b9ec8d163d...9af36ce5bbbfd0ce899c742a4f4c32db34f6ff3a adds an authenticated GET /api/catalog/search endpoint in a Cloudflare Worker, extracts shared current-session resolution from apps/api/src/auth/routes.ts into apps/api/src/auth/current-session.ts, adds locale-aware matching in apps/api/src/catalog/search.ts and PostgreSQL access in apps/api/src/catalog/repository.ts, introduces catalog tables in packages/database/src/schema.ts plus a generated migration and seeded data, and adds unit, database integration, and Worker integration tests. The Worker queries PostgreSQL through the existing Hyperdrive-backed database layer. CI on exact HEAD 9af36ce5bbbfd0ce899c742a4f4c32db34f6ff3a reports successful lint, typecheck, unit, integration, database migration, build, and staging jobs; skipped duplicate jobs are identified separately. No frontend or style files changed. Select the review mode and return planning output only without reviewing findings.",
+      "expected_output": "The planning agent selects specialist mode once in shared context, records exact Available validation evidence once, returns coherent scope-only packets with separate reviewer routing, and does not leak child lifecycle instructions into first-level packets.",
+      "files": [],
+      "expectations": [
+        "The planning agent selects specialist mode because authorization, a public API, a migration, seeded data, and Worker-to-database behavior cross material responsibility boundaries rather than because the diff is large.",
+        "The shared context declares specialist mode once and records the exact target, changed contracts, entry points, and successful and skipped jobs under Available validation evidence without treating success as proof of correctness.",
+        "Focused packets collectively cover every applicable Behavioral and contract, Data and concurrency, Security and vulnerability, Privacy and data protection, Performance and resource usage, Test and regressions, and Waste and maintainability responsibility while omitting Frontend and user experience.",
+        "Separate reviewer routing maps every packet to its assigned review roles and known applicable domain skills rather than embedding that routing metadata in the packet.",
+        "Each first-level assignment packet contains only a coherent responsibility and relevant code or context; it does not repeat mode or include internal markers or direct-execution restrictions intended for specialist-owned children and validators.",
+        "The planning agent does not spawn reviewers, validate candidate findings, or report findings and guesses."
       ]
     }
   ]

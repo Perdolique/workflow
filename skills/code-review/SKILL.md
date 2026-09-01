@@ -13,8 +13,8 @@ Coordinate a compact reviewer or focused specialists to review an existing chang
 - Spawn every reviewer fresh with `fork_turns="none"`; never reuse one for validation or resolution.
 - Ignore staged versus unstaged status. Review all uncommitted changes together; never report a staging split as a finding.
 - Treat review as read-only. Repository task-completion verification instructions apply to implementation work, not review.
-- Use validation results available when review starts; record the validation baseline as `Unavailable` when none exist.
-- Give every reviewer its assignment packet, [reviewer instructions](#reviewer-instructions), applicable mode instructions, and [review roles](#review-roles); do not ask reviewers to rediscover scope.
+- Record validation results available when review starts as `Available validation evidence`, including their exact target and actual status when known; use `Unavailable` when none exist. Treat this evidence as context, not proof that the change is correct.
+- Build each reviewer launch envelope from the shared review context, its assignment packet, [reviewer instructions](#reviewer-instructions), applicable mode instructions, assigned [review roles](#review-roles), and known applicable domain skills. Keep review-wide routing and lifecycle metadata outside assignment packets so packets describe only review responsibility; do not ask reviewers to rediscover scope.
 - Schedule or batch specialists so each specialist can spawn its required children without exceeding the available agent limit.
 - Report checked scope and actual findings. Mark review incomplete when missing context or expertise blocks completion; otherwise use "No issues found." when none exist.
 
@@ -24,10 +24,11 @@ Coordinate a compact reviewer or focused specialists to review an existing chang
 - Establish each finding from a cited code path with a concrete trigger and consequence supported by code, configuration, or reproduction evidence. Use supplied validation as context and return claims that code inspection cannot settle as unresolved candidates.
 - Merge duplicate root causes into one candidate list, assign a stable ID to every candidate, and do not remove a supported candidate because it is low priority, cosmetic, readability-related, or easy to fix.
 - Keep findings, incomplete reviews, and human-review candidates separate. Use human review for material decisions or confirmations requiring project context unavailable in the repository; use incomplete review when technical analysis is unfinished. Include the location, missing context, consequence, and required human action.
+- Apply every domain skill supplied in the launch envelope. Treat that list as known applicable guidance rather than a closed set, and add another domain skill only when the assigned behavior directly requires it.
 
 ### Compact reviewer instructions
 
-- Review one combined packet directly across all listed roles and skills; spawn no children or validators.
+- Review one combined packet directly across all assigned roles and domain skills; spawn no children or validators.
 - Return candidates and evidence to the orchestrator; if none exist, return checked scope and "No issues found."
 - Mark unfinished responsibilities incomplete with missing context or expertise and completed scope; do not guess.
 
@@ -53,13 +54,14 @@ Coordinate a compact reviewer or focused specialists to review an existing chang
 - Use one subagent with `fork_turns="none"` for this internal planning task to identify review source: branch, commit, pull request, or uncommitted changes. Unless the user specifies one, review all uncommitted changes when any exist; otherwise fetch remote `master` and review the entire current branch against it.
 - Select `compact` only for one clearly local, simple, low-risk, self-contained responsibility that one generalist can review from one packet. Use `specialist` for authorization, security, privacy, destructive or transactional data changes, concurrency, migrations, public or cross-system contracts, backward compatibility, infrastructure, any other material risk, or uncertain classification.
 - File or line count may rule out `compact` but never justify it.
-- Return the mode and reason, changed behavior or contract, entry points, validation baseline, applicable repository instructions, domain skills, [review roles](#review-roles), and packets. `compact` gets one packet covering every change; `specialist` gets one named packet per specialist, overlapping only for cross-target behavior.
+- Return one review plan containing: shared context with the review source and target, exactly one selected mode and reason, changed behavior or contracts, entry points, `Available validation evidence`, and applicable repository instructions; reviewer routing that maps each packet to its assigned [review roles](#review-roles) and known applicable domain skills; and assignment packets that contain only a coherent responsibility and relevant code or context.
+- Give `compact` exactly one packet covering every change. Give `specialist` one named packet per specialist, overlapping only for cross-target behavior. Keep the selected mode in shared context. Do not copy nested-assignment lifecycle markers such as `internal` or direct-execution restrictions into first-level packets or routing; they apply only where the child or validator instructions explicitly require them.
 - Return planning output only; do not spawn reviewers or report findings and guesses.
 
 ### Step 2: Assign reviewers and perform review
 
-- For `compact`, spawn one fresh compact reviewer. If its candidate list is nonempty, give the candidates, their packet, and evidence to one fresh [final finding validator](#final-finding-validator-instructions). Preserve its completed and incomplete scope.
-- For `specialist` mode, spawn one fresh subagent per selected specialist with its named packet, in batches when necessary to leave capacity for specialist-owned children.
+- For `compact`, build one launch envelope from the shared context, routing, and single packet, then spawn one fresh compact reviewer. If its candidate list is nonempty, spawn one fresh [final finding validator](#final-finding-validator-instructions) with the exact candidate list and IDs, packet code scope, prior evidence, applicable repository instructions and domain skills, and validator instructions. Preserve the reviewer's completed and incomplete scope.
+- For `specialist` mode, build one launch envelope per routed packet and spawn one fresh subagent per selected specialist, in batches when necessary to leave capacity for specialist-owned children.
 - Collect validated reviewer reports and reproduction results. If new context or expertise can settle unresolved IDs, give only those IDs and all prior evidence to one fresh resolver with `fork_turns="none"`; never rerun the reviewer assignment, repeat a completed reproduction, or revisit confirmed and rejected IDs. Otherwise preserve them as an incomplete review.
 
 ### Step 3: Produce final review report to user

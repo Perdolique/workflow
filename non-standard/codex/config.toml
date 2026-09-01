@@ -34,7 +34,6 @@ default_subagent_reasoning_effort = "xhigh"
 default_mode_request_user_input = true
 memories = true
 prevent_idle_sleep = true
-token_budget = true
 
 [memories]
 use_memories = true
