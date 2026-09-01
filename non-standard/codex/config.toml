@@ -35,6 +35,10 @@ default_mode_request_user_input = true
 memories = true
 prevent_idle_sleep = true
 
+[features.token_budget]
+enabled = true
+use_history_notes_extension = true
+
 [memories]
 use_memories = true
 generate_memories = true
