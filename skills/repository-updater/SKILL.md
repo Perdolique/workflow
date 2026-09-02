@@ -1,6 +1,6 @@
 ---
 name: repository-updater
-description: Analyze repositories for available dependency, tooling, runtime, and infrastructure updates, aggregate changelogs across every version from the current version through each target, and summarize every direct candidate's most important repository-relevant changes. Use for update discovery, dependency update analysis, release-impact and breaking-change review, or requests to update repository dependencies, tooling, runtimes, or infrastructure versions.
+description: Analyze repositories for available dependency, tooling, runtime, and infrastructure updates, aggregate changelogs across every version from the current version through each target, and report every direct candidate in structured Markdown with major-release highlights and repository-specific impact. Use for update discovery, dependency update analysis, release-impact and breaking-change review, or requests to update repository dependencies, tooling, runtimes, or infrastructure versions.
 ---
 
 # Repository updater
@@ -53,21 +53,45 @@ Discovering the current and target versions is not a complete update analysis. F
 
 1. Enumerate every released version after the current version through and including the target version.
 2. Review the official release notes or changelog entries for that entire version range. Do not inspect only the target release when intermediate versions exist.
-3. Combine the material findings from all covered versions into one candidate-level summary of the difference between the current and target versions. Do not emit a version-by-version changelog dump.
-4. Confirm that the summary includes the most important repository-relevant changes from the complete range before reporting the candidate.
+3. Select the changes worth highlighting across the complete range according to their release significance and impact.
+4. Combine the selected findings into one candidate-level list describing the difference between the current and target versions. Do not emit a version-by-version changelog dump.
 
 Apply this release-impact research only to direct update candidates. For transitive dependency changes, capture only the package name and old and new resolved versions from the lockfile; do not research changelogs or summarize their impact. Prefer exact upstream sources or local package changelogs over generic search results. If official notes for part of a direct candidate's version range cannot be found, identify the uncovered versions and report the analysis as incomplete instead of implying that the target-only notes cover the whole update.
 
-Summarize only the most important changes for this repository:
+Select changes using these priorities:
 
-- breaking changes that affect APIs, configuration, commands, runtimes, platforms, or behavior the repository actually uses
-- required migrations and relevant deprecations
-- material security, behavior, stability, or compatibility changes
-- notable features that the repository can directly use or benefit from
+- For every major version crossed, include its headline public features and behavior changes even when the repository does not currently use them.
+- For minor releases, include notable public capabilities and behavior or compatibility changes when they are important enough to affect the update decision; use repository relevance as a strong signal.
+- For patch releases and individual bug fixes, include only material security, data-integrity, regression, stability, or compatibility fixes.
+- Across every release type, include required migrations, relevant deprecations, and breaking changes that affect APIs, configuration, commands, runtimes, platforms, or behavior the repository actually uses.
 
-Do not report a breaking change merely because upstream labels it as breaking. Verify it against the repository's current files and usage. For each applicable breaking change, state the affected repository surface, the expected impact, and the required migration or decision. Omit breaking changes that do not apply to this repository.
+Keep general release highlights distinct from repository impact. A major-release breaking change may appear as a headline change without implying that it affects the repository. When a change creates an applicable breaking impact, migration, required action or decision, or important limitation, verify it against the repository's current files and usage, then state the affected surface, expected impact, and required response under `Nuances`.
 
-Exclude minor bug fixes, documentation changes, internal refactors, and other changelog noise from the final summary. This importance filter applies to changelog details, not update candidates: report every direct candidate even when no material repository-relevant change is established across its complete version range. In that case, say `No material repository-relevant changes` instead of omitting the candidate or inventing importance.
+Exclude documentation-only changes, internal refactors, routine fixes, and other changelog noise from the final report. This importance filter applies to changelog details, not update candidates: report every direct candidate even when no change is worth highlighting across its complete version range.
+
+## Format direct update cards
+
+Use this card for every direct candidate in both analysis and apply modes:
+
+```markdown
+##### `package-or-tool`
+
+**Version:** `current` → `target`
+
+- First material change.
+- Second material change.
+
+**Nuances:**
+
+- Repository-specific migration, required action, or important limitation.
+- Incomplete release-note coverage when applicable.
+
+**Sources:** [Official release notes](...), [Official changelog](...)
+```
+
+Use the exact package, runtime, tool, or infrastructure name as the heading. Leave a blank line after the version line, then render the selected changes as top-level bullets. If no change is worth highlighting, render the single bullet `No material changes worth highlighting.`
+
+Add `Nuances` only when the candidate has an applicable breaking impact, migration, required action or decision, important limitation, or incomplete release-note coverage. In apply mode, distinguish completed actions from work that remains. Always finish each card with official source links covering the analyzed release range.
 
 ## Report analysis
 
@@ -79,17 +103,13 @@ In analysis mode, do not modify files. Report the result in this form:
 
 #### Updates within repository policy
 
-- `package: current version → target version` — concise summary of the most important repository-relevant changes.
-  - `Breaking impact:` affected surface, impact, and required action. Include this only when an applicable breaking change exists.
-  - `Sources:` official release-note or changelog links.
+Render one direct update card for every candidate in the ordinary result.
 
 #### Additional newly published updates
 
-- `package: current version → fresh target version` — concise summary of the most important repository-relevant changes.
-  - `Breaking impact:` affected surface, impact, and required action. Include this only when an applicable breaking change exists.
-  - `Sources:` official release-note or changelog links.
+Render one direct update card for every candidate added or changed by `--maturity-period 0`.
 
-Populate the second section only with candidates added or changed by `--maturity-period 0`. A package belongs in both sections when the two runs produce different targets. Include every direct candidate in the applicable section and give each one a summary, using `No material repository-relevant changes` when the importance filter removes all changelog details. Keep every summary short and omit details that do not materially affect the update decision. If a section has no candidates, say `None`.
+A package belongs in both sections when the two runs produce different targets. If a section has no candidates, say `None`.
 
 ## Apply updates
 
@@ -109,10 +129,7 @@ Finish with this form:
 
 #### Direct updates
 
-- `package: old version → new version` — concise summary of the most important repository-relevant changes.
-  - `Breaking impact:` affected surface, impact, and completed or still-required action. Include this only when an applicable breaking change exists.
-
-Use one top-level bullet for every direct version that actually changed and give each one a summary, using `No material repository-relevant changes` when the importance filter removes all changelog details. Say `None` only when there are no direct updates. Keep summaries focused on material changes.
+Render one direct update card for every direct version that actually changed. Say `None` only when there are no direct updates.
 
 #### Transitive updates
 
