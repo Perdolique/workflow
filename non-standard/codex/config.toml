@@ -35,6 +35,9 @@ default_mode_request_user_input = true
 memories = true
 prevent_idle_sleep = true
 
+[features.context_management]
+experimental_mode = true
+
 [memories]
 use_memories = true
 generate_memories = true
