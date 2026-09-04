@@ -1,6 +1,8 @@
 #:schema https://developers.openai.com/codex/config-schema.json
 
 approval_policy = "on-request"
+model = "gpt-6-astra"
+model_reasoning_effort = "medium"
 model_context_window = 320000
 model_auto_compact_token_limit = 270000
 model_verbosity = "medium"
@@ -28,7 +30,7 @@ Style must not change the conclusion, evidence, agreement, or severity.
 [agents]
 max_concurrent_threads_per_session = 8
 default_subagent_model = "gpt-5.6-sol"
-default_subagent_reasoning_effort = "medium"
+default_subagent_reasoning_effort = "high"
 
 [features]
 default_mode_request_user_input = true
