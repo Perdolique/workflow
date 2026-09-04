@@ -23,11 +23,12 @@ Identify the concrete behavior, files, packages, issue references, and version c
 Check the current branch and, when available, the remote default branch:
 
 ```bash
+git fetch origin --prune
 git branch --show-current
-git symbolic-ref --quiet --short refs/remotes/origin/HEAD
+git ls-remote --symref origin HEAD
 ```
 
-Use `git remote show origin` only as a fallback when `origin/HEAD` is unavailable.
+Before committing, report if the current branch is behind or diverged from its upstream or the fresh remote default; do not merge or rebase automatically.
 
 If the current branch is the default branch and the user did not explicitly ask to commit there, ask whether to create a branch or commit to the default branch. If the user named the target branch or said to commit on the current branch, proceed without asking again.
 

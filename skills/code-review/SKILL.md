@@ -51,7 +51,7 @@ Coordinate a compact reviewer or focused specialists to review an existing chang
 
 ### Step 1: Select review mode and assignments
 
-- Use one subagent with `fork_turns="none"` for this internal planning task to identify review source: branch, commit, pull request, or uncommitted changes. Unless the user specifies one, review all uncommitted changes when any exist; otherwise fetch remote `master` and review the entire current branch against it.
+- Use one subagent with `fork_turns="none"` for this internal planning task to identify review source: branch, commit, pull request, or uncommitted changes. Unless the user specifies one, review all uncommitted changes when any exist; otherwise fetch the remote default branch and review the entire current branch against its fresh remote-tracking ref.
 - Select `compact` only for one clearly local, simple, low-risk, self-contained responsibility that one generalist can review from one packet. Use `specialist` for authorization, security, privacy, destructive or transactional data changes, concurrency, migrations, public or cross-system contracts, backward compatibility, infrastructure, any other material risk, or uncertain classification.
 - File or line count may rule out `compact` but never justify it.
 - Return one review plan containing: shared context with the review source and target, exactly one selected mode and reason, changed behavior or contracts, entry points, `Available validation evidence`, and applicable repository instructions; reviewer routing that maps each packet to its assigned [review roles](#review-roles) and known applicable domain skills; and assignment packets that contain only a coherent responsibility and relevant code or context.

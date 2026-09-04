@@ -25,6 +25,7 @@
 
 ## Working rules
 
+- Before editing files in a Git repository, fetch its remote and verify that the current branch is based on the fresh remote default branch. Report stale or diverged branches instead of merging or rebasing without authorization.
 - Solve the confirmed current problem with the simplest implementation. Do not add speculative compatibility, future-proofing, or unused abstractions.
 - Prefer small duplication to a premature abstraction. Extract a pattern only after multiple real examples establish it.
 - Do not change working behaviour for a hypothetical environment or unsupported scenario.

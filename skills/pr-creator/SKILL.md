@@ -32,10 +32,8 @@ Inspect the repository state first:
 git status --short --branch
 git fetch origin --prune
 git branch --show-current
-git symbolic-ref --quiet --short refs/remotes/origin/HEAD
+git ls-remote --symref origin HEAD
 ```
-
-Use `git remote show origin` only when `origin/HEAD` is unavailable.
 
 Then:
 
@@ -43,6 +41,7 @@ Then:
 2. Stop if the current branch is the base branch.
 3. Check whether the current branch already has an open PR. Update that PR instead of creating a duplicate.
 4. For GitHub creation, ensure the branch has an upstream and push its current commits when needed.
+5. Report if the branch is behind or diverged from its upstream or the fresh remote default before pushing; do not merge or rebase automatically.
 
 Use the remote-tracking default branch as the base. A local `main` or `master` can be stale even after fetching.
 
