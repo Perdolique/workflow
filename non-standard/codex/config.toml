@@ -31,7 +31,6 @@ default_subagent_model = "gpt-5.6-sol"
 default_subagent_reasoning_effort = "medium"
 
 [features]
-context_management = true
 default_mode_request_user_input = true
 memories = true
 prevent_idle_sleep = true
