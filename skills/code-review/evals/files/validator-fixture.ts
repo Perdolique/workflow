@@ -2,12 +2,12 @@ interface Task {
   title: string;
 }
 
-const unusedLabel = 'task';
+const unusedLabel = 'task'
 
 function formatTask(task: Task): string {
-  return task.title.trim();
+  return task.title.trim()
 }
 
 export function renderTask(task: Task): string {
-  return formatTask(task);
+  return formatTask(task)
 }

@@ -20,6 +20,9 @@ importers:
       taze:
         specifier: 21.1.0
         version: 21.1.0
+      worsier:
+        specifier: 3.5.0
+        version: 3.5.0
 
 packages:
 
@@ -375,6 +378,55 @@ packages:
   verkit@0.3.2:
     resolution: {integrity: sha512-zj/ob3UsvJGN0whEAKFp53REA5X66hvffVqoCtVQAakJKnKlH+/PcOfMoFwIG/o4rElqLv/ycAFlx8ZlXUorCg==}
     engines: {node: '>=18.12.0'}
+
+  worsier-darwin-arm64@3.5.0:
+    resolution: {integrity: sha512-xX5f883Vfuas7iUyAZZ1l+4VsSZbxIS1dIcYDXfRYGpN/74RcCSBjZFNDXSuxMyuJXZqBdr78A2M3G14NHUUyQ==}
+    cpu: [arm64]
+    os: [darwin]
+
+  worsier-darwin-x64@3.5.0:
+    resolution: {integrity: sha512-gGC+J+0uQ+UvBl8H1mM4F06FrJHot5J8olMJ+3cuah/I1RurUFBjys9Fof1XAruFM+K4iBd5RkhYJv8oVZSq6w==}
+    cpu: [x64]
+    os: [darwin]
+
+  worsier-linux-arm64-gnu@3.5.0:
+    resolution: {integrity: sha512-rVkRmJlbwCCkY5aVbFFyvSUAXToEWSKmXb6tPcGcnc2ehnJZaEtvth3Yjy9NeSO/iraynZZgKgB0XpuqveZBJw==}
+    cpu: [arm64]
+    os: [linux]
+    libc: [glibc]
+
+  worsier-linux-arm64-musl@3.5.0:
+    resolution: {integrity: sha512-r6HXF+R3KIIfRPoUeqp+XZLQp92Say4i1THP1fAS+eL3oUh577hZtKl2dEmtT95f1KGs+bQ6MTzLDsLkTzV8GQ==}
+    cpu: [arm64]
+    os: [linux]
+    libc: [musl]
+
+  worsier-linux-x64-gnu@3.5.0:
+    resolution: {integrity: sha512-3mxwUEmM3isgy7x8YS9VtCFH4zLCPtF0CPDZeUsEg25E+25bHoExhwIW8TE09EsBZ0lQ8ic/MOI7LXKT88AuMQ==}
+    cpu: [x64]
+    os: [linux]
+    libc: [glibc]
+
+  worsier-linux-x64-musl@3.5.0:
+    resolution: {integrity: sha512-DGHP95Q97fo1ocqKyYGgmFQUfLgbwzh7RmwsNqOjUZUcgigztRmx195BOp+aAYwXzOQQ12HHI1I2+360tV2fEA==}
+    cpu: [x64]
+    os: [linux]
+    libc: [musl]
+
+  worsier-win32-arm64-msvc@3.5.0:
+    resolution: {integrity: sha512-WHEbSd+NNEaaU73Gj95aj70+r1sRNSnrr4+0M5+9+WQJu90FNSLJrsYD46MUylJAIvBCa2jGwR1N0GxjrnVgGg==}
+    cpu: [arm64]
+    os: [win32]
+
+  worsier-win32-x64-msvc@3.5.0:
+    resolution: {integrity: sha512-OJR/wamN6PtI4t5iVmsXdVwwxvxpgBQpc667QrLKOnF5fnoe6U4v5uQ+7IsFZbnLbRShTlYDUqabTsh0seKNdg==}
+    cpu: [x64]
+    os: [win32]
+
+  worsier@3.5.0:
+    resolution: {integrity: sha512-DYUkISnsA3t98VPySkZwEhecW+9ixUuBHbXHpBRJOhyZFetKpNOulyTu+ij8KoL7Y8E78u7MEBBYMPOpRscP3g==}
+    engines: {node: '>=24.0.0'}
+    hasBin: true
 
   yaml@2.9.0:
     resolution: {integrity: sha512-2AvhNX3mb8zd6Zy7INTtSpl1F15HW6Wnqj0srWlkKLcpYl/gMIMJiyuGq2KeI2YFxUPjdlB+3Lc10seMLtL4cA==}
@@ -824,5 +876,40 @@ snapshots:
       unconfig-core: 7.5.0
 
   verkit@0.3.2: {}
+
+  worsier-darwin-arm64@3.5.0:
+    optional: true
+
+  worsier-darwin-x64@3.5.0:
+    optional: true
+
+  worsier-linux-arm64-gnu@3.5.0:
+    optional: true
+
+  worsier-linux-arm64-musl@3.5.0:
+    optional: true
+
+  worsier-linux-x64-gnu@3.5.0:
+    optional: true
+
+  worsier-linux-x64-musl@3.5.0:
+    optional: true
+
+  worsier-win32-arm64-msvc@3.5.0:
+    optional: true
+
+  worsier-win32-x64-msvc@3.5.0:
+    optional: true
+
+  worsier@3.5.0:
+    optionalDependencies:
+      worsier-darwin-arm64: 3.5.0
+      worsier-darwin-x64: 3.5.0
+      worsier-linux-arm64-gnu: 3.5.0
+      worsier-linux-arm64-musl: 3.5.0
+      worsier-linux-x64-gnu: 3.5.0
+      worsier-linux-x64-musl: 3.5.0
+      worsier-win32-arm64-msvc: 3.5.0
+      worsier-win32-x64-msvc: 3.5.0
 
   yaml@2.9.0: {}

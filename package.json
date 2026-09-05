@@ -1,6 +1,7 @@
 {
   "name": "workflow",
   "version": "1.0.0",
+  "type": "module",
   "description": "Useful tools and utilities",
   "scripts": {
     "lint:markdown": "markdownlint '**/*.md'",
@@ -23,6 +24,7 @@
     "husky": "9.1.7",
     "markdownlint": "0.41.1",
     "markdownlint-cli": "0.49.1",
-    "taze": "21.1.0"
+    "taze": "21.1.0",
+    "worsier": "3.5.0"
   }
 }

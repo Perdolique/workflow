@@ -19,26 +19,4 @@ require_command() {
 require_command vpx
 require_command vp
 
-vpx skills add perdolique/workflow --global --skill '*' --agent universal --yes
-vpx skills add microsoft/playwright-cli --global --skill playwright-cli --agent universal --yes
-vpx skills add cloudflare/skills --global --skill cloudflare cloudflare-email-service durable-objects turnstile-spin web-perf workers-best-practices wrangler --agent universal --yes
-
-vp install -g @playwright/cli@latest
-playwright-cli install-browser chromium
-
-PLAYWRIGHT_CONFIG_DIR="$HOME/.playwright"
-PLAYWRIGHT_CONFIG_FILE="$PLAYWRIGHT_CONFIG_DIR/cli.config.json"
-
-if [ ! -e "$PLAYWRIGHT_CONFIG_FILE" ]; then
-  mkdir -p "$PLAYWRIGHT_CONFIG_DIR"
-  cat >"$PLAYWRIGHT_CONFIG_FILE" <<'EOF'
-{
-  "browser": {
-    "browserName": "chromium",
-    "launchOptions": {
-      "channel": "chromium"
-    }
-  }
-}
-EOF
-fi
+exec vp node -- "$SCRIPT_DIR/setup-global-skills.ts" "$@"

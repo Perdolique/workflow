@@ -46,6 +46,8 @@ Even "small edits" or "quick additions" are tasks that require the pre-task chec
 
 **After completing ANY task**, run verification commands to ensure quality:
 
+- [ ] **Format changed TypeScript files**: If you created or modified TypeScript files, run `pnpm exec worsier --write <changed-files>` on those files before final verification. Re-run relevant tests after formatting.
+- [ ] **Check source formatting**: Run `pnpm exec worsier --check .`
 - [ ] **Run markdown linting**: Execute `pnpm run lint:markdown` to verify all markdown files comply with style rules
 - [ ] **Fix violations**: If linting fails, fix violations before marking task as complete
 - [ ] **Task completion criteria**: A task is considered successfully completed ONLY when all verification commands pass with exit code 0
@@ -53,6 +55,9 @@ Even "small edits" or "quick additions" are tasks that require the pre-task chec
 **Available verification commands:**
 
 ```bash
+# Source formatting (also enforced by pre-commit)
+pnpm exec worsier --check .
+
 # Markdown linting (required for all tasks that modify .md files)
 pnpm run lint:markdown
 ```

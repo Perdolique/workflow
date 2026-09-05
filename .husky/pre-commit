@@ -1,2 +1,3 @@
+pnpm exec worsier --check .
 pnpm run lint:markdown
 pnpm run lint:skills

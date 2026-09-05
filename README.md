@@ -30,18 +30,13 @@ Reusable skills that provide specialized knowledge and capabilities:
 
 ### Using skills
 
-Bootstrap the global skills and Playwright CLI setup used with this repository:
+Install or update the global skills and Playwright CLI, including Chromium. Requires Node.js 26 and Vite+ (`vp` and `vpx`).
 
 ```bash
 pnpm run setup:skills
 ```
 
-The bootstrap command expects Vite+ `vpx` and `vp` commands on `PATH`. It installs
-skills from this repository and selected third-party skills from their latest
-upstream sources, installs `@playwright/cli@latest`, and downloads the Playwright
-CLI Chromium browser binary without OS dependencies. It creates
-`~/.playwright/cli.config.json` only when the file is missing and leaves an
-existing Playwright CLI config untouched.
+Add `--verbose` for detailed output. Setup prints the full log path and preserves your existing Playwright config.
 
 To install only the skills from this repository:
 
