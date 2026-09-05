@@ -34,16 +34,8 @@ default_subagent_reasoning_effort = "high"
 
 [features]
 default_mode_request_user_input = true
-memories = true
+memories = false
 prevent_idle_sleep = true
-
-[memories]
-use_memories = true
-generate_memories = true
-max_raw_memories_for_consolidation = 96
-max_unused_days = 14
-min_rollout_idle_hours = 12
-min_rate_limit_remaining_percent = 35
 
 [features.multi_agent_v2]
 enabled = true
