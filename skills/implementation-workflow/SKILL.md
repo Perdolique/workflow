@@ -49,7 +49,7 @@ inventing alternatives.
 
 ## Plan
 
-Maintain a concise plan for non-trivial work. Cover the result, boundaries, order, touched surfaces, verification, and residual risk.
+Maintain a plan for non-trivial work using the minimum detail that preserves its material decisions, proportional to the task's complexity. Cover the result, boundaries, order, touched surfaces, verification, and residual risk; do not omit material decisions for brevity. Name known files, modules, and interfaces when they clarify an intended change or prevent an implementation mistake, without requiring an exhaustive file inventory.
 
 - Keep the approved plan separate from progress checklists such as `update_plan`. Use native plan storage only when it preserves the complete plan and can be re-read; otherwise save it to a task-specific `plan.md` in the system temp directory.
 - Persist the complete current approved plan, not a summary. After Plan Mode, copy the latest `<proposed_plan>` body without its tags; preserve its language and every material decision, interface, boundary, example, verification step, assumption, and non-goal. The temporary plan is task state, not repository content.
@@ -57,7 +57,7 @@ Maintain a concise plan for non-trivial work. Cover the result, boundaries, orde
 
 For broad migrations or refactors, map public entry points, internal helpers, removed legacy paths, and shared behavior ownership before editing.
 
-Avoid low-level detail before its slice starts. Update the plan when evidence changes it.
+Resolve material implementation decisions required by the agreed scope before finalizing the plan; do not invent requirements to make it more detailed. Leave mechanical details, such as local variable names, exact edit locations, and routine imports, to the implementer when they do not change the agreed approach or behavior. Avoid line-by-line implementation instructions. Update the plan when evidence changes it.
 
 ## Implement
 

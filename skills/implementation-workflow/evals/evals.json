@@ -123,6 +123,21 @@
         "The workflow does not manufacture alternative architectures, compatibility layers, or unrelated hardening.",
         "The workflow continues from the validated approach into a scoped plan and implementation."
       ]
+    },
+    {
+      "id": 11,
+      "prompt": "Plan this approved session-store migration; do not implement it or write files. Repository inspection established that src/session/store.ts owns session reads and writes, src/session/backfill.ts owns resumable backfills, src/api/refresh.ts consumes the store through its existing interface, and tests/session.test.ts covers that contract. We agreed to read the new store first with legacy fallback, write to both stores until the resumable backfill finishes, and then switch writes to the new store. Rollback restores legacy reads and dual writes without deleting new-store records. POST /v1/session/refresh and the sid cookie must remain unchanged. Include checks for fallback reads, dual writes, backfill resumption, cutover, and rollback. I will hand the plan to another agent.",
+      "expected_output": "The plan preserves the agreed migration behavior and ordering, identifies the relevant ownership locations, and specifies verification without prescribing mechanical code edits.",
+      "files": [],
+      "expectations": [
+        "The plan preserves new-store-first reads with legacy fallback and dual writes until backfill completion.",
+        "The plan places resumable backfill completion before new-store-only writes and preserves rollback to legacy reads and dual writes without deleting new-store records.",
+        "The plan identifies src/session/store.ts and src/session/backfill.ts as the owners of the corresponding changes.",
+        "The plan preserves POST /v1/session/refresh and the sid cookie and includes checks for fallback reads, dual writes, backfill resumption, cutover, and rollback.",
+        "The plan does not leave the agreed migration decisions for the implementer to choose again.",
+        "The plan does not prescribe local variable names, routine imports, exact edit lines, or an exhaustive inventory of unchanged files.",
+        "The plan does not invent unagreed error-handling policies, backfill mechanisms, or removal of legacy fallback after cutover."
+      ]
     }
   ]
 }
