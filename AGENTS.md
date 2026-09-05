@@ -22,6 +22,7 @@ This repository contains reusable skills and assistant instructions that extend 
 
 - [ ] **Read nested AGENTS.md**: Check if the directory you're working in (or its parents) has an AGENTS.md file and read it
 - [ ] **Identify relevant skills**: Search the skills catalog for skills related to your task and read their documentation before starting work. For example, read `commit-creator` before creating commits and `pr-creator` before creating pull requests
+- [ ] **Use instructions master**: For changes to skills or other agent instructions, read and follow `skills/instructions-master/SKILL.md`; it controls authoring scope and evaluation
 - [ ] **Understand conventions**: Ensure you know all applicable naming, formatting, and structural conventions
 
 **Task scope definition**: A "task" is ANY user request that modifies files, including:

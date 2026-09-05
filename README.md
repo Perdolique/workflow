@@ -17,6 +17,7 @@ Reusable skills that provide specialized knowledge and capabilities:
 | [drizzle-orm](./skills/drizzle-orm/) | Drizzle ORM query patterns for TypeScript, including relational queries, SQL builder usage, and query-shape fixes |
 | [github-release](./skills/github-release/) | Create or draft GitHub releases from existing tags and repository history |
 | [implementation-workflow](./skills/implementation-workflow/) | Guide discovery and phased execution for non-trivial coding work |
+| [instructions-master](./skills/instructions-master/) | Create, edit, review, and evaluate skills and other agent instructions |
 | [markdownlint](./skills/markdownlint/) | Configure, manage, and troubleshoot markdownlint in projects |
 | [playwright-e2e-testing](./skills/playwright-e2e-testing/) | Write and maintain Playwright end-to-end tests for web apps |
 | [pr-creator](./skills/pr-creator/) | Create GitHub pull requests from code changes or generate PR content in chat |

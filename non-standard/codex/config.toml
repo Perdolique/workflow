@@ -163,3 +163,7 @@ status_line_use_colors = true
 [[skills.config]]
 name = "github:yeet"
 enabled = false
+
+[[skills.config]]
+path = "/Users/ky6uk/.codex/skills/.system/skill-creator/SKILL.md"
+enabled = false
