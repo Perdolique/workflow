@@ -9,7 +9,7 @@ description: Analyze repositories for available dependency, tooling, runtime, an
 
 Use **analysis mode** by default. Requests to inspect, check, list, review, or otherwise discuss available updates do not authorize repository changes.
 
-Use **apply mode** only when the user explicitly asks to update, upgrade, install, apply, or make the changes. Respect any requested package, version range, ecosystem, or other scope condition. For mixed requests, analyze first and then apply only the explicitly authorized candidates without asking for approval a second time.
+Use **apply mode** only when the user explicitly asks to update, upgrade, install, apply, or make the changes. Respect any requested package, version range, ecosystem, or other scope condition. For mixed requests, analyze first and then apply only the explicitly authorized candidates without asking for approval of those version targets a second time. This does not waive a material adaptation decision.
 
 ## Inspect the repository
 
@@ -69,6 +69,25 @@ Keep general release highlights distinct from repository impact. A major-release
 
 Exclude documentation-only changes, internal refactors, routine fixes, and other changelog noise from the final report. This importance filter applies to changelog details, not update candidates: report every direct candidate even when no change is worth highlighting across its complete version range.
 
+## Evaluate update-driven adaptations
+
+Treat every direct update as an opportunity to leave its causally affected repository usage on the current supported approach, not only to make the new version pass. Review official migration guides and current upstream documentation in addition to the release notes, then inspect the entire repository for:
+
+- deprecated, legacy, or superseded APIs and configuration
+- compatibility code and workarounds made unnecessary by the target release
+- newly available capabilities with a concrete repository-specific maintenance, performance, reliability, or developer-experience benefit
+- usage that an announced upstream migration has placed on a near-term legacy path
+
+An adaptation is update-driven only when the target release removes, deprecates, supersedes, fixes, or newly enables the relevant behavior. Do not use an update to refactor unrelated parts of the stack.
+
+Keep required migrations under `Nuances` and apply them automatically in apply mode. For non-required adaptations:
+
+- Apply an adaptation automatically when repository and upstream evidence establish a concrete benefit, it preserves expected public behavior, it is low risk, and it has no meaningful trade-off.
+- Before editing, ask the user when an adaptation changes public behavior, materially expands the requested work, has a meaningful trade-off, or has uncertain benefit. Explain the affected repository surface, why the update enables the change, the expected benefit, the downsides, and the recommended choice.
+- If the user declines an adaptation, continue the version update and record the decision and remaining outdated usage.
+
+In analysis mode, report adaptations without applying them. In apply mode, resolve material adaptation decisions after analysis and before editing, then apply every automatic or approved adaptation across all causally affected usage and verification surfaces.
+
 ## Format direct update cards
 
 Use this card for every direct candidate in both analysis and apply modes:
@@ -86,12 +105,21 @@ Use this card for every direct candidate in both analysis and apply modes:
 - Repository-specific migration, required action, or important limitation.
 - Incomplete release-note coverage when applicable.
 
+**Adaptations:**
+
+- **Recommended:** Repository-specific modernization and its concrete benefit.
+- **Decision required:** Affected surface, expected benefit, downside, and recommended choice.
+
 **Sources:** [Official release notes](...), [Official changelog](...)
 ```
 
 Use the exact package, runtime, tool, or infrastructure name as the heading. Leave a blank line after the version line, then render the selected changes as top-level bullets. If no change is worth highlighting, render the single bullet `No material changes worth highlighting.`
 
-Add `Nuances` only when the candidate has an applicable breaking impact, migration, required action or decision, important limitation, or incomplete release-note coverage. In apply mode, distinguish completed actions from work that remains. Always finish each card with official source links covering the analyzed release range.
+Add `Nuances` only when the candidate has an applicable breaking impact, migration, required action or decision, important limitation, or incomplete release-note coverage. In apply mode, distinguish completed actions from work that remains.
+
+Add `Adaptations` to every card after `Nuances` when it is present and otherwise after the change bullets. Do not duplicate required migrations from `Nuances`. In analysis mode, label applicable entries `Recommended` or `Decision required`. In apply mode, label them `Applied` or `Declined`; use `Decision required` only when the task remains incomplete pending a user choice. Each entry must identify the affected repository surface and concrete benefit. A `Decision required` entry must also state its downside and the recommended choice. Do not list unchanged unrelated surfaces as adaptations. When no non-required update-driven adaptation applies, render the single bullet `No applicable adaptations identified.`
+
+Always finish each card with official source links covering the analyzed release range and supporting any reported adaptation.
 
 ## Report analysis
 
@@ -113,13 +141,15 @@ A package belongs in both sections when the two runs produce different targets. 
 
 ## Apply updates
 
-1. Complete the same update and release-impact analysis before editing.
-2. Apply targets from the ordinary result unless the user explicitly requests newly published releases or accepts bypassing the maturity period; in that case, apply the matching targets from the zero-maturity result.
-3. Prefer the discovered repository workflow; otherwise use the ecosystem's standard update method.
-4. Keep affected manifests, lockfiles, and version pins consistent.
-5. After updating declared Node.js dependencies, run `vp update` to update transitive dependencies in the lockfile.
-6. Run relevant repository checks after all update steps.
-7. Inspect the final diff and lockfile changes to confirm that every selected direct update was applied, identify every transitive package version that changed, and verify that the resulting manifest, lockfile, and version-pin changes are consistent.
+1. Complete the same update, release-impact, and adaptation analysis before editing.
+2. Resolve every material adaptation decision before editing.
+3. Apply targets from the ordinary result unless the user explicitly requests newly published releases or accepts bypassing the maturity period; in that case, apply the matching targets from the zero-maturity result.
+4. Apply required migrations and every automatic or user-approved adaptation across all causally affected usage.
+5. Prefer the discovered repository workflow; otherwise use the ecosystem's standard update method.
+6. Keep affected manifests, lockfiles, and version pins consistent.
+7. After updating declared Node.js dependencies, run `vp update` to update transitive dependencies in the lockfile.
+8. Run relevant repository checks after all update and adaptation steps.
+9. Inspect the final diff and lockfile changes to confirm that every selected direct update and adaptation was applied, identify every transitive package version that changed, and verify that the resulting manifest, lockfile, and version-pin changes are consistent.
 
 Finish with this form:
 

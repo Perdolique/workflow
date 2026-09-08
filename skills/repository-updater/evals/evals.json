@@ -4,7 +4,7 @@
     {
       "id": 1,
       "prompt": "Produce only the final analysis report from the completed discovery and release-note research below. Do not browse, modify files, or repeat the research. The ordinary policy result contains atlas-build 3.8.0 → 4.1.0. The 4.0.0 headline changes are a new project graph API, a configuration schema v2, and removal of the legacy plugins API. This repository does not use the project graph API, but atlas.config.ts uses legacyPlugins and must replace it with plugins before updating. Version 4.1.0 adds persistent build caching. The official sources covering the range are https://atlas-build.example/releases/4.0.0 and https://atlas-build.example/releases/4.1.0. The zero-maturity run adds no candidates.",
-      "expected_output": "An analysis report with a structured atlas-build card that includes every major headline change, repository-specific migration nuances, complete sources, and an empty newly published group.",
+      "expected_output": "An analysis report with a structured atlas-build card that includes every major headline change, repository-specific migration nuances, an explicit adaptation result, complete sources, and an empty newly published group.",
       "files": [],
       "expectations": [
         "The report retains the Update analysis title, analysis-only mode, and both policy groups.",
@@ -14,6 +14,7 @@
         "The project graph API remains in the change bullets even though the repository does not use it.",
         "The change bullets include persistent build caching from 4.1.0.",
         "The required Nuances bullet list identifies atlas.config.ts, the legacyPlugins usage, and the migration to plugins without mixing that impact into the package heading or Version line.",
+        "The card contains an Adaptations section with the single No applicable adaptations identified. fallback because no non-required repository-specific adaptation was established.",
         "The card ends with a bold Sources label and descriptive Markdown links for both supplied official sources.",
         "The newly published group says None."
       ]
@@ -21,7 +22,7 @@
     {
       "id": 2,
       "prompt": "Produce only the final analysis report from these completed ordinary-policy findings. Do not browse or modify files. minor-kit 2.3.0 → 2.5.0 adds workspace filters and a JSON report mode; its other notes are documentation restructuring, an internal parser refactor, and a typo fix. Sources: https://minor-kit.example/changelog/2.4.0 and https://minor-kit.example/changelog/2.5.0. patch-kit 1.4.1 → 1.4.4 fixes lockfile data corruption in 1.4.3 for a command this repository uses; its other notes are a documentation typo and a log-message spelling fix. Source: https://patch-kit.example/changelog. quiet-lib 5.0.0 → 5.0.2 contains only documentation edits and a harmless debug-log wording fix. Source: https://quiet-lib.example/releases. The zero-maturity run adds no candidates.",
-      "expected_output": "An analysis report that keeps every direct candidate, highlights notable minor capabilities and the important patch fix, filters routine noise, and uses the no-material fallback for quiet-lib.",
+      "expected_output": "An analysis report that keeps every direct candidate, highlights notable minor capabilities and the important patch fix, filters routine noise, and explicitly records that no update-driven adaptations apply.",
       "files": [],
       "expectations": [
         "minor-kit, patch-kit, and quiet-lib each have a separate level-five card with a separate Version line and change bullets.",
@@ -30,13 +31,14 @@
         "patch-kit includes the lockfile data-corruption fix but omits the documentation typo and log-message spelling fix.",
         "quiet-lib remains present with the single bullet No material changes worth highlighting. rather than being omitted.",
         "None of the three cards contains a Nuances section because the supplied findings contain no breaking impact, migration, required action or decision, important limitation, or incomplete source coverage.",
+        "Every card contains an Adaptations section with the single No applicable adaptations identified. fallback.",
         "The newly published group says None."
       ]
     },
     {
       "id": 3,
       "prompt": "Produce only the final applied report from these completed update results. Do not browse or modify files. Direct update runner-cli 6.4.0 → 7.0.0 adds parallel workspace configuration, removes the --legacy option, and fixes a crash that could discard partial results. package.json used --legacy, and that script has already been migrated to the new workspace flag. Sources: https://runner-cli.example/releases/7.0.0 and https://runner-cli.example/migration/v7. Direct update schema-lib 2.1.0 → 2.2.0 adds reusable schema fragments. Source: https://schema-lib.example/releases/2.2.0. Transitive lockfile changes are tiny-cache 1.0.0 → 1.1.0 and ansi-kit 3.2.1 → 3.2.2. pnpm test and pnpm run lint both passed.",
-      "expected_output": "An applied report with structured direct-update cards and sources, a completed migration nuance, the unchanged minimal transitive table, and verification results.",
+      "expected_output": "An applied report with structured direct-update cards and sources, a completed migration nuance, explicit adaptation results, the unchanged minimal transitive table, and verification results.",
       "files": [],
       "expectations": [
         "The report retains the Applied updates title, applied mode, Direct updates group, and Transitive updates group.",
@@ -45,8 +47,54 @@
         "runner-cli includes parallel workspace configuration, removal of --legacy, and the partial-results crash fix.",
         "runner-cli has a Nuances bullet stating that the package.json --legacy migration was completed.",
         "schema-lib includes reusable schema fragments without inventing a Nuances section.",
+        "Both direct-update cards contain an Adaptations section with the single No applicable adaptations identified. fallback.",
         "The transitive section is only a Package, Old version, and New version table containing tiny-cache and ansi-kit.",
         "The transitive rows contain no changelog summaries, impact notes, Nuances, or source links, and the report records both successful verification commands."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Apply the completed update research to the supplied repository files and produce the final applied report. Do not browse, repeat discovery, or run package-manager commands; dependency resolution and transitive analysis are complete. atlas-build is a direct development dependency with an ordinary-policy update from 4.2.0 to 4.3.0 and no transitive changes. Version 4.3.0 introduces resolver: native as the documented behavior-preserving replacement for legacyResolver: true; the legacy option still works, but the native resolver removes a compatibility path and improves resolution performance without a material downside. build.config.json uses legacyResolver. unrelated.config.json belongs to another tool, is not used by atlas-build, and its legacyTransport setting is unrelated to this release. Source: https://atlas-build.example/releases/4.3.0. Apply the update.",
+      "expected_output": "The agent updates atlas-build and automatically modernizes every causally related use of its superseded resolver without asking, leaves unrelated legacy configuration untouched, and reports the applied adaptation.",
+      "files": [
+        "evals/files/update-adaptation/package.json",
+        "evals/files/update-adaptation/build.config.json",
+        "evals/files/update-adaptation/unrelated.config.json"
+      ],
+      "expectations": [
+        "package.json changes atlas-build from 4.2.0 to 4.3.0.",
+        "build.config.json replaces legacyResolver: true with resolver: native and retains no legacyResolver setting.",
+        "unrelated.config.json retains legacyTransport unchanged because it has no causal relationship to the atlas-build update.",
+        "The final report does not list unrelated.config.json as an adaptation.",
+        "The agent applies the behavior-preserving low-risk adaptation without asking the user for approval.",
+        "The final atlas-build card labels the build.config.json resolver modernization Applied and states its concrete compatibility or performance benefit.",
+        "The card ends with the supplied official source and the transitive section says None."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Apply the completed ordinary-policy update of optimizer-cli 2.8.0 to 3.0.0. Do not browse or repeat discovery. Version 3 adds an opt-in persistent remote cache that can materially reduce this repository's CI build time, but enabling it would add about 5 GB of retained artifacts, external cache credentials, and a new shared CI cost. The package update itself works without the cache and has already been authorized. Source: https://optimizer-cli.example/releases/3.0.0. Continue as far as the repository-updater workflow permits.",
+      "expected_output": "The agent keeps the authorized version target, pauses before enabling the optional cache, explains the update-driven opportunity and its material trade-off, recommends a choice, and asks only for the adaptation decision.",
+      "files": [],
+      "expectations": [
+        "The agent does not ask the user to reapprove the already authorized optimizer-cli version target.",
+        "The agent does not silently enable the persistent remote cache before receiving a decision.",
+        "The question identifies the affected CI surface and explains that optimizer-cli 3 newly enables the adaptation.",
+        "The question states the expected build-time benefit and the retained-artifact, credential, and cost downsides.",
+        "The agent recommends one choice and asks the user to decide whether to enable the cache."
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Produce only the final applied report from these completed results. Do not browse or modify files. Direct update image-kit 5.4.0 to 6.0.0 was applied. Version 6 requires renaming decoderMode to decoder, and image.config.json was migrated successfully. Version 6 also offers a new native decoder that improves throughput but drops the repository's required Alpine platform support; the user declined that optional adaptation, so src/images/decoder.ts still uses the supported compatibility decoder. Source: https://image-kit.example/releases/6.0.0. No transitive dependencies changed, and pnpm test passed.",
+      "expected_output": "The final report records the completed required migration separately from the declined optional modernization, keeps the applied version update successful, and reports no transitive changes.",
+      "files": [],
+      "expectations": [
+        "The report retains the Applied updates title, applied mode, Direct updates group, and Transitive updates group.",
+        "The image-kit card reports the completed image.config.json decoderMode to decoder migration under Nuances.",
+        "The Adaptations section labels the native decoder change Declined and identifies src/images/decoder.ts, the throughput benefit, and the remaining compatibility decoder usage.",
+        "The report does not describe the declined optional adaptation as blocking or failed.",
+        "The card ends with the supplied official source, the transitive section says None, and the report records the successful pnpm test command."
       ]
     }
   ]
