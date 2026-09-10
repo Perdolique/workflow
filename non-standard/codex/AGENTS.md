@@ -27,6 +27,8 @@
 
 - When creating, editing, reviewing, or evaluating skills or other agent instructions, use the available `instructions-master` skill. Its authoring and evaluation guidance takes precedence over other skill-level guidance.
 - Before editing files in a Git repository, fetch its remote and verify that the current branch is based on the fresh remote default branch. Report stale or diverged branches instead of merging or rebasing without authorization.
+- When the user asks to choose or plan the next task without naming one, inspect the repository's declared primary work tracker before asking the user for a task; for a GitHub repository with no other declared source of truth, default to GitHub Issues and any linked GitHub Project. Rank actionable candidates using available evidence about priority, impact, readiness, dependencies, and the current repository state. If one task clearly leads, select it and continue with the requested planning; if several are similarly viable, present the top two or three in ranked order, give a concise evidence-based reason to do each now, and ask the user to choose.
+- If no accessible tracker yields a task, check explicit local roadmap, TODO, or backlog documents, then ask the user rather than inventing work.
 - Solve the confirmed current problem with the simplest implementation. Do not add speculative compatibility, future-proofing, or unused abstractions.
 - Prefer small duplication to a premature abstraction. Extract a pattern only after multiple real examples establish it.
 - Do not change working behaviour for a hypothetical environment or unsupported scenario.
