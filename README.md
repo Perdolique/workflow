@@ -52,7 +52,7 @@ point to it where that setup is useful for my tools.
 
 | File | Target | Description |
 | --- | --- | --- |
-| [AGENTS.md](./non-standard/codex/AGENTS.md) | Codex | Role, communication style, and code development principles |
+| [AGENTS.md](./non-standard/codex/AGENTS.md) | Codex | Personal instructions that guide the assistant across projects |
 | [config.toml](./non-standard/codex/config.toml) | Codex CLI, IDE, and desktop app | Personal Codex configuration |
 | [personal.rules](./non-standard/codex/rules/personal.rules) | Codex command policy | Personal Codex execution rules |
 | [copilot-instructions.md](./non-standard/copilot/copilot-instructions.md) | GitHub Copilot CLI | Symlink to the canonical Codex instructions |
