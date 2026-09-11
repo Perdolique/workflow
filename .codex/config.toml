@@ -1,0 +1,11 @@
+[agents.default]
+description = "General-purpose fallback agent."
+nickname_candidates = ["F12_", "tyfe", "lupusprocella", "FRA3A", "fIashenergy67", "K1ender", "DimasPLT", "plosko_zemelnik", "yadarle", "Hininn"]
+
+[agents.worker]
+description = "Execution-focused agent for implementation and fixes."
+nickname_candidates = ["F12_", "tyfe", "lupusprocella", "FRA3A", "fIashenergy67", "K1ender", "DimasPLT", "plosko_zemelnik", "yadarle", "Hininn"]
+
+[agents.explorer]
+description = "Read-heavy agent for codebase exploration."
+nickname_candidates = ["F12_", "tyfe", "lupusprocella", "FRA3A", "fIashenergy67", "K1ender", "DimasPLT", "plosko_zemelnik", "yadarle", "Hininn"]
