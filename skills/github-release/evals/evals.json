@@ -1,0 +1,50 @@
+{
+  "skill_name": "github-release",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Make the GitHub release for existing remote tag v1.5.0. The repository has published v1.4.0 and v2.0.0, and v2.0.0 is latest. v1.5.0 is the missing release between those versions; there is no policy making the old line latest.",
+      "expected_output": "The agent compares v1.4.0 to v1.5.0, prepares notes, and creates the release with latest false while preserving v2.0.0 as latest.",
+      "files": [],
+      "expectations": [
+        "The workflow chooses the predecessor relative to the target rather than the newest published stable release.",
+        "The workflow preserves the newer latest release.",
+        "The workflow completes the normal release procedure without separate approval for notes or creation.",
+        "The workflow verifies the remote tag and checks for an existing release."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Make the GitHub release for v2.1.0, whose remote tag is already verified. v2.0.0 is the previous stable release on the active line. The notes should compare against v2.0.1-hotfix, which I explicitly selected as the base.",
+      "expected_output": "The agent respects the explicit comparison base and creates the normal new stable release as latest after inspecting repository release conventions.",
+      "files": [],
+      "expectations": [
+        "The workflow uses the user's explicit base rather than replacing it silently.",
+        "The workflow applies the latest designation according to the active release line.",
+        "The workflow verifies successful publication using supported CLI output fields."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Write release notes for v2.1.0 in chat only. The target tag already has a published release.",
+      "expected_output": "The agent provides notes without creating or overwriting the existing release.",
+      "files": [],
+      "expectations": [
+        "The workflow follows the explicit notes-only request.",
+        "The workflow preserves existing release metadata and notes.",
+        "The workflow uses repository facts for the proposed notes."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Create a draft GitHub release for existing verified remote tag v2.1.0. The preceding release is v2.0.0, and no release exists for v2.1.0.",
+      "expected_output": "The agent prepares verified notes and creates an unpublished draft release.",
+      "files": [],
+      "expectations": [
+        "The creation command uses --draft and does not publish the release.",
+        "The workflow verifies isDraft is true and reports the draft URL and tag.",
+        "The workflow does not treat the draft request as authorization for a published stable/latest release."
+      ]
+    }
+  ]
+}

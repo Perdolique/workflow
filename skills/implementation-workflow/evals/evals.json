@@ -11,7 +11,7 @@
         "The workflow inspects repository evidence before asking questions the repository can answer.",
         "The plan covers result, boundaries, order, touched surfaces, verification, and residual risk.",
         "The workflow saves the plan to a reported task-specific plan.md in the system temp directory.",
-        "The workflow asks a narrow question if migration or rollback semantics remain materially uncertain."
+        "The workflow asks a narrow question if migration or rollback semantics remain uncertain."
       ]
     },
     {
@@ -137,6 +137,40 @@
         "The plan does not leave the agreed migration decisions for the implementer to choose again.",
         "The plan does not prescribe local variable names, routine imports, exact edit lines, or an exhaustive inventory of unchanged files.",
         "The plan does not invent unagreed error-handling policies, backfill mechanisms, or removal of legacy fallback after cutover."
+      ]
+    },
+    {
+      "id": 12,
+      "prompt": "Implement the account status text. Both 'Active' and 'Enabled' appear elsewhere, and repository and conversation context do not specify which applies here. The choice is cosmetic. Also fix the unrelated known typo 'Acount' in the same requested screen.",
+      "expected_output": "The agent asks about the unresolved wording while continuing the independent typo fix.",
+      "files": [],
+      "expectations": [
+        "The workflow asks a specific question about the unresolved wording despite its small impact.",
+        "The workflow waits before choosing the affected text.",
+        "The workflow can continue the independent authorized typo correction.",
+        "The workflow does not add a numeric confidence threshold."
+      ]
+    },
+    {
+      "id": 13,
+      "prompt": "Add the status label using the project's documented default: active accounts are called 'Enabled'. Keep the existing component structure and run its required checks.",
+      "expected_output": "The agent follows the explicit wording convention without asking the user to choose the label again.",
+      "files": [],
+      "expectations": [
+        "The workflow treats the documented label as a settled answer.",
+        "The workflow makes the small edit directly without a separate plan or subagents.",
+        "The workflow follows repository verification requirements."
+      ]
+    },
+    {
+      "id": 14,
+      "prompt": "Choose and plan the next task. The repository declares GitHub Issues as its primary tracker. The retrieved issue list has one clear priority leader: an epic for session storage migration with no child issues. The local TODO has a lower-priority cosmetic cleanup. I have not requested implementation.",
+      "expected_output": "The agent identifies the leading epic as needing decomposition and stops task selection without implementing the epic or quietly selecting the lower-priority cleanup.",
+      "files": [],
+      "expectations": [
+        "The workflow uses the declared tracker as the primary source.",
+        "The workflow explains that the leading epic needs actionable child tasks.",
+        "The workflow does not treat choosing a task as authorization to implement it."
       ]
     }
   ]

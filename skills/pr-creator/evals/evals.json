@@ -20,7 +20,8 @@
       "expectations": [
         "The workflow creates a new PR as draft when readiness was not specified.",
         "The workflow reports the resulting draft state.",
-        "The workflow preserves the state of an existing PR instead of forcing it back to draft."
+        "The workflow preserves the state of an existing PR instead of forcing it back to draft.",
+        "The workflow does not ask the user to confirm the established draft default."
       ]
     },
     {
@@ -64,7 +65,8 @@
       "expectations": [
         "The workflow detects that the branch has no upstream.",
         "The workflow pushes the current branch and establishes an upstream.",
-        "The workflow creates the PR only after the branch is available remotely."
+        "The workflow creates the PR only after the branch is available remotely.",
+        "The workflow does not request separate permission for the push already covered by PR creation."
       ]
     },
     {
@@ -110,6 +112,71 @@
         "The description follows the concrete style reference instead of relying only on abstract style adjectives.",
         "The description does not invent issue references, user demand, metrics, motivation, or future plans.",
         "The description omits unsupported optional sections."
+      ]
+    },
+    {
+      "id": 11,
+      "prompt": "Create a PR for this feature branch. The current task changed src/status.ts and its test, and neither file is committed. docs/other-task.md is staged for unrelated work. Preserve that other work.",
+      "expected_output": "The agent commits only the task changes, publishes the branch, and creates a draft PR while preserving the unrelated staged work.",
+      "files": [],
+      "expectations": [
+        "The workflow creates an English conventional task commit using available guidance or the standalone procedure.",
+        "The workflow preserves unrelated staged and unstaged changes.",
+        "The workflow performs the necessary commit and push without repeated authorization questions.",
+        "The workflow creates the PR only after its branch changes are published."
+      ]
+    },
+    {
+      "id": 12,
+      "prompt": "The PR you created earlier is complete. Now adjust one label and run the relevant check; I have not asked for a new publication.",
+      "expected_output": "The agent edits and verifies without treating the completed PR request as continuing authorization to commit, push, or update the PR.",
+      "files": [],
+      "expectations": [
+        "The workflow keeps this new work local.",
+        "The workflow does not infer new publication authorization from the earlier completed request."
+      ]
+    },
+    {
+      "id": 13,
+      "prompt": "Create a PR for the current task. I am on main, matching the fresh origin/main. src/status.ts and its test contain uncommitted task changes. docs/other-task.md is staged for unrelated work. The project uses feature/ branch names.",
+      "expected_output": "The agent creates a task branch before committing, then commits and publishes only the task changes and creates the PR.",
+      "files": [],
+      "expectations": [
+        "The workflow creates and switches to a branch following the feature/ convention before making a task commit.",
+        "The workflow preserves unrelated changes and their staging state.",
+        "The workflow completes commit, push, and PR creation without stopping solely because it started on main or asking for repeated authorization."
+      ]
+    },
+    {
+      "id": 14,
+      "prompt": "I am on main, matching origin/main, with uncommitted changes for the status label. Give me the PR title and description in chat based on those changes.",
+      "expected_output": "The agent uses the working-tree diff to produce copyable PR content while keeping the current branch and Git state.",
+      "files": [],
+      "expectations": [
+        "The workflow reads the uncommitted changes instead of stopping because main has no commits ahead of the base.",
+        "The workflow keeps the current branch and creates no branch, commit, push, or GitHub PR.",
+        "The output distinguishes uncommitted work from published branch changes."
+      ]
+    },
+    {
+      "id": 15,
+      "prompt": "Create a PR for the current feature branch. Only pr-creator is installed. src/status.ts has uncommitted task changes and docs/other-task.md is staged for unrelated work. The branch also contains a previous commit that has not been checked for this task.",
+      "expected_output": "The agent uses the standalone task-commit procedure, preserves staging, and inspects every outgoing commit before pushing.",
+      "files": [],
+      "expectations": [
+        "The workflow can prepare the task commit without installing or requiring another skill.",
+        "The workflow preserves unrelated staged changes.",
+        "The workflow checks the full outgoing changeset before push and resolves unrelated or unclear committed scope before publication."
+      ]
+    },
+    {
+      "id": 16,
+      "prompt": "Draft a PR on GitHub for the current feature branch. Its task changes are committed, verified, and pushed, and there is no existing PR.",
+      "expected_output": "The agent creates a draft PR on GitHub without asking whether the user wanted chat text.",
+      "files": [],
+      "expectations": [
+        "The workflow creates a GitHub draft, not only copyable chat content.",
+        "The workflow preserves the draft default and does not request redundant publication authorization."
       ]
     }
   ]

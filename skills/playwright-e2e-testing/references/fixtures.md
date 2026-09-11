@@ -13,7 +13,7 @@ When creating a fixture file for a new feature domain:
 export const itemBase = {
   id: 'test-item-id',
   slug: 'test-slug',
-  startDate: '2088-04-20T12:00:00.000Z',
+  startDate: '2024-04-20T12:00:00.000Z',
   endDate: '2088-04-21T09:00:01.000Z',
 
   property: {
@@ -45,11 +45,14 @@ export const itemWithProducts = {
 
 ### Key rules for fixture files
 
-1. **`as const` on every export** — Narrows types and catches field name typos at compile time.
+1. **`as const` on every exported fixture data object** — Preserves literal types and readonly fixture data.
 2. **Descriptive names** — `itemBase`, `itemWithProducts`, `itemUnavailable`, `availabilityNoSlots`.
 3. **Spread from base** — Only override the fields your test cares about. This makes test intent clear.
-4. **Use far-future dates** — Year 2088+ so fixtures never expire during test lifetime.
+4. **Choose dates for the scenario state** — Make active, not-started, expired, and boundary cases explicit. A far-future end date is suitable for an ordinary active fixture.
 5. **Use clearly fake IDs** — Consistent prefixes (e.g., `test-`, `mock-`) make them easy to grep and obviously not real data.
+
+- When an existing project type defines the intended fixture shape, use `as const satisfies ExistingContract` to check field names and values without widening literals. Reuse the project's contract instead of inventing a fixture-only type, and account for compatibility with readonly collections. `as const` alone does not detect a misspelled field because it does not compare the object with an expected shape. Keep intentionally invalid data when a negative scenario requires it.
+- When behavior depends on the current time or a boundary, control time in the environment that performs the comparison and choose fixture dates relative to that time. Controlling the browser clock does not control server time.
 
 ## Variant pattern
 
@@ -181,7 +184,7 @@ export const defaultPropertyResponse = {
   address: 'Test Street 1',
   city: 'London',
   country: 'GB'
-};
+} as const;
 
 export async function mockProperty(
   page: Page,

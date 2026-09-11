@@ -77,6 +77,16 @@
         "The workflow does not set an execution timeout for git commit.",
         "The workflow waits until Git and all hooks exit naturally."
       ]
+    },
+    {
+      "id": 8,
+      "prompt": "On this feature branch, commit only the current task changes in src/status.ts. That file is unstaged, while docs/other-task.md is staged for unrelated work. Keep that staging intact.",
+      "expected_output": "The agent uses the explicit task scope without asking staged-only versus stage-all and commits only the task file.",
+      "files": [],
+      "expectations": [
+        "The workflow uses the confirmed file scope without asking again.",
+        "The workflow keeps unrelated staged work out of the commit and preserves its index state."
+      ]
     }
   ]
 }

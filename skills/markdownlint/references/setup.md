@@ -9,7 +9,7 @@ Complete workflow for setting up markdownlint from scratch in a Node.js project.
 Before making changes, verify the project structure:
 
 1. Check if `package.json` exists — if not, ask whether to initialize a Node.js project first
-2. Confirm pnpm is being used (look for `pnpm-lock.yaml` or `packageManager` field in package.json)
+2. Identify the package manager from the project's lockfile and `packageManager` field and use its commands throughout setup
 3. Check if markdownlint is already installed — if so, skip installation and only update configuration files
 
 ## Step 2: Install dependencies
@@ -39,7 +39,7 @@ line-length: false # Autowraping should be handled in editors/viewers
 
 **Why disable line-length?** Modern editors and markdown viewers handle text wrapping automatically, so enforcing a fixed line length often creates unnecessary friction without improving readability. Focus on semantic issues instead of presentation.
 
-If the user has specific style requirements, ask them which rules they want to customize. Common customizations include:
+Apply established project and user style requirements. Ask about remaining uncertainty in the desired rules. Common customizations include:
 
 - `no-inline-html: false` — allow HTML in markdown (useful for advanced formatting)
 - `no-duplicate-heading: false` — allow duplicate headings across the document
@@ -96,59 +96,17 @@ If linting fails with actual issues in markdown files, show the user the errors 
 
 ## Step 7: Add verification to AGENTS.md
 
-Update the project's AGENTS.md file to include markdown linting in the verification workflow. This ensures the linting command is run after every task.
+Document the lint command and its scope in the project's AGENTS.md, preserving existing checks and applicable instructions. Use its verification section, add that section if missing, or create a short titled file when AGENTS.md is absent.
 
-### Check if AGENTS.md exists
-
-#### If AGENTS.md exists
-
-Look for existing verification/quality/task verification sections. Common section names:
-
-- "Task verification"
-- "Verification"
-- "Quality checks"
-- "Post-task checklist"
-
-**Add the command to existing section:**
+Use the project's actual package-manager command in this template:
 
 ```markdown
-### Task verification
-
-**After completing ANY task**, run verification commands to ensure quality:
-
-- **Run markdown linting**: Execute `pnpm run lint:markdown` to verify all markdown files comply with style rules
-- **Fix violations**: If linting fails, fix violations before marking task as complete
-
-**Available verification commands:**
-
-    # Markdown linting (required for all tasks that modify .md files)
-    pnpm run lint:markdown
+- After a complete group of changes to Markdown, the lint configuration, ignore patterns, or the lint command, run `pnpm run lint:markdown`.
+- Fix reported violations and verify the final state before marking the work complete.
+- Follow the project's broader verification requirements.
 ```
 
-**If no verification section exists**, add a new section at the end of AGENTS.md (or after workflow/task sections if they exist).
-
-#### If AGENTS.md does NOT exist
-
-Create a minimal AGENTS.md in the project root with basic verification workflow:
-
-```markdown
-# Project workflow
-
-## Task verification
-
-**After completing ANY task**, run verification commands to ensure quality:
-
-- **Run markdown linting**: Execute `pnpm run lint:markdown` to verify all markdown files comply with style rules
-- **Fix violations**: If linting fails, fix violations before marking task as complete
-- **Task completion criteria**: A task is considered successfully completed ONLY when all verification commands pass with exit code 0
-
-**Available verification commands:**
-
-    # Markdown linting (required for all tasks that modify .md files)
-    pnpm run lint:markdown
-```
-
-**Why this matters:** This documentation helps AI coding assistants and human developers know that markdown linting should be run as part of the task completion workflow, not just before commits.
+This gives future contributors the command and its scope without adding a separate general workflow for the project.
 
 ## Step 8: Integrate with Husky (if applicable)
 

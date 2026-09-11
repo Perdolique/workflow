@@ -1,21 +1,22 @@
 ---
 name: playwright-e2e-testing
-description: Write and maintain Playwright end-to-end tests for web apps. Use when the user asks for browser or E2E coverage, or for tests covering pages, routes, redirects, navigation, dialogs, authentication, or multi-step user flows, even if they do not explicitly mention Playwright. Also use for API mocking, fixtures, and Playwright-specific assertions.
+description: Write and maintain Playwright browser and end-to-end tests for web apps, plus direct API tests with APIRequestContext. Use for browser or E2E coverage even when the user does not name Playwright, and for mocks, fixtures, and assertions that support Playwright tests.
 license: Unlicense
 ---
 
-# E2E testing with Playwright
+# Browser, E2E, and API testing with Playwright
 
-This skill provides patterns and conventions for writing Playwright E2E tests for web applications, including SPA-specific techniques for routing, API mocking, and async navigation.
+This skill provides patterns and conventions for Playwright browser, E2E, and direct API tests, including SPA-specific techniques for routing, API mocking, and async navigation.
 
 ## When to use this skill
 
-- Writing E2E/browser tests for user flows
+- Writing browser or E2E tests for user flows
 - Testing page routing and redirects
 - Testing dialog/modal interactions
-- Creating test data fixtures for a new feature
-- Mocking API endpoints for E2E tests
-- Debugging failing Playwright tests
+- Testing endpoints directly through Playwright's `APIRequestContext`
+- Creating mocks, fixtures, and assertions for Playwright tests
+- Debugging failing Playwright browser, E2E, or API tests
+- Choose the testing skill from the task and the project's established test tool. Route generic requests for mocks or test data according to that context.
 
 ## Project configuration
 
@@ -23,13 +24,15 @@ When setting up or modifying `playwright.config.ts`, see [references/configurati
 
 ## Test imports
 
-If the project has a custom fixture file that extends Playwright's `test` object (common for API interception, shared setup, etc.), always import `test` and `expect` from that fixture — not from `@playwright/test` directly. Check the project's test directory for a `fixtures/` folder or `global.fixtures.ts`.
+Check the project's test directory for a custom fixture file that extends Playwright's `test` object, commonly for API interception or shared setup. When one exists, import `test` and `expect` from it so the test receives the project's setup:
 
 ```typescript
-// ✅ If project has custom fixtures — import from there
 import { test, expect } from '../fixtures/global.fixtures.ts';
+```
 
-// ❌ Bypasses any project-level request interception or setup
+When the project has no custom fixture, import them from Playwright:
+
+```typescript
 import { test, expect } from '@playwright/test';
 ```
 
@@ -39,7 +42,7 @@ Standalone types are always fine to import directly:
 import type { Page, Locator } from '@playwright/test';
 ```
 
-Use the shared fixture to fail on application `pageerror`, `console.error`, hydration warnings, and unresolved components. Exclude only browser-generated resource errors that tests assert explicitly.
+Configure shared browser fixtures to fail on application `pageerror`, `console.error`, hydration warnings, and unresolved components. Preserve these checks when reusing the project's fixtures. Exclude only browser-generated resource errors that tests assert explicitly.
 
 ## Directory structure
 
@@ -110,7 +113,7 @@ test.describe('Router redirects', () => {
 
 ### Multi-step flows with test.step()
 
-For complex user flows (purchases, form submissions), use `test.step()` blocks. Playwright reports show which step failed, making debugging much faster.
+Use named `test.step()` blocks for meaningful stages of complex user flows such as purchases and form submissions. The report then identifies the failed stage. Keep a short, cohesive test as a direct sequence of actions and assertions unless the project has a more specific convention.
 
 ```typescript
 test('completes purchase flow', async ({ page }) => {
@@ -182,7 +185,7 @@ Prefer user-facing selectors in this order:
 4. `page.getByText('text', { exact: true })` — Exact match to avoid partial hits
 5. `page.getByText(/regex pattern/u)` — Regex for dynamic content
 
-Use `.first()` when multiple identical elements exist on the page (e.g., text duplicated for mobile/desktop viewports).
+Refine a locator to the intended element by accessible role and name, relevant container, row or card, and visibility. Use `.first()` or `.nth()` when position is part of the behavior under test or the test has an established reason to select an equivalent match by position.
 
 ## Assertion patterns
 
@@ -205,11 +208,11 @@ await expect.poll(() => new URL(page.url()).pathname).toBe('/order-confirmation'
 await expect(page.getByRole('button', { name: 'Submit' })).toBeEnabled();
 await expect(page.getByRole('button', { name: 'Submit' })).toBeDisabled();
 
-// Regex with unicode flag (for apostrophes, special chars)
-await expect(page.getByText(/^You.re all set!$/u)).toBeVisible();
+// Unicode-aware regex with explicit apostrophe variants
+await expect(page.getByText(/^You(?:'|’|ʼ)re all set!$/u)).toBeVisible();
 ```
 
-Always use the `/u` (unicode) flag on regex patterns to correctly handle special characters.
+Always use the `/u` (unicode) flag so regular expressions are parsed in Unicode-aware mode. Express accepted apostrophe or other character variants in the pattern itself when the text can contain them.
 
 ## API mocking with page.route()
 
@@ -223,7 +226,7 @@ async function mockProducts(page: Page, response: unknown): Promise<void> {
 }
 ```
 
-### Mock with different HTTP methods
+### Mock a create-and-poll flow
 
 ```typescript
 async function mockPurchase(page: Page, purchaseId: string, response: unknown): Promise<void> {
@@ -239,9 +242,9 @@ async function mockPurchase(page: Page, purchaseId: string, response: unknown): 
 }
 ```
 
-### Block external requests
+### Control unrelated external requests
 
-A common pattern is to block all external requests and only allow requests to the app itself:
+Choose the network boundary from the scenario and the project's network policy. For a test of application behavior after an external dependency responds, provide controlled responses and handle unexpected requests consistently. One common policy is to block requests outside the app:
 
 ```typescript
 await page.route('**/*', async (route) => {
@@ -254,6 +257,8 @@ await page.route('**/*', async (route) => {
   }
 });
 ```
+
+When the scenario tests the external integration itself, use the configured test environment and keep that interaction real. Mock the dependencies outside the behavior being tested.
 
 ### Override existing mocks
 
@@ -271,77 +276,19 @@ await page.route('**/api/properties/**', async (route) => {
 
 When cancellation matters, hold the stale response, register `requestfailed` before triggering its replacement, assert the abort (`ERR_ABORTED` in Chromium), then release the mock and verify only current data renders. Final UI alone does not prove transport cancellation; never fulfill an already-aborted route.
 
-### Mock third-party services
+### Mock third-party dependencies
 
 ```typescript
 async function setupExternalMocks(page: Page): Promise<void> {
   await page.route('https://analytics.example.com/**', async (route) => {
     await route.fulfill({ status: 200, body: '' });
   });
-
-  await page.route('https://cdn.example.com/**', async (route) => {
-    await route.fulfill({ status: 200, body: '', contentType: 'image/jpeg' });
-  });
 }
 ```
 
 ## Creating test data fixtures
 
-See [references/fixtures.md](references/fixtures.md) for detailed patterns.
-
-### Variant pattern (simple features)
-
-Use a base const object + spread for variants. Each test gets exactly the data shape it needs, and you can see what differs from the base at a glance:
-
-```typescript
-export const itemBase = {
-  id: 'test-item-id',
-  name: 'Test Item',
-  status: 'active',
-  items: []
-} as const;
-
-export const itemWithProducts = {
-  ...itemBase,
-  items: [{
-    productId: 'test-product-id',
-    status: 'confirmed'
-  }]
-} as const;
-```
-
-### Factory pattern (complex features)
-
-When fixtures need many permutations with computed fields:
-
-```typescript
-function createAccessKey(options: {
-  readonly id: string;
-  readonly type: 'code' | 'remote';
-  readonly name: string;
-  readonly code?: string | null;
-}) {
-  return {
-    id: options.id,
-    type: options.type,
-    name: options.name,
-    code: options.code ?? null,
-    validFrom: '2024-01-01T00:00:00.000Z',
-    validTo: '2099-12-31T23:59:59.000Z'
-  } as const;
-}
-```
-
-Factory functions stay private to the fixture file. Exported variants compose them.
-
-### Fixture data conventions
-
-| Convention | Why |
-| --- | --- |
-| Use `as const` on every exported object | TypeScript narrows the type, catches typos |
-| Use far-future dates in fixtures (e.g., year 2088) | Won't expire during test lifetime |
-| Use clearly fake IDs with consistent prefixes | Easy to grep, obviously not real data |
-| Spread from base, override only what matters | Makes test intent clear |
+Read [the fixture guide](references/fixtures.md) when creating or changing fixture data. It covers base objects and variants, private factories, literal types, existing contracts, scenario dates, and mock helpers.
 
 ## API request testing
 
@@ -377,31 +324,25 @@ Import `test` from this file in API test files. The fixture is available as `{ a
 
 ### Type-safe JSON parsing
 
-`APIResponse.json()` returns `Promise<any>` (Playwright's `Serializable = any`). Assigning `any` directly to a typed variable triggers `no-unsafe-assignment`. Use `unknown` as the intermediate type, then parse with a validation library:
+`APIResponse.json()` returns `Promise<any>` (Playwright's `Serializable = any`). When a test reads a JSON body, use `unknown` as the intermediate type and parse it with Valibot:
 
 ```typescript
-// ✅ Correct — breaks out of any safely
+const response = await request.get('/api/items')
 const raw: unknown = await response.json()
 const body = v.parse(mySchema, raw)  // Valibot accepts unknown, returns typed result
-
-// ❌ Wrong — casting any → specific type bypasses runtime check
-const body = await response.json() as MyResponseType
-
-// ❌ Wrong — no-await-expression-member: don't chain .json() onto an await
-const raw: unknown = await (await request.get('/api/items')).json()
 ```
 
-When using Valibot, split request and parse onto separate lines — Valibot's `parse` throws a descriptive error if the shape doesn't match, which makes test failures easy to diagnose.
+Valibot's `parse` checks the runtime shape and returns typed data. Keep the request, JSON read, and parse on separate lines so failures remain clear. Tests that inspect only status, headers, or an absent body should use the matching response assertions without reading JSON.
 
 ### What to assert in API tests
 
-When a validation schema already enforces response shape, shape assertions add zero value — the schema throws before assertions are even reached. Focus on assertions TypeScript and schemas can't verify:
+After Valibot validates the response shape, focus assertions on the HTTP contract and tested behavior. Remove a shape assertion only when the schema already checks the same requirement:
 
 ```typescript
-// ❌ Redundant when v.parse(schema, raw) already validates the shape
+// Redundant when v.parse(schema, raw) already validates this shape
 expect(body).toMatchObject({ id: expect.any(Number), name: expect.any(String) })
 
-// ✅ Tests actual behavior — HTTP contract, correct data, filter logic, auth
+// Tests the HTTP contract, correct data, filter logic, and auth behavior
 expect(response.status()).toBe(200)
 expect(body.name).toBe('MSR')
 expect(body.items.length).toBeGreaterThan(0)
@@ -427,22 +368,22 @@ test('returns 401 without session cookie', async ({ playwright }) => {
 
 ```bash
 # Run all Playwright tests
-npx playwright test
+vpx playwright test
 
 # Run a specific test file
-npx playwright test tests/playwright/product/checkout.test.ts
+vpx playwright test tests/playwright/product/checkout.test.ts
 
 # Run with UI mode for debugging
-npx playwright test --ui
+vpx playwright test --ui
 
 # Run with headed browser
-npx playwright test --headed
+vpx playwright test --headed
 
 # Run with Playwright inspector/debug mode
-npx playwright test --debug
+vpx playwright test --debug
 
 # Open the last HTML report
-npx playwright show-report
+vpx playwright show-report
 ```
 
 Check the project's `package.json` for available test scripts — many projects define shortcuts like `test:playwright`, `test:e2e`, or similar.
@@ -451,19 +392,20 @@ Check the project's `package.json` for available test scripts — many projects 
 
 Before considering an E2E test complete, verify:
 
-- [ ] `test` and `expect` imported from the project's fixture file (if one exists)
-- [ ] Only types imported from `@playwright/test` (e.g., `type Page`, `type Locator`)
+- [ ] `test` and `expect` imported from the project's fixture file when one exists; otherwise imported from `@playwright/test`
+- [ ] Playwright types such as `Page` and `Locator` imported directly with `import type`
 - [ ] Feature-specific fixtures use `as const` on all exported objects
-- [ ] Future dates used in fixture data
+- [ ] Fixtures with a known project contract use compatible `satisfies` checks; intentional invalid fixtures remain invalid for their scenarios
+- [ ] Fixture dates represent the intended state; time is controlled where behavior depends on the current time or a boundary
 - [ ] `test.describe()` groups related tests
 - [ ] Helper functions extracted for repeated navigation/assertion patterns
-- [ ] Multi-step flows use `test.step()` blocks
+- [ ] Meaningful stages of complex flows use `test.step()` blocks; short cohesive tests remain direct
 - [ ] `page.waitForRequest()` set up BEFORE the triggering action
 - [ ] Regex patterns use `/u` flag
-- [ ] `.first()` used when multiple matching elements exist
-- [ ] No external services left unmocked (check console for blocked request warnings)
-- [ ] **API tests**: `const raw: unknown = await response.json()` — never assign `any` directly
-- [ ] **API tests**: Schema validation (Valibot/Zod) used; shape-only `toMatchObject` assertions removed
+- [ ] Locators identify the intended element semantically; `.first()` or `.nth()` represents an intentional positional choice
+- [ ] Dependencies outside the tested behavior are controlled according to project network policy; tested integrations remain real in the configured test environment
+- [ ] **API tests that read JSON**: The body enters as `unknown` and Valibot validates it; only shape assertions duplicated by the schema are removed
+- [ ] **API tests without JSON reads**: Status, headers, and absent bodies use matching response assertions without an artificial schema
 - [ ] **API tests**: Auth tests use inline anonymous context, not the authenticated fixture
 - [ ] **API tests**: Worker-scoped fixtures used for authentication (not `beforeAll` + `let`)
 - [ ] Test runs successfully

@@ -1,6 +1,6 @@
 ---
 name: vue-components
-description: Vue 3 + TypeScript component conventions for `.vue` SFC work. Use for Vue UI tasks that change component APIs/templates/styling/accessibility/composables/template refs/v-model or related component behavior. For Nuxt/Pinia/routing/E2E/Vitest tasks apply only to component-layer code and combine with the more specific local skill.
+description: Build, refactor, or review Vue 3 + TypeScript components and composables. Use for `.vue` APIs and behavior as well as templates, styling, and accessibility. For Nuxt or Pinia work, routing, and tests, apply this skill only to the component layer and follow project conventions elsewhere.
 license: Unlicense
 ---
 
@@ -92,11 +92,9 @@ interface Emits {
 
 ## Template logic
 
-- Bind template conditions and rendered values to named identifiers.
-- Before finishing, scan the entire `<template>`. Move negations, comparisons,
-  ternaries, Boolean expressions, collection checks, formatting, and function
-  calls into named computed state or view-model fields. Leave only Vue syntax
-  such as `item in items` and slot bindings inline.
+- Before finishing, scan the entire `<template>`. Keep component-wide derived rendering values, including conditions, collection checks, and formatting, in named computed state or view-model fields.
+- For rendering logic that depends on template-local bindings, such as `v-for` aliases or slot props, use a named side-effect-free helper with those bindings as arguments. Reuse existing derived fields when available. Keep the current component and state structure when a helper alone expresses the local rendering logic.
+- Keep comparisons, formatting, and other derived logic inside the named computed value, view-model field, or helper. Vue binding syntax such as `item in items` and slot bindings stays inline. These rendering rules are separate from event-handler conventions.
 
 Wrong:
 
@@ -154,9 +152,7 @@ Right:
 
 ### CSS modules class bindings
 
-Bind one `$style.*` class per styled template element directly in the template.
-Do not use `useCssModule()` to pass presentation classes through render
-configuration. Expose a slot when callers need to style rendered elements.
+Bind one `$style.*` class per styled template element directly in the template. Do not use `useCssModule()` to pass presentation classes through render configuration. Expose a slot when callers need to style rendered elements.
 
 Wrong:
 

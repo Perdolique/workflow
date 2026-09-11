@@ -1,68 +1,33 @@
 ---
 name: drizzle-orm
-description: Drizzle ORM v1 beta query patterns for TypeScript. Use when writing, reviewing, or debugging Drizzle queries on `drizzle-orm@1.0.0-beta.1+`, especially with Relations v2, Relational Query Builder v2 (`db.query.*`), dynamic filters, SQL builder fallbacks, relation loading, and query-shape type mismatches. Also apply during code review when code contains non-trivial `drizzle-orm` usage.
+description: Drizzle ORM 1.0 query patterns for the user's projects using Relations v2 and Relational Query Builder v2. Use when writing, reviewing, or debugging Drizzle queries, including dynamic filters, SQL builder fallbacks, relation loading, query-shape type mismatches, and non-trivial query construction during review.
 ---
 
 # Drizzle ORM patterns
 
-Assume Drizzle `1.0.0-beta.1+` and Relational Query Builder v2 unless the
-installed package or codebase explicitly proves otherwise. In this model,
-`db.query.*` is the v2 API and relations are defined with `defineRelations`.
+The user's projects use Drizzle 1.0, Relations v2, and Relational Query Builder v2. Use this established API generation: `db.query.*` is the v2 API and relations are defined with `defineRelations`. Treat this as settled project context. Resolve concrete type errors, driver limits, and API details from the relevant code and package documentation when needed.
 
-For formatting of relational queries and SQL builder chains, especially when a
-query mixes `columns`, `where`, and `with` or builder helpers like `.select()`
-and `.where()`, read [references/formatting.md](references/formatting.md). Use
-that layout consistently in generated examples and code review suggestions
-because deep Drizzle configs get hard to scan when everything is packed onto a
-few lines.
+For formatting of relational queries and SQL builder chains, especially when a query mixes `columns`, `where`, and `with` or builder helpers like `.select()` and `.where()`, read [references/formatting.md](references/formatting.md). Use that layout consistently in generated examples and code review suggestions because deep Drizzle configs get hard to scan when everything is packed onto a few lines.
 
-## Version cues
+## API conventions
 
-Treat these as current Drizzle v1 beta patterns:
+- Use these Drizzle 1.0 patterns:
 
 - Use `defineRelations(schema, (relationBuilder) => ...)` from `drizzle-orm`.
 - Pass the resulting relations object to `drizzle(client, { relations })`.
 - Use `db.query.table.findMany()` and `db.query.table.findFirst()` for RQB v2.
 - Use object-shaped `where` and `orderBy` in relational queries.
-
-Do not add compatibility branches unless the current project has a reproduced
-need for them. Prefer keeping new code in the v2 shape.
+- Keep new relational queries in the v2 shape. Add compatibility code only for a reproduced project need within the requested task.
 
 ## Driver caveats
 
-Drizzle query advice depends not only on query shape, but also on the database
-driver in use. Before suggesting transactions or multi-step write fixes, check
-which client the code is actually using.
-
-### Neon HTTP vs WebSocket
-
-If the code uses `drizzle-orm/neon-http`, do not suggest a normal
-`db.transaction(async (tx) => ...)` fix. The Neon HTTP driver does not support
-Drizzle transaction callbacks, so advice that assumes transactional writes is
-incorrect for that client.
-
-If the code uses `drizzle-orm/neon-serverless` with a WebSocket or `Pool`
-client, transactions are supported and `db.transaction(...)` is a valid option.
-
-### Review guidance for multi-step writes
-
-When a handler performs multiple writes that must succeed or fail together,
-first identify the client:
-
-- If it is an HTTP Neon client, call out the atomicity issue, but do not
-  recommend `db.transaction(...)` on that same client without verifying a
-  supported transactional path.
-- If it is a WebSocket/serverless client with transaction support, recommending
-  a transaction is appropriate.
-
-This is especially important during code review: avoid suggesting fixes that
-the current driver cannot execute.
+- Identify the client before suggesting a transaction, including when reviewing writes that must succeed or fail together.
+- With `drizzle-orm/neon-http`, identify atomicity gaps and verify a supported solution; this driver does not support `db.transaction(async (tx) => ...)` callbacks.
+- With `drizzle-orm/neon-serverless` using WebSocket or `Pool`, `db.transaction(...)` is supported and can make related writes atomic.
 
 ## Relations v2 setup
 
-Define relations in one place with `defineRelations`. The `relationBuilder`
-callback parameter exposes schema tables plus relation helpers such as `one`,
-`many`, and `through`.
+Define relations in one place with `defineRelations`. The `relationBuilder` callback parameter exposes schema tables plus relation helpers such as `one`, `many`, and `through`.
 
 ```typescript
 import { defineRelations } from 'drizzle-orm'
@@ -85,19 +50,16 @@ export const relations = defineRelations(schema, (relationBuilder) => ({
 export const db = drizzle(client, { relations })
 ```
 
-Use these relation options only when they solve a real schema need:
+- Use these relation options only when they solve a real schema need:
 
 - `from` and `to` connect local relation columns to target relation columns.
 - `alias` is useful when two tables have multiple relations between them.
-- `optional: false` makes the relation required at the type level; use it only
-  when the related row is guaranteed to exist.
-- `where` in relation definitions creates predefined relation filters. It can
-  filter only columns on the target `to` table.
+- `optional: false` makes the relation required at the type level; use it only when the related row is guaranteed to exist.
+- `where` in relation definitions creates predefined relation filters. It can filter only columns on the target `to` table.
 
 ### Many-to-many through junction tables
 
-Use `through` to expose the target table directly instead of querying a junction
-table and mapping it out manually.
+Use `through` to expose the target table directly instead of querying a junction table and mapping it out manually.
 
 ```typescript
 export const relations = defineRelations(schema, (relationBuilder) => ({
@@ -127,8 +89,7 @@ const users = await db.query.users.findMany({
 
 ### Predefined relation filters
 
-Use predefined filters when a named relation always needs the same target-table
-filter.
+Use predefined filters when a named relation always needs the same target-table filter.
 
 ```typescript
 export const relations = defineRelations(schema, (relationBuilder) => ({
@@ -158,16 +119,14 @@ const groups = await db.query.groups.findMany({
 
 ## Relational API vs SQL builder
 
-Drizzle has two distinct query APIs. Choosing the wrong one causes TypeScript
-errors or forces awkward query shapes.
+Drizzle has two distinct query APIs. Choosing the wrong one causes TypeScript errors or forces awkward query shapes.
 
 **Use the relational API** (`db.query.table.findFirst/findMany`) when:
 
 - Fetching a single record or a simple list.
 - Loading nested relations in one query.
 - Filtering with object-shaped RQB v2 filters.
-- Using relation filters, predefined relation filters, nested `limit`, or
-  nested `offset`.
+- Using relation filters, predefined relation filters, nested `limit`, or nested `offset`.
 
 **Use the SQL builder** (`db.select().from().where()`) when:
 
@@ -179,8 +138,7 @@ errors or forces awkward query shapes.
 
 ### `where` takes an object
 
-Use object-shaped filters in RQB v2. A plain property value means equality; use
-operator objects for non-equality conditions.
+Use object-shaped filters in RQB v2. A plain property value means equality; use operator objects for non-equality conditions.
 
 ```typescript
 const item = await db.query.items.findFirst({
@@ -211,8 +169,7 @@ const item = await db.query.items.findFirst({
 
 ### Complex filters
 
-RQB v2 filters support `AND`, `OR`, `NOT`, column operators, `RAW`, and relation
-filters.
+RQB v2 filters support `AND`, `OR`, `NOT`, column operators, `RAW`, and relation filters.
 
 ```typescript
 import { sql } from 'drizzle-orm'
@@ -249,8 +206,7 @@ const users = await db.query.users.findMany({
 })
 ```
 
-Use `RAW` only for cases the object operators cannot express, and still route
-user input through parameterized `sql` expressions.
+Use `RAW` only for cases the object operators cannot express, and still route user input through parameterized `sql` expressions.
 
 ### Select columns and load nested relations
 
@@ -299,13 +255,11 @@ const brand = await db.query.brands.findFirst({
 })
 ```
 
-When `columns` contains both `true` and `false`, the `false` entries are
-redundant because the included `true` fields already define the result shape.
+When `columns` contains both `true` and `false`, the `false` entries are redundant because the included `true` fields already define the result shape.
 
 ### Order related data
 
-Prefer object-shaped `orderBy` for normal ordering. Use callback/custom SQL
-ordering only when the object form cannot express the requirement.
+Prefer object-shaped `orderBy` for normal ordering. Use callback/custom SQL ordering only when the object form cannot express the requirement.
 
 ```typescript
 const posts = await db.query.posts.findMany({
@@ -325,9 +279,7 @@ const posts = await db.query.posts.findMany({
 
 ### Add computed fields with `extras`
 
-Use `extras` for per-row computed fields. Do not put aggregations in `extras`;
-use core queries or an explicit supported subquery pattern such as `db.$count`
-when the project already uses it.
+Use `extras` for per-row computed fields. Do not put aggregations in `extras`; use core queries or an explicit supported subquery pattern such as `db.$count` when the project already uses it.
 
 ```typescript
 const posts = await db.query.posts.findMany({
@@ -383,14 +335,11 @@ const results = await db
   .offset((page - 1) * limit)
 ```
 
-Always escape user input before passing to `ilike()` because `%` and `_` are
-wildcards in SQL LIKE patterns.
+Always escape user input before passing to `ilike()` because `%` and `_` are wildcards in SQL LIKE patterns.
 
 ### Count query
 
-`count()` returns exactly one row at runtime, but with
-`noUncheckedIndexedAccess` TypeScript still treats indexed access as possibly
-`undefined`. Avoid array destructuring here and read the first row safely.
+`count()` returns exactly one row at runtime, but with `noUncheckedIndexedAccess` TypeScript still treats indexed access as possibly `undefined`. Avoid array destructuring here and read the first row safely.
 
 ```typescript
 import { count } from 'drizzle-orm'

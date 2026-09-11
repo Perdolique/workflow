@@ -1,0 +1,27 @@
+{
+  "skill_name": "typescript-conventions",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Refactor this TypeScript validation schema and query to match the repository's conventions. The schema composes nested Valibot object, pipe, string, and minLength calls. The query builds and(eq(users.id, parseId(rawId)), ilike(users.name, search)) inside .where(). Preserve evaluation order and behavior.",
+      "expected_output": "The agent keeps declarative schema/query composition intact and extracts ordinary parseId input preparation into a named intermediate.",
+      "files": [],
+      "expectations": [
+        "The workflow preserves nested and chained declarative library composition.",
+        "The workflow extracts ordinary data preparation even when it appears inside a declarative query.",
+        "The workflow preserves evaluation order, conditional execution, and complexity."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Refactor renderResult(normalize(loadItems()).map(toViewModel)) into the project's TypeScript style. This is ordinary application data preparation and rendering.",
+      "expected_output": "The agent names non-trivial intermediate computations rather than treating any chain of calls as a declarative DSL.",
+      "files": [],
+      "expectations": [
+        "The workflow gives ordinary nested computations meaningful names.",
+        "The workflow preserves behavior and avoids unnecessary extra collection passes.",
+        "The workflow does not classify an arbitrary call chain as a schema or query declaration."
+      ]
+    }
+  ]
+}

@@ -1,10 +1,12 @@
 # Evaluate instructions
 
-Use evaluation to test behavior, selection, or instruction interaction when an editorial review cannot provide enough confidence.
+Test behavior, skill selection, or how instructions work together when a wording review cannot give enough confidence.
 
 ## Evaluation data
 
-Use an existing `evals/evals.json` when available. The supported structure contains `skill_name` and an `evals` array. Each case contains:
+Use an existing `evals/evals.json` when available. It contains `skill_name` and an `evals` array.
+
+Each case contains:
 
 - `id`: unique case identifier.
 - `prompt`: realistic task given to the executor.
@@ -12,7 +14,7 @@ Use an existing `evals/evals.json` when available. The supported structure conta
 - `files`: input paths relative to the evaluated skill directory.
 - `expectations`: independently verifiable statements about the result or actions.
 
-Preserve existing cases unless the intended behavior changes. Add or revise a case only when it covers a material contract that the current set does not test.
+Preserve existing cases unless the intended behavior changes. Add or revise a case only for an important requirement that the current set does not test.
 
 ## Design useful cases
 
@@ -23,7 +25,7 @@ Preserve existing cases unless the intended behavior changes. Add or revise a ca
 
 ## Run comparable executions
 
-Run the same case with the same inputs, model, permissions, and environment for every compared version.
+Use the same case, inputs, model, permissions, and environment for every compared version.
 
 - For a new skill, compare execution with the skill against execution without it.
 - For an update, preserve the original version and compare it against the candidate.
@@ -31,17 +33,18 @@ Run the same case with the same inputs, model, permissions, and environment for 
 - Capture the final response, produced artifacts, relevant actions, errors, and unavailable evidence.
 - Keep generated evaluation work outside the repository, preferably in a task-specific temporary directory.
 
-Use an independent executor when the environment supports one. If independent execution is unavailable, perform a clearly labelled editorial check and do not present it as behavioral validation.
+Use an independent executor when the environment supports one. Otherwise, label the result as an editorial check. It does not prove behavior.
 
 ## Test selection separately
 
-Test automatic selection through the target agent's real skill discovery mechanism. Include realistic matching prompts and close non-matching prompts. Explicitly supplying the skill tests instruction following, not automatic selection.
+- Test automatic selection through the target agent's real skill discovery mechanism. Include realistic matching prompts and close non-matching prompts.
+- Supplying the skill directly tests instruction following. It does not test automatic selection.
 
-A selection result applies only to the tested agent, version, configuration, and available skill set. Do not generalize it to other agents without running them.
+- Limit selection claims to the tested agent, version, configuration, and available skill set. Test other setups before making claims about them.
 
 ## Grade from evidence
 
-The grader receives the prompt, expectations, execution record, and output artifacts. It does not receive the intended verdict.
+Give the grader the prompt, expectations, execution record, and output artifacts. Keep the intended verdict hidden.
 
 For every expectation, report:
 
@@ -50,10 +53,12 @@ For every expectation, report:
 - `unverified` when the available record cannot establish either result.
 - Evidence identifying the relevant output, artifact, or action; explain what is missing for `unverified`.
 
-Inspect artifacts directly when possible. Do not accept the executor's claim that a check passed as evidence that it passed. Keep distinct failures separate and avoid counting the same cause more than once.
+- Inspect artifacts directly when possible. An executor's claim that a check passed is not proof.
+- Keep failures with different causes separate. Count each cause once.
 
 ## Decide and iterate
 
-Compare expectation results, material regressions, unnecessary actions, and execution cost. Prefer the simplest version that satisfies the contract without weakening important boundaries.
+- Compare the results, material regressions, unnecessary actions, and execution cost. Prefer the simplest version that meets the requirements and preserves important boundaries.
 
-Revise instructions only for causes supported by evaluation evidence. Rerun affected cases after a material correction or an ambiguous result; stop when the candidate satisfies the intended contract, remaining differences are immaterial, or further progress requires unavailable evidence.
+- Revise instructions only for causes supported by the results. Rerun affected cases after a material correction or an unclear result.
+- Stop when the candidate meets the requirements, remaining differences do not matter, or further progress needs evidence that is unavailable.

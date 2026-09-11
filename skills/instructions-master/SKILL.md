@@ -5,32 +5,39 @@ description: Create, edit, review, or evaluate reusable skills and other agent i
 
 # Instructions master
 
-Manage instruction authoring. This skill governs authoring scope and evaluation when skill-level guidance conflicts. Follow higher-priority instructions and explicit user direction; use domain sources for domain facts.
-
-Keep the complete applicable instruction set short, clear, and consistent. Optimize for unambiguous behavior, not the fewest words; preserve necessary scope and exceptions.
+- Write English instructions at B1 level: use common words, short sentences, and correct grammar. Keep needed technical terms and explain unfamiliar ones.
+- Make the full instruction set clear and consistent. Preserve working behavior, scope, and useful exceptions; rewrite the wording as needed.
+- This skill controls authoring and evaluation when skills disagree. Follow higher-priority instructions and explicit user direction. Use domain sources for domain facts.
 
 ## Establish the contract
 
-- Read the complete target and applicable instructions; identify existing rules that already cover or conflict with the requested behavior.
-- Identify the intended behavior, audience, loading mechanism, instruction hierarchy, and existing scope.
-- Inspect only related instructions, history, and automated enforcement that can change the decision. Distinguish established requirements from assumptions and proposals.
-- Resolve material uncertainty about the intended contract before making an irreversible or broad change.
+- Read the full target and the instructions that apply to it. Identify its audience, scope, priority, and how it is loaded.
+- Map the rules by meaning before editing: what each rule requires, when it applies, and where rules overlap or conflict. Separate confirmed requirements from assumptions and proposals.
+- Check related instructions, history, and automated checks when they can affect the decision.
+- Use context and settled user or project conventions to resolve uncertainty first. Ask about remaining uncertainty before the affected decision; continue independent work while waiting.
 
-## Edit coherently
+## Reshape the rules
 
-- Revise, merge, or remove existing rules before adding more. Resolve semantic duplication and conflicts across applicable instructions, not just within the edited file, while respecting their priority.
-- Add only durable, non-obvious information that changes behavior. Do not turn one example, failure, preference, or unsupported scenario into a universal rule.
-- Preserve established scope, meaningful exceptions, and user control. Change descriptions or triggers only when applicability changes or observed selection behavior proves they are wrong.
-- Change related instructions, metadata, evaluations, references, scripts, or user documentation only when their own contract is affected.
-- Place each rule at the narrowest stable level that reaches its audience. Repeat it only when separate audiences or enforcement layers need it independently. Remove guidance covered by automation only after verifying equivalent enforcement.
-- Use short, plain, grammatically complete instructions. Remove examples, rationale, and repeated wording unless they resolve a real ambiguity. Keep rules self-contained within the loaded document and its explicitly linked materials.
+- Rewrite the affected section as a whole when local patches would add repetition or complex conditions. Merge rules with the same purpose and resolve conflicts across applicable instructions in priority order.
+- Add rules for confirmed, lasting needs. Preserve established user and project preferences. Broaden a rule only when confirmed needs support it, not from one example or an imagined scenario.
+- Place each rule at the narrowest level that reaches its audience. Repeat it only when separate audiences or enforcement layers need it independently. Before removing a rule covered by automation, verify that the checks enforce the same behavior.
+- Make each skill work on its own. Include its core procedure and bundle required references in its package. Other installed skills may add optional guidance.
+- Preserve user control. Change descriptions and triggers only when the scope changes or observed selection errors show a need. Edit related files only when their own requirements or behavior are affected.
+
+## Write clearly
+
+- State what to do and when. Split chains of conditions and actions into clear steps. Add a brief reason or example when it helps explain a non-obvious goal, trade-off, or boundary.
+- Use lists for consecutive standalone instructions, with one main idea per item. Use numbered lists when order matters. Keep introductions, explanations, and example lead-ins as prose where that reads naturally.
+- Keep each rule understandable from the loaded document and its linked materials. Keep useful examples, correct grammar, and necessary articles when shortening text.
+- Address recurring mistakes by improving positive guidance first. Add explicit prohibitions or exceptions for repeated, observed mistakes only when positive guidance cannot resolve them.
 
 ## Evaluate proportionally
 
-For a narrow editorial change, review the complete final document and diff, then run required repository checks. Read [the evaluation method](references/evaluation.md) when the user requests evaluation or when a change materially affects behavior, skill selection, or interaction between instructions.
+- For a narrow wording change, review the full final document and diff, then run required repository checks.
+- Read [the evaluation method](references/evaluation.md) when the user requests evaluation or a change materially affects behavior, skill selection, or how instructions work together.
 
 ## Finish
 
-- Review the final text against the other applicable instructions: remove unnecessary wording, resolve conflicts, and justify any retained duplication. Confirm that scope and necessary exceptions remain intact.
-- Justify every changed file from the requested behavior and remove incidental changes.
+- Read the full result alongside the other applicable instructions. Check B1 wording, repetition, conflicts, and hidden dependencies. Confirm that the agreed behavior, scope, and needed exceptions remain intact.
+- Keep only files and wording needed for the requested change. Justify any repeated rules that remain.
 - Report the checks performed and any behavior that could not be verified.

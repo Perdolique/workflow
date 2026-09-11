@@ -10,20 +10,20 @@ Reusable skills that provide specialized knowledge and capabilities:
 
 | Skill | Description |
 | --- | --- |
-| [code-review](./skills/code-review/) | Orchestrate evidence-based code reviews across focused subagents |
+| [code-review](./skills/code-review/) | Orchestrate evidence-based reviews with one compact reviewer or focused specialists |
 | [cost-aware-development](./skills/cost-aware-development/) | Apply current service pricing and subscription context to implementation decisions with material cost impact |
 | [css-conventions](./skills/css-conventions/) | CSS conventions for authoring and reviewing styles, CSS Modules, design tokens, and responsive layouts |
 | [commit-creator](./skills/commit-creator/) | Create English conventional commit messages for the current changes |
-| [drizzle-orm](./skills/drizzle-orm/) | Drizzle ORM query patterns for TypeScript, including relational queries, SQL builder usage, and query-shape fixes |
+| [drizzle-orm](./skills/drizzle-orm/) | Drizzle ORM 1.0 patterns with Relations v2, RQB v2, and SQL builder guidance |
 | [github-release](./skills/github-release/) | Create or draft GitHub releases from existing tags and repository history |
-| [implementation-workflow](./skills/implementation-workflow/) | Guide discovery and phased execution for non-trivial coding work |
+| [implementation-workflow](./skills/implementation-workflow/) | Guide all repository edits and their planning, from small fixes to phased work, and select the next task from the project tracker |
 | [instructions-master](./skills/instructions-master/) | Create, edit, review, and evaluate skills and other agent instructions |
 | [markdownlint](./skills/markdownlint/) | Configure, manage, and troubleshoot markdownlint in projects |
-| [playwright-e2e-testing](./skills/playwright-e2e-testing/) | Write and maintain Playwright end-to-end tests for web apps |
+| [playwright-e2e-testing](./skills/playwright-e2e-testing/) | Write and maintain Playwright browser, E2E, and direct API tests with their fixtures and mocks |
 | [pr-creator](./skills/pr-creator/) | Create GitHub pull requests from code changes or generate PR content in chat |
 | [repository-updater](./skills/repository-updater/) | Analyze repository updates and their relevant release impact by default, then apply explicitly requested updates |
 | [typescript-conventions](./skills/typescript-conventions/) | TypeScript coding conventions for typed code in `.ts`, `.tsx`, and embedded TypeScript files |
-| [vitest-unit-testing](./skills/vitest-unit-testing/) | Write and maintain Vitest unit tests for TypeScript code |
+| [vitest-unit-testing](./skills/vitest-unit-testing/) | Write and maintain TypeScript unit tests with Vitest 5, mocks, and focused contract coverage |
 | [vue-components](./skills/vue-components/) | Vue 3 and TypeScript component conventions for component behavior, APIs, styling, and accessibility |
 
 ## Quick start
@@ -46,9 +46,7 @@ vpx skills add perdolique/workflow --global --skill '*' --agent universal --yes
 
 ### Non-standard coding assistant instructions
 
-This repository includes my personal custom instructions for coding assistants.
-The canonical file is `non-standard/codex/AGENTS.md`; Copilot-specific files
-point to it where that setup is useful for my tools.
+This repository includes my personal custom instructions for coding assistants. The canonical file is `non-standard/codex/AGENTS.md`; Copilot-specific files point to it where that setup is useful for my tools.
 
 | File | Target | Description |
 | --- | --- | --- |
@@ -89,8 +87,7 @@ cp /path/to/workflow/non-standard/codex/rules/personal.rules \
 
 #### GitHub Copilot CLI instructions
 
-GitHub Copilot CLI reads local user instructions from
-`$HOME/.copilot/copilot-instructions.md`.
+GitHub Copilot CLI reads local user instructions from `$HOME/.copilot/copilot-instructions.md`.
 
 ```bash
 mkdir -p ~/.copilot
@@ -99,11 +96,7 @@ ln -s /path/to/workflow/non-standard/copilot/copilot-instructions.md ~/.copilot/
 
 #### GitHub Copilot in VS Code
 
-VS Code can use repository-wide instructions from `.github/copilot-instructions.md`
-or `AGENTS.md`. For my user-level prompt instructions, VS Code can also read
-`.instructions.md` files from `~/.copilot/instructions/`. Those files need
-`applyTo` frontmatter to apply automatically, so do not symlink the Codex
-`AGENTS.md` file directly as a VS Code instructions file.
+VS Code can use repository-wide instructions from `.github/copilot-instructions.md` or `AGENTS.md`. For my user-level prompt instructions, VS Code can also read `.instructions.md` files from `~/.copilot/instructions/`. Those files need `applyTo` frontmatter to apply automatically, so do not symlink the Codex `AGENTS.md` file directly as a VS Code instructions file.
 
 ```bash
 mkdir -p ~/.copilot/instructions

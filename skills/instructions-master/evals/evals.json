@@ -1,0 +1,36 @@
+{
+  "skill_name": "instructions-master",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Update evals/files/work-guide.md so that explicit user defaults and established project conventions count as settled answers. Also make the guide usable when it is the only installed instruction package. Review the whole result for clarity. Its existing task, mode, permission, and verification rules work well and must keep their meaning. Return the revised Markdown and a brief explanation of the edits.",
+      "expected_output": "A clear guide with short English sentences, merged overlapping rules, and a complete local procedure. All existing decision, mode, permission, and verification boundaries remain.",
+      "files": [
+        "evals/files/work-guide.md"
+      ],
+      "expectations": [
+        "The guide treats explicit user defaults and established project conventions as settled answers.",
+        "The guide checks available context before asking about unresolved facts, including minor details, in both planning and execution.",
+        "The guide waits only on decisions that need an answer, allows independent work, and keeps planning read-only.",
+        "The guide explains how existing permission applies without requiring another installed skill.",
+        "The guide preserves the distinction between a release request, notes only, and an unpublished draft.",
+        "The guide retains project verification, reporting results, raw telemetry errors, and safe user-facing errors.",
+        "The revision merges repeated question and permission rules rather than adding another copy.",
+        "Consecutive standalone instructions use consistent lists, while introductions and explanations may remain prose. Sentences use short, direct English with common words and preserve needed technical terms."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "In evals/files/small-guide.md, change the check-reporting rule to include checks that failed as well as checks that could not be run. Return the revised Markdown and a brief explanation of the edit. The existing scope and first rule should remain.",
+      "expected_output": "A small edit that adds failed checks to the report without expanding the workflow.",
+      "files": [
+        "evals/files/small-guide.md"
+      ],
+      "expectations": [
+        "The guide still requires project checks before finishing.",
+        "The reporting rule includes both failed checks and checks that could not be run.",
+        "The revision keeps the simple two-rule structure and adds no unrelated workflow or dependency."
+      ]
+    }
+  ]
+}

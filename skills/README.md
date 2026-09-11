@@ -7,19 +7,7 @@ This repository contains custom skills that extend LLM capabilities with special
 
 ## Available skills 📚
 
-| Skill | Description | License |
-| --- | --- | --- |
-| [code-review](./code-review/SKILL.md) | Orchestrate evidence-based code reviews across focused subagents. | Unlicense |
-| [typescript-conventions](./typescript-conventions/SKILL.md) | TypeScript coding conventions for writing, reviewing, refactoring, and debugging TypeScript code. Use when working on TypeScript in any file format, including `.ts`, `.tsx`, and typed sections inside files such as Vue or Astro, as well as TypeScript snippets, type-driven refactors, and general code organization. | Unlicense |
-| [commit-creator](./commit-creator/SKILL.md) | Create English conventional commit messages for the current changes. Use when the user wants to commit code, asks for a commit message, or needs monorepo scopes and version updates handled correctly. | Unlicense |
-| [drizzle-orm](./drizzle-orm/SKILL.md) | Drizzle ORM query patterns for TypeScript. Use when writing, reviewing, or debugging Drizzle queries, especially when choosing between relational queries and the SQL builder, building dynamic filters, loading relations, or fixing Drizzle query-shape and type mismatches. Also apply during code review when a file contains non-trivial query construction with `drizzle-orm`. | Unlicense |
-| [instructions-master](./instructions-master/SKILL.md) | Create, edit, review, and evaluate skills and other agent instructions. | Unlicense |
-| [markdownlint](./markdownlint/SKILL.md) | Configure, manage, and troubleshoot markdownlint in projects. Use when user wants to setup/install/configure markdownlint, add/remove/modify linting rules, fix markdown validation issues, customize .markdownlint.yaml, update ignore patterns, integrate with tools (Husky, CI), or troubleshoot markdown linting errors. Use even when user mentions markdown formatting problems, quality issues, or style consistency without explicitly saying "markdownlint". | Unlicense |
-| [playwright-e2e-testing](./playwright-e2e-testing/SKILL.md) | Write and maintain Playwright end-to-end tests for web apps. Use when the user asks for browser or E2E coverage, navigation flow tests, API mocking, fixtures, or Playwright-specific assertions. | Unlicense |
-| [pr-creator](./pr-creator/SKILL.md) | Create GitHub pull requests from code changes via API or generate PR content in chat. Use when user wants to create/open/submit PR, mentions pull request/PR/merge request/code review, or asks to show/generate/display/output PR content in chat (give me PR, PR to chat, send PR to chat, etc). | Unlicense |
-| [repository-updater](./repository-updater/SKILL.md) | Analyze available dependency, tooling, runtime, and infrastructure updates by default, summarize their repository-relevant release impact, and apply explicitly requested updates. | Unlicense |
-| [vitest-unit-testing](./vitest-unit-testing/SKILL.md) | Write and maintain Vitest unit tests for TypeScript code. Use when the user needs unit coverage for utilities, services, or stores, or asks for Vitest-based tests with mocks, spies, and assertions. | Unlicense |
-| [vue-components](./vue-components/SKILL.md) | Vue component conventions for building, refactoring, and reviewing Vue 3 + TypeScript components. Use whenever work touches `.vue` files, Vue SFCs, props, emits, slots, v-model, template refs, component styling, accessibility, or Vue-driven UI behavior. | Unlicense |
+See the [repository skill catalog](../README.md#skills) for the complete list. Each linked skill defines its detailed scope and usage.
 
 ## Installation 📦
 
@@ -29,12 +17,7 @@ Bootstrap the global skill setup used with this repository:
 pnpm run setup:skills
 ```
 
-The command expects Vite+ `vpx` and `vp` commands on `PATH`. It installs skills
-from this repository and selected third-party skills from their latest upstream
-sources, installs `@playwright/cli@latest`, and downloads the Playwright CLI
-Chromium browser binary without OS dependencies. It creates
-`~/.playwright/cli.config.json` only when the file is missing and leaves an
-existing Playwright CLI config untouched.
+The command expects Vite+ `vpx` and `vp` commands on `PATH`. It installs skills from this repository and selected third-party skills from their latest upstream sources, installs `@playwright/cli@latest`, and downloads the Playwright CLI Chromium browser binary without OS dependencies. It creates `~/.playwright/cli.config.json` only when the file is missing and leaves an existing Playwright CLI config untouched.
 
 To install only the skills from this repository:
 
@@ -46,7 +29,7 @@ vpx skills add perdolique/workflow --global --skill '*' --agent universal --yes
 
 ### Creating or updating skills
 
-Use the `instructions-master` skill when creating, updating, or evaluating skills.
+Use the `instructions-master` skill when creating, updating, reviewing, or evaluating skills.
 
 ### Local validation
 
@@ -63,7 +46,7 @@ Or install it with Go:
 go install github.com/agent-ecosystem/skill-validator/cmd/skill-validator@latest
 ```
 
-Run the local validator after changing anything under `skills/`:
+Run the local validator after a complete group of changes under `skills/` and verify the final state before finishing:
 
 ```bash
 pnpm run lint:skills

@@ -16,50 +16,19 @@ This repository contains reusable skills and assistant instructions that extend 
 
 ## Workflow rules
 
-### Pre-task checklist
-
-**STOP! Before modifying ANY file in this repository**, complete this checklist:
-
-- [ ] **Read nested AGENTS.md**: Check if the directory you're working in (or its parents) has an AGENTS.md file and read it
-- [ ] **Identify relevant skills**: Search the skills catalog for skills related to your task and read their documentation before starting work. For example, read `commit-creator` before creating commits and `pr-creator` before creating pull requests
-- [ ] **Use instructions master**: For changes to skills or other agent instructions, read and follow `skills/instructions-master/SKILL.md`; it controls authoring scope and evaluation
-- [ ] **Understand conventions**: Ensure you know all applicable naming, formatting, and structural conventions
-
-**Task scope definition**: A "task" is ANY user request that modifies files, including:
-
-- Adding/removing/modifying code or content
-- Creating new files or directories
-- Updating documentation
-- Refactoring existing code
-
-Even "small edits" or "quick additions" are tasks that require the pre-task checklist.
-
-### Post-task checklist
-
-**After completing ANY task**, review and update if needed:
-
-- [ ] **AGENTS.md files**: Did you introduce new patterns, conventions, or important context? Update relevant AGENTS.md file(s)
-- [ ] **README.md files**: Did user-facing behavior or documentation change? Update relevant README.md file(s)
-- [ ] **Only update when meaningful**: Skip updates for trivial edits that don't change conventions or user experience
+- Before any repository edit, including a small one, read the applicable AGENTS.md files and relevant skills and follow the established naming, formatting, and structural conventions.
+- For creating, editing, reviewing, or evaluating skills or other agent instructions, use [instructions-master](skills/instructions-master/SKILL.md). It controls authoring scope and evaluation, including tasks that only inspect instructions.
+- When a change affects established conventions, important project context, or documented user-facing behavior, update the relevant AGENTS.md or README.md. Make those updates according to the information that actually changed.
 
 ### Task verification
 
-**After completing ANY task**, run verification commands to ensure quality:
+Run verification after a complete group of repository edits and verify the final state before finishing. Use intermediate checks when they help diagnose a problem; repeat affected checks after further edits.
 
-- [ ] **Format changed TypeScript files**: If you created or modified TypeScript files, run `pnpm exec worsier --write <changed-files>` on those files before final verification. Re-run relevant tests after formatting.
-- [ ] **Check source formatting**: Run `pnpm exec worsier --check .`
-- [ ] **Run markdown linting**: Execute `pnpm run lint:markdown` to verify all markdown files comply with style rules
-- [ ] **Fix violations**: If linting fails, fix violations before marking task as complete
-- [ ] **Task completion criteria**: A task is considered successfully completed ONLY when all verification commands pass with exit code 0
+| Check | When to run |
+| --- | --- |
+| `pnpm exec worsier --write <changed-files>` | Before final checks when TypeScript files changed; rerun relevant tests after formatting |
+| `pnpm exec worsier --check .` | For every task that changes repository files |
+| `pnpm run lint:markdown` | For every task that changes repository files |
+| `pnpm run lint:skills` | When files under `skills/` changed |
 
-**Available verification commands:**
-
-```bash
-# Source formatting (also enforced by pre-commit)
-pnpm exec worsier --check .
-
-# Markdown linting (required for all tasks that modify .md files)
-pnpm run lint:markdown
-```
-
-**Note**: These verification commands are also enforced by git pre-commit hooks (if Husky is configured), but running them manually after completing work provides faster feedback and prevents surprises during commit.
+Fix verification failures and require exit code 0 from all applicable commands before marking the task complete. Run these checks before finishing even when a pre-commit hook also runs them. Skill lint validates the package structure; behavioral evaluation follows instructions-master.

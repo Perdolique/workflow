@@ -28,15 +28,15 @@ git branch --show-current
 git ls-remote --symref origin HEAD
 ```
 
-Before committing, report if the current branch is behind or diverged from its upstream or the fresh remote default; do not merge or rebase automatically.
+- Before committing, report if the current branch is behind or diverged from its upstream or the fresh remote default; do not merge or rebase automatically.
+- If the current branch is the default branch and the user did not explicitly ask to commit there, ask whether to create a branch or commit to the default branch. If the user named the target branch or said to commit on the current branch, proceed without asking again.
 
-If the current branch is the default branch and the user did not explicitly ask to commit there, ask whether to create a branch or commit to the default branch. If the user named the target branch or said to commit on the current branch, proceed without asking again.
+- Respect existing staging:
 
-Respect existing staging:
-
-- With only staged changes, commit the staged changes.
+- Use an already confirmed commit scope without asking again. For disjoint task files, use a path-limited commit and add only task files that are untracked; preserve unrelated staging. Ask before committing when task and unrelated edits overlap within a file and the intended result is unclear.
+- With only staged changes and no narrower scope, commit the staged changes.
 - With only unstaged changes and no narrower scope, stage all current changes.
-- With both staged and unstaged changes, ask whether to commit only the staged changes or stage everything.
+- With both staged and unstaged changes and no confirmed scope, ask whether to commit only the staged changes or stage everything.
 - Never unstage or restage user-staged files unless explicitly asked.
 
 ## Write the message
@@ -57,9 +57,9 @@ Write the complete message in English:
 - Add `!` and a `BREAKING CHANGE:` footer only for an actual breaking change.
 - Add issue-closing bullets only for issue references supported by the task or repository context.
 
-Use these types:
+- Use these types:
 
-`feat` ✨, `fix` 🐛, `docs` 📚, `style` 💄, `refactor` ♻️, `perf` ⚡, `test` ✅, `build` 🔧, `ci` 👷, `chore` 🔨, `revert` ⏪
+- `feat` ✨, `fix` 🐛, `docs` 📚, `style` 💄, `refactor` ♻️, `perf` ⚡, `test` ✅, `build` 🔧, `ci` 👷, `chore` 🔨, `revert` ⏪
 
 ### Dependency updates
 
@@ -79,5 +79,4 @@ Do not replace the list with a vague dependency-update bullet.
 - Do not set an execution timeout for `git commit`. Wait until Git and all hooks exit naturally. Git hooks can run silently for several minutes, so a timeout may terminate required checks before they finish.
 - Report the exact error and offer to fix it, leave it for the user, or use `--no-verify`.
 - Never bypass hooks without explicit user approval.
-
-See [references/examples.md](references/examples.md) when an example is useful.
+- See [references/examples.md](references/examples.md) when an example is useful.

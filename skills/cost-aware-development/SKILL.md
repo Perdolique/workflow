@@ -35,22 +35,20 @@ Before comparing designs:
 4. Establish the relevant workload volume or express the result as a threshold. Do not invent traffic, storage, email, log, build, or compute figures.
 5. Treat reference prices as a dated cache. When a recommendation depends on an exact price or allowance, verify it against the linked official source. If current verification is unavailable, identify the stale value and uncertainty instead of presenting it as current.
 
-Do not assume that an included allowance has unused capacity. Check observable usage when practical or state that remaining headroom is unknown.
-
-Unknown usage or possible overage alone is not an implementation blocker and does not require approval. Require a cost decision only when repository policy, a stated budget limit, or a concrete design trade-off makes the decision material.
+- Check observable usage to establish how much of an included allowance remains. Ask a specific question when needed billing or workload information remains unknown after inspecting the available context. Treat confirmed account settings and user answers as settled information.
+- If the user also lacks the data, show how costs or decision thresholds vary with workload. Use verified rates and state what remains unknown. Continue work that does not depend on the missing figure.
+- If the missing data prevents a design choice within the budget or leaves a concrete trade-off unresolved, explain the scenarios and ask about that choice. Unknown usage or possible overage alone does not require extra approval.
 
 ## Compare the incremental effect
 
-Compare the cost difference caused by the proposed change, not the provider's entire bill.
-
+- Compare the cost difference caused by the proposed change, not the provider's entire bill.
 - Check whether an already subscribed service provides the needed capability without a new paid resource.
 - Prefer a simpler, lower-cost design when behavior, correctness, reliability, user experience, and operational burden are materially equivalent.
 - When a cheaper design adds limits, latency, complexity, weaker reliability, reduced visibility, degraded user experience, or stronger provider coupling, explain the concrete trade-off and let the user choose before implementation.
 - Do not invent a behavior-changing cost-control option merely to provide an alternative. When the direct incremental cost is small and no budget pressure or scaling evidence makes it material, report the cost without manufacturing a restriction or approval decision.
 - Do not add caching, batching, retention jobs, queues, sampling, quotas, or other cost controls for hypothetical usage. Recommend them only when repository evidence, expected volume, or a clear billing threshold establishes a material benefit.
 - Preserve raw technical errors in telemetry while keeping user-facing errors safe; cost reduction does not justify removing necessary diagnostics.
-
-When cost is one factor among several, keep the technical conclusion independent: reject a cheaper design that does not meet the actual requirements.
+- When cost is one factor among several, keep the technical conclusion independent: reject a cheaper design that does not meet the actual requirements.
 
 ## Communicate only useful cost information
 
