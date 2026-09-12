@@ -12,7 +12,6 @@ Reusable skills that provide specialized knowledge and capabilities:
 | --- | --- |
 | [code-review](./skills/code-review/) | Orchestrate evidence-based reviews with one compact reviewer or focused specialists |
 | [cost-aware-development](./skills/cost-aware-development/) | Apply current service pricing and subscription context to implementation decisions with material cost impact |
-| [css-conventions](./skills/css-conventions/) | CSS conventions for authoring and reviewing styles, CSS Modules, design tokens, and responsive layouts |
 | [commit-creator](./skills/commit-creator/) | Create English conventional commit messages for the current changes |
 | [drizzle-orm](./skills/drizzle-orm/) | Drizzle ORM 1.0 patterns with Relations v2, RQB v2, and SQL builder guidance |
 | [github-release](./skills/github-release/) | Create or draft GitHub releases from existing tags and repository history |
@@ -24,7 +23,8 @@ Reusable skills that provide specialized knowledge and capabilities:
 | [repository-updater](./skills/repository-updater/) | Analyze repository updates and their relevant release impact by default, then apply explicitly requested updates |
 | [typescript-conventions](./skills/typescript-conventions/) | TypeScript coding conventions for typed code in `.ts`, `.tsx`, and embedded TypeScript files |
 | [vitest-unit-testing](./skills/vitest-unit-testing/) | Write and maintain TypeScript unit tests with Vitest 5, mocks, and focused contract coverage |
-| [vue-components](./skills/vue-components/) | Vue 3 and TypeScript component conventions for component behavior, APIs, styling, and accessibility |
+| [vue-components](./skills/vue-components/) | Vue 3 and TypeScript conventions for component APIs, state, SFC structure, template mechanics, lifecycle, and Vue-specific bindings |
+| [web-interface-conventions](./skills/web-interface-conventions/) | Framework-independent HTML, accessibility, CSS, visual design, interaction, and UX conventions for web interfaces |
 
 ## Quick start
 

@@ -1,0 +1,236 @@
+{
+  "skill_name": "web-interface-conventions",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Modernize an existing sign-in page. The repository already has an auth layout, design tokens, a reset, and an approved reference page. The task does not provide new marketing copy or replacement artwork.",
+      "expected_output": "The agent should inspect and reuse the approved references and existing UI, preserve shared base styles, and avoid inventing copy, branding, decoration, or substitute assets.",
+      "files": [
+        "evals/files/auth/reference.html",
+        "evals/files/auth/sign-in.html"
+      ],
+      "expectations": [
+        "The workflow inspects the approved reference page and the existing auth layout, components, tokens, reset, and copy patterns before making visible decisions.",
+        "The workflow reuses matching project primitives instead of duplicating the auth shell or local reset rules.",
+        "The workflow does not invent marketing copy, branding, decoration, or substitute artwork.",
+        "The workflow asks about a material unresolved visible choice instead of hiding it behind an assumption."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Implement an approved landing-page design that includes a large illustration, a short product tagline, and decorative background shapes. The repository already contains the approved assets and exact copy.",
+      "expected_output": "The agent should implement the approved rich design instead of treating the conventions as a reason to remove supported copy or decoration, while still reusing project primitives and defining the affected responsive and interaction states.",
+      "files": [
+        "evals/files/landing/design.md",
+        "evals/files/landing/index.html",
+        "evals/files/landing/hero.svg"
+      ],
+      "expectations": [
+        "The workflow preserves the approved illustration, tagline, and decorative shapes.",
+        "The workflow does not reinterpret source-grounded design guidance as a rule to make every interface plain.",
+        "The workflow reuses project layouts, tokens, and components where they fit.",
+        "The workflow defines the changed responsive and interaction states without adding unsupported variants."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "A reusable product card appears in a wide catalog and a narrow sidebar. The page shell changes at a desktop breakpoint. Long product names sometimes have no spaces. Review and fix the responsive CSS without tying the card to one page position.",
+      "expected_output": "The agent should use a media query for the viewport-owned page shell and a container query for the reusable card, place containment at a stable boundary, and keep long content usable.",
+      "files": [
+        "evals/files/responsive-card/index.html",
+        "evals/files/responsive-card/styles.css"
+      ],
+      "expectations": [
+        "The workflow chooses a media query for the page shell because its condition depends on the viewport.",
+        "The workflow chooses a container query for the reusable card because its condition depends on allocated parent space.",
+        "The workflow sets container-type at the nearest stable component boundary and adds container-name only when ownership would otherwise be unclear.",
+        "The workflow bases both query choices on the real dependency rather than DOM nesting or device names.",
+        "The workflow keeps long and unbroken product names usable and limits intentional clipping to the element that owns it."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Improve a registration form with native required fields and an asynchronous compromised-password response from the server. Untouched fields should not look invalid, and screen reader users must reach the right error.",
+      "expected_output": "The agent should use native form controls, apply :user-invalid to interacted native constraint errors, expose the server error through aria-invalid and an associated description, and keep focus and visible feedback aligned.",
+      "files": [
+        "evals/files/registration-form.html"
+      ],
+      "expectations": [
+        "The workflow preserves native fields and persistent accessible names.",
+        "The workflow uses :user-invalid instead of showing native required errors on untouched fields through :invalid.",
+        "The workflow represents the asynchronous password error with aria-invalid=true and associated error text because native constraint state cannot represent it.",
+        "The workflow keeps visible feedback, accessible description, and focus recovery consistent."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "A live search shows a brief loading flash on fast responses, sends requests for unfinished IME composition, and loses focus after Retry. Responses can complete quickly, fail, arrive out of order, or be cancelled. Improve the user experience.",
+      "expected_output": "The agent should model the complete async lifecycle, wait for committed IME input, measure timing before choosing feedback delays, preserve useful content and action intent, prevent stale results, and restore focus.",
+      "files": [
+        "evals/files/live-search.html"
+      ],
+      "expectations": [
+        "The workflow covers fast, slow, failure, retry, cancellation, and stale-result paths that apply to the search.",
+        "The workflow does not search unfinished IME composition and starts the request after the text is committed.",
+        "The workflow measures response and rendered-state timing instead of copying a universal loader delay.",
+        "The workflow prevents obsolete results from replacing the newest intent.",
+        "The workflow preserves useful results and the Retry focus contract through recoverable states.",
+        "The workflow keeps the action label and control geometry stable while progress is shown."
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Update a list where .listItem and .emptyItem both use the same horizontal padding, and changing one without the other has caused visual drift before. Keep the existing styling system.",
+      "expected_output": "The agent should define one component-scoped semantic CSS custom property for the synchronized padding and reuse an existing spacing token for its raw value.",
+      "files": [
+        "evals/files/shared-padding.css"
+      ],
+      "expectations": [
+        "The workflow recognizes the two padding declarations as one synchronized component-level styling value.",
+        "The workflow defines a semantic custom property at the nearest shared scope.",
+        "The workflow reuses the custom property from both selectors instead of duplicating the literal value.",
+        "The workflow prefers an existing spacing token for the raw value when one exists.",
+        "The workflow does not treat equal literal values alone as proof that unrelated selectors share one styling contract."
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Style a component in a project that declares modern browser targets, a global reset, and semantic color tokens. The component needs a modern CSS feature, repeats reset rules, and uses raw colors.",
+      "expected_output": "The agent should confirm that the feature works in the declared browser targets, remove redundant local resets, and use existing semantic tokens.",
+      "files": [
+        "evals/files/styling/.browserslistrc",
+        "evals/files/styling/index.html",
+        "evals/files/styling/reset.css",
+        "evals/files/styling/tokens.css",
+        "evals/files/styling/component.css"
+      ],
+      "expectations": [
+        "The workflow inspects the declared browser targets before choosing CSS features or fallbacks.",
+        "The workflow does not keep local reset rules already provided by the global reset.",
+        "The workflow replaces raw colors with suitable existing semantic tokens.",
+        "The workflow confirms that every referenced custom property exists."
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Build a modal dialog with an icon-only close control, an informative image, decorative background shapes, and retryable content. Define the framework-independent interface behavior and accessibility contract.",
+      "expected_output": "The agent should use native semantics where possible, provide names and alternative text, hide decoration from assistive technology, define keyboard and focus behavior, and keep recovery inside the active dialog.",
+      "files": [
+        "evals/files/modal-dialog.html",
+        "evals/files/status.svg"
+      ],
+      "expectations": [
+        "The workflow prefers native dialog and button semantics before manual roles.",
+        "The workflow gives the dialog and icon-only close control accessible names.",
+        "The workflow gives the informative image meaningful alternative text and hides decorative shapes from assistive technology.",
+        "The workflow defines initial focus, allowed keyboard dismissal, and focus restoration on close.",
+        "The workflow keeps the error and retry action inside the active dialog."
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "Style a web component in a project with modern browser targets and ordinary .css files. No repository or framework instruction requires another styling system, a preprocessor, or a nesting plugin. The component needs related hover and child selectors.",
+      "expected_output": "The agent should keep ordinary CSS, use native CSS nesting where it improves selector ownership, and avoid adding another styling or nesting system.",
+      "files": [
+        "evals/files/styling/.browserslistrc",
+        "evals/files/plain-component.css"
+      ],
+      "expectations": [
+        "The workflow uses plain CSS because no more specific styling system is required.",
+        "The workflow uses native CSS nesting instead of introducing a preprocessor or nesting plugin.",
+        "The workflow uses the nesting selector when the nested rule must refer to its parent selector.",
+        "The workflow keeps selectors flat when nesting would not make ownership or readability clearer.",
+        "The workflow checks the native CSS feature against the repository's declared browser targets."
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "Create a small web interface in a plain-CSS project. The requirements and nearby project files do not define a theme contract, color-scheme declaration, or design tokens.",
+      "expected_output": "The agent should support the user's light and dark preference, declare both schemes with color-scheme, create shared semantic custom properties for scheme-dependent values, and keep components consuming those tokens.",
+      "files": [
+        "evals/files/theme-default.html"
+      ],
+      "expectations": [
+        "The workflow supports both light and dark because neither the requirements nor the project define a different theme contract.",
+        "The workflow declares the supported schemes with color-scheme.",
+        "The workflow defines scheme-dependent values through semantic CSS custom properties or design tokens at a shared scope.",
+        "The workflow keeps components consuming the same semantic tokens instead of adding component-level theme branches.",
+        "The workflow uses light-dark() when supported by the browser targets or changes the same shared token values through prefers-color-scheme when a fallback is required."
+      ]
+    },
+    {
+      "id": 11,
+      "prompt": "Update a web interface in a project whose product requirements explicitly define one light color scheme and whose existing styles declare that single scheme. Preserve the established product direction.",
+      "expected_output": "The agent should preserve the deliberate single-scheme contract instead of adding an unrequested dark theme, while continuing to use the project's semantic tokens.",
+      "files": [
+        "evals/files/themes/single-requirements.md",
+        "evals/files/theme-single.html"
+      ],
+      "expectations": [
+        "The workflow treats the explicit single-scheme requirement as the theme contract.",
+        "The workflow does not add dark-scheme values that conflict with the established product direction.",
+        "The workflow keeps using the project's semantic tokens and color-scheme declaration.",
+        "The workflow does not interpret the dual-scheme default as overriding explicit requirements or established project behavior."
+      ]
+    },
+    {
+      "id": 12,
+      "prompt": "Review a responsive card where an agent added min-width, max-width, min-height, and max-height to the card, each wrapper, and every control as defensive defaults. The only demonstrated defect is that one Flex child cannot shrink around a long value.",
+      "expected_output": "The agent should remove size bounds that do not affect a required state, keep intrinsic sizing, and add only the constraint that fixes the demonstrated Flex shrinking defect.",
+      "files": [
+        "evals/files/size-constraints.html"
+      ],
+      "expectations": [
+        "The workflow identifies the exact failing content and layout state before choosing a size constraint.",
+        "The workflow removes defensive min and max declarations that have no effect in any required state.",
+        "The workflow preserves intrinsic sizing for wrappers and controls that do not need a bound.",
+        "The workflow uses min-inline-size: 0 on the owning Flex child when that resolves the demonstrated shrink failure.",
+        "The workflow explains a non-obvious retained constraint with a short CSS comment."
+      ]
+    },
+    {
+      "id": 13,
+      "prompt": "Review a component stylesheet against its approved design and required interaction states. The required appearance works, but browser inspection shows declarations that are overridden, repeat effective base styles, or target properties that never change. Preserve the required result and keep the CSS maintainable.",
+      "expected_output": "The agent should connect each retained declaration to an observable requirement or styling contract, inspect the cascade and computed result, remove ineffective declarations, and reserve comments for non-obvious contracts without requiring a separate test for each property.",
+      "files": [
+        "evals/files/purposeful-declarations.html"
+      ],
+      "expectations": [
+        "The workflow identifies the visual requirement, state, constraint, compatibility need, or shared contract served by each retained declaration.",
+        "The workflow inspects the cascade and computed result before keeping defensive declarations.",
+        "The workflow removes declarations that are overridden, duplicate an effective base rule, have no computed effect, or change no required state.",
+        "The workflow preserves declarations that are necessary for the approved appearance and required states.",
+        "The workflow adds a comment only for a non-obvious invariant or workaround and does not require a separate test for every obvious declaration."
+      ]
+    },
+    {
+      "id": 14,
+      "prompt": "Update a client-rendered application page whose title stays the same after navigation, whose application chrome is inside main, and whose CSS visual order differs from reading and keyboard order. Preserve the intended visual design.",
+      "expected_output": "The agent should give each page an accurate document title, use native landmarks, keep separate application chrome outside main, and align DOM, reading, visual, and keyboard order without changing the approved design.",
+      "files": [
+        "evals/files/semantics.html"
+      ],
+      "expectations": [
+        "The workflow updates the document title when client-side navigation changes the page.",
+        "The workflow uses native landmarks and keeps separate application chrome outside main.",
+        "The workflow aligns DOM, reading, visual, and keyboard order unless a different order is required and remains understandable.",
+        "The workflow preserves the approved visual design instead of treating semantic structure as a visual redesign."
+      ]
+    },
+    {
+      "id": 15,
+      "prompt": "A third-party prerequisite usually completes without user action. Its interface is always visible, and the rare interactive state inserts content above the primary controls and moves them. No legal, product, or accessibility requirement calls for a permanent disclosure. Improve the framework-independent user experience without choosing a provider API.",
+      "expected_output": "The agent should keep passive third-party work from interrupting the main task, present required interaction without moving unrelated controls, and define the complete external UI lifecycle without inventing provider-specific settings.",
+      "files": [
+        "evals/files/third-party-ui.html"
+      ],
+      "expectations": [
+        "The workflow keeps third-party UI from interrupting the primary task while no user action or disclosure is required.",
+        "The workflow presents necessary third-party interaction without moving unrelated controls.",
+        "The workflow defines the applicable completion, expiry, failure, retry, cancellation, replacement, and stale-callback behavior.",
+        "The workflow continues the original action after success when no new confirmation is required.",
+        "The workflow does not invent a provider-specific API or configuration value."
+      ]
+    }
+  ]
+}

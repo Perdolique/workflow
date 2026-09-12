@@ -1,0 +1,69 @@
+{
+  "skill_name": "playwright-e2e-testing",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Add a regression test for a password visibility icon. A previous test only checked that the SVG wrapper was visible, but one icon variant rendered no glyph. The two variants must also stay in the same position.",
+      "expected_output": "The agent should assert the rendered icon content and stable geometry, then confirm that removing the glyph or moving one variant makes the regression test fail.",
+      "files": [
+        "evals/files/regressions/icon.html",
+        "evals/files/regressions/icon.spec.ts"
+      ],
+      "expectations": [
+        "The workflow defines the visible glyph and stable position as the protected user behavior.",
+        "The workflow checks meaningful rendered SVG content instead of only wrapper visibility.",
+        "The workflow compares the geometry required to keep both variants stable.",
+        "The workflow confirms that removing the glyph or changing the protected geometry makes the test fail.",
+        "The workflow avoids an unrelated full-page snapshot when focused component evidence is enough."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Test a retryable browser verification widget. A result can be used once, completion ends that widget instance, and Retry must create or reset the state before another result arrives. The current global mock returns a new result after every callback.",
+      "expected_output": "The agent should make the mock enforce completion and single-use behavior, prove the retry lifecycle, and keep the external integration real only in a safe configured test mode.",
+      "files": [
+        "evals/files/regressions/widget.html",
+        "evals/files/regressions/widget.spec.ts"
+      ],
+      "expectations": [
+        "The workflow prevents a completed mock instance from issuing another result without the required reset or replacement lifecycle.",
+        "The workflow models single-use values and the retry transition needed by the scenario.",
+        "The workflow makes removal of the production reset or replacement behavior fail the test.",
+        "The workflow uses a configured official test mode when testing the external integration itself and mocks unrelated dependencies.",
+        "The workflow reports the external behavior as unverified when no safe realistic check is available."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "A live search was changed to preserve useful results on fast requests and return focus to Retry. Add browser coverage that protects the transition timing, content stability, and focus without taking a large screenshot matrix.",
+      "expected_output": "The agent should test the relevant transition timing, content stability, and focus for fast and retry paths, and confirm the tests fail when the protected behavior is removed.",
+      "files": [
+        "evals/files/regressions/search.html",
+        "evals/files/regressions/search.spec.ts"
+      ],
+      "expectations": [
+        "The workflow tests the fast transition instead of asserting only the final results.",
+        "The workflow checks that useful content does not disappear for a brief loading state when the behavior forbids that flash.",
+        "The workflow checks the Retry focus destination after both success and failure when both paths are supported.",
+        "The workflow confirms that removing the timing or focus protection makes the regression test fail.",
+        "The workflow uses focused assertions instead of a broad screenshot matrix."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Add browser coverage for a page shell that changes at one viewport breakpoint and a reusable card that changes with its container width. Long product names can contain spaces or one long unbroken value. Existing coverage checks only document scrollWidth at one mobile viewport.",
+      "expected_output": "The agent should exercise both sides of the viewport breakpoint, narrow and wide component containers, realistic content extremes, and relevant child geometry instead of relying only on document scrollWidth.",
+      "files": [
+        "evals/files/regressions/responsive.html",
+        "evals/files/regressions/responsive.spec.ts"
+      ],
+      "expectations": [
+        "The workflow checks one viewport on each side of the changed page breakpoint.",
+        "The workflow checks the reusable card in narrow and wide containers without requiring a viewport change.",
+        "The workflow covers both realistic long text and an unbroken value.",
+        "The workflow inspects the relevant child geometry as well as document overflow.",
+        "The workflow makes the test fail when protected content becomes clipped or leaves the viewport."
+      ]
+    }
+  ]
+}

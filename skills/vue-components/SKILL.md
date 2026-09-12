@@ -1,19 +1,19 @@
 ---
 name: vue-components
-description: Build, refactor, or review Vue 3 + TypeScript components and composables. Use for `.vue` APIs and behavior as well as templates, styling, and accessibility. For Nuxt or Pinia work, routing, and tests, apply this skill only to the component layer and follow project conventions elsewhere.
+description: Build, refactor, or review Vue 3 components and composables with idiomatic TypeScript and Vue-specific component mechanics. Use for component contracts, SFC and template logic, lifecycle handling, and Vue CSS Module bindings. Use other skills for framework-independent interface work and features outside the component layer.
 license: Unlicense
 ---
 
 # Vue component conventions
 
-Use this skill for concrete, idiomatic Vue component work. Project-local instructions, `AGENTS.md`, lint rules, nearby components, and framework-specific skills take priority.
+Use this skill for concrete, idiomatic Vue component mechanics. Apply web interface conventions to framework-independent HTML, CSS, accessibility, content, and user behavior. Project-local instructions, `AGENTS.md`, lint rules, and nearby components take priority.
 
 ## First pass
 
 - Inspect the target component, its parent/children, and at least one similar nearby component before editing.
 - Decide whether the change belongs in a component, composable, page, route, store, or test. Keep this skill focused on the component layer.
-- Preserve public props, emits, slots, styling hooks, and visual behavior unless the requested task requires changing them.
-- Reuse existing base components, dialog/overlay primitives, design tokens, and local composables before adding a new primitive.
+- Preserve public props, emits, slots, and Vue-specific styling hooks unless the requested task requires changing them.
+- Reuse existing local composables and matching Vue component APIs before adding a new Vue abstraction.
 - Keep static UI static. Do not introduce config arrays, `v-for`, extra computed state, or generic abstractions for a small fixed set of known elements.
 
 ## Single-file component shape
@@ -123,7 +123,6 @@ Right:
 ```
 
 - Prefer direct template markup for a small, known set of elements. Use config-driven rendering only for genuinely dynamic or repeated structures.
-- Keep text and labels in the project's i18n or copy system. Avoid dynamic translation keys when local tooling depends on literals.
 - Use full, readable names for props, state, classes, and variants. Avoid ad-hoc abbreviations such as `cnt`, `curr`, `md`, or `sm` unless they are part of an existing design-token API.
 
 ## Template refs and browser APIs
@@ -134,25 +133,16 @@ Right:
 - Prefer lifecycle-safe composables for DOM work. Use VueUse helpers when the project already uses VueUse.
 - For newly standardized HTML elements, verify that Vue treats the tag as native during SSR and hydration. If Vue resolves it as a component, configure `compilerOptions.isCustomElement` and cover hydration or unresolved-component warnings in the browser console; typecheck and DOM assertions are insufficient.
 
-## Accessibility
-
-- Treat accessibility as component correctness, not polish.
-- Prefer semantic HTML before adding manual ARIA roles.
-- Ensure interactive elements are keyboard accessible and have visible focus states.
-- Give icon-only buttons, custom controls, and form fields accessible names via visible labels, `aria-label`, or `aria-labelledby`.
-- Hide decorative elements from assistive technology with `aria-hidden="true"`; give informative images meaningful `alt` text.
-- Do not rely on color alone for meaning, validation, or state.
-- When building a custom control, match the native equivalent's keyboard, focus, and ARIA behavior.
-
 ## Styling
 
 - Use `<style module>`, never `<style scoped>`.
 - Use `.component` as the root class for every styled component.
-- Apply a styling/CSS skill when one is available.
 
 ### CSS modules class bindings
 
-Bind one `$style.*` class per styled template element directly in the template. Do not use `useCssModule()` to pass presentation classes through render configuration. Expose a slot when callers need to style rendered elements.
+Bind one `$style.*` structural class per styled template element directly in the template. Express transient state with an attribute or a literal global state class, not another `$style.*` class. Define global state selectors under the structural module class with `:global(...)`.
+
+Do not use `useCssModule()` only to pass presentation classes through render configuration. Expose a slot when callers need to style rendered elements.
 
 Wrong:
 

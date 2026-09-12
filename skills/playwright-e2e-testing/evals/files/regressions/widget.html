@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+  <head><meta charset="UTF-8"><title>Verification</title></head>
+  <body>
+    <button id="start" type="button">Verify</button>
+    <button id="retry" type="button">Retry</button>
+    <p id="status">Idle</p>
+    <script>
+      const status = document.querySelector('#status')
+      window.addEventListener('verification-result', event => {
+        status.textContent = event.detail
+      })
+      document.querySelector('#start').addEventListener('click', () => window.verification.start())
+      document.querySelector('#retry').addEventListener('click', () => {
+        window.verification.reset()
+        window.verification.start()
+      })
+    </script>
+  </body>
+</html>

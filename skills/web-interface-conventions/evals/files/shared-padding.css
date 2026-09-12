@@ -1,0 +1,15 @@
+:root {
+  --space-12: 0.75rem;
+}
+
+.listItem {
+  padding: 0 var(--space-12);
+}
+
+.emptyItem {
+  padding: 0 var(--space-12);
+}
+
+.unrelatedBadge {
+  inset-inline-start: 0.75rem;
+}

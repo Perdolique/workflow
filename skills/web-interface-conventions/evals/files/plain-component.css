@@ -1,0 +1,11 @@
+.card {
+  color: var(--text);
+}
+
+.card:hover .cardTitle {
+  color: var(--accent);
+}
+
+.card:hover .cardIcon {
+  transform: translateX(0.25rem);
+}

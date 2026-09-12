@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Search</title>
+  </head>
+  <body>
+    <main>
+      <label for="query">Search</label>
+      <input id="query" type="search">
+      <section id="results" aria-live="polite">Start typing.</section>
+    </main>
+    <script>
+      const query = document.querySelector('#query')
+      const results = document.querySelector('#results')
+
+      query.addEventListener('input', async () => {
+        results.textContent = 'Searching…'
+        const response = await fetch(`/search?q=${encodeURIComponent(query.value)}`)
+        results.innerHTML = await response.text()
+      })
+    </script>
+  </body>
+</html>

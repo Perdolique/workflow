@@ -1,0 +1,21 @@
+.catalog {
+  display: grid;
+  grid-template-columns: 1fr 18rem;
+  gap: 1rem;
+}
+
+.productCard {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  min-width: 20rem;
+}
+
+@media (max-width: 48rem) {
+  .catalog {
+    grid-template-columns: 1fr;
+  }
+
+  .productCard {
+    grid-template-columns: 1fr;
+  }
+}

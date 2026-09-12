@@ -214,6 +214,17 @@ await expect(page.getByText(/^You(?:'|’|ʼ)re all set!$/u)).toBeVisible();
 
 Always use the `/u` (unicode) flag so regular expressions are parsed in Unicode-aware mode. Express accepted apostrophe or other character variants in the pattern itself when the text can contain them.
 
+## User-visible regression evidence
+
+- Define the observable behavior that protects the user before choosing assertions.
+- Exercise every materially changed state and transition with the relevant pointer and keyboard input.
+- Make a regression test fail when the protected behavior is removed or bypassed. A test that stays green does not protect that contract.
+- Assert the rendered content and geometry required by the behavior. Wrapper existence and `toBeVisible()` can still pass for empty icons, clipped children, or content outside the viewport.
+- For state transitions, assert the relevant order, timing, focus, and stable content. The final state alone does not prove that the user avoided a flash, stale result, or lost focus.
+- For responsive behavior, cover the smallest supported viewport, a common desktop viewport, and both sides of each changed viewport breakpoint. Exercise container-responsive components in narrow and wide containers without changing the viewport.
+- Use long realistic and long unbroken content when it can affect the protected layout. Check the document and relevant child rectangles; a root `scrollWidth` check alone does not prove that a child is visible or inside the viewport.
+- Keep the assertion as narrow as the contract. Do not replace focused evidence with a full-page snapshot when only one component state matters.
+
 ## API mocking with page.route()
 
 ### Basic mock
@@ -259,6 +270,8 @@ await page.route('**/*', async (route) => {
 ```
 
 When the scenario tests the external integration itself, use the configured test environment and keep that interaction real. Mock the dependencies outside the behavior being tested.
+
+Make each mock reproduce the lifecycle that matters to the scenario, including completion, expiry, cancellation, retry, or single-use values when applicable. Do not let a mock produce a state that the real dependency cannot produce. If a safe realistic mock is not possible, use the official test mode or mark the behavior as unverified.
 
 ### Override existing mocks
 

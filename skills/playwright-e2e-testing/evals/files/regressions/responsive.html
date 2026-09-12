@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Responsive catalog</title>
+    <style>
+      * { box-sizing: border-box; }
+      body { margin: 0; }
+      .shell { display: grid; gap: 1rem; }
+      .cardContainer { container-type: inline-size; inline-size: 18rem; max-inline-size: 100%; }
+      .card { overflow-wrap: anywhere; }
+      @media (min-width: 50rem) { .shell { grid-template-columns: 1fr 18rem; } }
+      @container (min-width: 24rem) { .card { display: grid; grid-template-columns: 1fr auto; } }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <section class="cardContainer">
+        <article class="card"><h1>OneVeryLongProductNameWithoutAnyBreaks</h1><button type="button">Add</button></article>
+      </section>
+    </main>
+  </body>
+</html>

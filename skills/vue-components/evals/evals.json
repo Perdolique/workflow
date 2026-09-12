@@ -9,20 +9,20 @@
       "expectations": [
         "The workflow inspects nearby component conventions before choosing the final shape.",
         "The workflow uses named computed state or view-model fields for component-wide values and permits named side-effect-free helper calls for template-local bindings.",
-        "The workflow preserves existing props, emits, slots, and visual behavior unless the task requires a change.",
+        "The workflow preserves existing props, emits, slots, and Vue-specific styling hooks unless the task requires a change.",
         "The workflow avoids adding generic abstractions for a small fixed UI."
       ]
     },
     {
       "id": 2,
-      "prompt": "Build a small openable Vue component with TypeScript. It should support v-model, have an icon-only close button, and be safe for keyboard and screen reader users.",
-      "expected_output": "The agent should use defineModel only for the two-way open state, call out the defineModel default caveat, provide accessible labeling/focus expectations, and prefer existing overlay primitives if the repository has them.",
+      "prompt": "Build a small openable Vue component with TypeScript. It should support v-model for its open state and emit regular confirm and cancel actions. Keep the public component contract clear.",
+      "expected_output": "The agent should use defineModel only for the two-way open state, call out the defineModel default caveat, and use defineEmits for regular confirm and cancel actions.",
       "files": [],
       "expectations": [
         "The workflow uses defineModel only for the real v-model contract.",
         "The workflow does not use defineModel for ordinary submit, cancel, click, or analytics events.",
-        "The workflow accounts for accessible names, keyboard access, visible focus, and semantic markup.",
-        "The workflow checks for existing overlay primitives or focus/scroll-lock composables before building plumbing."
+        "The workflow uses defineEmits for regular confirm and cancel actions.",
+        "The workflow keeps the component's props, emits, and model contract explicit."
       ]
     },
     {
@@ -31,7 +31,7 @@
       "expected_output": "The agent should keep the Vue skill scoped to the child component surface and route Nuxt data fetching, Pinia state, and tests to local conventions or more specific skills only when those skills are available.",
       "files": [],
       "expectations": [
-        "The workflow limits Vue skill feedback to component props, emits, template, styling, accessibility, and component TypeScript.",
+        "The workflow limits Vue skill feedback to component props, emits, Vue template mechanics, Vue-specific styling bindings, and component TypeScript.",
         "The workflow treats Nuxt useFetch or app-level data fetching as outside this skill's core scope.",
         "The workflow treats Pinia state shape and store mutations as outside this skill's core scope.",
         "The workflow recommends repository test conventions or a unit-testing skill if one is available, without assuming a specific skill is installed."
@@ -52,16 +52,15 @@
     },
     {
       "id": 5,
-      "prompt": "Update a Vue component that uses CSS Modules. The template currently binds `[$style.button, $style.active, $style.disabled]` to one element for state variants. Keep the same visual states, but convert the class pattern to match the Vue component skill.",
-      "expected_output": "The agent should bind only one `$style.*` class to that element, use literal global modifier classes such as `isActive` and `isDisabled` for state, and define those modifiers nested in the module CSS with `:global(.modifier)`.",
+      "prompt": "Update a Vue component that uses <style module>. Its button binds separate $style classes for structure, active state, and disabled state. Keep the same visual states and the Vue styling system.",
+      "expected_output": "The agent should keep one structural $style class, use literal global state classes or attributes, and define their selectors under the module class with :global(...).",
       "files": [],
       "expectations": [
-        "The workflow keeps one `$style` class per styled template element.",
-        "The workflow uses literal global modifier classes for state variants instead of multiple `$style` state classes.",
-        "The workflow avoids `$style` bindings for state or variant modifiers on the same element.",
-        "The workflow defines modifier styles nested under the module class with `:global(.modifier)`.",
-        "The workflow defers detailed styling rules to repository styling conventions or a styling/CSS skill if one is available.",
-        "The workflow preserves the existing styling system instead of switching away from CSS Modules."
+        "The workflow keeps one $style structural class on the button.",
+        "The workflow uses literal global state classes or attributes instead of module-local state classes.",
+        "The workflow nests global state selectors under the structural module class with :global(...).",
+        "The workflow preserves <style module> instead of switching the Vue component to another styling system.",
+        "The workflow does not use useCssModule only to pass presentation classes through render configuration."
       ]
     },
     {
