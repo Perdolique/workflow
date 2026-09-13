@@ -52,7 +52,7 @@ Discovering the current and target versions is not a complete update analysis. F
 
 - Research release impact only for direct candidates. Prefer upstream sources or local package changelogs over generic search results.
 - If official notes are missing for part of a direct candidate's version range, name those versions and mark the analysis as incomplete.
-- For transitive changes, record only the package name and old and new resolved versions from the lockfile. Skip changelog research and impact summaries.
+- For transitive changes, record only the package name, change type, and available old and new resolved versions from the lockfile. Skip changelog research and impact summaries.
 
 Select changes using these priorities:
 
@@ -144,7 +144,7 @@ Render one direct update card for every candidate in the ordinary result.
 6. Keep affected manifests, lockfiles, and version pins consistent.
 7. After updating declared Node.js dependencies, run `vp update` to update transitive dependencies in the lockfile.
 8. Run relevant repository checks after all update and adaptation steps.
-9. Inspect the final diff and lockfile changes to confirm that every selected direct update and adaptation was applied, identify every transitive package version that changed, and verify that the resulting manifest, lockfile, and version-pin changes are consistent.
+9. Inspect the final diff and every lockfile change to confirm that every selected direct update and adaptation was applied, identify every transitive version that changed and every package resolution that was added or removed, and verify that the resulting manifest, lockfile, and version-pin changes are consistent.
 
 Finish with this form:
 
@@ -156,10 +156,10 @@ Finish with this form:
 
 Render one direct update card for every direct version that actually changed. Say `None` only when there are no direct updates.
 
-#### Transitive updates
+#### Notable transitive changes
 
-| Package | Old version | New version |
-| --- | --- | --- |
-| `package` | `old version` | `new version` |
+| Change | Package | Old version | New version |
+| --- | --- | --- | --- |
+| Major | `package` | `old version` | `new version` |
 
-Derive the transitive list from resolved lockfile changes without a corresponding declaration change. Include one row for every distinct transitive version change. Do not add changelog details, impact summaries, breaking-change notes, or sources. If no transitive dependency changed, say `None` instead of rendering the table. Then report the verification commands and results, plus any explicitly requested update that could not be applied.
+Derive the transitive list from resolved lockfile changes without a corresponding declaration change. Include one row for every added or removed package resolution. Classify stable SemVer replacements by the highest numeric part that changed: use `Major` when the major part differs and `Minor` when only the minor part differs. Omit replacements where only the patch part differs. Include every other version replacement, such as a prerelease or non-SemVer change, and label it `Other`. Label added and removed rows `Added` and `Removed`. When patch-only replacements are omitted, state their count after the table or `None`, using `N patch-only transitive version changes omitted.` Do not add changelog details, impact summaries, breaking-change notes, or sources. If no reportable transitive dependency changed, say `None` instead of rendering the table. Then report the verification commands and results, plus any explicitly requested update that could not be applied.
