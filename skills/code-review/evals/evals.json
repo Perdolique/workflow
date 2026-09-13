@@ -162,6 +162,50 @@
         "Each first-level assignment packet contains only a coherent responsibility and relevant code or context; it does not repeat mode or include internal markers or direct-execution restrictions intended for specialist-owned children and validators.",
         "The planning agent does not spawn reviewers, validate candidate findings, or report findings and guesses."
       ]
+    },
+    {
+      "id": 13,
+      "prompt": "Check the current uncommitted changes for problems before I commit. Look for bugs, regressions, and risky edge cases. Do not edit files.",
+      "expected_output": "The target agent implicitly selects the code-review skill and performs its read-only review workflow because the request asks for an open-ended search for problems in a change set.",
+      "files": [],
+      "expectations": [
+        "Automatic selection uses the target agent's real skill discovery mechanism without supplying or naming the code-review skill.",
+        "The target agent selects the code-review skill despite the prompt using check instead of review.",
+        "The agent treats all current uncommitted changes as the review target and keeps the work read-only."
+      ]
+    },
+    {
+      "id": 14,
+      "prompt": "Check the current uncommitted changes by running lint, type checking, and tests. Report whether each command passes. Do not inspect the code for additional problems or edit files.",
+      "expected_output": "The target agent runs the named validation commands and reports their results without selecting the code-review skill because the request is limited to specific checks.",
+      "files": [],
+      "expectations": [
+        "Automatic selection uses the target agent's real skill discovery mechanism without supplying or naming the code-review skill.",
+        "The target agent does not select the code-review skill or start its review orchestration.",
+        "The agent runs only the relevant named checks and reports their actual results."
+      ]
+    },
+    {
+      "id": 15,
+      "prompt": "Look over the current pull request and find defects, regressions, security risks, or maintainability problems. Do not edit files.",
+      "expected_output": "The target agent implicitly selects the code-review skill and performs its read-only review workflow because the request asks for an open-ended review of a pull request.",
+      "files": [],
+      "expectations": [
+        "Automatic selection uses the target agent's real skill discovery mechanism without supplying or naming the code-review skill.",
+        "The target agent selects the code-review skill without requiring the exact phrase code review.",
+        "The agent treats the current pull request as the review target and keeps the work read-only."
+      ]
+    },
+    {
+      "id": 16,
+      "prompt": "Check these exact acceptance criteria in the current implementation: unauthenticated requests return 401 and valid sessions return 200. Use existing focused tests or direct code inspection only when needed. Report the evidence and do not edit files.",
+      "expected_output": "The target agent verifies the two named requirements without selecting the code-review skill because the request does not ask for an open-ended search for issues.",
+      "files": [],
+      "expectations": [
+        "Automatic selection uses the target agent's real skill discovery mechanism without supplying or naming the code-review skill.",
+        "The target agent does not select the code-review skill or start its review orchestration.",
+        "The agent limits its work to evidence for the two named requirements and reports the result."
+      ]
     }
   ]
 }

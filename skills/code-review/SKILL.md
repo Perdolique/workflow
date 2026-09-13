@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: Orchestrate evidence-based code reviews through one compact reviewer or focused specialists. Use when the user or an automated process requests a code review.
+description: Review an existing code change set for defects, regressions, risks, and maintainability issues. Use for open-ended review requests about a diff, branch, commit, pull request, or uncommitted changes. Do not use for running tests or other checks, verifying named requirements or claims, or diagnosing a specific known failure.
 license: Unlicense
 ---
 
