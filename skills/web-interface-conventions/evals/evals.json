@@ -231,6 +231,39 @@
         "The workflow continues the original action after success when no new confirmation is required.",
         "The workflow does not invent a provider-specific API or configuration value."
       ]
+    },
+    {
+      "id": 16,
+      "prompt": "Improve the first-run repository setup page. Its primary user task is Connect repository. Users report that the page feels like a wall of text, its sections and priorities are hard to scan, some copy repeats its heading, and the page feels visually flat. Keep the current connection status, the read-only access notice, the optional advanced matching rules, and troubleshooting. You may edit copy while preserving its technical meaning. The project provides the semantic tokens and icon symbols already in the file, but it has no approved illustration. Implement the framework-independent interface.",
+      "expected_output": "The agent should make the primary connection task easy to scan, group related content, remove redundant copy, hide only optional details, and add restrained visual distinction with approved tokens and icons without inventing artwork or turning every section into a card.",
+      "files": [
+        "evals/files/content-hierarchy.html"
+      ],
+      "expectations": [
+        "The workflow makes Connect repository the easy-to-find primary task without hiding the current status or read-only access notice.",
+        "The workflow groups related content and uses spacing, typography, surfaces, borders, or existing color tokens to show hierarchy instead of leaving equal flat sections.",
+        "The workflow removes or shortens descriptions that only repeat headings while preserving technical meaning and useful recovery text.",
+        "The workflow simplifies and structures content before hiding it, keeps required or current information visible, and uses disclosure only for optional material such as advanced rules.",
+        "The workflow does not wrap every section in a card and uses a distinct container only for a self-contained or primary group.",
+        "The workflow does not use a dialog only to store supporting page content.",
+        "The workflow uses existing semantic tokens and familiar icons as restrained supporting cues, does not rely on icons to fix the hierarchy, and does not invent an unapproved illustration."
+      ]
+    },
+    {
+      "id": 17,
+      "prompt": "Implement the exact approved designer specification from approved-content-design.md in content-hierarchy.html. Every listed visible decision is final, and the user asked for a faithful implementation, not a redesign. Fill only technical and accessibility gaps that the specification does not define.",
+      "expected_output": "The agent should follow the approved hierarchy, copy, cards, visible content, color use, and asset choice instead of replacing them with the general visual hierarchy guidance.",
+      "files": [
+        "evals/files/approved-content-design.md",
+        "evals/files/content-hierarchy.html"
+      ],
+      "expectations": [
+        "The workflow keeps the approved title, intro, five sections, headings, paragraphs, and section order unchanged.",
+        "The workflow gives all five sections the same approved card treatment even though the general guidance does not recommend a card for every section.",
+        "The workflow keeps all sections visible and does not add tabs, disclosures, or dialogs.",
+        "The workflow uses the accent color only for the Connect repository button and does not add visible icons, illustrations, or graphics.",
+        "The workflow does not report a conflict because the approved design does not break confirmed behavior, accessibility, or technical constraints."
+      ]
     }
   ]
 }

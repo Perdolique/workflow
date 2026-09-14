@@ -14,6 +14,7 @@ This skill owns framework-independent interface behavior and presentation. Frame
 2. Identify the affected user journeys, states, transitions, content extremes, viewports, themes, and input methods. Cover only the variants that the task can change.
 3. Read the references that match the task before making the affected decisions:
    - [design sources](references/design-sources.md) for visual direction, copy, assets, shared components, or localization;
+   - [visual hierarchy and content](references/visual-hierarchy-and-content.md) for page priority, grouping, copy density, disclosure, color accents, icons, or graphics;
    - [semantics and accessibility](references/semantics-and-accessibility.md) for document structure, page titles, landmarks, reading order, or native HTML meaning;
    - [styling foundations](references/styling-foundations.md) for CSS, browser support, resets, tokens, themes, selectors, or custom properties;
    - [responsive layout](references/responsive-layout.md) for page or component layout, queries, intrinsic sizing, breakpoints, or overflow;
