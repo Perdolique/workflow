@@ -264,6 +264,22 @@
         "The workflow uses the accent color only for the Connect repository button and does not add visible icons, illustrations, or graphics.",
         "The workflow does not report a conflict because the approved design does not break confirmed behavior, accessibility, or technical constraints."
       ]
+    },
+    {
+      "id": 18,
+      "prompt": "The Follow and Watched actions on a movie page update optimistically. Their current pending state uses the supplied Saving… status. Fast saves usually finish before users can read it, while slow saves still need clear progress. Review and improve the framework-independent pending experience while preserving the current labels, pressed states, and responsive action layout.",
+      "expected_output": "The agent should keep the actions and nearby content stable through fast and slow saves, skip loading feedback that would only flash, and show slow progress in reserved or existing space without changing the action's accessible name.",
+      "files": [
+        "evals/files/action-progress.html"
+      ],
+      "expectations": [
+        "The workflow identifies the conditional Saving… line as the cause of the pending-state layout shift.",
+        "The workflow keeps the controls, action group, and Overview geometry stable before, during, and after a save.",
+        "The workflow avoids visible loading feedback for a fast save that would only flash.",
+        "The workflow shows perceivable progress for a slow save in reserved or existing space without requiring one specific indicator design.",
+        "The workflow keeps each action's accessible name stable and preserves its optimistic pressed state while exposing the pending state.",
+        "The workflow verifies fast and held slow saves, including geometry before, during, and after the pending state."
+      ]
     }
   ]
 }

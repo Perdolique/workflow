@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Movie details</title>
+    <style>
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: start;
+        gap: 0.75rem;
+      }
+
+      .action {
+        display: grid;
+        gap: 0.75rem;
+        min-inline-size: min(100%, 13rem);
+      }
+
+      button {
+        min-block-size: 3.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Dune</h1>
+      <div class="actions">
+        <section class="action" aria-label="Follow action">
+          <button id="follow" type="button" aria-pressed="false">Follow</button>
+          <span id="follow-status" hidden>Saving…</span>
+        </section>
+        <section class="action" aria-label="Watched action">
+          <button id="watched" type="button" aria-pressed="false">Watched</button>
+          <span id="watched-status" hidden>Saving…</span>
+        </section>
+      </div>
+      <section aria-labelledby="overview-heading">
+        <h2 id="overview-heading">Overview</h2>
+        <p>A noble family becomes involved in a war for control over the galaxy's most valuable asset.</p>
+      </section>
+    </main>
+    <script>
+      function setupAction(buttonId, statusId) {
+        const button = document.querySelector(`#${buttonId}`)
+        const status = document.querySelector(`#${statusId}`)
+
+        button.addEventListener('click', async () => {
+          const pressed = button.getAttribute('aria-pressed') !== 'true'
+
+          button.setAttribute('aria-pressed', String(pressed))
+          button.setAttribute('aria-busy', 'true')
+          button.disabled = true
+          status.hidden = false
+
+          await fetch(`/api/${buttonId}`, {
+            method: pressed ? 'PUT' : 'DELETE'
+          })
+
+          status.hidden = true
+          button.disabled = false
+          button.removeAttribute('aria-busy')
+        })
+      }
+
+      setupAction('follow', 'follow-status')
+      setupAction('watched', 'watched-status')
+    </script>
+  </body>
+</html>

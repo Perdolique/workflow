@@ -14,6 +14,7 @@
 ## Control loading feedback
 
 - Keep the action label stable when it helps preserve the user's intent.
+- Keep temporary loading feedback from moving controls or nearby content. Reserve its space or show it inside a stable control when it would otherwise change the layout.
 - Measure real response behavior before choosing a loading delay or minimum display time.
 - Avoid a loading indicator that appears too briefly to understand. Do not copy one timing value to every feature.
 - If work finishes before feedback becomes useful, show the result without flashing an intermediate state.
