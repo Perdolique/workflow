@@ -206,6 +206,97 @@
         "The target agent does not select the code-review skill or start its review orchestration.",
         "The agent limits its work to evidence for the two named requirements and reports the result."
       ]
+    },
+    {
+      "id": 17,
+      "prompt": "Perform only the internal Step 1 planning assignment for the changes in evals/files/conventions-fixture.md. Treat the snapshot as the complete review input. Return the review plan without spawning agents, reviewing findings, or editing files.",
+      "expected_output": "The plan carries applicable global and repository guidance, the nested exception, and comparable formatter patterns with sources and scopes into shared context for the compact reviewer.",
+      "files": [
+        "evals/files/conventions-fixture.md"
+      ],
+      "expectations": [
+        "Shared context preserves the global named-export rule, with its source and JavaScript scope.",
+        "Shared context preserves the root formatter naming rule and the nested verbatim normalization exception, with their sources and scopes.",
+        "The plan identifies normalizeLabel reuse in formatTitle and formatTag as comparable repository practice for formatBadge, without extending it to verbatim formatters.",
+        "The plan selects compact mode and routes responsibility for applicable practices and consistency without creating a separate specialist.",
+        "The planner does not return findings or spawn agents, and records passing output tests without inventing a lint result."
+      ]
+    },
+    {
+      "id": 18,
+      "prompt": "Act as the internal compact reviewer for the changes in evals/files/conventions-fixture.md. Treat the snapshot as the complete review input. Your roles are Behavioral and contract, Test and regressions, and Waste and maintainability. Return candidates and checked scope directly without spawning agents or editing files.",
+      "expected_output": "The reviewer identifies the global export and repository naming violations and the duplicated normalization pattern, while respecting the verbatim exception and excluding unsupported preferences.",
+      "files": [
+        "evals/files/conventions-fixture.md"
+      ],
+      "expectations": [
+        "A candidate cites the default export in formatBadge and the applicable global named-export rule.",
+        "A candidate cites fmtBadge and the root formatter naming rule even though the output tests pass.",
+        "A candidate identifies the duplicated trim and Untitled normalization, cites normalizeLabel and comparable formatter callers, and explains the maintenance cost of a separate copy.",
+        "Candidates have stable IDs and exact source locations, and do not invent a runtime or build failure for convention-only violations.",
+        "No finding demands normalizeLabel in the verbatim formatter, uniform delimiters, or a particular quote style.",
+        "The reviewer works directly, returns checked scope, and spawns no children or validators."
+      ]
+    },
+    {
+      "id": 19,
+      "prompt": "Act as the internal final finding validator using evals/files/conventions-fixture.md. Validate only these candidates: export-1 says the default export in formatBadge violates the global named-export rule; naming-1 says fmtBadge violates the root formatter naming rule; reuse-1 says formatBadge duplicates normalization already shared by comparable formatters; verbatim-1 says formatCode must use normalizeLabel for consistency; quotes-1 says formatBadge must use single quotes because formatTitle does. Return one disposition per ID without spawning agents or editing files.",
+      "expected_output": "The validator confirms the supported global, repository, and shared-helper findings without requiring runtime failures and rejects candidates contradicted by a scoped exception or lack of a quote rule.",
+      "files": [
+        "evals/files/conventions-fixture.md"
+      ],
+      "expectations": [
+        "The validator confirms export-1 and naming-1 with applicable rule and code evidence rather than demanding a runtime failure.",
+        "The validator confirms reuse-1 with the comparable helper use and duplicated normalization as evidence.",
+        "The validator rejects verbatim-1 based on the nested verbatim exception.",
+        "The validator rejects quotes-1 because quote style is not required and nearby examples alone do not establish that preference as a rule.",
+        "Every supplied ID receives exactly one disposition; the validator adds no candidates, spawns no agents, and runs no unnecessary reproduction."
+      ]
+    },
+    {
+      "id": 20,
+      "prompt": "Continue from a completed Step 1 plan: compact mode, one formatter-additions packet covering the two added files in evals/files/conventions-fixture.md, and Behavioral and contract plus Waste and maintainability roles. The fixture is the shared context, including applicable guidance, existing comparable code, and available validation evidence. Execute Step 2 and Step 3 without editing repository files. For this evaluation, save each exact child launch message and fork_turns value before dispatch, then record the returned agent ID and full response. Child agents must use only their launch message as review input, with no access to the source fixture or parent history. Use real child agents and keep artifacts in the supplied temporary output directory.",
+      "expected_output": "A fresh compact reviewer receives the global and repository rules, nested exception, and comparable patterns. A separate fresh validator receives the guidance relevant to its candidate IDs. The final report includes only the three supported convention and reuse findings.",
+      "files": [
+        "evals/files/conventions-fixture.md"
+      ],
+      "expectations": [
+        "The execution record identifies one real compact reviewer and one distinct final validator, both launched with fork_turns=\"none\".",
+        "The recorded reviewer launch message carries the global named-export rule, root formatter naming rule, nested verbatim exception, and comparable normalization helper use with sources and scopes.",
+        "The recorded validator launch message carries the global export and root naming rules with their scopes, the comparable normalization pattern, and exact reviewer candidate IDs rather than relying on a fixture path or inherited history.",
+        "The final report preserves the export, naming, and helper-reuse findings and reports no quote-style or verbatim-normalization violation.",
+        "The record shows no additional agents during Step 3, no child orchestration, and no repository edits."
+      ]
+    },
+    {
+      "id": 21,
+      "prompt": "Continue Step 2 recovery and Step 3 using evals/files/conventions-fixture.md as shared context. A prior validator confirmed export-1 at src/formatBadge.js:1 for its forbidden default export and rejected quotes-1 because no quote style is required. It left verbatim-1 unresolved: the candidate demands normalizeLabel in src/verbatim/formatCode.js:2 based on formatTitle and formatTag. The completed reproduction returned \"<code>  A  </code>\" for formatCode(\"  A  \"). The nested src/verbatim/AGENTS.md in the shared context has now become available; it was absent from the prior evidence. Resolve the review without editing repository files. For this evaluation, save each exact child launch message and fork_turns value before dispatch, then record the returned agent ID and full response. Child agents must use only their launch message as review input, with no access to the source fixture or parent history. Use real child agents and keep artifacts in the supplied temporary output directory.",
+      "expected_output": "One fresh resolver receives only the unresolved candidate, prior reproduction, and relevant guidance including the newly available scoped exception, rejects verbatim-1, and preserves the existing dispositions without repeating the reproduction.",
+      "files": [
+        "evals/files/conventions-fixture.md"
+      ],
+      "expectations": [
+        "The execution record identifies exactly one fresh resolver launched with fork_turns=\"none\" and final finding validator instructions.",
+        "The resolver launch message assigns only verbatim-1 and includes its exact prior reproduction result and comparable normalization pattern.",
+        "The resolver launch message includes the nested verbatim rule, its source and directory scope, rather than only the candidate prior evidence or a fixture path.",
+        "The resolver rejects verbatim-1 using the scoped exception; the final report preserves export-1 and does not revisit quotes-1.",
+        "The record shows no repeated reproduction, restarted reviewer assignment, or additional validation agent."
+      ]
+    },
+    {
+      "id": 22,
+      "prompt": "Perform Step 3 using evals/files/conventions-fixture.md as shared context and these validated reports. Both reports agree that export-1 at src/formatBadge.js:1 is confirmed because default exports are forbidden. For verbatim-1 at src/verbatim/formatCode.js:2, report A confirms that the formatter must use normalizeLabel because formatTitle and formatTag use it; report B rejects that candidate and says a directory-specific instruction permits the current code. The prior reproduction returned \"<code>  A  </code>\" for formatCode(\"  A  \"). Produce the final review report without editing repository files. For this evaluation, save each exact child launch message and fork_turns value before dispatch, then record the returned agent ID and full response. Child agents must use only their launch message as review input, with no access to the source fixture or parent history. Use real child agents and keep artifacts in the supplied temporary output directory.",
+      "expected_output": "The conflict path sends only verbatim-1, both reports, the completed reproduction, and relevant scoped guidance to one fresh resolver, which rejects the unsupported finding before the final ledger is built.",
+      "files": [
+        "evals/files/conventions-fixture.md"
+      ],
+      "expectations": [
+        "The execution record identifies exactly one fresh resolver launched with fork_turns=\"none\" under the Step 3 conflict path.",
+        "The resolver launch message assigns only the conflicting verbatim-1 and includes both dispositions, prior reproduction, and final finding validator instructions.",
+        "The resolver launch message includes the relevant comparable pattern and nested verbatim rule with their sources and scopes, without depending on parent history or fixture access.",
+        "The resolver rejects verbatim-1 from the scoped exception; the final report retains export-1 exactly once with zero omitted confirmed findings.",
+        "The record shows no new code inspection by the orchestrator, repeated reproduction, or agent launches after the conflict resolver completes."
+      ]
     }
   ]
 }

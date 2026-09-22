@@ -14,14 +14,16 @@ Coordinate a compact reviewer or focused specialists to review an existing chang
 - Ignore staged versus unstaged status. Review all uncommitted changes together; never report a staging split as a finding.
 - Treat review as read-only. Repository task-completion verification instructions apply to implementation work, not review.
 - Record validation results available when review starts as `Available validation evidence`, including their exact target and actual status when known; use `Unavailable` when none exist. Treat this evidence as context, not proof that the change is correct.
-- Build each reviewer launch envelope from the shared review context, its assignment packet, [reviewer instructions](#reviewer-instructions), applicable mode instructions, assigned [review roles](#review-roles), and known applicable domain skills. Keep review-wide routing and lifecycle metadata outside assignment packets so packets describe only review responsibility; do not ask reviewers to rediscover scope.
+- Build each reviewer launch envelope from the shared review context, its assignment packet, [reviewer instructions](#reviewer-instructions), applicable mode instructions, assigned [review roles](#review-roles), and applicable guidance collected in Step 1. Keep review-wide routing and lifecycle metadata outside assignment packets so packets describe only review responsibility; do not ask reviewers to rediscover scope.
 - Schedule or batch specialists so each specialist can spawn its required children without exceeding the available agent limit.
 - Report checked scope and actual findings. Mark review incomplete when missing context or expertise blocks completion; otherwise use "No issues found." when none exist.
 
 ## Reviewer instructions
 
 - Review only assigned behavior, following relevant code wherever needed; ignore unrelated concerns.
-- Establish each finding from a cited code path with a concrete trigger and consequence supported by code, configuration, or reproduction evidence. Use supplied validation as context and return claims that code inspection cannot settle as unresolved candidates.
+- Check assigned code against applicable global and repository instructions, domain practices, and established patterns in comparable code. Every review role owns this check within its scope, including when the code works and tests pass.
+- Distinguish established conventions from personal preferences. Check that examples serve the same purpose and fit the current language, framework, and supported versions. Respect instruction priority and documented exceptions; do not copy a legacy pattern or a known defect just for consistency.
+- Support each finding with an exact code location and evidence. For a defect, show a concrete trigger and consequence. For a practice or consistency violation, cite the applicable rule or comparable code and explain the deviation; a proven convention violation does not need a runtime failure. A general best-practice claim needs a concrete benefit or risk in the assigned code, not preference alone. Use supplied validation as context and return claims that code inspection cannot settle as unresolved candidates.
 - Merge duplicate root causes into one candidate list, assign a stable ID to every candidate, and do not remove a supported candidate because it is low priority, cosmetic, readability-related, or easy to fix.
 - Keep findings, incomplete reviews, and human-review candidates separate. Use human review for material decisions or confirmations requiring project context unavailable in the repository; use incomplete review when technical analysis is unfinished. Include the location, missing context, consequence, and required human action.
 - Apply every domain skill supplied in the launch envelope. Treat that list as known applicable guidance rather than a closed set, and add another domain skill only when the assigned behavior directly requires it.
@@ -34,16 +36,16 @@ Coordinate a compact reviewer or focused specialists to review an existing chang
 
 ### Specialist instructions
 
-- Give each child a self-contained narrower assignment marked as internal and instruct it to work directly without invoking code-review orchestration. Do not pass these general specialist instructions or the specialist role; the specialist alone controls the child's prompt, scope, evidence contract, and lifecycle.
+- Give each child a self-contained narrower assignment marked as internal, with the reviewer instructions and applicable guidance for its scope, and instruct it to work directly without invoking code-review orchestration. Do not pass these general specialist instructions or the specialist role; the specialist alone controls the child's prompt, scope, evidence contract, and lifecycle.
 - Delegate one coherent responsibility, not individual checklist items, and verify child evidence before merging it into the candidate list.
 - When the merged candidate list is empty, return checked scope and "No issues found." without spawning a validator.
-- When the merged candidate list is nonempty, spawn exactly one fresh final finding validator with `fork_turns="none"`. Mark the assignment as internal and give it the exact candidate list with IDs, code scope, prior evidence and reproduction results, applicable repository instructions and domain skills, and [final finding validator instructions](#final-finding-validator-instructions).
+- When the merged candidate list is nonempty, spawn exactly one fresh final finding validator with `fork_turns="none"`. Mark the assignment as internal and give it the exact candidate list with IDs, code scope, prior evidence and reproduction results, applicable guidance, and [final finding validator instructions](#final-finding-validator-instructions).
 - Return every validator-confirmed finding with its stable ID. Keep validator-rejected candidates out of findings, and return validator-unresolved candidates separately as an incomplete review.
 
 ### Final finding validator instructions
 
 - Perform this internal assignment directly without invoking code-review orchestration. Review only the supplied candidates and code needed to validate them; do not search for new findings or spawn children.
-- Independently establish or refute each candidate from its cited code path, concrete trigger, and consequence. Reuse supplied evidence and reproduction results; only when they have not settled a claim, run the smallest new read-only reproduction once.
+- Independently establish or refute each candidate from its code location and evidence. For defects, check the trigger and consequence. For practice or consistency violations, check the rule or comparable examples, their applicability and exceptions, and the deviation. Do not require a runtime failure for a proven convention violation or accept personal preference as a rule. Reuse supplied evidence and reproduction results; only when they have not settled a claim, run the smallest new read-only reproduction once.
 - Preserve every candidate ID and return exactly one disposition for each: `Confirmed` with supporting evidence, `Rejected` with contradicting evidence, or `Unresolved` with the missing context or validation needed.
 - Do not suppress or downgrade a confirmed candidate because it is low priority, cosmetic, readability-related, or easy to fix. Priority is assigned after validation.
 
@@ -51,22 +53,23 @@ Coordinate a compact reviewer or focused specialists to review an existing chang
 
 ### Step 1: Select review mode and assignments
 
-- Use one subagent with `fork_turns="none"` for this internal planning task to identify review source: branch, commit, pull request, or uncommitted changes. Unless the user specifies one, review all uncommitted changes when any exist; otherwise fetch the remote default branch and review the entire current branch against its fresh remote-tracking ref.
+- Use one subagent with `fork_turns="none"` for this internal planning task to identify review source: branch, commit, pull request, or uncommitted changes. Give it the applicable global and user instructions already available to the orchestrator. Unless the user specifies one, review all uncommitted changes when any exist; otherwise fetch the remote default branch and review the entire current branch against its fresh remote-tracking ref.
+- Collect applicable guidance for the changed code: global user instructions, root and nested repository instructions, relevant documentation and tool configuration, and domain skills. Inspect nearby code and shared helpers for established patterns in comparable implementations. Record each rule or pattern with its source and scope, including relevant exceptions; resolve conflicts by instruction priority. Keep this guidance in shared context and pass the relevant parts to reviewers, children, validators, and resolvers instead of relying on inherited conversation history.
 - Select `compact` only for one clearly local, simple, low-risk, self-contained responsibility that one generalist can review from one packet. Use `specialist` for authorization, security, privacy, destructive or transactional data changes, concurrency, migrations, public or cross-system contracts, backward compatibility, infrastructure, any other material risk, or uncertain classification.
 - File or line count may rule out `compact` but never justify it.
-- Return one review plan containing: shared context with the review source and target, exactly one selected mode and reason, changed behavior or contracts, entry points, `Available validation evidence`, and applicable repository instructions; reviewer routing that maps each packet to its assigned [review roles](#review-roles) and known applicable domain skills; and assignment packets that contain only a coherent responsibility and relevant code or context.
+- Return one review plan containing: shared context with the review source and target, exactly one selected mode and reason, changed behavior or contracts, entry points, `Available validation evidence`, and applicable guidance; reviewer routing that maps each packet to its assigned [review roles](#review-roles) and known applicable domain skills; and assignment packets that contain only a coherent responsibility and relevant code or context.
 - Give `compact` exactly one packet covering every change. Give `specialist` one named packet per specialist, overlapping only for cross-target behavior. Keep the selected mode in shared context. Do not copy nested-assignment lifecycle markers such as `internal` or direct-execution restrictions into first-level packets or routing; they apply only where the child or validator instructions explicitly require them.
 - Return planning output only; do not spawn reviewers or report findings and guesses.
 
 ### Step 2: Assign reviewers and perform review
 
-- For `compact`, build one launch envelope from the shared context, routing, and single packet, then spawn one fresh compact reviewer. If its candidate list is nonempty, spawn one fresh [final finding validator](#final-finding-validator-instructions) with the exact candidate list and IDs, packet code scope, prior evidence, applicable repository instructions and domain skills, and validator instructions. Preserve the reviewer's completed and incomplete scope.
+- For `compact`, build one launch envelope from the shared context, routing, and single packet, then spawn one fresh compact reviewer. If its candidate list is nonempty, spawn one fresh [final finding validator](#final-finding-validator-instructions) with the exact candidate list and IDs, packet code scope, prior evidence, applicable guidance, and validator instructions. Preserve the reviewer's completed and incomplete scope.
 - For `specialist` mode, build one launch envelope per routed packet and spawn one fresh subagent per selected specialist, in batches when necessary to leave capacity for specialist-owned children.
-- Collect validated reviewer reports and reproduction results. If new context or expertise can settle unresolved IDs, give only those IDs and all prior evidence to one fresh resolver with `fork_turns="none"`; never rerun the reviewer assignment, repeat a completed reproduction, or revisit confirmed and rejected IDs. Otherwise preserve them as an incomplete review.
+- Collect validated reviewer reports and reproduction results. If new context or expertise can settle unresolved IDs, give one fresh resolver with `fork_turns="none"` only those candidate IDs, all prior evidence, and applicable guidance with its sources, scope, and exceptions. Never rerun the reviewer assignment, repeat a completed reproduction, or revisit confirmed and rejected IDs. Otherwise preserve them as an incomplete review.
 
 ### Step 3: Produce final review report to user
 
-- Build a finding ledger from every validator-confirmed stable ID and merge IDs only when they describe the same root cause. If validated reports conflict, give only the conflicting IDs and prior evidence to one fresh resolver with `fork_turns="none"` before finalizing; resolvers follow the final finding validator instructions.
+- Build a finding ledger from every validator-confirmed stable ID and merge IDs only when they describe the same root cause. If validated reports conflict, give one fresh resolver with `fork_turns="none"` only the conflicting candidate IDs, prior evidence, and applicable guidance with its sources, scope, and exceptions before finalizing. Resolvers follow the final finding validator instructions.
 - Outside that conflict path, do not inspect code, rerun validation, or spawn agents during Step 3; deduplication alone never justifies a resolver.
 - Account for every confirmed ID exactly once as its own final finding or as a source of an explicitly merged final finding. Do not omit confirmed findings because of priority, materiality, report length, readability, or ease of cleanup; priority only controls ordering and labels.
 - Reconcile the ledger before responding and report a compact accounting line with confirmed review findings, final comments, duplicate merges, and omitted findings. The omitted count must be zero.
@@ -111,7 +114,7 @@ Review whether tests protect intended contract, fail when that contract is remov
 - Perform this internal assignment directly without invoking code-review orchestration or spawning children; review only the supplied code scope.
 - Follow the supplied repository and applicable language or framework instructions.
 - Find code whose intent or execution order is materially obscured by dense expressions, nesting, mixed abstraction levels, misleading names, or unnecessary indirection. Treat these as signals, not an exhaustive checklist.
-- Recommend the smallest correction that preserves behavior and supported performance characteristics; do not report formatting preferences or clear simple code.
+- Recommend the smallest correction that preserves behavior and supported performance characteristics. Report proven convention violations even in simple code; do not report personal formatting preferences.
 - Report checked scope and actual findings with exact locations and supporting evidence; return "No issues found." when none exist.
 
 #### CSS waste reviewer instructions

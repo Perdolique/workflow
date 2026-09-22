@@ -10,7 +10,7 @@ Reusable skills that provide specialized knowledge and capabilities:
 
 | Skill | Description |
 | --- | --- |
-| [code-review](./skills/code-review/) | Orchestrate evidence-based reviews with one compact reviewer or focused specialists |
+| [code-review](./skills/code-review/) | Orchestrate evidence-based reviews, including applicable practices and code consistency, with one compact reviewer or focused specialists |
 | [cost-aware-development](./skills/cost-aware-development/) | Apply current service pricing and subscription context to implementation decisions with material cost impact |
 | [commit-creator](./skills/commit-creator/) | Create English conventional commit messages for the current changes |
 | [drizzle-orm](./skills/drizzle-orm/) | Drizzle ORM 1.0 patterns with Relations v2, RQB v2, and SQL builder guidance |
