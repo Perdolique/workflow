@@ -29,7 +29,7 @@ developer_instructions = """
 [agents]
 max_concurrent_threads_per_session = 8
 default_subagent_model = "gpt-6-sol"
-default_subagent_reasoning_effort = "high"
+default_subagent_reasoning_effort = "xhigh"
 
 [features]
 default_mode_request_user_input = true
