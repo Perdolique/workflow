@@ -15,7 +15,7 @@ Reusable skills that provide specialized knowledge and capabilities:
 | [commit-creator](./skills/commit-creator/) | Create English conventional commit messages for the current changes |
 | [drizzle-orm](./skills/drizzle-orm/) | Drizzle ORM 1.0 patterns with Relations v2, RQB v2, and SQL builder guidance |
 | [github-release](./skills/github-release/) | Create or draft GitHub releases from existing tags and repository history |
-| [implementation-workflow](./skills/implementation-workflow/) | Guide all repository edits and their planning, from small fixes to phased work, and select the next task from the project tracker |
+| [implementation-workflow](./skills/implementation-workflow/) | Guide repository edits and planning, select the next task, and assign the user when tracked work starts |
 | [instructions-master](./skills/instructions-master/) | Create, edit, review, and evaluate skills and other agent instructions |
 | [markdownlint](./skills/markdownlint/) | Configure, manage, and troubleshoot markdownlint in projects |
 | [playwright-e2e-testing](./skills/playwright-e2e-testing/) | Write and maintain Playwright browser, E2E, and direct API tests with their fixtures and mocks |

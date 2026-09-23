@@ -170,7 +170,27 @@
       "expectations": [
         "The workflow uses the declared tracker as the primary source.",
         "The workflow explains that the leading epic needs actionable child tasks.",
-        "The workflow does not treat choosing a task as authorization to implement it."
+        "The workflow does not treat choosing a task as authorization to implement it or change its assignee."
+      ]
+    },
+    {
+      "id": 15,
+      "prompt": "Start implementing GitHub issue #42. My account is ky6uk and the issue has no assignee.",
+      "expected_output": "The agent assigns ky6uk to the issue and proceeds with implementation.",
+      "files": [],
+      "expectations": [
+        "The workflow assigns ky6uk when implementation starts.",
+        "The workflow continues the requested implementation."
+      ]
+    },
+    {
+      "id": 16,
+      "prompt": "Start implementing Jira issue APP-43. It is assigned to a teammate, and Jira allows only one assignee. My account is ky6uk.",
+      "expected_output": "The agent asks before replacing the teammate's assignment.",
+      "files": [],
+      "expectations": [
+        "The workflow does not silently replace the teammate as assignee.",
+        "The workflow asks about the assignment conflict before changing it."
       ]
     }
   ]

@@ -22,6 +22,7 @@ description: Use for all repository edits and their planning, including simple c
 - Rank actionable candidates using evidence about priority, impact, readiness, dependencies, and current repository state. Select a clear leader and continue the requested planning. When several candidates are similarly viable, present the top two or three in order, explain briefly why each is ready now, and ask the user to choose.
 - If the leading candidate is an epic without child tasks, stop selection and explain that it needs planning and decomposition into actionable tasks first. If no accessible tracker yields a task, inspect explicit local roadmap, TODO, or backlog documents, then ask the user for direction.
 - Task selection authorizes the requested selection or planning. Implement the selected task when the user's request also covers implementation.
+- When implementation starts on a tracked task, assign the user in its tracker if they are not already assigned. Ask before replacing another person's assignment.
 
 ## Establish scope
 
