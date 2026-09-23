@@ -96,6 +96,9 @@ policy = """
   - Publishing releases, packages, deployments, or other artifacts.
   - Any other external action under the user's identity or credentials.
   - Modifying user-level or system-level configuration outside the active workspace, including `CODEX_HOME`, `~/.config`, shell profiles, and Git, SSH, cloud, or tool configuration.
+- A request to implement a tracked task also lets the agent assign the user to that task if they are not already assigned. This includes a task the user asked the agent to choose and implement.
+- On GitHub, `@me` means the signed-in account. Allow it only when that account belongs to the user.
+- This permission does not cover replacing another person's assignment, changing task status, or editing other task fields. Require a separate user request or approval for those actions.
 - An explicit request for a protected action, or a direct affirmative answer to a concrete proposed action, authorizes that action within the current task.
 - Authorization covers normal implementation steps and details that become known later. Do not require another confirmation only because content, file paths, command arguments, commit hashes, or similar details were not known earlier.
 - A request to create a pull request also authorizes the commits and push needed to publish the current task's changes.
