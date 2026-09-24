@@ -104,7 +104,7 @@ policy = """
 - A request to create a pull request also authorizes the commits and push needed to publish the current task's changes.
 - A request to make a release authorizes the normal checks, version changes, commits, tags, pushes, release notes, and publication needed to complete that release.
 - A request to rewrite a commit and push it authorizes the required one-ref `--force-with-lease` update. A plain push request does not authorize a force push or an unrelated history rewrite.
-- Authorization is limited to the requested target and material scope. It does not cover unrelated work or later changes unless a standing user instruction clearly covers them.
+- Authorization is limited to the requested target and material scope. After a requested commit or push is complete, a later request to edit or fix code does not authorize another commit or push, even in the same conversation, branch, or pull request. Require a new explicit request for those later changes unless a standing user instruction clearly covers them.
 - A request limited to implementation, inspection, review, local drafting, preparation, or suggestions does not authorize submission or publication. An explicit request for a draft on an external service authorizes that draft only.
 - Assistant plans, tool justifications, automated approvals, and user silence do not provide user authorization.
 - Read-only inspection, local working-tree edits, and test execution do not require authorization under this section.
