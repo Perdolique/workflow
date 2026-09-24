@@ -23,7 +23,7 @@ Reusable skills that provide specialized knowledge and capabilities:
 | [repository-updater](./skills/repository-updater/) | Analyze repository updates and their relevant release impact by default, then apply explicitly requested updates |
 | [typescript-conventions](./skills/typescript-conventions/) | TypeScript coding conventions for typed code in `.ts`, `.tsx`, and embedded TypeScript files |
 | [vitest-unit-testing](./skills/vitest-unit-testing/) | Write and maintain TypeScript unit tests with Vitest 5, mocks, and focused contract coverage |
-| [vue-components](./skills/vue-components/) | Vue 3 and TypeScript conventions for component APIs, state, SFC structure, template mechanics, lifecycle, and Vue-specific bindings |
+| [vue-components](./skills/vue-components/) | Vue 3.5+ SFC and composable conventions for component APIs, template mechanics, lifecycle, and CSS Module bindings in components, pages, and layouts |
 | [web-interface-conventions](./skills/web-interface-conventions/) | Framework-independent HTML, accessibility, CSS, visual design, interaction, and UX conventions for web interfaces |
 
 ## Quick start

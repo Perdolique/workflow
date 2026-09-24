@@ -15,7 +15,7 @@
     },
     {
       "id": 2,
-      "prompt": "Build a small openable Vue component with TypeScript. It should support v-model for its open state and emit regular confirm and cancel actions. Keep the public component contract clear.",
+      "prompt": "Build a small openable Vue 3.5 component with TypeScript. It should support v-model for its open state and emit regular confirm and cancel actions. Keep the public component contract clear.",
       "expected_output": "The agent should use defineModel only for the two-way open state, call out the defineModel default caveat, and use defineEmits for regular confirm and cancel actions.",
       "files": [],
       "expectations": [
@@ -27,11 +27,11 @@
     },
     {
       "id": 3,
-      "prompt": "Review this Nuxt page change that mixes useFetch calls, a Pinia store mutation, and a child Vue component prop cleanup. I only want component-level feedback from the Vue skill.",
-      "expected_output": "The agent should keep the Vue skill scoped to the child component surface and route Nuxt data fetching, Pinia state, and tests to local conventions or more specific skills only when those skills are available.",
+      "prompt": "Review this Nuxt page change that mixes a page template condition, useFetch calls, a Pinia store mutation, and a child Vue component prop cleanup. I only want component-level feedback from the Vue skill.",
+      "expected_output": "The agent should apply Vue rules to the page and child component's Vue mechanics, while routing Nuxt data fetching, Pinia state, and tests to local conventions or more specific skills when available.",
       "files": [],
       "expectations": [
-        "The workflow limits Vue skill feedback to component props, emits, Vue template mechanics, Vue-specific styling bindings, and component TypeScript.",
+        "The workflow limits Vue skill feedback to props, emits, Vue template mechanics, Vue-specific styling bindings, and component TypeScript in the page and child component.",
         "The workflow treats Nuxt useFetch or app-level data fetching as outside this skill's core scope.",
         "The workflow treats Pinia state shape and store mutations as outside this skill's core scope.",
         "The workflow recommends repository test conventions or a unit-testing skill if one is available, without assuming a specific skill is installed."
@@ -53,14 +53,14 @@
     {
       "id": 5,
       "prompt": "Update a Vue component that uses <style module>. Its button binds separate $style classes for structure, active state, and disabled state. Keep the same visual states and the Vue styling system.",
-      "expected_output": "The agent should keep one structural $style class, use literal global state classes or attributes, and define their selectors under the module class with :global(...).",
+      "expected_output": "The agent should keep one structural $style class, use literal global state classes or attributes, and match global state classes on the same element with &:global(...).",
       "files": [],
       "expectations": [
         "The workflow keeps one $style structural class on the button.",
         "The workflow uses literal global state classes or attributes instead of module-local state classes.",
-        "The workflow nests global state selectors under the structural module class with :global(...).",
+        "The workflow matches a global state class on the same element as its structural module class with &:global(...).",
         "The workflow preserves <style module> instead of switching the Vue component to another styling system.",
-        "The workflow does not use useCssModule only to pass presentation classes through render configuration."
+        "The workflow uses $style directly for simple template class bindings without adding useCssModule for those bindings."
       ]
     },
     {
@@ -73,6 +73,28 @@
         "The workflow does not add components or state solely to eliminate those helper calls.",
         "The workflow moves component-wide derived disabled state into a named computed value.",
         "The workflow preserves event-handler conventions and existing component behavior."
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "In this Nuxt page, disable Refresh while reservations are loading or when the list is empty. Keep the current data request and page layout.",
+      "expected_output": "The page binds a named disabled value in its template and keeps the Nuxt data request as it was.",
+      "files": ["evals/files/nuxt-page/Reservations.vue"],
+      "expectations": [
+        "The workflow applies Vue template rules to the Nuxt page itself, not only to child components.",
+        "The combined loading and empty-list condition is prepared in named computed state and bound by name in the template.",
+        "The workflow keeps useAsyncData and the page structure unchanged unless the task requires a change."
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "Give guest names in this table stronger weight by applying the existing guestNameCell CSS Module class to name cells. Keep the table's column-based styling API.",
+      "expected_output": "The name column passes the compiled CSS Module class through its cellClass option without changing the table API.",
+      "files": ["evals/files/css-module-columns/ReservationsTable.vue"],
+      "expectations": [
+        "The workflow uses useCssModule in setup because the column configuration needs a compiled class name outside the template.",
+        "The name column passes the CSS Module class through cellClass.",
+        "The workflow keeps the existing column-based API instead of adding a slot only to avoid useCssModule."
       ]
     }
   ]

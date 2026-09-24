@@ -1,17 +1,17 @@
 ---
 name: vue-components
-description: Build, refactor, or review Vue 3 components and composables with idiomatic TypeScript and Vue-specific component mechanics. Use for component contracts, SFC and template logic, lifecycle handling, and Vue CSS Module bindings. Use other skills for framework-independent interface work and features outside the component layer.
+description: Build, refactor, or review Vue 3.5+ SFCs and composables with idiomatic TypeScript. Use for Vue component mechanics in components, framework pages, and layouts, including public contracts, template logic, lifecycle handling, and CSS Module bindings. Use other skills for framework-specific APIs and framework-independent interface work.
 license: Unlicense
 ---
 
 # Vue component conventions
 
-Use this skill for concrete, idiomatic Vue component mechanics. Apply web interface conventions to framework-independent HTML, CSS, accessibility, content, and user behavior. Project-local instructions, `AGENTS.md`, lint rules, and nearby components take priority.
+Use this skill for Vue 3.5+ SFC and composable mechanics, including Vue code in framework pages and layouts. Apply web interface conventions to framework-independent HTML, CSS, accessibility, content, and user behavior when available. Project-local instructions, `AGENTS.md`, lint rules, and nearby components take priority.
 
 ## First pass
 
-- Inspect the target component, its parent/children, and at least one similar nearby component before editing.
-- Decide whether the change belongs in a component, composable, page, route, store, or test. Keep this skill focused on the component layer.
+- Before editing, inspect the target SFC or composable, relevant callers or children, and a similar nearby file when available.
+- Decide whether the change belongs in an SFC, composable, route, store, or test. Keep this skill focused on Vue mechanics in SFCs and composables.
 - Preserve public props, emits, slots, and Vue-specific styling hooks unless the requested task requires changing them.
 - Reuse existing local composables and matching Vue component APIs before adding a new Vue abstraction.
 - Keep static UI static. Do not introduce config arrays, `v-for`, extra computed state, or generic abstractions for a small fixed set of known elements.
@@ -92,7 +92,7 @@ interface Emits {
 
 ## Template logic
 
-- Before finishing, scan the entire `<template>`. Keep component-wide derived rendering values, including conditions, collection checks, and formatting, in named computed state or view-model fields.
+- Keep component-wide derived rendering values, including conditions, collection checks, and formatting, in named computed state or view-model fields.
 - For rendering logic that depends on template-local bindings, such as `v-for` aliases or slot props, use a named side-effect-free helper with those bindings as arguments. Reuse existing derived fields when available. Keep the current component and state structure when a helper alone expresses the local rendering logic.
 - Keep comparisons, formatting, and other derived logic inside the named computed value, view-model field, or helper. Vue binding syntax such as `item in items` and slot bindings stays inline. These rendering rules are separate from event-handler conventions.
 
@@ -107,6 +107,12 @@ Wrong:
 Right:
 
 ```vue
+<template>
+  <button :disabled="isSaveDisabled">
+    Save
+  </button>
+</template>
+
 <script setup lang="ts">
   import { computed } from 'vue'
 
@@ -114,12 +120,6 @@ Right:
     () => isSaving.value || items.value.length === 0
   )
 </script>
-
-<template>
-  <button :disabled="isSaveDisabled">
-    Save
-  </button>
-</template>
 ```
 
 - Prefer direct template markup for a small, known set of elements. Use config-driven rendering only for genuinely dynamic or repeated structures.
@@ -140,9 +140,9 @@ Right:
 
 ### CSS modules class bindings
 
-Bind one `$style.*` structural class per styled template element directly in the template. Express transient state with an attribute or a literal global state class, not another `$style.*` class. Define global state selectors under the structural module class with `:global(...)`.
+Bind one `$style.*` structural class per styled template element directly in the template. Express transient state with an attribute or a literal global state class, not another `$style.*` class. Match a global state class on the same element as its structural class with `&:global(...)`.
 
-Do not use `useCssModule()` only to pass presentation classes through render configuration. Expose a slot when callers need to style rendered elements.
+Use `$style` directly for classes bound in the template. Use `useCssModule()` in setup when script code must pass module class names to another API, such as a render callback or table column configuration. Do not add it only to build a simple template class list. When you own a component and callers need to style its rendered markup, expose a slot instead of adding a presentation-only class option.
 
 Wrong:
 
@@ -180,7 +180,11 @@ Right:
 
 ## Component boundaries
 
-- For Nuxt pages, layouts, plugins, middleware, Nitro handlers, `useFetch`, `useAsyncData`, `$fetch`, or runtime config, use a Nuxt-specific skill or the local Nuxt conventions. This skill covers only the Vue component surface.
+- Apply this skill to the Vue template, script, and CSS Module mechanics of `.vue` Nuxt pages and layouts. Use a Nuxt-specific skill or local Nuxt conventions for plugins, middleware, Nitro handlers, routing, `useFetch`, `useAsyncData`, `$fetch`, and runtime config.
 - For Pinia state shape, async store actions, store HMR, or cross-store dependencies, use a Pinia/store-specific skill when available.
 - For unit/component tests, use the repository's test conventions or a unit-testing skill if one is available.
 - For E2E/browser flows, use the repository's E2E conventions or an E2E/browser skill if one is available.
+
+## Final pass
+
+- Review every changed `.vue` file, including pages and layouts. Scan its full template for derived rendering logic. Check changed props, emits, models, slots, template refs, CSS Module bindings, and new `useCssModule()` calls against this skill. Fix confirmed violations within the task scope.
