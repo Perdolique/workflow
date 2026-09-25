@@ -32,6 +32,7 @@ default_subagent_model = "gpt-6-sol"
 default_subagent_reasoning_effort = "xhigh"
 
 [features]
+agent_message_board = true
 default_mode_request_user_input = true
 memories = false
 prevent_idle_sleep = true
@@ -134,6 +135,7 @@ url = "https://mcp.cloudflare.com/mcp"
 url = "https://formisch.dev/mcp"
 
 [tui]
+fullscreen_transcript = false
 status_line = ["model-with-reasoning", "current-dir", "git-branch", "five-hour-limit", "weekly-limit", "total-input-tokens", "total-output-tokens", "context-used"]
 status_line_use_colors = true
 
