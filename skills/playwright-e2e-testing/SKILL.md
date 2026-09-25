@@ -221,7 +221,7 @@ Always use the `/u` (unicode) flag so regular expressions are parsed in Unicode-
 - Make a regression test fail when the protected behavior is removed or bypassed. A test that stays green does not protect that contract.
 - Assert the rendered content and geometry required by the behavior. Wrapper existence and `toBeVisible()` can still pass for empty icons, clipped children, or content outside the viewport.
 - For state transitions, assert the relevant order, timing, focus, and stable content. The final state alone does not prove that the user avoided a flash, stale result, or lost focus.
-- For responsive behavior, cover the smallest supported viewport, a common desktop viewport, and both sides of each changed viewport breakpoint. Exercise container-responsive components in narrow and wide containers without changing the viewport.
+- For responsive behavior, choose viewports that can reveal distinct failures: the smallest supported width for overflow, a common desktop width for desktop layout, or both sides of a changed breakpoint when behavior differs. Exercise container-responsive components in narrow and wide containers when they pose different risks without changing the viewport.
 - Use long realistic and long unbroken content when it can affect the protected layout. Check the document and relevant child rectangles; a root `scrollWidth` check alone does not prove that a child is visible or inside the viewport.
 - Keep the assertion as narrow as the contract. Do not replace focused evidence with a full-page snapshot when only one component state matters.
 

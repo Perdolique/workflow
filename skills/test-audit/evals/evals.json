@@ -1,0 +1,148 @@
+{
+  "skill_name": "test-audit",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "In sample-project, refactor normalizeId to use a clearer local variable without changing its output. Add tests only if they improve protection. Report the result.",
+      "expected_output": "The refactor keeps the same contract and does not add a redundant test.",
+      "files": [
+        "evals/files/sample-project/package.json",
+        "evals/files/sample-project/src/normalize-id.js",
+        "evals/files/sample-project/tests/normalize-id.test.js"
+      ],
+      "expectations": [
+        "The existing input-output test remains available to catch a behavior change.",
+        "The executor adds no new test for the behavior-preserving local refactor.",
+        "The executor explains why no extra test improves protection."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "In sample-project, fix deleteRecord so an actor cannot delete another team's record. Add tests as needed and report the checks you ran.",
+      "expected_output": "The unauthorized delete is blocked and one focused regression at the public operation proves it.",
+      "files": [
+        "evals/files/sample-project/package.json",
+        "evals/files/sample-project/src/delete-record.js",
+        "evals/files/sample-project/tests/delete-record.test.js"
+      ],
+      "expectations": [
+        "The unauthorized call leaves the store unchanged and reports denial.",
+        "A test at deleteRecord catches the unauthorized mutation before the fix and passes after it.",
+        "The same denial scenario is not repeated through a test-only helper or another layer."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Audit sample-project/tests/normalize-id.test.js for tests that could be removed or combined. Do not edit files.",
+      "expected_output": "A read-only audit keeps the observable contract and identifies redundant or implementation-bound checks with evidence.",
+      "files": [
+        "evals/files/sample-project/src/normalize-id.js",
+        "evals/files/sample-project/tests/normalize-id.test.js"
+      ],
+      "expectations": [
+        "The audit keeps the normalizes external IDs check as the owner of the input-output contract.",
+        "The audit identifies the identical trims whitespace assertion as duplicate proof.",
+        "The audit identifies the function-name assertion as tied to an implementation detail with no shown caller contract.",
+        "The audit makes no file edits."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Audit sample-project/tests/serialize-order.test.js. A teammate suggests removing its exact JSON-key assertion because it looks static. Decide what to do and explain why. Do not edit files.",
+      "expected_output": "The exact partner wire keys remain protected as an independent external contract.",
+      "files": [
+        "evals/files/sample-project/src/serialize-order.js",
+        "evals/files/sample-project/tests/serialize-order.test.js"
+      ],
+      "expectations": [
+        "The audit retains the test because changing order_id or total_cents would break the partner contract.",
+        "The audit does not use static appearance alone as a reason to delete it.",
+        "The audit makes no file edits."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Audit the current changes in sample-project. The only uncommitted change is in src/delete-record.js: the store deletion now happens before the organization check. No test file changed. Do not edit files.",
+      "expected_output": "The audit stays with the current change, inspects nearby tests, and identifies the uncovered unauthorized-delete risk.",
+      "files": [
+        "evals/files/sample-project/src/delete-record.js",
+        "evals/files/sample-project/tests/delete-record.test.js"
+      ],
+      "expectations": [
+        "The audit inspects delete-record.test.js even though no test file changed.",
+        "The audit identifies that the current owner test proves only the authorized path.",
+        "The audit does not widen to the whole project or edit files."
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "The working tree and current branch of sample-project have no changes against the remote default branch. Audit all its tests and return an item-by-item report. Do not edit files.",
+      "expected_output": "A complete read-only audit accounts for every test declaration and retains distinct contracts.",
+      "files": [
+        "evals/files/sample-project/src/normalize-id.js",
+        "evals/files/sample-project/src/serialize-order.js",
+        "evals/files/sample-project/src/delete-record.js",
+        "evals/files/sample-project/tests/normalize-id.test.js",
+        "evals/files/sample-project/tests/serialize-order.test.js",
+        "evals/files/sample-project/tests/delete-record.test.js"
+      ],
+      "expectations": [
+        "The audit records one decision for each of the five test declarations.",
+        "The audit keeps the external-ID, partner-wire, and owned-delete behavior contracts.",
+        "The audit identifies the duplicate normalization assertion and the function-name assertion as weak proof.",
+        "The audit calls the work complete only after accounting for all three test files and all five declarations."
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Run the existing tests in sample-project and report any failures. Do not review or edit the tests.",
+      "expected_output": "The executor runs and reports the existing suite without invoking a test-value audit.",
+      "files": [
+        "evals/files/sample-project/package.json",
+        "evals/files/sample-project/src/normalize-id.js",
+        "evals/files/sample-project/src/serialize-order.js",
+        "evals/files/sample-project/src/delete-record.js",
+        "evals/files/sample-project/tests/normalize-id.test.js",
+        "evals/files/sample-project/tests/serialize-order.test.js",
+        "evals/files/sample-project/tests/delete-record.test.js"
+      ],
+      "expectations": [
+        "The executor runs the configured test command and reports its actual result.",
+        "The executor does not audit test value or propose deleting tests.",
+        "Automatic skill selection does not load test-audit for this run-only request."
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Audit the test in negative-guard/tests/approve.test.js. Decide whether it protects the behavior named by the test. Do not edit files.",
+      "expected_output": "The audit keeps the security contract but repairs the test that currently passes through another guard.",
+      "files": [
+        "evals/files/negative-guard/package.json",
+        "evals/files/negative-guard/src/approve.js",
+        "evals/files/negative-guard/tests/approve.test.js"
+      ],
+      "expectations": [
+        "The audit identifies that the inactive-actor guard throws before the cross-team rule runs.",
+        "The audit shows that removing the cross-team rule would leave the current test green.",
+        "The audit recommends an active actor and a specific cross-team denial assertion instead of deleting the security contract.",
+        "The audit makes no file edits."
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "In sample-project, clean up redundant tests in tests/normalize-id.test.js. Report the reason for each change and the checks you ran.",
+      "expected_output": "The cleanup removes repeated or implementation-bound proof while keeping the one behavior test that catches normalization regressions.",
+      "files": [
+        "evals/files/sample-project/package.json",
+        "evals/files/sample-project/src/normalize-id.js",
+        "evals/files/sample-project/tests/normalize-id.test.js"
+      ],
+      "expectations": [
+        "The cleanup keeps a test that fails when trimming or lowercasing is removed.",
+        "The exact duplicate and function-name check are removed or consolidated without adding tests for the same behavior.",
+        "The executor explains the remaining contract and reports the focused test result.",
+        "The executor does not change unrelated production behavior."
+      ]
+    }
+  ]
+}

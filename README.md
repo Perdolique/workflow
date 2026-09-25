@@ -21,6 +21,7 @@ Reusable skills that provide specialized knowledge and capabilities:
 | [playwright-e2e-testing](./skills/playwright-e2e-testing/) | Write and maintain Playwright browser, E2E, and direct API tests with their fixtures and mocks |
 | [pr-creator](./skills/pr-creator/) | Create GitHub pull requests from code changes or generate PR content in chat |
 | [repository-updater](./skills/repository-updater/) | Analyze repository updates and their relevant release impact by default, then apply explicitly requested updates |
+| [test-audit](./skills/test-audit/) | Gate new tests by distinct regression value and audit existing tests for redundant or weak proof |
 | [typescript-conventions](./skills/typescript-conventions/) | TypeScript coding conventions for typed code in `.ts`, `.tsx`, and embedded TypeScript files |
 | [vitest-unit-testing](./skills/vitest-unit-testing/) | Write and maintain TypeScript unit tests with Vitest 5, mocks, and focused contract coverage |
 | [vue-components](./skills/vue-components/) | Vue 3.5+ SFC and composable conventions for component APIs, template mechanics, lifecycle, and CSS Module bindings in components, pages, and layouts |

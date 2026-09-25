@@ -75,7 +75,7 @@ test.each([
 
 ## Select contract cases
 
-- Cover the normal behavior and every applicable error, edge, and boundary branch in the contract. Include `null`, `undefined`, empty values, and invalid types when the code owns validation of those inputs, such as at an external-data boundary. For internal typed code that receives already validated values, use supported inputs and do not invent unsupported cases.
+- Cover normal behavior and error, edge, or boundary cases that protect distinct contract risks. Do not add one case per source branch when existing tests catch the same failure. Include `null`, `undefined`, empty values, and invalid types when the code owns validation of those inputs, such as at an external-data boundary. For internal typed code that receives already validated values, use supported inputs and do not invent unsupported cases.
 - A useful replacement test fails when the protected behavior is removed. Give every test at least one assertion of its outcome, directly or through an assertion helper. Prefer exact assertions such as `toBe`, `toStrictEqual`, `toHaveLength`, `toHaveBeenCalledWith`, and `toHaveBeenCalledTimes` when they express the contract.
 
 ## Mock and clean up deliberately
