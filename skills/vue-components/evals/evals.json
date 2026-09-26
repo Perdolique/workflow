@@ -3,12 +3,12 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "I need to refactor a Vue 3 component that has comparisons, collection length checks, and function calls in template directives, bindings, and interpolation. Keep the public props the same, and do not invent a reusable abstraction unless the component actually repeats the pattern.",
-      "expected_output": "The agent scans the full template, moves component-wide derived rendering values into named computed state or view-model fields, and uses named side-effect-free helpers for logic that needs template-local bindings while preserving the component API.",
+      "prompt": "I need to refactor a Vue 3.5 component that has comparisons, collection length checks, and function calls in template directives, bindings, and interpolation. Keep the public props the same, and do not invent a reusable abstraction unless the component actually repeats the pattern.",
+      "expected_output": "The agent scans the full template, prepares derived rendering values from reactive inputs, and uses named side-effect-free helpers when required data is available only during rendering while preserving the component API.",
       "files": [],
       "expectations": [
         "The workflow inspects nearby component conventions before choosing the final shape.",
-        "The workflow uses named computed state or view-model fields for component-wide values and permits named side-effect-free helper calls for template-local bindings.",
+        "The workflow prepares derived values from component-owned reactive inputs and uses named side-effect-free helpers when required data is available only during rendering.",
         "The workflow preserves existing props, emits, slots, and Vue-specific styling hooks unless the task requires a change.",
         "The workflow avoids adding generic abstractions for a small fixed UI."
       ]
@@ -16,12 +16,14 @@
     {
       "id": 2,
       "prompt": "Build a small openable Vue 3.5 component with TypeScript. It should support v-model for its open state and emit regular confirm and cancel actions. Keep the public component contract clear.",
-      "expected_output": "The agent should use defineModel only for the two-way open state, call out the defineModel default caveat, and use defineEmits for regular confirm and cancel actions.",
+      "expected_output": "The agent uses defineModel for the two-way open state and a named Emits contract for confirm and cancel, with no default that silently diverges from the parent's value.",
       "files": [],
       "expectations": [
         "The workflow uses defineModel only for the real v-model contract.",
         "The workflow does not use defineModel for ordinary submit, cancel, click, or analytics events.",
         "The workflow uses defineEmits for regular confirm and cancel actions.",
+        "The defineEmits call uses a named Emits type or interface.",
+        "An undefined parent model is not silently replaced by a different child default.",
         "The workflow keeps the component's props, emits, and model contract explicit."
       ]
     },
@@ -53,11 +55,11 @@
     {
       "id": 5,
       "prompt": "Update a Vue component that uses <style module>. Its button binds separate $style classes for structure, active state, and disabled state. Keep the same visual states and the Vue styling system.",
-      "expected_output": "The agent should keep one structural $style class, use literal global state classes or attributes, and match global state classes on the same element with &:global(...).",
+      "expected_output": "The agent keeps one structural $style class, uses literal global classes for component-owned visual state, and matches those classes on the same element with &:global(...).",
       "files": [],
       "expectations": [
         "The workflow keeps one $style structural class on the button.",
-        "The workflow uses literal global state classes or attributes instead of module-local state classes.",
+        "The workflow uses literal global state classes instead of module-local state classes or new stylistic data attributes.",
         "The workflow matches a global state class on the same element as its structural module class with &:global(...).",
         "The workflow preserves <style module> instead of switching the Vue component to another styling system.",
         "The workflow uses $style directly for simple template class bindings without adding useCssModule for those bindings."
@@ -65,14 +67,19 @@
     },
     {
       "id": 7,
-      "prompt": "Refactor rendering in a Vue component. Its scoped slot exposes item.createdAt only inside #item, and a v-for uses both row and index to render a display label. There is no prepared display field for either case. The component also computes button disabled state inline from isSaving and items.length. Preserve behavior and the component structure.",
-      "expected_output": "The agent uses named side-effect-free helpers for the local slot/v-for values and a named computed value for component-wide disabled state.",
-      "files": [],
+      "prompt": "Refactor ItemList.vue to follow the current component conventions. Keep its displayed labels, dates, Save action, and ItemFeed slot API working as before.",
+      "expected_output": "Owned list labels and disabled state are prepared in computed values; the slot-only date uses a pure helper, and the Save state change uses a named handler.",
+      "files": [
+        "evals/files/rendering-values/ItemList.vue",
+        "evals/files/rendering-values/ItemFeed.vue"
+      ],
       "expectations": [
-        "The workflow keeps local slot and v-for arguments available to named side-effect-free helpers.",
-        "The workflow does not add components or state solely to eliminate those helper calls.",
-        "The workflow moves component-wide derived disabled state into a named computed value.",
-        "The workflow preserves event-handler conventions and existing component behavior."
+        "The owned items and their indices produce display labels in a computed view model, and the template binds the prepared labels.",
+        "The date from ItemFeed's slot is formatted by a named side-effect-free helper that receives the slot value.",
+        "The change preserves ItemFeed's slot API without adding components or state solely to eliminate that helper call.",
+        "The loading and empty-list disabled condition is a named computed value.",
+        "The Save event calls a named handler rather than assigning state in the template.",
+        "The rendered labels and dates are unchanged, replacing the items updates the list, and activating Save disables the action."
       ]
     },
     {
@@ -95,6 +102,87 @@
         "The workflow uses useCssModule in setup because the column configuration needs a compiled class name outside the template.",
         "The name column passes the CSS Module class through cellClass.",
         "The workflow keeps the existing column-based API instead of adding a slot only to avoid useCssModule."
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "Add an optional description below the title in SummaryHeading.vue. Hide the description when it is absent. Keep the title API and existing layout.",
+      "expected_output": "A template-only prop extension without unused script bindings.",
+      "files": ["evals/files/template-props/SummaryHeading.vue"],
+      "expectations": [
+        "The result keeps defineProps without assigning or destructuring its result because the props need no script access or defaults.",
+        "The template reads the declared props directly without a setup props object prefix.",
+        "The title still renders, and the optional description appears and disappears when the parent changes it."
+      ]
+    },
+    {
+      "id": 11,
+      "prompt": "Refactor ReservationLabel.vue to follow the current component conventions. Preserve its public inputs, default heading, displayed reservation label, and change counter. Keep the composable's input API.",
+      "expected_output": "Reactive props destructuring with the same defaults, display, and update behavior.",
+      "files": [
+        "evals/files/reactive-props/ReservationLabel.vue",
+        "evals/files/reactive-props/use-reservation-label.ts"
+      ],
+      "expectations": [
+        "The component uses direct reactive defineProps destructuring and no withDefaults call.",
+        "The template does not qualify its own declared props with the setup props object.",
+        "The watcher and composable receive sources that track the reservationId prop without changing the composable API.",
+        "Replacing reservationId in the parent changes the displayed label and increments the counter once per change.",
+        "The default heading remains Reservation, and an explicit heading still overrides it."
+      ]
+    },
+    {
+      "id": 12,
+      "prompt": "Clean up the rendering conditions in ActionPanel.vue. Preserve its props, slots, wrappers, and fallback content.",
+      "expected_output": "Readable rendering conditions that still respond to conditional slots and prop updates.",
+      "files": ["evals/files/dynamic-slots/ActionPanel.vue"],
+      "expectations": [
+        "Slot presence is read during rendering instead of cached in a computed value that has no reactive slot dependency.",
+        "The combined actions condition is handled by a named pure render-time helper while a direct slot-presence check may remain inline.",
+        "With canRetry false, heading and actions wrappers appear and disappear when the parent adds and removes the corresponding slots after mounting in production mode.",
+        "Changing canRetry still shows and hides the actions fallback when no actions slot is present.",
+        "Default slot content and named slot content remain in their existing wrappers."
+      ]
+    },
+    {
+      "id": 13,
+      "prompt": "Add RetryAction.vue next to ExistingAction.vue. It needs optional label, saving, and selected props. The default label is Retry. Disable it while saving, show selection with font weight 600, and emit retry when activated. Inspect the nearby component and keep that existing file unchanged.",
+      "expected_output": "A small new action component that follows explicit Vue instructions despite older nearby patterns.",
+      "files": ["evals/files/legacy-neighbor/ExistingAction.vue"],
+      "expectations": [
+        "The new template reads its declared props directly without the setup props object's prefix.",
+        "The new one-event defineEmits call uses a named Emits type or interface.",
+        "The default label is declared through direct props destructuring without withDefaults or unused bindings for template-only props.",
+        "The selected visual state uses a literal global class nested under its structural CSS Module class with &:global, without a stylistic data-selected attribute.",
+        "The template uses $style directly without adding useCssModule for its class binding.",
+        "The new component displays Retry by default, accepts a custom label, disables while saving, and emits retry on activation.",
+        "ExistingAction.vue remains unchanged."
+      ]
+    },
+    {
+      "id": 14,
+      "prompt": "Tidy FilterSummary.vue to follow the current component conventions. Preserve its public props and the existing useFilterSummary input API.",
+      "expected_output": "The required reactive props object stays available to the helper, while template props use direct access.",
+      "files": [
+        "evals/files/whole-props/FilterSummary.vue",
+        "evals/files/whole-props/use-filter-summary.ts"
+      ],
+      "expectations": [
+        "The helper still receives the live props object required by its existing FilterSource API.",
+        "The workflow does not rebuild a plain snapshot object or broaden the helper API merely to force props destructuring.",
+        "The template reads title directly instead of using the setup props object prefix.",
+        "Changing selectedKey and replacing the selected source value in the parent both update the rendered summary."
+      ]
+    },
+    {
+      "id": 15,
+      "prompt": "Change AccordionPanel.vue so its open state uses var(--surface-raised). The library owns data-state, and both surface tokens already exist. Keep the library and trigger slot APIs.",
+      "expected_output": "A small style update that preserves library state and slot-provided bindings.",
+      "files": ["evals/files/library-state/AccordionPanel.vue"],
+      "expectations": [
+        "The open-state selector still uses the library's data-state attribute and changes its background to var(--surface-raised).",
+        "No redundant component-owned state class, watcher, or new state is added for the library's open state.",
+        "The trigger keeps the slot-provided id and bindings; props.id in this slot is not treated as access to the component's defineProps result."
       ]
     }
   ]

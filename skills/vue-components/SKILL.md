@@ -6,22 +6,25 @@ license: Unlicense
 
 # Vue component conventions
 
-Use this skill for Vue 3.5+ SFC and composable mechanics, including Vue code in framework pages and layouts. Apply web interface conventions to framework-independent HTML, CSS, accessibility, content, and user behavior when available. Project-local instructions, `AGENTS.md`, lint rules, and nearby components take priority.
+Target Vue 3.5+ SFCs and composables, including framework pages and layouts. Follow explicit project instructions and enforced lint rules when they differ from this skill. Use nearby code for details that instructions leave open.
+
+Apply web interface conventions to framework-independent HTML, CSS, accessibility, content, and user behavior when available.
 
 ## First pass
 
 - Before editing, inspect the target SFC or composable, relevant callers or children, and a similar nearby file when available.
 - Decide whether the change belongs in an SFC, composable, route, store, or test. Keep this skill focused on Vue mechanics in SFCs and composables.
-- Preserve public props, emits, slots, and Vue-specific styling hooks unless the requested task requires changing them.
+- Identify which props the script needs and which rendering values can be prepared before rendering.
+- Preserve public props, defaults, emits, models, slots, and Vue-specific styling hooks unless the task requires changing them.
 - Reuse existing local composables and matching Vue component APIs before adding a new Vue abstraction.
-- Keep static UI static. Do not introduce config arrays, `v-for`, extra computed state, or generic abstractions for a small fixed set of known elements.
+- Use direct template markup for a small, fixed set of elements. Use data-driven rendering for dynamic or repeated structures.
 
 ## Single-file component shape
 
-- Match the local SFC block order; otherwise use `<template>`, `<script>`, `<style>`.
-- Use `<script setup lang="ts">` for component logic unless the project uses a different established pattern.
+- Use `<template>`, `<script>`, and `<style>` in that order unless project instructions require another order. Match local block attributes and indentation.
+- Use `<script setup lang="ts">` for component logic.
 - Put exported types needed by other files in a separate non-setup `<script lang="ts">` block above the setup block.
-- In setup code, group imports, local types, compiler macros, state/computed/composables/hooks, then methods. Match the local macro order when one exists.
+- In setup code, put imports first, then component-only types, `Props`, and `Emits`. Follow with props and emits macros, then models. Group reactive state, composables, and computed values before lifecycle hooks and functions.
 
 ## Imports and TypeScript
 
@@ -34,100 +37,49 @@ Use this skill for Vue 3.5+ SFC and composable mechanics, including Vue code in 
 ## Props
 
 - Use a named `Props` interface or type for non-trivial prop sets.
-- Do not add `readonly` to prop interface fields unless the local codebase already requires it.
+- Do not add `readonly` to prop interface fields unless project instructions require it.
 - Prefer type-based `defineProps<Props>()` for TypeScript components.
-- Use reactive props destructuring with defaults for optional props:
-
-```ts
-interface Props {
-  label: string;
-  tone?: 'neutral' | 'danger';
-}
-
-const {
-  tone = 'neutral',
-  label
-} = defineProps<Props>()
-```
-
-- Avoid `= false` for optional Boolean props; absent Boolean props are already `false` in Vue.
+- When props are used only in the template and need no custom defaults, call `defineProps<Props>()` without assigning its result.
+- When script code needs individual props or custom defaults, destructure directly from `defineProps()`. Bind only fields used in script or given a default. Resolve local name collisions without losing reactivity.
+- Keep the whole `props` object when an existing API needs that object or its dynamic keys.
+- In templates, access the component's declared props by name. Objects supplied by scoped slots keep their own API.
+- Set custom defaults in reactive props destructuring. Use direct array and object values for these defaults. Preserve runtime prop declarations when an existing whole-object API or validation contract requires them.
+- Use Vue's implicit `false` for absent Boolean props. Keep an explicit default when it changes required behavior, including how an explicit `undefined` is handled.
+- When a watcher or composable must track a destructured prop, pass a getter or another reactive source accepted by that API. Passing its current value loses future updates. Keep the callee's input contract intact.
 
 ## Composables
 
 - Extract a composable only for reusable behavior, real stateful logic, or a component that is becoming hard to scan. Keep one-off code inline.
-- Name composables with the Vue convention: camelCase starting with `use`. Example: `useDisclosure()`, `useForm()`, `useTooltip()`.
+- Name composables in camelCase starting with `use`.
 - Keep markup, slots, and styling in the component. Put reusable state, derived values, event handling, effects, or DOM coordination in the composable.
-- Return a plain object containing refs, computed refs, and functions. This keeps destructuring in components reactive:
-
-```ts
-const { isOpen, close, triggerId } = useDisclosure()
-```
-
+- Return a plain object containing refs, computed refs, and functions so destructuring in components stays reactive.
 - Accept plain values, refs, or getters only when callers need that flexibility. Normalize them with `toValue()`.
-- Prefer passing named options objects when a composable takes more than one or two inputs. Avoid positional argument lists that become hard to read at call sites.
+- Prefer passing named options objects when a composable takes more than one or two inputs.
 - If a composable owns side effects such as event listeners, observers, timers, or subscriptions, it must also own cleanup with Vue lifecycle hooks or the cleanup API provided by the helper it uses.
 - Keep composable return names concrete. Prefer `isPanelOpen`, `selectedId`, `openPanel`, and `closePanel` over vague names such as `state`, `data`, or `handler`.
 
 ## Emits and models
 
-- Use a named `Emits` type or interface for non-trivial emits.
-- Use a union call signature when events share one simple shape:
-
-```ts
-type Emits = (event: 'confirm' | 'cancel') => void
-```
-
-- Use an interface or named tuple style when events have different payloads:
-
-```ts
-interface Emits {
-  change: [value: string];
-  submit: [data: FormData, validated: boolean];
-}
-```
-
-- Use `defineModel()` only for actual two-way `v-model` contracts.
+- For every new or changed `defineEmits()`, declare a named `Emits` type or interface and use `defineEmits<Emits>()`, even for one event. Leave unrelated legacy declarations alone.
+- Use a union call signature when events share one simple shape. Use an interface with named tuples when their payloads differ.
+- Use `defineModel()` for actual two-way `v-model` contracts, including named models. Keep props for one-way data.
 - Use `defineEmits()` for regular events such as `submit`, `cancel`, or analytics notifications.
-- Avoid casual `defineModel({ default: ... })`; it can desync from an undefined parent value.
+- When setting a `defineModel()` default, keep the parent and child values in sync. An undefined parent value can otherwise differ from the child default.
 
 ## Template logic
 
-- Keep component-wide derived rendering values, including conditions, collection checks, and formatting, in named computed state or view-model fields.
-- For rendering logic that depends on template-local bindings, such as `v-for` aliases or slot props, use a named side-effect-free helper with those bindings as arguments. Reuse existing derived fields when available. Keep the current component and state structure when a helper alone expresses the local rendering logic.
-- Keep comparisons, formatting, and other derived logic inside the named computed value, view-model field, or helper. Vue binding syntax such as `item in items` and slot bindings stays inline. These rendering rules are separate from event-handler conventions.
-
-Wrong:
-
-```vue
-<button :disabled="isSaving || items.length === 0">
-  Save
-</button>
-```
-
-Right:
-
-```vue
-<template>
-  <button :disabled="isSaveDisabled">
-    Save
-  </button>
-</template>
-
-<script setup lang="ts">
-  import { computed } from 'vue'
-
-  const isSaveDisabled = computed(
-    () => isSaving.value || items.value.length === 0
-  )
-</script>
-```
-
-- Prefer direct template markup for a small, known set of elements. Use config-driven rendering only for genuinely dynamic or repeated structures.
-- Use full, readable names for props, state, classes, and variants. Avoid ad-hoc abbreviations such as `cnt`, `curr`, `md`, or `sm` unless they are part of an existing design-token API.
+- Put component-wide derived rendering values in named computed values or prepared view-model fields. This includes comparisons, combined conditions, collection checks, formatting, and derived class state.
+- When the component owns a list and its rows need derived display values, prepare those fields in a computed view model. Reuse existing display fields before adding more.
+- When required data is available only in a scoped slot or another template-local binding, use a small named, side-effect-free helper with that data as arguments. Keep the existing component structure and slot API when the helper alone handles the rendering logic.
+- Check that changing inputs are reactive before caching a rendering value in `computed`. Properties of `useSlots()` and `useAttrs()` are not reactive dependencies. Check slot presence during rendering: keep a direct presence check inline or use a named pure helper for a combined condition.
+- Keep direct bindings, simple flags, `v-for` and slot syntax, and class objects that bind ready state inline.
+- Keep simple translation calls with literal keys and direct arguments in the template when used only there. Prepare derived arguments and decisions that choose copy in script, following the project's translation rules.
+- Keep `v-model`, direct event-handler calls, and event forwarding in the template. Put state assignments and multi-step event logic in named handlers.
+- Use full, readable names for props, state, classes, and variants. Keep names defined by an existing design-token API.
 
 ## Template refs and browser APIs
 
-- Prefer `useTemplateRef('name')` for static refs; do not pass a generic unless inference fails.
+- Use `useTemplateRef('name')` for static refs. Let it infer the type; add a generic only when typecheck shows that inference is missing or too broad.
 - Use `useId()` instead of hard-coded IDs for component-internal element relationships such as `for`, `form`, `list`, `popovertarget`, and ARIA references. Bind the generated ID to the target `id` and each reference so component instances remain unique and SSR hydration stays stable.
 - Do not access `document`, `window`, `navigator`, or element refs during setup in SSR/test-sensitive code.
 - Prefer lifecycle-safe composables for DOM work. Use VueUse helpers when the project already uses VueUse.
@@ -135,48 +87,16 @@ Right:
 
 ## Styling
 
-- Use `<style module>`, never `<style scoped>`.
+- Use `<style module>`.
 - Use `.component` as the root class for every styled component.
 
 ### CSS modules class bindings
 
-Bind one `$style.*` structural class per styled template element directly in the template. Express transient state with an attribute or a literal global state class, not another `$style.*` class. Match a global state class on the same element as its structural class with `&:global(...)`.
-
-Use `$style` directly for classes bound in the template. Use `useCssModule()` in setup when script code must pass module class names to another API, such as a render callback or table column configuration. Do not add it only to build a simple template class list. When you own a component and callers need to style its rendered markup, expose a slot instead of adding a presentation-only class option.
-
-Wrong:
-
-```vue
-<template>
-  <button :class="[$style.button, $style.active, $style.disabled]">
-    Save
-  </button>
-</template>
-```
-
-Right:
-
-```vue
-<template>
-  <button :class="[$style.button, { isActive, isDisabled }]">
-    Save
-  </button>
-</template>
-
-<style module>
-  .button {
-    color: var(--text-primary);
-
-    &:global(.isActive) {
-      color: var(--accent);
-    }
-
-    &:global(.isDisabled) {
-      opacity: 0.5;
-    }
-  }
-</style>
-```
+- Bind one `$style.*` structural class per styled template element directly in the template. Keep independent structural classes in CSS Modules.
+- For temporary visual state owned by the component, add a literal global state class. Match it on the same element under its structural class with `&:global(...)`.
+- Keep semantic attributes, test hooks, and state attributes supplied by UI libraries. Check existing consumers before changing an attribute or selector.
+- Use `$style` directly for simple template class bindings. Use `useCssModule()` when script code needs compiled module class names, such as a render callback or table column configuration.
+- Preserve existing styling APIs. When designing a component API for callers to style rendered markup, expose a slot.
 
 ## Component boundaries
 
@@ -187,4 +107,7 @@ Right:
 
 ## Final pass
 
-- Review every changed `.vue` file, including pages and layouts. Scan its full template for derived rendering logic. Check changed props, emits, models, slots, template refs, CSS Module bindings, and new `useCssModule()` calls against this skill. Fix confirmed violations within the task scope.
+1. List every SFC and composable changed by the task, including new files, pages, and layouts. Review each complete template and the affected script and style contracts.
+2. Check props use and defaults, reactive sources, named `Emits`, models, prepared rendering values, slot checks, event handlers, template refs, and CSS Module bindings. Inspect declarations and template expressions in context, including script access and slot-provided objects.
+3. Run the project checks. When a refactor affects reactive inputs or conditional slots, verify updates after mounting, including parent prop replacement and slot appearance or removal as applicable.
+4. Fix confirmed violations within the task scope. Report any unresolved violation or behavior that could not be checked.
