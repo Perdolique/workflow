@@ -354,6 +354,69 @@
         "The validator confirms export-1 from the named-export rule and wrapper-1 from the scoped cleanup rule without demanding a runtime failure.",
         "The validator preserves both candidate IDs, introduces no new findings, does not load release-notes, and does not edit files or spawn agents."
       ]
+    },
+    {
+      "id": 26,
+      "prompt": "Prepare launch decisions for a code review, without launching agents or editing files. The main agent is gpt-6-astra with max effort. The configured subagent defaults are gpt-6-sol and xhigh; there are no custom agent overrides. The next work is routine scope planning, then a compact review of a private title-trimming helper and its focused test. If that review returns a dead-variable candidate with a complete reference search, it needs independent final validation. For each stage, give the model-related spawn arguments, effective settings, reason, and required launch context. All needed evidence is available.",
+      "expected_output": "Ordinary planning, compact review, and any needed final validator use configured Sol xhigh defaults without model or effort overrides; the main agent is unchanged.",
+      "files": [],
+      "expectations": [
+        "Each ordinary launch omits both model and reasoning_effort and identifies effective gpt-6-sol xhigh settings.",
+        "The main agent keeps its selected Astra max settings; no configuration edit is proposed.",
+        "The planner receives the model selection policy, and review and validation remain distinct fresh assignments.",
+        "The validator is conditional on a nonempty candidate list and is not upgraded merely because it is the final check."
+      ]
+    },
+    {
+      "id": 27,
+      "prompt": "Prepare the launch decision for one focused review assignment, without launching agents or editing files. Subagent defaults are gpt-6-sol xhigh with no custom overrides. A deterministic import pipeline applies twelve ordered transformations across four modules before computing a deduplication key. Every transformation and ordering rule is documented and supplied. The reviewer must trace the complete chain for several supported input states and compare it with the key contract. There is one agreed contract and one execution order, no asynchronous work or competing protocol interpretation. The stages cannot be reviewed independently because correctness depends on their composition. Give the model-related spawn arguments and rationale in routing metadata, and a separate scope packet.",
+      "expected_output": "The long but well-defined reasoning assignment uses Sol max directly, with both launch overrides and a concrete reason outside its scope packet.",
+      "files": [],
+      "expectations": [
+        "The decision selects gpt-6-sol with max and explicitly supplies both model and reasoning_effort.",
+        "The rationale names the composed reasoning chain rather than relying on file count or feature importance.",
+        "The plan does not schedule a preliminary xhigh attempt or an additional full review to qualify for max.",
+        "Model settings and rationale stay in routing metadata; the packet contains only the responsibility and relevant context."
+      ]
+    },
+    {
+      "id": 28,
+      "prompt": "Prepare model and scheduling decisions for two separate first-level review packets, without launching agents or editing files. Subagent defaults are gpt-6-sol xhigh with no custom overrides. Eight child-agent slots are available. One earlier Astra reviewer has already finished a third, unrelated packet. Packet leases covers a protocol change where lease transfer, fencing tokens, retries, and crash recovery interact; several valid-looking event orders give competing ownership explanations that cannot be checked one rule at a time. Packet replay covers a separate storage protocol where old and new writers, rollback, and replayed events interact; several valid-looking compatibility interpretations cannot be separated without reasoning about the whole protocol. Both packets have the complete source and authoritative contracts, and neither has been reviewed yet. Each has already been narrowed to its own interacting protocol; unrelated UI and ordinary tests have other owners. Return model-related launch arguments, reasons, concurrency handling, and the policy context needed by specialists that can delegate.",
+      "expected_output": "Both independently difficult packets can use Astra high directly, despite an earlier Astra assignment, while leaving room for permitted children and preserving scope boundaries.",
+      "files": [],
+      "expectations": [
+        "Both leases and replay select gpt-6-astra with high and explicitly supply both model and reasoning_effort.",
+        "Each escalation has its own concrete reasoning justification based on interacting contracts or competing explanations.",
+        "The plan does not ration Astra to one assignment per review or require prior Sol runs as an entry condition.",
+        "Scheduling respects the available concurrency and leaves capacity for specialist-owned children.",
+        "Each delegating specialist receives the model selection policy, with no automatic 5.6-Sol second pass or increase to Astra xhigh or max."
+      ]
+    },
+    {
+      "id": 29,
+      "prompt": "You are a Waste and maintainability specialist already running on gpt-6-astra high. Prepare the remaining launch decisions only; do not launch agents or edit files. The configured subagent defaults are gpt-6-sol xhigh with no custom overrides. The scope contains a small private formatter with ordinary readability checks and a style section with a few declarations whose cascade and browser targets are fully supplied. There is no difficult cross-file reasoning in either child assignment. After merging their evidence, any surviving dead-code or redundant-style candidates need final validation. Give model-related spawn arguments and effective settings for the readability child, CSS child, and conditional validator, plus their lifecycle boundaries.",
+      "expected_output": "An Astra specialist uses configured Sol xhigh defaults for its ordinary children and routine validator, without propagating its own explicit settings or relaxing lifecycle rules.",
+      "files": [],
+      "expectations": [
+        "The readability child, CSS child, and conditional final validator omit both model and reasoning_effort and resolve to configured Sol xhigh.",
+        "The decision evaluates these assignments independently of the parent settings and does not upgrade routine validation.",
+        "Children receive internal direct assignments without the general specialist role or permission to orchestrate another review.",
+        "Exactly one fresh validator is planned only for the nonempty merged candidate list; it checks supplied IDs and does not search for missing findings."
+      ]
+    },
+    {
+      "id": 30,
+      "prompt": "Perform only the internal Step 1 planning assignment, using this snapshot as the complete input; do not launch agents, inspect another repository, report findings, or edit files. The uncommitted change adds a two-provider media import wizard. Product changes include selecting and restoring result cards, replacing controls after selection, pagination, overlapping provider requests, live result announcements, and a preview step. Browser tests add automatic-query mocks, card-selection assertions, keyboard navigation, and a separate Worker origin for one provider. Shared console and unexpected-request guards filter requests by origin. The UI and test changes each cover several distinct transitions and supporting helpers. Repository guidance requires visible keyboard focus, stable interaction feedback, and tests that fail when the protected behavior is removed. Existing happy-path tests passed on this exact diff; no browser or mutation evidence is supplied. Subagent defaults are gpt-6-sol xhigh. Return shared context, scope-only packets, and separate routing with roles, skills, and any model overrides.",
+      "expected_output": "The planner uses configured defaults for separate product-interaction, test-protection, and applicable maintainability responsibilities; ordinary asynchronous states and fixture/guard checks do not justify stronger models.",
+      "files": [],
+      "expectations": [
+        "The planner selects specialist mode and assigns product interaction and test protection to separate focused assignments.",
+        "Test-protection scope connects fixtures and assertions to plausible incorrect product outcomes and checks whether shared guards cover the added origin.",
+        "Frontend scope includes visible keyboard focus, replacement controls, asynchronous feedback, and state changes rather than only accessibility attributes.",
+        "The plan assigns every applicable responsibility, including Waste and maintainability, without requiring a separate agent for every role or duplicating the full review.",
+        "The plan omits model and reasoning_effort overrides: routine asynchronous UI states and fixture/guard checks alone do not justify escalation, and model choice does not replace the product/test ownership split.",
+        "The planner records supplied validation as context, returns no findings, and keeps routing metadata outside scope packets."
+      ]
     }
   ]
 }

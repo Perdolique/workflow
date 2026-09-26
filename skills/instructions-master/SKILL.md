@@ -18,18 +18,21 @@ description: Create, edit, review, or evaluate reusable skills and other agent i
 
 ## Reshape the rules
 
+- Build the normal procedure first: what to do, when to do it, and what result to produce.
+- Base each rule on a confirmed user or project requirement, a tool constraint, or an observed problem. Treat explicit requirements and tool constraints as sufficient grounds for their boundaries.
+- For each added constraint, exception, or clarification, identify its source and the decision it changes. Keep it when it adds needed guidance beyond the normal procedure. Carry settled decisions into the procedure; use the task report for the history of discarded alternatives.
+- Address observed mistakes by making the required action or decision clearer first. Use targeted prohibitions or exceptions for repeated, observed mistakes that remain after this clarification. Keep each exception with the rule whose scope it changes.
 - Rewrite the affected section as a whole when local patches would add repetition or complex conditions. Merge rules with the same purpose and resolve conflicts across applicable instructions in priority order.
-- Add rules for confirmed, lasting needs. Preserve established user and project preferences. Broaden a rule only when confirmed needs support it, not from one example or an imagined scenario.
+- Preserve established user and project preferences. Extend a rule to new situations only when confirmed needs support that scope.
 - Place each rule at the narrowest level that reaches its audience. Repeat it only when separate audiences or enforcement layers need it independently. Before removing a rule covered by automation, verify that the checks enforce the same behavior.
 - Make each skill work on its own. Include its core procedure and bundle required references in its package. Other installed skills may add optional guidance.
 - Preserve user control. Change descriptions and triggers only when the scope changes or observed selection errors show a need. Edit related files only when their own requirements or behavior are affected.
 
 ## Write clearly
 
-- State what to do and when. Split chains of conditions and actions into clear steps. Add a brief reason or example when it helps explain a non-obvious goal, trade-off, or boundary.
+- Split chains of conditions and actions into clear steps. Add a brief reason or example when it helps explain a non-obvious goal, trade-off, or boundary.
 - Use lists for consecutive standalone instructions, with one main idea per item. Use numbered lists when order matters. Keep introductions, explanations, and example lead-ins as prose where that reads naturally.
 - Keep each rule understandable from the loaded document and its linked materials. Keep useful examples, correct grammar, and necessary articles when shortening text.
-- Address recurring mistakes by improving positive guidance first. Add explicit prohibitions or exceptions for repeated, observed mistakes only when positive guidance cannot resolve them.
 
 ## Evaluate proportionally
 
@@ -39,5 +42,5 @@ description: Create, edit, review, or evaluate reusable skills and other agent i
 ## Finish
 
 - Read the full result alongside the other applicable instructions. Check B1 wording, repetition, conflicts, and hidden dependencies. Confirm that the agreed behavior, scope, and needed exceptions remain intact.
-- Keep only files and wording needed for the requested change. Justify any repeated rules that remain.
+- Recheck each constraint, exception, and clarification against its source and the procedure. Remove wording that adds no needed decision or explanation. Justify any repeated rules that remain and keep only files needed for the requested change.
 - Report the checks performed and any behavior that could not be verified.

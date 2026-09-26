@@ -29,6 +29,7 @@ Use the same case, inputs, model, permissions, and environment for every compare
 
 - For a new skill, compare execution with the skill against execution without it.
 - For an update, preserve the original version and compare it against the candidate.
+- To test the effect of one rule, compare versions that differ only in that rule. A comparison that changes several rules supports conclusions about their combined result.
 - Give the executor only the task, input files, applicable instructions, and output location.
 - Capture the final response, produced artifacts, relevant actions, errors, and unavailable evidence.
 - Keep generated evaluation work outside the repository, preferably in a task-specific temporary directory.

@@ -12,14 +12,13 @@ This repository contains reusable skills and assistant instructions that extend 
 - **Language**: Always use English for repository files and generated project content (code, documentation, commit messages, etc.). A task-specific plan in the system temp directory is task state, not project content; preserve the approved plan's language unless the user requests translation.
 - **Markdown titles**: Use sentence case for all markdown headings
 - **Markdown line wrapping**: Do not hard-wrap prose or list items at 80 columns or any other fixed width. Keep each paragraph and list item on a single physical line unless a line break is semantically required by Markdown.
-- **Skill catalog**: Keep README skill descriptions to one short sentence about each skill's purpose. Put detailed rules and workflow steps in the skill.
+- **README scope**: Keep READMEs focused on the repository overview, a short skill catalog, setup, and links. Keep each skill description to one short sentence about its purpose. Put skill behavior and workflow rules in the skill.
 - **Nested instructions**: Some subdirectories contain their own AGENTS.md files with more specific instructions for that context. These nested files take precedence when working within those directories.
 
 ## Workflow rules
 
 - Before any repository edit, including a small one, read the applicable AGENTS.md files and relevant skills and follow the established naming, formatting, and structural conventions.
 - For creating, editing, reviewing, or evaluating skills or other agent instructions, use [instructions-master](skills/instructions-master/SKILL.md). It controls authoring scope and evaluation, including tasks that only inspect instructions.
-- When a change affects established conventions, important project context, or documented user-facing behavior, update the relevant AGENTS.md or README.md. Make those updates according to the information that actually changed.
 
 ### Task verification
 

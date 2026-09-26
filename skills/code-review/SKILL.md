@@ -14,9 +14,24 @@ Coordinate a compact reviewer or focused specialists to review an existing chang
 - Ignore staged versus unstaged status. Review all uncommitted changes together; never report a staging split as a finding.
 - Treat review as read-only. Repository task-completion verification instructions apply to implementation work, not review.
 - Record validation results available when review starts as `Available validation evidence`, including their exact target and actual status when known; use `Unavailable` when none exist. Treat this evidence as context, not proof that the change is correct.
-- Build each reviewer launch envelope from the shared review context, its assignment packet, [reviewer instructions](#reviewer-instructions), applicable mode instructions, assigned [review roles](#review-roles), and applicable guidance collected in Step 1. Keep review-wide routing and lifecycle metadata outside assignment packets so packets describe only review responsibility; do not ask reviewers to rediscover scope.
+- Build each reviewer launch envelope from the shared review context, its assignment packet, [reviewer instructions](#reviewer-instructions), applicable mode instructions, assigned [review roles](#review-roles), and applicable guidance collected in Step 1. Include [subagent model selection](#subagent-model-selection) when the recipient can delegate. Keep review-wide routing and lifecycle metadata outside assignment packets so packets describe only review responsibility; do not ask reviewers to rediscover scope.
 - Schedule or batch specialists so each specialist can spawn its required children without exceeding the available agent limit.
 - Report checked scope and actual findings. Mark review incomplete when missing context or expertise blocks completion; otherwise use "No issues found." when none exist.
+
+## Subagent model selection
+
+- Apply this policy to every subagent assignment, including planning, review children, validation, and resolution. Leave the user's main-agent model and effort unchanged.
+- Use the configured subagent defaults for ordinary assignments, including routine final validation, and omit both `model` and `reasoning_effort` at launch. The intended baseline is `gpt-6-sol` with `xhigh`. Routine cross-file tracing, asynchronous UI states, and fixture or guard checks belong on this baseline.
+- Before choosing stronger settings, collect available context and check the assignment. Split independent responsibilities that compete for attention, but keep interacting contracts together when they need joint analysis.
+- Choose from these automatic escalations based on the assignment's concrete reasoning difficulty:
+
+  | Model | Effort | Use when |
+  | --- | --- | --- |
+  | `gpt-6-sol` | `max` | A focused assignment needs a long, well-defined chain of reasoning across files or states. |
+  | `gpt-6-astra` | `high` | Available evidence supports competing explanations across interacting contracts that are hard to distinguish, or a well-scoped Sol analysis leaves a specific reasoning problem that stronger expertise can settle with the available evidence. |
+
+- Select the needed tier directly. Record the chosen settings and concrete reason in routing metadata, outside the scope packet, and pass both `model` and `reasoning_effort` explicitly for each escalation.
+- Return any escalation records with your report so the orchestrator can account for nested assignments.
 
 ## Reviewer instructions
 
@@ -55,11 +70,12 @@ Coordinate a compact reviewer or focused specialists to review an existing chang
 
 ### Step 1: Select review mode and assignments
 
-- Use one subagent with `fork_turns="none"` for this internal planning task to identify review source: branch, commit, pull request, or uncommitted changes. Give it the applicable global and user instructions already available to the orchestrator. Unless the user specifies one, review all uncommitted changes when any exist; otherwise fetch the remote default branch and review the entire current branch against its fresh remote-tracking ref.
+- Use one subagent with `fork_turns="none"` for this internal planning task to identify review source: branch, commit, pull request, or uncommitted changes. Give it the applicable global and user instructions already available to the orchestrator and the subagent model selection policy. Unless the user specifies one, review all uncommitted changes when any exist; otherwise fetch the remote default branch and review the entire current branch against its fresh remote-tracking ref.
 - Collect applicable guidance for the changed code: global user instructions, root and nested repository instructions, relevant documentation and tool configuration, and domain skills. Inspect nearby code and shared helpers for established patterns in comparable implementations. Record each rule or pattern with its source and scope, including relevant exceptions; resolve conflicts by instruction priority. Keep this guidance in shared context and pass the relevant parts to reviewers, children, validators, and resolvers instead of relying on inherited conversation history.
 - Select `compact` only for one clearly local, simple, low-risk, self-contained responsibility that one generalist can review from one packet. Use `specialist` for authorization, security, privacy, destructive or transactional data changes, concurrency, migrations, public or cross-system contracts, backward compatibility, infrastructure, any other material risk, or uncertain classification.
 - File or line count may rule out `compact` but never justify it.
-- Return one review plan containing: shared context with the review source and target, exactly one selected mode and reason, changed behavior or contracts, entry points, `Available validation evidence`, and applicable guidance; reviewer routing that maps each packet to its assigned [review roles](#review-roles) and known applicable domain skills; and assignment packets that contain only a coherent responsibility and relevant code or context.
+- Assign every applicable review role to an explicit owner. For substantial UI or state changes with substantial tests, give product behavior and test protection separate focused assignments, with frontend interaction covered where applicable. Combine compatible roles for small, coherent assignments.
+- Return one review plan containing: shared context with the review source and target, exactly one selected mode and reason, changed behavior or contracts, entry points, `Available validation evidence`, and applicable guidance; reviewer routing that maps each packet to its assigned [review roles](#review-roles), known applicable domain skills, and any model escalation with its reason; and assignment packets that contain only a coherent responsibility and relevant code or context.
 - Give `compact` exactly one packet covering every change. Give `specialist` one named packet per specialist, overlapping only for cross-target behavior. Keep the selected mode in shared context. Do not copy nested-assignment lifecycle markers such as `internal` or direct-execution restrictions into first-level packets or routing; they apply only where the child or validator instructions explicitly require them.
 - Return planning output only; do not spawn reviewers or report findings and guesses.
 
@@ -75,7 +91,7 @@ Coordinate a compact reviewer or focused specialists to review an existing chang
 - Outside that conflict path, do not inspect code, rerun validation, or spawn agents during Step 3; deduplication alone never justifies a resolver.
 - Account for every confirmed ID exactly once as its own final finding or as a source of an explicitly merged final finding. Do not omit confirmed findings because of priority, materiality, report length, readability, or ease of cleanup; priority only controls ordering and labels.
 - Reconcile the ledger before responding and report a compact accounting line with confirmed review findings, final comments, duplicate merges, and omitted findings. The omitted count must be zero.
-- Report review target, selected mode, actual reviewers and validators used, findings summary, every confirmed detailed comment, and a verified, deduplicated `Human review` section; use `None.` when no human review is required.
+- Report review target, selected mode, actual reviewers and validators used, any model escalations with their reasons, findings summary, every confirmed detailed comment, and a verified, deduplicated `Human review` section; use `None.` when no human review is required.
 
 ## Review roles
 
@@ -101,7 +117,7 @@ Review time and space complexity, algorithmic efficiency, caching, and resource 
 
 ### Test and regressions
 
-Review whether tests protect intended contract, fail when that contract is removed, and cover material negative cases.
+Review whether tests protect the intended contract, fail when that contract is removed, and cover material negative cases. Check that fixtures, mocks, and shared guards exercise the changed path and that assertions distinguish the required behavior from plausible incorrect outcomes.
 
 ### Waste and maintainability
 
@@ -130,4 +146,4 @@ Review whether tests protect intended contract, fail when that contract is remov
 
 ### Frontend and user experience
 
-Review user-visible states, accessibility, interaction behavior, layout risks, and visual regressions.
+Review user-visible states, accessibility, interaction behavior, layout risks, and visual regressions. Follow keyboard focus and visible feedback through state changes, including asynchronous responses and replacement controls.

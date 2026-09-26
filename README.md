@@ -117,8 +117,7 @@ Official references:
 - [VS Code custom instructions](https://code.visualstudio.com/docs/copilot/customization/custom-instructions)
 
 > [!WARNING]
-> These instructions override assistant defaults and contain opinionated
-> communication style preferences. Review the file before installing.
+> These instructions override assistant defaults and contain opinionated communication style preferences. Review the file before installing.
 
 ### LSP configuration
 

@@ -31,6 +31,64 @@
         "The reporting rule includes both failed checks and checks that could not be run.",
         "The revision keeps the simple two-rule structure and adds no unrelated workflow or dependency."
       ]
+    },
+    {
+      "id": 3,
+      "prompt": "Revise evals/files/assignment-guide.md for this settled design: choose standard or expert reviewers independently for each assignment from its reasoning needs. During design we considered keeping only one expert for an entire review; that option was dropped. Keep the execution tool limit and useful reporting behavior. Return the durable guide and a short edit explanation.",
+      "expected_output": "The guide expresses per-assignment selection directly, removes the old one-expert cap, and preserves the actual concurrency limit without adding a commentary rule about the absence of an expert quota.",
+      "files": [
+        "evals/files/assignment-guide.md"
+      ],
+      "expectations": [
+        "The guide chooses standard or expert reviewers independently for each focused assignment using the supplied reasoning criteria.",
+        "The one-expert-per-review cap is removed and no replacement numerical expert quota is introduced.",
+        "The durable guide does not add a sentence announcing an unlimited expert count or recounting the discarded design option; any such history stays in the edit explanation.",
+        "The guide retains the four-active-reviewer tool limit and records responsibilities and reasons for expert choices."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Make evals/files/release-guide.md clearer and easier to follow. The user requires explicit approval before publishing each release, and the upload tool supports at most two concurrent jobs. These are current requirements; no publication incident has occurred. Keep release preparation useful while approval is pending. Return the revised guide and explain your edits.",
+      "expected_output": "A clear preparation procedure preserves the approval gate and real tool limit without demanding proof of a past failure or weakening them into preferences.",
+      "files": [
+        "evals/files/release-guide.md"
+      ],
+      "expectations": [
+        "The revised guide requires explicit user approval for publication of the particular release, not merely a notification or optional confirmation.",
+        "The guide continues to prepare and return the draft and report actual required-check results while approval is pending.",
+        "The two-concurrent-upload limit remains binding.",
+        "The response accepts the stated requirements without requiring an incident, experiment, or new user confirmation to retain them.",
+        "The revision adds no unrelated approval gates or workflow stages."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Improve evals/files/check-report-guide.md using these two recorded failures. In run A the requested formatter printed \"Scan complete\" and exited with status 2; the assistant reported pass. In run B the linter printed \"Checks completed\" and exited with status 1; the assistant again reported pass. The runner contract is that a completed command succeeds only with exit status 0. Update the guide to produce reliable reports and return a short explanation. The scope remains running and reporting the requested check.",
+      "expected_output": "The guide gives a direct procedure for deriving status from completion and the exit code, retaining useful output without piling on bans or widening the task.",
+      "files": [
+        "evals/files/check-report-guide.md"
+      ],
+      "expectations": [
+        "The procedure obtains command completion and the actual exit status before assigning the reported result.",
+        "A completed command with exit status 0 maps to pass, and a completed command with a nonzero exit status maps to fail.",
+        "The report includes the requested check and relevant output rather than relying on success-sounding text.",
+        "The revision fixes the decision procedure without adding a redundant ban on reporting pass after a nonzero exit, or unrelated retries, repairs, publication, or approval steps."
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Evaluate the proposed interpretation in evals/files/routing-comparison.md. Explain what the recorded comparison establishes and recommend whether to retain the expert-limit sentence in the durable guide. Identify any additional evidence needed for stronger claims. Use only the supplied record and do not run more agents or experiments.",
+      "expected_output": "The analysis separates the effect of the combined routing changes from the unmeasured effect of one sentence and recommends the simpler procedure without claiming measured improvement from deleting it.",
+      "files": [
+        "evals/files/routing-comparison.md"
+      ],
+      "expectations": [
+        "The response recognizes that multiple routing instructions changed together and that their combined execution changed reviewer selection.",
+        "The response does not claim the limit sentence was proved necessary, helpful, harmful, or ineffective by these executions.",
+        "The recommendation uses the positive per-assignment criteria and their coverage of the required decision, not an invented expert-quota failure.",
+        "A causal claim about that sentence requires comparing otherwise identical versions with and without it; the response distinguishes that missing evidence from the editorial recommendation.",
+        "The response does not generalize the sentence to all workflows or claim to have run new experiments."
+      ]
     }
   ]
 }
