@@ -20,13 +20,14 @@ Coordinate a compact reviewer or focused specialists to review an existing chang
 
 ## Reviewer instructions
 
+- Before reviewing code, scan the names and descriptions of all available skills, including global and repository-local skills, for relevance to your assigned scope.
+- Read every relevant skill and its required references before starting the review, then apply that guidance to behavior, conventions, and cleanup decisions. Supplied domain skills are known applicable guidance, not the complete list. Read additional relevant skills when related code brings another domain into scope.
 - Review only assigned behavior, following relevant code wherever needed; ignore unrelated concerns.
 - Check assigned code against applicable global and repository instructions, domain practices, and established patterns in comparable code. Every review role owns this check within its scope, including when the code works and tests pass.
 - Distinguish established conventions from personal preferences. Check that examples serve the same purpose and fit the current language, framework, and supported versions. Respect instruction priority and documented exceptions; do not copy a legacy pattern or a known defect just for consistency.
 - Support each finding with an exact code location and evidence. For a defect, show a concrete trigger and consequence. For a practice or consistency violation, cite the applicable rule or comparable code and explain the deviation; a proven convention violation does not need a runtime failure. A general best-practice claim needs a concrete benefit or risk in the assigned code, not preference alone. Use supplied validation as context and return claims that code inspection cannot settle as unresolved candidates.
 - Merge duplicate root causes into one candidate list, assign a stable ID to every candidate, and do not remove a supported candidate because it is low priority, cosmetic, readability-related, or easy to fix.
 - Keep findings, incomplete reviews, and human-review candidates separate. Use human review for material decisions or confirmations requiring project context unavailable in the repository; use incomplete review when technical analysis is unfinished. Include the location, missing context, consequence, and required human action.
-- Apply every domain skill supplied in the launch envelope. Treat that list as known applicable guidance rather than a closed set, and add another domain skill only when the assigned behavior directly requires it.
 
 ### Compact reviewer instructions
 
@@ -45,6 +46,7 @@ Coordinate a compact reviewer or focused specialists to review an existing chang
 ### Final finding validator instructions
 
 - Perform this internal assignment directly without invoking code-review orchestration. Review only the supplied candidates and code needed to validate them; do not search for new findings or spawn children.
+- Before inspecting code to validate candidates, scan the names and descriptions of all available skills, including global and repository-local skills, then read every relevant skill and its required references. Apply that guidance when confirming or rejecting findings. Supplied guidance does not replace this skill check.
 - Independently establish or refute each candidate from its code location and evidence. For defects, check the trigger and consequence. For practice or consistency violations, check the rule or comparable examples, their applicability and exceptions, and the deviation. Do not require a runtime failure for a proven convention violation or accept personal preference as a rule. Reuse supplied evidence and reproduction results; only when they have not settled a claim, run the smallest new read-only reproduction once.
 - Preserve every candidate ID and return exactly one disposition for each: `Confirmed` with supporting evidence, `Rejected` with contradicting evidence, or `Unresolved` with the missing context or validation needed.
 - Do not suppress or downgrade a confirmed candidate because it is low priority, cosmetic, readability-related, or easy to fix. Priority is assigned after validation.

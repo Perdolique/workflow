@@ -10,22 +10,22 @@ Reusable skills that provide specialized knowledge and capabilities:
 
 | Skill | Description |
 | --- | --- |
-| [code-review](./skills/code-review/) | Orchestrate evidence-based reviews, including applicable practices and code consistency, with one compact reviewer or focused specialists |
-| [cost-aware-development](./skills/cost-aware-development/) | Apply current service pricing and subscription context to implementation decisions with material cost impact |
-| [commit-creator](./skills/commit-creator/) | Create English conventional commit messages for the current changes |
-| [drizzle-orm](./skills/drizzle-orm/) | Drizzle ORM 1.0 patterns with Relations v2, RQB v2, and SQL builder guidance |
-| [github-release](./skills/github-release/) | Create or draft GitHub releases from existing tags and repository history |
-| [implementation-workflow](./skills/implementation-workflow/) | Guide repository edits and planning, select the next task, and assign the user when tracked work starts |
-| [instructions-master](./skills/instructions-master/) | Create, edit, review, and evaluate skills and other agent instructions |
-| [markdownlint](./skills/markdownlint/) | Configure, manage, and troubleshoot markdownlint in projects |
-| [playwright-e2e-testing](./skills/playwright-e2e-testing/) | Write and maintain Playwright browser, E2E, and direct API tests with their fixtures and mocks |
-| [pr-creator](./skills/pr-creator/) | Create GitHub pull requests from code changes or generate PR content in chat |
-| [repository-updater](./skills/repository-updater/) | Analyze repository updates and their relevant release impact by default, then apply explicitly requested updates |
-| [test-audit](./skills/test-audit/) | Gate new tests by distinct regression value and audit existing tests for redundant or weak proof |
-| [typescript-conventions](./skills/typescript-conventions/) | TypeScript coding conventions for typed code in `.ts`, `.tsx`, and embedded TypeScript files |
-| [vitest-unit-testing](./skills/vitest-unit-testing/) | Write and maintain TypeScript unit tests with Vitest 5, mocks, and focused contract coverage |
-| [vue-components](./skills/vue-components/) | Vue 3.5+ SFC and composable rules for reactive props, component contracts, template decisions, lifecycle, and CSS Modules, with explicit final checks |
-| [web-interface-conventions](./skills/web-interface-conventions/) | Framework-independent HTML, accessibility, CSS, visual design, interaction, and UX conventions for web interfaces |
+| [code-review](./skills/code-review/) | Review code changes and report issues |
+| [cost-aware-development](./skills/cost-aware-development/) | Assess the cost impact of development decisions |
+| [commit-creator](./skills/commit-creator/) | Create conventional commits and commit messages |
+| [drizzle-orm](./skills/drizzle-orm/) | Write and review database queries with Drizzle ORM |
+| [github-release](./skills/github-release/) | Create GitHub releases and release notes |
+| [implementation-workflow](./skills/implementation-workflow/) | Plan, implement, and verify repository changes |
+| [instructions-master](./skills/instructions-master/) | Write and improve skills and assistant instructions |
+| [markdownlint](./skills/markdownlint/) | Set up and troubleshoot Markdown linting |
+| [playwright-e2e-testing](./skills/playwright-e2e-testing/) | Write and maintain browser and API tests with Playwright |
+| [pr-creator](./skills/pr-creator/) | Create and update GitHub pull requests |
+| [repository-updater](./skills/repository-updater/) | Review and apply dependency and tooling updates |
+| [test-audit](./skills/test-audit/) | Assess test quality and usefulness |
+| [typescript-conventions](./skills/typescript-conventions/) | Use consistent conventions for TypeScript code |
+| [vitest-unit-testing](./skills/vitest-unit-testing/) | Write and maintain TypeScript unit tests with Vitest |
+| [vue-components](./skills/vue-components/) | Build and review Vue components and composables |
+| [web-interface-conventions](./skills/web-interface-conventions/) | Build and review usable, accessible web interfaces |
 
 ## Quick start
 

@@ -297,6 +297,63 @@
         "The resolver rejects verbatim-1 from the scoped exception; the final report retains export-1 exactly once with zero omitted confirmed findings.",
         "The record shows no new code inspection by the orchestrator, repeated reproduction, or agent launches after the conflict resolver completes."
       ]
+    },
+    {
+      "id": 23,
+      "prompt": "Act as the internal compact reviewer for evals/files/skill-discovery/context.md. Your roles are Behavioral and contract plus Waste and maintainability. Return candidates and checked scope directly without spawning agents or editing files. Record file reads in execution order.",
+      "expected_output": "The reviewer reads relevant global and repository-local skills and the local skill's required reference before reviewing the formatter, then reports the export and unnecessary-wrapper violations with their sources.",
+      "files": [
+        "evals/files/skill-discovery/context.md",
+        "evals/files/skill-discovery/global/javascript-exports/SKILL.fixture.md",
+        "evals/files/skill-discovery/local/private-helpers/SKILL.fixture.md",
+        "evals/files/skill-discovery/local/private-helpers/references/cleanup.md",
+        "evals/files/skill-discovery/local/release-notes/SKILL.fixture.md",
+        "evals/files/skill-discovery/src/formatLabel.js"
+      ],
+      "expectations": [
+        "The read record shows the full global and repository-local catalog is inspected before code review, rather than only the supplied javascript-exports skill.",
+        "The reviewer reads javascript-exports, private-helpers, and references/cleanup.md before inspecting src/formatLabel.js.",
+        "The reviewer does not read the unrelated release-notes skill body or start a release workflow.",
+        "Candidates cite the global named-export rule and the local wrapper rule with exact source locations and stable IDs.",
+        "The proposed wrapper cleanup preserves trimming and the Untitled fallback, without inventing a runtime failure.",
+        "The reviewer stays read-only, returns checked scope, and spawns no children or validators."
+      ]
+    },
+    {
+      "id": 24,
+      "prompt": "Act as the internal code readability child for a Waste and maintainability specialist. Your assigned scope is the formatter described in evals/files/skill-discovery/context.md. Use the common reviewer instructions and code readability reviewer instructions. Return candidates directly without spawning agents or editing files. Record file reads in execution order.",
+      "expected_output": "The readability child independently prepares relevant skills from the full available catalog before inspecting the formatter and identifies the rule-backed cleanup even though the parent supplied only the export skill.",
+      "files": [
+        "evals/files/skill-discovery/context.md",
+        "evals/files/skill-discovery/global/javascript-exports/SKILL.fixture.md",
+        "evals/files/skill-discovery/local/private-helpers/SKILL.fixture.md",
+        "evals/files/skill-discovery/local/private-helpers/references/cleanup.md",
+        "evals/files/skill-discovery/local/release-notes/SKILL.fixture.md",
+        "evals/files/skill-discovery/src/formatLabel.js"
+      ],
+      "expectations": [
+        "The child inspects the full global and repository-local catalog and reads both relevant skills plus the required cleanup reference before inspecting code.",
+        "The child reports the one-caller native-method wrapper with an exact location and the local cleanup rule as evidence.",
+        "The child does not load release-notes, expand to unrelated scope, edit files, or spawn agents."
+      ]
+    },
+    {
+      "id": 25,
+      "prompt": "Act as the internal final finding validator for evals/files/skill-discovery/context.md. Validate only these candidates: export-1 says the default export at src/formatLabel.js:5 violates the project export rules; wrapper-1 says trimLabel at src/formatLabel.js:1 adds unnecessary indirection. Return one disposition per ID without spawning agents or editing files. Record file reads in execution order.",
+      "expected_output": "The validator reads applicable global and repository-local skill instructions and required references before checking the supplied candidates, then confirms both from their rules and code evidence.",
+      "files": [
+        "evals/files/skill-discovery/context.md",
+        "evals/files/skill-discovery/global/javascript-exports/SKILL.fixture.md",
+        "evals/files/skill-discovery/local/private-helpers/SKILL.fixture.md",
+        "evals/files/skill-discovery/local/private-helpers/references/cleanup.md",
+        "evals/files/skill-discovery/local/release-notes/SKILL.fixture.md",
+        "evals/files/skill-discovery/src/formatLabel.js"
+      ],
+      "expectations": [
+        "The validator inspects the full available catalog and reads both relevant skills plus the cleanup reference before checking the source, even though the supplied guidance names only javascript-exports.",
+        "The validator confirms export-1 from the named-export rule and wrapper-1 from the scoped cleanup rule without demanding a runtime failure.",
+        "The validator preserves both candidate IDs, introduces no new findings, does not load release-notes, and does not edit files or spawn agents."
+      ]
     }
   ]
 }
