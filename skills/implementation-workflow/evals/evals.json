@@ -192,6 +192,26 @@
         "The workflow does not silently replace the teammate as assignee.",
         "The workflow asks about the assignment conflict before changing it."
       ]
+    },
+    {
+      "id": 17,
+      "prompt": "Implement GitHub issue acme/app#42 on a new branch. The project uses feat/ branch names and GitHub Issues in this repository. The task is already assigned to me.",
+      "expected_output": "The agent includes the known task ID in the new branch while keeping the project naming convention.",
+      "files": [],
+      "expectations": [
+        "The new branch keeps the feat/ prefix and identifies GitHub issue #42.",
+        "The agent continues implementation without asking the user to identify the known task again."
+      ]
+    },
+    {
+      "id": 18,
+      "prompt": "Implement Jira task APP-123 on a new branch. Use the project fix/ prefix. APP-123 is already assigned to me and its requirements are available.",
+      "expected_output": "The agent creates a branch with the Jira key in its original case and the project prefix.",
+      "files": [],
+      "expectations": [
+        "The new branch starts with fix/ and contains APP-123 with uppercase APP.",
+        "The agent does not convert APP-123 into a GitHub issue number."
+      ]
     }
   ]
 }

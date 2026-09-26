@@ -178,6 +178,97 @@
         "The workflow creates a GitHub draft, not only copyable chat content.",
         "The workflow preserves the draft default and does not request redundant publication authorization."
       ]
+    },
+    {
+      "id": 17,
+      "prompt": "Create a PR for feat/gh-42-session-cache in acme/app. This is a new session with no task discussion. The branch changes are verified and pushed. The configured tracker is GitHub Issues in this repository, and the tracker API is available.",
+      "expected_output": "The agent retrieves issue #42, compares its requirements and comments with the complete branch diff, and adds a closing reference when all requirements are met without asking the user to identify the task again.",
+      "files": [],
+      "expectations": [
+        "The agent reads acme/app issue #42 rather than relying on the branch name as proof of completion.",
+        "When the changes meet all requirements, the PR body contains Closes #42 or another supported closing keyword.",
+        "The agent does not ask for redundant confirmation of the matching task.",
+        "The agent reads back the published PR and checks its intended closing reference."
+      ]
+    },
+    {
+      "id": 18,
+      "prompt": "Create a PR for feat/gh-42-session-cache in acme/app. Issue #42 requires caching, invalidation after logout, and concurrent refresh handling. The branch adds caching, but logout and refresh handling are unchanged. This PR is the first part of that task.",
+      "expected_output": "The PR references #42 without closing it and states the remaining requirements.",
+      "files": [],
+      "expectations": [
+        "The agent uses a non-closing reference and identifies logout invalidation and concurrent refresh handling as remaining work.",
+        "The agent does not add a closing keyword or a Development closing link for #42.",
+        "The agent does not claim that the branch ID proves full completion."
+      ]
+    },
+    {
+      "id": 19,
+      "prompt": "Create a PR for fix/APP-123-token-refresh. The project uses Jira at https://acme.atlassian.net and has a GitHub integration. APP-123 requires rejecting expired refresh tokens; the branch implements this requirement. No Jira status automation has been confirmed.",
+      "expected_output": "The agent verifies APP-123 and includes its key and URL without promising an unverified status transition.",
+      "files": [],
+      "expectations": [
+        "The agent reads APP-123 and compares its requirements with the branch changes.",
+        "The PR description includes APP-123 and its Jira URL, not a GitHub closing reference for issue #123.",
+        "The agent preserves the key case and does not add a task ID to the PR title.",
+        "The agent does not change the Jira status or claim it will close automatically."
+      ]
+    },
+    {
+      "id": 20,
+      "prompt": "Create a PR for fix/gh-42-token-refresh in acme/app. The tracker request for acme/app#42 returns 403 Forbidden. The branch diff rejects expired refresh tokens.",
+      "expected_output": "The agent reports the unavailable task evidence and asks for the missing context before choosing a closing reference.",
+      "files": [],
+      "expectations": [
+        "The agent does not infer the contents or completion of #42 from the branch name.",
+        "The agent asks a specific question about the inaccessible task while continuing independent PR preparation.",
+        "The agent does not silently claim or publish a verified closing relationship."
+      ]
+    },
+    {
+      "id": 21,
+      "prompt": "Create a PR for the current branch in acme/app. The configured task tracker is acme/backlog. A commit body contains Refs acme/backlog#42. That issue requests the complete behavior implemented by this branch, and the tracker API is available.",
+      "expected_output": "The agent recovers the cross-repository task from the full commit message and uses a qualified closing reference.",
+      "files": [],
+      "expectations": [
+        "The agent reads complete commit messages and retrieves acme/backlog#42.",
+        "The PR uses Closes acme/backlog#42 or another supported qualified closing keyword.",
+        "The agent does not replace the task with acme/app#42 or a bare #42."
+      ]
+    },
+    {
+      "id": 22,
+      "prompt": "Update the existing PR from feat/gh-42-session-cache. It targets release/2.x, while main is the default branch. Issue #42 is fully addressed. Keep the PR target and ready state unchanged.",
+      "expected_output": "The agent keeps the requested metadata and uses a normal task reference without promising closure from merging into release/2.x.",
+      "files": [],
+      "expectations": [
+        "The agent preserves release/2.x and the existing ready state.",
+        "The description references #42 without promising automatic closure on this merge.",
+        "The agent does not close #42 directly."
+      ]
+    },
+    {
+      "id": 23,
+      "prompt": "Create a PR for GitHub issue acme/app#42 from my changes on main. The project uses fix/ branch names. The changes fully meet the issue requirements, which are available through the tracker API. Only pr-creator is installed.",
+      "expected_output": "The standalone skill creates a task branch with the known ID, verifies the task, and publishes the PR with a closing reference.",
+      "files": [],
+      "expectations": [
+        "The new branch follows fix/ and includes the GitHub issue ID.",
+        "The agent verifies #42 and adds the closing reference without requiring implementation-workflow.",
+        "The agent commits, pushes, and creates the draft PR without repeated authorization questions."
+      ]
+    },
+    {
+      "id": 24,
+      "prompt": "Prepare the PR title and description for fix/gh-42-refresh-expiry. This session already contains a complete analysis of every branch commit and changed file, issue #42 requirements and comments, and passing required checks. Fresh Git state confirms the same base and head commits and an unchanged clean working tree. The changes fully resolve #42 and target the default branch. Do not publish anything.",
+      "expected_output": "The agent uses the existing complete analysis and task evidence to produce PR content with a closing reference, without a second full review or check run.",
+      "files": [],
+      "expectations": [
+        "The PR body includes a supported closing reference to #42.",
+        "The agent reuses the matching complete changeset analysis and already-read issue context.",
+        "The agent does not repeat the full code inspection or rerun passing checks solely to choose the task reference.",
+        "The agent keeps the action text-only."
+      ]
     }
   ]
 }

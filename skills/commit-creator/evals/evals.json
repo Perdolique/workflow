@@ -87,6 +87,39 @@
         "The workflow uses the confirmed file scope without asking again.",
         "The workflow keeps unrelated staged work out of the commit and preserves its index state."
       ]
+    },
+    {
+      "id": 9,
+      "prompt": "Write a commit message for the staged changes on feat/gh-42-session-cache. Issue #42 requires caching, logout invalidation, and concurrent refresh handling. This commit adds only caching. Do not create the commit.",
+      "expected_output": "The message can reference #42 but does not contain a closing keyword for the partial solution.",
+      "files": [],
+      "expectations": [
+        "The message does not use Closes, Fixes, Resolves, or another closing keyword for #42.",
+        "The message does not claim that logout invalidation or concurrent refresh handling is implemented.",
+        "The agent leaves Git state unchanged."
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "Commit the current changes for Jira APP-123 on a new branch, not main. The project uses fix/ branch names. The staged diff fully implements the task, which is available through Jira.",
+      "expected_output": "The agent follows the authorized branch choice and preserves the Jira key without using GitHub closing semantics.",
+      "files": [],
+      "expectations": [
+        "The new branch starts with fix/ and contains APP-123 in its original case.",
+        "The agent does not ask again whether to commit on main.",
+        "The commit does not claim that a GitHub closing keyword will close Jira APP-123."
+      ]
+    },
+    {
+      "id": 11,
+      "prompt": "Give me the full commit message for the staged fix on fix/gh-42-refresh-expiry in acme/app. Earlier in this session we read issue #42 and checked the exact staged diff: it rejects expired refresh tokens before creating a session and preserves valid responses, meeting both issue requirements. The staged diff is unchanged. Do not create the commit.",
+      "expected_output": "The message includes a closing reference to #42 and uses the existing task and diff evidence without repeating the completed investigation.",
+      "files": [],
+      "expectations": [
+        "The commit body contains Fixes #42 or another supported GitHub closing reference.",
+        "The agent does not ask the user to confirm the known task or repeat the unchanged task and diff investigation.",
+        "The agent does not create a commit or change staging."
+      ]
     }
   ]
 }

@@ -66,6 +66,7 @@ Before planning or editing:
 
 ## Implement
 
+- When creating a branch for a known task, include its tracker ID so another session can recover the task. Follow the project's branch naming conventions and preserve the key's case, for example `feat/gh-42-session-cache` or `fix/APP-123-token-refresh`. Use the project's tracker context to identify the repository or project; include that context in the name when the ID alone is ambiguous.
 - Work in the smallest useful slices.
 - Reuse local patterns. Add abstractions only for confirmed needs.
 - Verify after risky boundaries such as schemas, shared utilities, public APIs, stateful UI, migrations, and authentication.

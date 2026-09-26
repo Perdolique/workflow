@@ -37,7 +37,7 @@ git ls-remote --symref origin HEAD
 
 Then:
 
-1. For GitHub creation, if the current branch is the base branch, create and switch to a task branch before committing. Follow the project's branch naming conventions and preserve the current changes and staging. Text-only requests keep the current branch.
+1. For GitHub creation, if the current branch is the base branch, create and switch to a task branch before committing. Follow the project's branch naming conventions and preserve the current changes and staging. For a known task, include its tracker ID and preserve the key's case, for example `feat/gh-42-session-cache` or `fix/APP-123-token-refresh`. Include the repository or project when the ID would otherwise be ambiguous. Text-only requests keep the current branch.
 2. For GitHub creation, commit uncommitted task changes:
    - Write an English conventional message from the task diff and project conventions. Apply any available commit guidance with this explicit scope.
    - Preserve unrelated staging with a path-limited commit for disjoint task files; add only task files that are untracked.
@@ -47,21 +47,34 @@ Then:
 4. Report if the branch is behind or diverged from its upstream or the fresh remote default before pushing. Continue when upstream changes do not affect the task or safe publication; ask about a dependent decision when they do. Merge, rebase, or rewrite history only with user authorization.
 5. Review the complete changeset below before pushing.
 
-Use the remote-tracking default branch as the base. A local `main` or `master` can be stale even after fetching.
+Use the fresh remote-tracking ref for the requested or existing PR target as the base; otherwise use the remote default branch. A local `main` or `master` can be stale even after fetching.
 
 ## Analyze the complete changeset
 
-Review the entire branch, not only the last commit or the current conversation:
+Cover the entire branch, not only the last commit. After checking the current Git state, reuse a complete changeset analysis and check results from this session when the base, head, and working-tree state are unchanged. Read new or unresolved parts; when no matching analysis is available, inspect the full changeset:
 
 ```bash
 git diff --name-status <base-ref>...HEAD
 git diff <base-ref>...HEAD
-git log --oneline <base-ref>..HEAD
+git log --format=fuller <base-ref>..HEAD
 ```
 
 - Read every changed file needed to understand the cumulative behavior. Identify affected packages, dependency versions, breaking changes, migration needs, and supported issue references.
 - Confirm that every outgoing commit belongs to the authorized publication scope. Resolve unrelated or unclear committed work before pushing; a branch or PR request does not authorize publishing someone else's changes.
 - For GitHub creation, if the branch has no changes from the base, stop and report that a PR cannot be created. For text-only requests involving uncommitted work, inspect those changes and clearly distinguish them from changes already present in the branch.
+
+## Recover and verify the task
+
+1. Inspect the user's request, branch name, existing PR, and full commit messages for explicit task IDs or links. Use the project's tracker configuration and repository context to resolve each reference. A bare number is not unique across repositories or trackers.
+2. Read each task's requirements and relevant comments from its tracker, reusing task details already read in this session. Compare them with the changeset analysis above. Use the branch ID to identify the intended task and the requirements check to decide whether it is complete.
+3. When the task and full solution are clear, add the appropriate reference without asking the user to confirm the same task again. If references conflict, the task cannot be read, or completion is unclear, explain the specific problem and ask before choosing a closing reference. Continue independent PR preparation while waiting.
+4. Before publishing, check existing PR links and outgoing commit messages for closing references that conflict with the verified scope. Resolve those conflicts before publication; ask before rewriting existing commits.
+
+Use `Related issues` in the description:
+
+- For a fully resolved GitHub issue in a PR targeting the default branch, use `Closes #42` in the same repository or `Closes owner/repo#42` in another repository. GitHub closes the issue when the PR is merged. See [GitHub's linking rules](https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/linking-a-pull-request-to-an-issue).
+- For a confirmed partial solution or a target other than the default branch, keep the issue open with a plain reference such as `Related to #42`. State what remains for partial work.
+- For Jira or another tracker, include the task's verified key and URL. A configured Jira integration can link the PR through its source branch key; task status changes depend on the project's automation. See [Jira's reference rules](https://support.atlassian.com/jira-software-cloud/docs/reference-issues-in-your-development-work/).
 
 ## Draft the content
 
@@ -87,7 +100,7 @@ git log --oneline <base-ref>..HEAD
 - Never add a testing-only section such as `Testing`, `Tests`, `Validation`, `Verification`, `Local verification`, or `QA`.
 - Do not list local test, lint, or check commands unless the user explicitly asks for them in the PR body.
 - Mention test or verification code changes as normal `Summary` bullets.
-- Include issue references only when they are present in the task or repository context.
+- Use the verified task references from the recovery step; omit `Related issues` when there are none.
 - For dependency changes, list every package separately as `package-name: old-version -> new-version`.
 - For breaking changes, explain the impact and include concrete migration steps when they are known.
 
@@ -100,7 +113,7 @@ git log --oneline <base-ref>..HEAD
 3. Set the authenticated user as the assignee. If creation cannot set the assignee, update the PR immediately afterward.
 4. Add reviewers only when the user explicitly requests them. An assignee is not a reviewer.
 5. When updating an existing PR, preserve unrelated metadata and its current draft state unless the user requests a change.
-6. Report the PR URL, draft or ready state, and assignee after the operation succeeds.
+6. Read back the saved description and available linked-issue metadata to verify the intended task references. Report the PR URL, draft or ready state, assignee, and whether each task is set to close on merge or is only referenced. Report only link and status outcomes supported by the available evidence.
 
 If authentication or the creation API fails, say that the PR was not created and fall back to copyable content in chat.
 

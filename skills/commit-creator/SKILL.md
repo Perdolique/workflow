@@ -30,6 +30,7 @@ git ls-remote --symref origin HEAD
 
 - Before committing, report if the current branch is behind or diverged from its upstream or the fresh remote default; do not merge or rebase automatically.
 - If the current branch is the default branch and the user did not explicitly ask to commit there, ask whether to create a branch or commit to the default branch. If the user named the target branch or said to commit on the current branch, proceed without asking again.
+- When creating a branch for a known task, follow the project's naming conventions and include the tracker ID with its original case, for example `feat/gh-42-session-cache` or `fix/APP-123-token-refresh`. Include the repository or project when the ID would otherwise be ambiguous.
 
 - Respect existing staging:
 
@@ -55,7 +56,9 @@ Write the complete message in English:
 - Include at least one concrete body bullet unless the user explicitly asks for a subject-only message.
 - Keep one logical change per bullet and avoid empty lines between bullets.
 - Add `!` and a `BREAKING CHANGE:` footer only for an actual breaking change.
-- Add issue-closing bullets only for issue references supported by the task or repository context.
+- Resolve the task from the request, branch name, or repository context. Reuse task requirements and diff analysis from the current session when they cover the current commit; read missing context from the correct tracker. Ask about missing task evidence or unclear completion before choosing a closing reference.
+- When the commit completes a verified GitHub issue, include a closing reference in the body: `Fixes #42` in the same repository or `Fixes owner/repo#42` in another repository. Add it without asking the user to confirm the known task again.
+- For a partial solution, use a normal reference such as `Refs #42`. For a task in another tracker, include its verified key and URL.
 
 - Use these types:
 
