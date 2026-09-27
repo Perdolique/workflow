@@ -99,6 +99,80 @@
         "The report does not describe the declined optional adaptation as blocking or failed.",
         "The card ends with the supplied official source, the transitive section says None, and the report records the successful pnpm test command."
       ]
+    },
+    {
+      "id": 7,
+      "prompt": "Analyze the available Docforge update for the product-manuals repository. Version discovery is complete in its README. Use the supplied repository snapshot and local upstream captures as the research inputs; this is an offline task. Give the update analysis in chat and leave the repository unchanged.",
+      "expected_output": "The agent discovers a useful newly available batching approach from the upstream guide, connects it to repeated work in the build script, and explains the required script refactor while preserving its behavior.",
+      "files": [
+        "evals/files/adaptation-discovery/upstream.md",
+        "evals/files/adaptation-discovery/multi/README.md",
+        "evals/files/adaptation-discovery/multi/build.sh"
+      ],
+      "expectations": [
+        "The execution reads both the upstream capture and the repository build script before giving its recommendation.",
+        "The report identifies render-set as an adaptation newly enabled by Docforge 3.0.0, although the repository does not use it yet.",
+        "The adaptation connects the three separate render processes for the same source to repeated parser and theme setup, and presents reduced repeated work as a benefit rather than claiming a measured new runtime.",
+        "The adaptation identifies replacing the three build.sh commands with a target manifest and a render-set invocation, preserving each language and output directory and the target order.",
+        "The proposed integration retains stop-on-first-error behavior with --fail-fast or identifies an equally supported way to preserve it.",
+        "The report keeps the SVG renderer and extension-loader removal as major-release highlights without presenting them as needed repository changes.",
+        "The repository inputs remain unchanged and the full analysis appears in chat."
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Analyze the available Docforge update for the local-handbook repository. Version discovery is complete in its README. Use the supplied repository snapshot and local upstream captures as the research inputs; this is an offline task. Give the update analysis in chat and leave the repository unchanged.",
+      "expected_output": "The agent reports the new public capabilities but finds no supported optional adaptation for this one-target repository.",
+      "files": [
+        "evals/files/adaptation-discovery/upstream.md",
+        "evals/files/adaptation-discovery/single/README.md",
+        "evals/files/adaptation-discovery/single/build.sh"
+      ],
+      "expectations": [
+        "The execution reads the rendering guide and the one-target repository evidence before giving its adaptation result.",
+        "The report includes render-set, the SVG renderer, and the extension-loader removal as major-release highlights.",
+        "The adaptation result is No applicable adaptations identified. because the one-target build has no repeated setup to remove and the repository has no diagrams or extensions to migrate.",
+        "The agent does not propose a target manifest, persistent cache, diagram conversion, or extension rewrite without a supported repository benefit.",
+        "The repository inputs remain unchanged and the full analysis appears in chat."
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "Finish the applied update report for the local-handbook repository using the saved update state and upstream research bundle. The version update and checks are complete. Use only these offline inputs; further source retrieval is unavailable. Give the final report in chat.",
+      "expected_output": "The final applied report retains the known major features and successful checks while identifying the unread 3.1.0 source and the resulting limits on release-impact and adaptation conclusions.",
+      "files": [
+        "evals/files/adaptation-discovery/upstream.md",
+        "evals/files/adaptation-discovery/single/README.md",
+        "evals/files/adaptation-discovery/single/build.sh",
+        "evals/files/adaptation-discovery/later-update.md"
+      ],
+      "expectations": [
+        "The report identifies the applied version change as Docforge 2.8.0 to 3.1.0 and reports both successful checks from the saved output.",
+        "The report retains all three known 3.0.0 major highlights rather than replacing them with an inventory of local changes or passed checks.",
+        "Nuances identifies the uncovered 3.1.0 release and limits the adaptation assessment to the available 3.0.0 guide and repository evidence.",
+        "The HTTP 301 response is not presented as read release content, and the report does not invent 3.1.0 features or claim complete release coverage.",
+        "The no-adaptation result is qualified by the missing evidence rather than treated as a complete assessment through 3.1.0.",
+        "The final report remains in chat, reports no transitive changes, and makes no new repository edits."
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "Continue the runtime update from the saved state in the supplied repository. Finish the update and its verification, then give the result in chat. Use the local upstream notes and tools; this is an offline task.",
+      "expected_output": "The agent checks the actual repository requirements, completes verification of the selected flag removal, and accurately reports the adaptation as applied despite the extra whitespace warning.",
+      "files": [
+        "evals/files/adaptation-obstacle/README.md",
+        "evals/files/adaptation-obstacle/runtime.json",
+        "evals/files/adaptation-obstacle/runtime_tool.py",
+        "evals/files/adaptation-obstacle/runtime_types.py"
+      ],
+      "expectations": [
+        "The final runtime.json keeps version 4.1.0 and an empty compatibilityFlags list.",
+        "The agent runs python3 runtime_tool.py check and the recorded result has exit code 0.",
+        "The final generated declarations match the unchanged generator output; the agent does not hand-edit the generated comment or change the generator to hide the warning.",
+        "The agent distinguishes the extra whitespace warning from the configured repository check and completes the selected low-risk adaptation without asking for a new decision.",
+        "The report labels removal of node_compat as Applied and identifies the simpler configuration and unchanged runtime behavior.",
+        "The report does not attribute a decline to the user or present the selected adaptation as rejected, and reports the verification result in chat."
+      ]
     }
   ]
 }

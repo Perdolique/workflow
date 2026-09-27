@@ -48,12 +48,12 @@ Inspect the repository's Taze configuration and package-manager release-age poli
 Discovering the current and target versions is not a complete update analysis. For every direct update candidate:
 
 1. Enumerate every released version after the current version through and including the target version.
-2. Review the official release notes or changelog entries for that entire version range. Do not inspect only the target release when intermediate versions exist.
+2. Read the official release notes or changelog entries for that entire version range. Follow redirects and retrieve missing sections when a result is truncated. Do not inspect only the target release when intermediate versions exist.
 3. Select the changes worth highlighting across the complete range according to their release significance and impact.
 4. Combine the selected findings into one candidate-level list describing the difference between the current and target versions. Do not emit a version-by-version changelog dump.
 
-- Research release impact only for direct candidates. Prefer upstream sources or local package changelogs over generic search results.
-- If official notes are missing for part of a direct candidate's version range, name those versions and mark the analysis as incomplete.
+- Research release impact only for direct candidates. Prefer upstream sources or local package changelogs over generic search results. For report-only requests, use the supplied findings and carry forward the coverage limits shown by that research.
+- If source content remains unavailable, name the uncovered versions or topics and mark that part of the analysis as incomplete. Apply this to release notes, migration guides, and current documentation.
 - For transitive changes, record only the package name, change type, and available old and new resolved versions from the lockfile. Skip changelog research and impact summaries.
 
 Select changes using these priorities:
@@ -68,13 +68,14 @@ Select changes using these priorities:
 
 ## Evaluate update-driven adaptations
 
-- For every direct update, review all affected repository usage against the current supported approach. Include improvements beyond those needed to pass checks.
-- Read official migration guides and current upstream documentation alongside release notes. Search the entire repository for:
-  - Deprecated, legacy, or replaced APIs and configuration.
-  - Compatibility code and workarounds that the target release makes unnecessary.
-  - New features with a concrete benefit for maintenance, performance, reliability, or development work in this repository.
-  - Usage that an announced upstream migration will soon make legacy.
-- An adaptation is update-driven only when the target release removes, deprecates, supersedes, fixes, or newly enables the relevant behavior. Do not use an update to refactor unrelated parts of the stack.
+For every direct update:
+
+1. Read official migration guides and current upstream documentation alongside release notes. Identify notable new features, flags, APIs, and supported approaches in the update range, including those the repository does not use yet.
+2. Search the entire repository for affected usage, deprecated or replaced APIs, unnecessary compatibility code, and usage that an announced migration will soon make legacy. Compare the existing approach with what the update now supports.
+3. Match promising capabilities to concrete repository needs or maintenance costs, even when existing checks pass. Verify the affected API or behavior against upstream evidence and local files. State the expected maintenance, performance, reliability, or development benefit, the affected code or configuration, and the integration or refactoring work.
+4. Assess behavior changes, risk, and trade-offs. Treat a needed refactor as part of this assessment; its size informs the user decision below. An improvement can be useful even when it is not needed to complete the version update.
+
+An adaptation is update-driven only when the target release removes, deprecates, supersedes, fixes, or newly enables the relevant behavior. Do not use an update to refactor unrelated parts of the stack.
 
 - Keep required migrations under `Nuances` and apply them automatically in apply mode.
 
@@ -84,6 +85,7 @@ For non-required adaptations:
 - Before editing, ask the user when an adaptation changes public behavior, materially expands the requested work, has a meaningful trade-off, or has uncertain benefit. Explain the affected repository surface, why the update enables the change, the expected benefit, the downsides, and the recommended choice.
 - If the user declines an adaptation, continue the version update and record the decision and remaining outdated usage.
 - In analysis mode, report adaptations without applying them. In apply mode, resolve material adaptation decisions after analysis and before editing, then apply every automatic or approved adaptation across all causally affected usage and verification surfaces.
+- If a selected adaptation hits a check failure or another obstacle, investigate it against the actual project requirements and resolve it within the authorized scope. If a material trade-off remains, explain the obstacle and ask for that decision. Track unfinished work separately from a user decline.
 
 ## Format direct update cards
 
@@ -114,10 +116,11 @@ Use this card for every direct candidate in both analysis and apply modes:
 - Add `Nuances` only when the candidate has an applicable breaking impact, migration, required action or decision, important limitation, or incomplete release-note coverage. In apply mode, distinguish completed actions from work that remains.
 - Add `Adaptations` to every card after `Nuances`, or after the change bullets when `Nuances` is absent. Keep required migrations in `Nuances` only.
 - In analysis mode, label entries `Recommended` or `Decision required`.
-- In apply mode, use `Applied` or `Declined`. Use `Decision required` only when a user choice still blocks completion.
-- Each entry names the affected repository surface and concrete benefit. `Decision required` also states the downside and recommended choice. Include only non-required update-driven adaptations, not unchanged unrelated surfaces.
-- When none apply, use the single bullet `No applicable adaptations identified.`
+- In apply mode, use `Applied` for completed adaptations and `Declined` for adaptations the user declined. Describe unfinished work and its obstacle under `Nuances`; use `Decision required` when a user choice still blocks completion.
+- Each entry describes a non-required update-driven change, its affected repository surface, and its concrete benefit. `Decision required` also states the downside and recommended choice. Report checks that unrelated files stayed unchanged with the verification results.
+- When the reviewed opportunities yield no supported adaptation, use the single bullet `No applicable adaptations identified.` State any limits on that assessment under `Nuances`.
 - Always finish each card with official source links covering the analyzed release range and supporting any reported adaptation.
+- In the applied report, retain major-release highlights and any unresolved source-coverage limits from the analysis, alongside the completed actions and verification results.
 
 ## Report analysis
 
