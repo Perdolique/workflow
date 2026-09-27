@@ -44,9 +44,15 @@ Before planning or editing:
 
 ## Explain decisions before asking
 
-- Before asking the user to choose an approach, explain each option in chat: how it works, its benefits, downsides, and concrete consequences or risks. Recommend one with a reason.
-- Then ask using the same option names and order. The chat explanation must stand on its own, without picker descriptions.
-- Ask factual clarifications directly; they do not need invented alternatives.
+Before asking the user to choose an approach:
+
+1. Connect the current situation and goal to the decision. Explain where it fits in the workflow, what remains open, and which earlier decisions still hold. Reuse relevant context instead of repeating the whole discussion.
+2. Explain how each option works and what it changes for the user or project. Explain unfamiliar terms; use a concrete example when a label alone does not make the behavior clear.
+3. Compare each option's practical benefits, downsides, and concrete consequences or risks. Include costs such as extra user steps, maintenance, or limits on supported environments when relevant. Explain the effect on later changes only when it matters to this decision.
+4. Recommend one option using confirmed task facts and the user's needs. State its relevant cost or limitation and why that trade-off fits this task. Keep unknowns distinct from facts.
+5. Put this explanation in chat before the question. Cover every decision in a batch, then ask with the same option names and order. The explanation must stand on its own without picker descriptions.
+
+Scale detail to what the user needs to decide. Ask factual clarifications directly, explaining why the fact matters when needed; they do not need invented alternatives or trade-offs.
 
 ## Plan
 

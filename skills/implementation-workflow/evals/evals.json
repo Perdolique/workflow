@@ -212,6 +212,57 @@
         "The new branch starts with fix/ and contains APP-123 with uppercase APP.",
         "The agent does not convert APP-123 into a GitHub issue number."
       ]
+    },
+    {
+      "id": 19,
+      "prompt": "Plan the change that lets an import preview target an existing catalog card. Do not implement it yet. Earlier we established this flow: select a title from an external source, review its saved text and poster, then apply it to our catalog. The new step selects the destination card after that review. Repository inspection confirms that we can either reuse the saved source data or fetch it again when the destination changes. Previews expire after 24 hours. Both approaches still check the destination's current fields and manual edits before applying. We have not chosen which source-data policy to use. This is a manual import of one title at a time.",
+      "expected_output": "The agent connects the pending policy to the existing import flow, compares both approaches in chat, recommends one with a project-specific reason and a real limitation, then asks for the choice.",
+      "files": [],
+      "expectations": [
+        "Before asking, the chat distinguishes changing the destination card from changing the external content being reviewed.",
+        "The chat explains both reuse and refetch behavior, including the freshness limit of reuse and the waiting, failure or changed-content cost of refetching.",
+        "The recommendation uses the manual review flow and saved preview contract, rather than only generic claims about simplicity or speed.",
+        "The explanation preserves destination revalidation and protection of manual edits under either policy.",
+        "The question uses the same option names and order as the explanation; picker descriptions are not needed to understand the choice.",
+        "The agent waits for the choice without implementing the change or treating its recommendation as approval."
+      ]
+    },
+    {
+      "id": 20,
+      "prompt": "Plan storage for unconfirmed import previews. Repository inspection is complete: the preview must retain the exact poster bytes the operator reviewed, and the database, an existing image service and a new object bucket are all viable storage options. The database needs no new service but uses database space; the image service needs private preview delivery and orphan cleanup; the bucket needs a new resource and cleanup. We also need to choose whether a preview lasts 24 hours, 7 days or 30 days. Longer retention lets operators return later but keeps more temporary data and older source snapshots. There is no agreed storage or lifetime default. Ask me about both choices together before completing the plan. Do not implement anything.",
+      "expected_output": "The agent explains the storage and lifetime decisions in chat before a two-question batch, with clear recommendations and consistent option labels and order.",
+      "files": [],
+      "expectations": [
+        "Before asking, the chat explains why exact poster bytes must remain available between review and confirmation.",
+        "The chat explains the practical benefit and cost of each offered storage option.",
+        "The chat separately compares all offered lifetimes, including the convenience of returning later versus temporary storage and stale data.",
+        "Each decision has a reasoned recommendation; the explanation covers both decisions without relying on picker descriptions.",
+        "Both questions preserve the option names and order used in chat, and the agent does not select a policy on the user's behalf."
+      ]
+    },
+    {
+      "id": 21,
+      "prompt": "Plan the first version of a catalog import. Our current 783 episodes use provider A, a public TV episode API without a key or a language parameter. Provider B has films, TV, translated text and posters, but requires a token. We have already selected B for title cards. The remaining choice is keeping A for episodes or moving the existing episodes to B too. Each episode has an internal UUID used by viewing history; source IDs are separate links, and the schema already allows several source links per episode. A move to B needs checked episode matching because season numbering can differ. I may want other providers and manual entries later. We have not agreed to implement either of those features now. Do not edit files yet.",
+      "expected_output": "The agent explains the providers' roles and the episode-source choice without confusing it with catalog identity or adding future features to the current scope.",
+      "files": [],
+      "expectations": [
+        "The chat explains the providers' different roles and makes clear that title-card sourcing is already settled.",
+        "The comparison states the benefit and limitation of staying with A and moving to B, including the episode-matching work and preservation of viewing history.",
+        "The agent explains that the current source choice does not make the provider own internal catalog identity or prevent adding another source later.",
+        "The recommendation is based on the given project facts and acknowledges its relevant downside.",
+        "The agent does not expand the agreed scope to implement manual editing, multiple new providers or automatic source merging."
+      ]
+    },
+    {
+      "id": 22,
+      "prompt": "Prepare the remaining staging sign-in check. The plan, test accounts and test cases are already agreed. All available logs and notes have been inspected. They confirm the user's operating system but do not record which browser they used for the failing attempt; only the user can supply that fact. The test run should reproduce the failure in that browser. Do not change the application.",
+      "expected_output": "The agent asks directly which browser was used and explains its relevance without turning the factual question into a choice of preferred browsers.",
+      "files": [],
+      "expectations": [
+        "The agent asks which browser the user used and relates the fact to reproducing the failure.",
+        "The agent does not recommend a browser, compare browser pros and cons, or invent an answer.",
+        "The agent preserves the agreed plan and makes no application changes."
+      ]
     }
   ]
 }
