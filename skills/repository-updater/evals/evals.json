@@ -38,7 +38,7 @@
     {
       "id": 3,
       "prompt": "Produce only the final applied report from these completed update results. Do not browse or modify files. Direct update runner-cli 6.4.0 → 7.0.0 adds parallel workspace configuration, removes the --legacy option, and fixes a crash that could discard partial results. package.json used --legacy, and that script has already been migrated to the new workspace flag. Sources: https://runner-cli.example/releases/7.0.0 and https://runner-cli.example/migration/v7. Direct update schema-lib 2.1.0 → 2.2.0 adds reusable schema fragments. Source: https://schema-lib.example/releases/2.2.0. Transitive lockfile changes are tiny-cache 1.0.0 → 1.1.0, engine-core 2.9.0 → 3.0.0, ansi-kit 3.2.1 → 3.2.2, and preview-tool 2.0.0-beta.2 → 2.0.0. fast-hash 1.0.0 was added and legacy-codec 4.0.0 was removed as transitive package resolutions. pnpm test and pnpm run lint both passed.",
-      "expected_output": "An applied report with structured direct-update cards and sources, a completed migration nuance, explicit adaptation results, a concise table of notable transitive changes that omits the patch-only change, and verification results.",
+      "expected_output": "An applied report in chat with structured direct-update cards and sources, a completed migration nuance, explicit adaptation results, a transitive table containing only major updates, additions, and removals, and verification results.",
       "files": [],
       "expectations": [
         "The report retains the Applied updates title, applied mode, Direct updates group, and Notable transitive changes group.",
@@ -49,8 +49,8 @@
         "schema-lib includes reusable schema fragments without inventing a Nuances section.",
         "Both direct-update cards contain an Adaptations section with the single No applicable adaptations identified. fallback.",
         "The transitive table has Change, Package, Old version, and New version columns.",
-        "The transitive table labels tiny-cache as Minor, engine-core as Major, preview-tool as Other, fast-hash as Added, and legacy-codec as Removed.",
-        "The transitive table omits the patch-only ansi-kit change and states that one patch-only transitive version change was omitted.",
+        "The transitive table contains only engine-core as Major, fast-hash as Added, and legacy-codec as Removed.",
+        "The report omits the transitive tiny-cache, ansi-kit, and preview-tool replacements without listing or counting them.",
         "The transitive rows contain no changelog summaries, impact notes, Nuances, or source links, and the report records both successful verification commands."
       ]
     },
@@ -70,7 +70,8 @@
         "The final report does not list unrelated.config.json as an adaptation.",
         "The agent applies the behavior-preserving low-risk adaptation without asking the user for approval.",
         "The final atlas-build card labels the build.config.json resolver modernization Applied and states its concrete compatibility or performance benefit.",
-        "The card ends with the supplied official source and the transitive section says None."
+        "The card ends with the supplied official source and the transitive section says None.",
+        "The complete applied report appears in the final chat response."
       ]
     },
     {

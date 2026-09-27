@@ -18,10 +18,11 @@ description: Create, edit, review, or evaluate reusable skills and other agent i
 
 ## Reshape the rules
 
-- Build the normal procedure first: what to do, when to do it, and what result to produce.
+- Build the normal procedure first: what to do, when to do it, and what result to produce. Prefer this positive guidance over a list of forbidden alternatives.
 - Base each rule on a confirmed user or project requirement, a tool constraint, or an observed problem. Treat explicit requirements and tool constraints as sufficient grounds for their boundaries.
 - For each added constraint, exception, or clarification, identify its source and the decision it changes. Keep it when it adds needed guidance beyond the normal procedure. Carry settled decisions into the procedure; use the task report for the history of discarded alternatives.
-- Address observed mistakes by making the required action or decision clearer first. Use targeted prohibitions or exceptions for repeated, observed mistakes that remain after this clarification. Keep each exception with the rule whose scope it changes.
+- Address observed mistakes by making the required action or decision clearer first. Earlier mistakes alone do not show that the clarified instruction needs an extra prohibition.
+- Add a prohibition only when it expresses an explicit requirement or a real tool constraint, or when recorded executions show that clear positive guidance still fails without it. Keep its scope tied to that evidence and place it with the rule it qualifies.
 - Rewrite the affected section as a whole when local patches would add repetition or complex conditions. Merge rules with the same purpose and resolve conflicts across applicable instructions in priority order.
 - Preserve established user and project preferences. Extend a rule to new situations only when confirmed needs support that scope.
 - Place each rule at the narrowest level that reaches its audience. Repeat it only when separate audiences or enforcement layers need it independently. Before removing a rule covered by automation, verify that the checks enforce the same behavior.

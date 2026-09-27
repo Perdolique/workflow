@@ -5,6 +5,8 @@ description: Analyze repositories for available dependency, tooling, runtime, an
 
 # Repository updater
 
+Write the full report directly in the final chat response in both analysis and apply modes.
+
 ## Determine the request mode
 
 - Use **analysis mode** by default. Requests to inspect, check, list, review, or otherwise discuss available updates do not authorize repository changes.
@@ -162,4 +164,10 @@ Render one direct update card for every direct version that actually changed. Sa
 | --- | --- | --- | --- |
 | Major | `package` | `old version` | `new version` |
 
-Derive the transitive list from resolved lockfile changes without a corresponding declaration change. Include one row for every added or removed package resolution. Classify stable SemVer replacements by the highest numeric part that changed: use `Major` when the major part differs and `Minor` when only the minor part differs. Omit replacements where only the patch part differs. Include every other version replacement, such as a prerelease or non-SemVer change, and label it `Other`. Label added and removed rows `Added` and `Removed`. When patch-only replacements are omitted, state their count after the table or `None`, using `N patch-only transitive version changes omitted.` Do not add changelog details, impact summaries, breaking-change notes, or sources. If no reportable transitive dependency changed, say `None` instead of rendering the table. Then report the verification commands and results, plus any explicitly requested update that could not be applied.
+Derive the transitive list from resolved lockfile changes without a corresponding declaration change. Include only these changes:
+
+- `Major`: stable SemVer replacements where the major version differs.
+- `Added`: one row for every added package resolution.
+- `Removed`: one row for every removed package resolution.
+
+Omit all other transitive version replacements, including minor, patch, prerelease, and non-SemVer changes, without listing or counting them. Do not add changelog details, impact summaries, breaking-change notes, or sources. If no reportable transitive dependency changed, say `None` instead of rendering the table. Then report the verification commands and results, plus any explicitly requested update that could not be applied.

@@ -89,6 +89,20 @@
         "A causal claim about that sentence requires comparing otherwise identical versions with and without it; the response distinguishes that missing evidence from the editorial recommendation.",
         "The response does not generalize the sentence to all workflows or claim to have run new experiments."
       ]
+    },
+    {
+      "id": 7,
+      "prompt": "Update evals/files/update-report-guide.md. I often get the update report as a file instead of in chat. The full report should be in the final chat response; write that in the instructions. Keep the existing analysis and report contents. Return the revised Markdown and a short explanation.",
+      "expected_output": "The guide directly requires the complete report in the final chat response and preserves the existing content requirements without adding a file-creation ban.",
+      "files": [
+        "evals/files/update-report-guide.md"
+      ],
+      "expectations": [
+        "The guide requires the full report in the final chat response, not just a summary or a link.",
+        "The guide retains update analysis, repository impact, version changes, and sources.",
+        "The revision adds no prohibition on creating, saving, or attaching report files, and no redundant ban on file links.",
+        "The explanation does not claim that positive chat-delivery guidance has already failed or that an extra prohibition was proved necessary."
+      ]
     }
   ]
 }
