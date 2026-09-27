@@ -135,6 +135,7 @@ url = "https://mcp.cloudflare.com/mcp"
 url = "https://formisch.dev/mcp"
 
 [tui]
+show_tooltips = false
 fullscreen_transcript = false
 status_line = ["model-with-reasoning", "current-dir", "git-branch", "five-hour-limit", "weekly-limit", "total-input-tokens", "total-output-tokens", "context-used"]
 status_line_use_colors = true
