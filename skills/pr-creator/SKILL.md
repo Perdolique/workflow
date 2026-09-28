@@ -89,6 +89,7 @@ Use `Related issues` in the description:
 ### Description
 
 - Always include `Summary` with a short, engaging introduction and concrete bullets. Use emojis in the introduction and most bullets, but keep technical claims precise.
+- Focus `Summary` bullets on changed behavior and important implementation details.
 - Add only sections with evidence-backed content:
   - `Motivation`
   - `Related issues`
@@ -99,7 +100,6 @@ Use `Related issues` in the description:
 - Omit empty sections and placeholders such as `None` or `N/A`. Do not add other headings unless the user explicitly requests them.
 - Never add a testing-only section such as `Testing`, `Tests`, `Validation`, `Verification`, `Local verification`, or `QA`.
 - Do not list local test, lint, or check commands unless the user explicitly asks for them in the PR body.
-- Mention test or verification code changes as normal `Summary` bullets.
 - Use the verified task references from the recovery step; omit `Related issues` when there are none.
 - For dependency changes, list every package separately as `package-name: old-version -> new-version`.
 - For breaking changes, explain the impact and include concrete migration steps when they are known.

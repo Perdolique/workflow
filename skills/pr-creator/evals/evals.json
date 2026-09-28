@@ -82,13 +82,13 @@
     },
     {
       "id": 8,
-      "prompt": "Create a PR. I ran pnpm test and pnpm lint locally, but do not put those commands in the description.",
-      "expected_output": "The PR body contains no testing-only section or local command list.",
+      "prompt": "Create a PR. The branch fixes a duplicate focus event and adds a regression test. I ran pnpm test and pnpm lint locally, but do not put those commands in the description.",
+      "expected_output": "The PR body focuses on the duplicate-event fix without a routine test bullet, testing-only section, or local command list.",
       "files": [],
       "expectations": [
         "The workflow does not add a Testing, Tests, Validation, Verification, Local verification, QA, or similar section.",
         "The workflow does not list pnpm test or pnpm lint in the PR body.",
-        "Test-related code changes are mentioned only as normal Summary bullets when present in the branch."
+        "The Summary describes the duplicate-event fix without a standalone bullet for the regression test."
       ]
     },
     {

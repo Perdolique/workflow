@@ -11,11 +11,10 @@ Stops duplicate focus events without disturbing normal keyboard behavior 🐛⌨
 
 - 🐛 Ignore repeated notifications from the same focus interaction
 - ♿ Preserve keyboard and pointer focus behavior
-- ✅ Cover the reproduced duplicate-event scenario
 
 ## Motivation
 
-The existing regression test reproduces two events for one focus interaction. This change restores the documented single-event contract 🎯
+A single focus interaction can emit two events, breaking the documented single-event contract 🎯
 
 ## Related issues
 

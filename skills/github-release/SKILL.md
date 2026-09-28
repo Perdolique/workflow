@@ -107,7 +107,6 @@ Keep release notes concise and concrete:
 ## What's Changed
 
 - Added the new release-facing feature or configuration change.
-- Updated related tests, fixtures, or documentation that verify the change.
 - Removed or replaced outdated behavior when the diff clearly shows it.
 
 ## Dependency updates
