@@ -24,6 +24,10 @@ For every candidate, establish:
 - why the target matches the repository's update policy and the user's conditions
 - where and how the repository uses the affected package, runtime, tool, or infrastructure
 
+### GitHub Actions
+
+- For external actions, including composite actions, and reusable workflows used through a major-version ref such as `@v2`, report newer minor and patch releases as usual. Keep the major-version ref; do not recommend or apply a more specific ref such as `@v2.1` for releases within the same major version.
+
 ### Node.js
 
 When Node.js powers the application or tooling, inspect package update workflows in this order:
