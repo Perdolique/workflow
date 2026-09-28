@@ -1,6 +1,6 @@
 ---
 name: commit-creator
-description: Create English conventional commit messages and commits from the current changes. Use when the user wants to commit code, asks for a commit message, or needs monorepo scopes and dependency updates represented accurately.
+description: Create or amend English conventional commits and commit messages from the current changes. Use when the user wants to commit or amend code, asks for a commit message, or needs monorepo scopes and dependency updates represented accurately.
 license: Unlicense
 ---
 
@@ -39,6 +39,7 @@ git ls-remote --symref origin HEAD
 - With only unstaged changes and no narrower scope, stage all current changes.
 - With both staged and unstaged changes and no confirmed scope, ask whether to commit only the staged changes or stage everything.
 - Never unstage or restage user-staged files unless explicitly asked.
+- When a change fixes work in an existing commit, prefer amending the relevant commit. Use a new commit for separate work.
 
 ## Write the message
 

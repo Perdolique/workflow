@@ -116,11 +116,11 @@
     },
     {
       "id": 11,
-      "prompt": "Create a PR for this feature branch. The current task changed src/status.ts and its test, and neither file is committed. docs/other-task.md is staged for unrelated work. Preserve that other work.",
+      "prompt": "Create a PR for this feature branch. The commit-creator skill is installed. The current task changed src/status.ts and its test, and neither file is committed. docs/other-task.md is staged for unrelated work. Preserve that other work.",
       "expected_output": "The agent commits only the task changes, publishes the branch, and creates a draft PR while preserving the unrelated staged work.",
       "files": [],
       "expectations": [
-        "The workflow creates an English conventional task commit using available guidance or the standalone procedure.",
+        "The workflow follows commit-creator to create an English conventional task commit.",
         "The workflow preserves unrelated staged and unstaged changes.",
         "The workflow performs the necessary commit and push without repeated authorization questions.",
         "The workflow creates the PR only after its branch changes are published."
@@ -160,11 +160,11 @@
     },
     {
       "id": 15,
-      "prompt": "Create a PR for the current feature branch. Only pr-creator is installed. src/status.ts has uncommitted task changes and docs/other-task.md is staged for unrelated work. The branch also contains a previous commit that has not been checked for this task.",
-      "expected_output": "The agent uses the standalone task-commit procedure, preserves staging, and inspects every outgoing commit before pushing.",
+      "prompt": "Create a PR for the current feature branch. Only pr-creator is installed. The repository commit instructions require an English conventional message and preserving unrelated staging. src/status.ts has uncommitted task changes and docs/other-task.md is staged for unrelated work. The branch also contains a previous commit that has not been checked for this task.",
+      "expected_output": "The agent follows the repository commit instructions, preserves staging, and inspects every outgoing commit before pushing.",
       "files": [],
       "expectations": [
-        "The workflow can prepare the task commit without installing or requiring another skill.",
+        "The workflow uses the repository commit instructions when commit-creator is unavailable.",
         "The workflow preserves unrelated staged changes.",
         "The workflow checks the full outgoing changeset before push and resolves unrelated or unclear committed scope before publication."
       ]
@@ -249,11 +249,12 @@
     },
     {
       "id": 23,
-      "prompt": "Create a PR for GitHub issue acme/app#42 from my changes on main. The project uses fix/ branch names. The changes fully meet the issue requirements, which are available through the tracker API. Only pr-creator is installed.",
-      "expected_output": "The standalone skill creates a task branch with the known ID, verifies the task, and publishes the PR with a closing reference.",
+      "prompt": "Create a PR for GitHub issue acme/app#42 from my changes on main. The project uses fix/ branch names. The changes fully meet the issue requirements, which are available through the tracker API. The commit-creator skill is installed.",
+      "expected_output": "The agent creates a task branch with the known ID, uses commit-creator for the commit, verifies the task, and publishes the PR with a closing reference.",
       "files": [],
       "expectations": [
         "The new branch follows fix/ and includes the GitHub issue ID.",
+        "The agent follows commit-creator for the task commit.",
         "The agent verifies #42 and adds the closing reference without requiring implementation-workflow.",
         "The agent commits, pushes, and creates the draft PR without repeated authorization questions."
       ]

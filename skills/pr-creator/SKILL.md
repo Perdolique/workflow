@@ -38,11 +38,7 @@ git ls-remote --symref origin HEAD
 Then:
 
 1. For GitHub creation, if the current branch is the base branch, create and switch to a task branch before committing. Follow the project's branch naming conventions and preserve the current changes and staging. For a known task, include its tracker ID and preserve the key's case, for example `feat/gh-42-session-cache` or `fix/APP-123-token-refresh`. Include the repository or project when the ID would otherwise be ambiguous. Text-only requests keep the current branch.
-2. For GitHub creation, commit uncommitted task changes:
-   - Write an English conventional message from the task diff and project conventions. Apply any available commit guidance with this explicit scope.
-   - Preserve unrelated staging with a path-limited commit for disjoint task files; add only task files that are untracked.
-   - Ask when task and unrelated edits overlap within a file and the intended commit is unclear.
-   - Let hooks finish; bypass them only with explicit authorization.
+2. For PR creation, use the installed `commit-creator` skill to commit uncommitted task changes. If it is unavailable, follow the applicable repository commit instructions.
 3. Check whether the current branch already has an open PR. Update that PR instead of creating a duplicate.
 4. Report if the branch is behind or diverged from its upstream or the fresh remote default before pushing. Continue when upstream changes do not affect the task or safe publication; ask about a dependent decision when they do. Merge, rebase, or rewrite history only with user authorization.
 5. Review the complete changeset below before pushing.
