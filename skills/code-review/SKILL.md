@@ -21,13 +21,13 @@ Coordinate a compact reviewer or focused specialists to review an existing chang
 ## Subagent model selection
 
 - Apply this policy to every subagent assignment, including planning, review children, validation, and resolution. Leave the user's main-agent model and effort unchanged.
-- Use the configured subagent defaults for ordinary assignments, including routine final validation, and omit both `model` and `reasoning_effort` at launch. The intended baseline is `gpt-6-sol` with `xhigh`. Routine cross-file tracing, asynchronous UI states, and fixture or guard checks belong on this baseline.
+- Use the configured subagent defaults for ordinary assignments, including routine final validation, and omit both `model` and `reasoning_effort` at launch. The intended baseline is `gpt-6.1-sol` with `xhigh`. Routine cross-file tracing, asynchronous UI states, and fixture or guard checks belong on this baseline.
 - Before choosing stronger settings, collect available context and check the assignment. Split independent responsibilities that compete for attention, but keep interacting contracts together when they need joint analysis.
 - Choose from these automatic escalations based on the assignment's concrete reasoning difficulty:
 
   | Model | Effort | Use when |
   | --- | --- | --- |
-  | `gpt-6-sol` | `max` | A focused assignment needs a long, well-defined chain of reasoning across files or states. |
+  | `gpt-6.1-sol` | `max` | A focused assignment needs a long, well-defined chain of reasoning across files or states. |
   | `gpt-6-astra` | `high` | Available evidence supports competing explanations across interacting contracts that are hard to distinguish, or a well-scoped Sol analysis leaves a specific reasoning problem that stronger expertise can settle with the available evidence. |
 
 - Select the needed tier directly. Record the chosen settings and concrete reason in routing metadata, outside the scope packet, and pass both `model` and `reasoning_effort` explicitly for each escalation.
