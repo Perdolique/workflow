@@ -43,6 +43,8 @@ Then:
 4. Report if the branch is behind or diverged from its upstream or the fresh remote default before pushing. Continue when upstream changes do not affect the task or safe publication; ask about a dependent decision when they do. Merge, rebase, or rewrite history only with user authorization.
 5. Review the complete changeset below before pushing.
 
+Keep one feature or independent change per final commit; a PR may contain several. Keep independent dependency updates and unrelated work separate. Corrections belong to the matching unmerged commit. Amend matching `HEAD` only with rewrite authorization; otherwise use `git commit --fixup=<target>` and keep its generated subject. Autosquash fixups only with rewrite authorization, preserving independent commits and staging. Report any fixup left pending.
+
 Use the fresh remote-tracking ref for the requested or existing PR target as the base; otherwise use the remote default branch. A local `main` or `master` can be stale even after fetching.
 
 ## Analyze the complete changeset
@@ -64,7 +66,7 @@ git log --format=fuller <base-ref>..HEAD
 1. Inspect the user's request, branch name, existing PR, and full commit messages for explicit task IDs or links. Use the project's tracker configuration and repository context to resolve each reference. A bare number is not unique across repositories or trackers.
 2. Read each task's requirements and relevant comments from its tracker, reusing task details already read in this session. Compare them with the changeset analysis above. Use the branch ID to identify the intended task and the requirements check to decide whether it is complete.
 3. When the task and full solution are clear, add the appropriate reference without asking the user to confirm the same task again. If references conflict, the task cannot be read, or completion is unclear, explain the specific problem and ask before choosing a closing reference. Continue independent PR preparation while waiting.
-4. Before publishing, check existing PR links and outgoing commit messages for closing references that conflict with the verified scope. Resolve those conflicts before publication; ask before rewriting existing commits.
+4. Before publishing, check existing PR links and outgoing commit messages for closing references that conflict with the verified scope. Resolve those conflicts before publication. Rewrite existing commits only with matching user authorization.
 
 Use `Related issues` in the description:
 

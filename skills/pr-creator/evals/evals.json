@@ -132,7 +132,7 @@
       "expected_output": "The agent edits and verifies without treating the completed PR request as continuing authorization to commit, push, or update the PR.",
       "files": [],
       "expectations": [
-        "The workflow keeps this new work local.",
+        "The workflow keeps this new work local and preserves staging.",
         "The workflow does not infer new publication authorization from the earlier completed request."
       ]
     },
@@ -269,6 +269,28 @@
         "The agent reuses the matching complete changeset analysis and already-read issue context.",
         "The agent does not repeat the full code inspection or rerun passing checks solely to choose the task reference.",
         "The agent keeps the action text-only."
+      ]
+    },
+    {
+      "id": 25,
+      "prompt": "Create a PR for codex/status in my repository. The branch has three verified and unmerged commits: the status feature and its tests, an independent dependency update, and an unrelated billing parser fix. I want all three published in this PR. There are no uncommitted changes. Only pr-creator is installed.",
+      "expected_output": "The agent publishes the requested branch as one PR while preserving the three independent commits.",
+      "files": [],
+      "expectations": [
+        "The agent preserves separate commits for the feature, dependency update, and independent parser fix.",
+        "The agent inspects and describes the complete changeset before publishing it.",
+        "The agent does not rewrite or squash the branch merely because the changes share a PR or commit-creator is unavailable."
+      ]
+    },
+    {
+      "id": 26,
+      "prompt": "Create a PR for codex/status in my repository, amending the status feature with the verified label correction before publishing. Commit a1b2c3d adds the status feature; HEAD d4e5f6a independently updates dependencies. Both are mine, already pushed to the matching non-protected branch, unmerged, and included in this PR. The remote still matches them, and no PR exists. Only pr-creator is installed. The repository requires English conventional final commit messages and preserving unrelated staging.",
+      "expected_output": "The standalone PR workflow folds the correction into the earlier feature commit, preserves the dependency commit, and publishes the authorized rewrite before creating the PR.",
+      "files": [],
+      "expectations": [
+        "The agent targets the earlier status feature commit rather than amending the dependency commit at HEAD.",
+        "The agent uses a fixup with Git's generated subject and autosquash to leave one final feature commit and a separate dependency commit.",
+        "The agent safely publishes the rewritten branch and creates a draft PR without requiring the unavailable commit-creator skill or repeated authorization."
       ]
     }
   ]
