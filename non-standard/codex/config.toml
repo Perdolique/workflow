@@ -34,6 +34,8 @@ default_subagent_reasoning_effort = "xhigh"
 [features]
 agent_message_board = true
 default_mode_request_user_input = true
+guardian_conversation_history_tools = true
+guardian_root_handoff_context = true
 instant_interrupt = true
 memories = false
 prevent_idle_sleep = true
