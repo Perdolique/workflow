@@ -38,6 +38,7 @@ guardian_conversation_history_tools = true
 guardian_root_handoff_context = true
 instant_interrupt = true
 memories = false
+model_catalog_in_context = true
 prevent_idle_sleep = true
 
 [features.multi_agent_v2]
