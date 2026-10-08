@@ -42,6 +42,10 @@ description: Create, edit, review, or evaluate reusable skills and other agent i
 
 ## Finish
 
+After the final edit to any skill or other agent instructions, apply this skill again to the complete final state before finishing. Use one fresh independent subagent with `fork_turns="none"` when available. Otherwise, run the final check yourself and report this limit.
+
+- Give the checker the confirmed task, complete changed instructions and final diff, and all applicable or related instructions. Ask it to apply this skill in a direct read-only check and return supported issues.
 - Read the full result alongside the other applicable instructions. Check B1 wording, repetition, conflicts, and hidden dependencies. Confirm that the agreed behavior, scope, and needed exceptions remain intact.
 - Recheck each constraint, exception, and clarification against its source and the procedure. Remove wording that adds no needed decision or explanation. Justify any repeated rules that remain and keep only files needed for the requested change.
+- Fix supported issues. If instructions change after the check, repeat it on the updated final state.
 - Report the checks performed and any behavior that could not be verified.

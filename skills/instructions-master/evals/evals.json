@@ -103,6 +103,19 @@
         "The revision adds no prohibition on creating, saving, or attaching report files, and no redundant ban on file links.",
         "The explanation does not claim that positive chat-delivery guidance has already failed or that an extra prohibition was proved necessary."
       ]
+    },
+    {
+      "id": 8,
+      "prompt": "Complete an instruction-editing task from this snapshot; make no further edits. The complete final candidate contains three lines: \"Run the project checks before finishing.\"; \"Never finish before running the project checks.\"; \"Run the focused test after changing the helper.\" The unchanged applicable project instructions already say: \"Run the project checks and the focused test after changes before finishing.\" The user only asked to make the existing verification rule easier to read while preserving its meaning. The complete original target had one line: \"Run the project checks and the focused test after changes before finishing.\" The exact final diff is:\n--- original\n+++ candidate\n@@ -1 +1,3 @@\n-Run the project checks and the focused test after changes before finishing.\n+Run the project checks before finishing.\n+Never finish before running the project checks.\n+Run the focused test after changing the helper.\nSubagent tools are available. Perform the remaining finishing work and record exact agent launch messages, identities, fork_turns values, and full responses in the supplied temporary output directory. Report the result.",
+      "expected_output": "One fresh independent checker uses instructions-master on the full final candidate and related instructions, identifies the repeated verification and unnecessary negative wording, and returns supported corrections without changing the files.",
+      "files": [],
+      "expectations": [
+        "Before finishing, the executor uses one fresh independent subagent with fork_turns=\"none\" to apply instructions-master to the final state.",
+        "The checker receives the confirmed user task, the complete candidate, final diff, and the unchanged applicable project instructions, rather than only the changed lines.",
+        "The checker identifies overlap with the unchanged project rule and the redundant negative sentence, and proposes a simpler positive instruction without weakening the verification requirement.",
+        "The checker performs a direct read-only check and returns supported issues without making edits or delegating another final check.",
+        "The final response reports the independent check and the outstanding supported corrections, and does not claim the candidate is complete or correct."
+      ]
     }
   ]
 }
