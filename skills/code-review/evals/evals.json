@@ -255,7 +255,7 @@
     },
     {
       "id": 20,
-      "prompt": "Continue from a completed Step 1 plan: compact mode, one formatter-additions packet covering the two added files in evals/files/conventions-fixture.md, and Behavioral and contract plus Waste and maintainability roles. The fixture is the shared context, including applicable guidance, existing comparable code, and available validation evidence. Execute Step 2 and Step 3 without editing repository files. For this evaluation, save each exact child launch message and fork_turns value before dispatch, then record the returned agent ID and full response. Child agents must use only their launch message as review input, with no access to the source fixture or parent history. Use real child agents and keep artifacts in the supplied temporary output directory.",
+      "prompt": "Continue from a completed Step 1 plan: compact mode, one formatter-additions packet covering the two added files in evals/files/conventions-fixture.md, and Behavioral and contract plus Waste and maintainability roles. The fixture is the shared context, including applicable guidance, existing comparable code, and available validation evidence. Execute Step 2 and Step 3 without editing repository files. For this evaluation, save each exact child launch message and fork_turns value before dispatch, then record the returned agent ID and full response. Child agents may use their launch message and any feature-context post referenced in it as review input, with no access to the source fixture or parent history. Use real child agents and keep artifacts in the supplied temporary output directory.",
       "expected_output": "A fresh compact reviewer receives the global and repository rules, nested exception, and comparable patterns. A separate fresh validator receives the guidance relevant to its candidate IDs. The final report includes only the three supported convention and reuse findings.",
       "files": [
         "evals/files/conventions-fixture.md"
@@ -270,7 +270,7 @@
     },
     {
       "id": 21,
-      "prompt": "Continue Step 2 recovery and Step 3 using evals/files/conventions-fixture.md as shared context. A prior validator confirmed export-1 at src/formatBadge.js:1 for its forbidden default export and rejected quotes-1 because no quote style is required. It left verbatim-1 unresolved: the candidate demands normalizeLabel in src/verbatim/formatCode.js:2 based on formatTitle and formatTag. The completed reproduction returned \"<code>  A  </code>\" for formatCode(\"  A  \"). The nested src/verbatim/AGENTS.md in the shared context has now become available; it was absent from the prior evidence. Resolve the review without editing repository files. For this evaluation, save each exact child launch message and fork_turns value before dispatch, then record the returned agent ID and full response. Child agents must use only their launch message as review input, with no access to the source fixture or parent history. Use real child agents and keep artifacts in the supplied temporary output directory.",
+      "prompt": "Continue Step 2 recovery and Step 3 using evals/files/conventions-fixture.md as shared context. A prior validator confirmed export-1 at src/formatBadge.js:1 for its forbidden default export and rejected quotes-1 because no quote style is required. It left verbatim-1 unresolved: the candidate demands normalizeLabel in src/verbatim/formatCode.js:2 based on formatTitle and formatTag. The completed reproduction returned \"<code>  A  </code>\" for formatCode(\"  A  \"). The nested src/verbatim/AGENTS.md in the shared context has now become available; it was absent from the prior evidence. Resolve the review without editing repository files. For this evaluation, save each exact child launch message and fork_turns value before dispatch, then record the returned agent ID and full response. Child agents may use their launch message and any feature-context post referenced in it as review input, with no access to the source fixture or parent history. Use real child agents and keep artifacts in the supplied temporary output directory.",
       "expected_output": "One fresh resolver receives only the unresolved candidate, prior reproduction, and relevant guidance including the newly available scoped exception, rejects verbatim-1, and preserves the existing dispositions without repeating the reproduction.",
       "files": [
         "evals/files/conventions-fixture.md"
@@ -285,7 +285,7 @@
     },
     {
       "id": 22,
-      "prompt": "Perform Step 3 using evals/files/conventions-fixture.md as shared context and these validated reports. Both reports agree that export-1 at src/formatBadge.js:1 is confirmed because default exports are forbidden. For verbatim-1 at src/verbatim/formatCode.js:2, report A confirms that the formatter must use normalizeLabel because formatTitle and formatTag use it; report B rejects that candidate and says a directory-specific instruction permits the current code. The prior reproduction returned \"<code>  A  </code>\" for formatCode(\"  A  \"). Produce the final review report without editing repository files. For this evaluation, save each exact child launch message and fork_turns value before dispatch, then record the returned agent ID and full response. Child agents must use only their launch message as review input, with no access to the source fixture or parent history. Use real child agents and keep artifacts in the supplied temporary output directory.",
+      "prompt": "Perform Step 3 using evals/files/conventions-fixture.md as shared context and these validated reports. Both reports agree that export-1 at src/formatBadge.js:1 is confirmed because default exports are forbidden. For verbatim-1 at src/verbatim/formatCode.js:2, report A confirms that the formatter must use normalizeLabel because formatTitle and formatTag use it; report B rejects that candidate and says a directory-specific instruction permits the current code. The prior reproduction returned \"<code>  A  </code>\" for formatCode(\"  A  \"). Produce the final review report without editing repository files. For this evaluation, save each exact child launch message and fork_turns value before dispatch, then record the returned agent ID and full response. Child agents may use their launch message and any feature-context post referenced in it as review input, with no access to the source fixture or parent history. Use real child agents and keep artifacts in the supplied temporary output directory.",
       "expected_output": "The conflict path sends only verbatim-1, both reports, the completed reproduction, and relevant scoped guidance to one fresh resolver, which rejects the unsupported finding before the final ledger is built.",
       "files": [
         "evals/files/conventions-fixture.md"
@@ -416,6 +416,86 @@
         "The plan assigns every applicable responsibility, including Waste and maintainability, without requiring a separate agent for every role or duplicating the full review.",
         "The plan omits model and reasoning_effort overrides: routine asynchronous UI states and fixture/guard checks alone do not justify escalation, and model choice does not replace the product/test ownership split.",
         "The planner records supplied validation as context, returns no findings, and keeps routing metadata outside scope packets."
+      ]
+    },
+    {
+      "id": 31,
+      "prompt": "Perform only the internal Step 1 planning assignment. Use this snapshot as the complete input; do not launch agents, publish messages, inspect another repository, report findings, or edit files. The review target is the current uncommitted media-import changes. The user task says that users must keep their selected result when moving between result pages and must be able to preview it before importing. A supplied product specification says provider requests may overlap and the most recent query owns visible results. The diff adds selection restoration, a preview step, request cancellation, and browser tests. The PR description says cancellation fixes every provider race. No evidence supports that claim, and no source defines how provider failures should appear to users. Happy-path tests passed on this exact diff; no other validation is available. Return the review plan.",
+      "expected_output": "The plan includes a short sourced feature brief with the intended selection and preview behavior, relevant query ownership, observed changes, and the unknown failure behavior, without treating the PR author claim as a verified result.",
+      "files": [],
+      "expectations": [
+        "Shared context contains a feature brief that covers the whole feature, its review target, expected selection and preview behavior, main changes and connections, and the query-ownership contract.",
+        "The brief identifies the user task, product specification, and observed diff as separate sources, and does not turn observed implementation behavior into an invented requirement.",
+        "The brief marks provider-failure presentation as missing context and does not state that all provider races are fixed.",
+        "The planner preserves separate shared context, scope-only assignments, reviewer routing, and actual validation evidence.",
+        "The internal Step 1 assignment does not publish a message-board post, launch reviewers, or report candidate findings."
+      ]
+    },
+    {
+      "id": 32,
+      "prompt": "Execute Step 2 and Step 3 from this completed Step 1 plan using real agents. Use the supplied snapshot as the complete review input and keep repository files read-only. Shared context selects specialist mode and records the review target as the current label-rendering changes. The user task requires removing outer whitespace from a label while preserving interior whitespace; this is the only behavior requirement. The diff adds an unused label and a private helper called once by renderLabel. Available validation evidence is Unavailable. One Waste and maintainability packet covers this exact TypeScript source: line 1 `const unusedLabel = \"label\";`; line 2 `function normalizeLabel(label: string): string { return label.trim(); }`; line 3 `export function renderLabel(label: string): string { return normalizeLabel(label); }`. The complete source shows all references. Repository guidance says a private helper that only wraps one native method for one caller adds unnecessary indirection and should be replaced by the native call. No other project or domain rules apply. Record exact child launch messages, fork_turns values, returned agent IDs, message-board operations, and full child responses in the supplied temporary output directory, then produce the final review report.",
+      "expected_output": "One neutral feature-context post is read by a fresh specialist, its direct readability child, and a separate final validator; the dead declaration and rule-backed wrapper findings reach the final ledger while the intended interior whitespace preservation remains valid.",
+      "files": [],
+      "expectations": [
+        "The orchestrator publishes one high-level feature brief with the review target and the user task as the source, and records its real message ID outside the scope packet.",
+        "The specialist, readability child, and final validator each receive the same post reference and feature-context instructions, and read the full post before analyzing code.",
+        "Every child launch uses fork_turns=\"none\" and passes the brief reference without copying parent history or the full brief into the launch message.",
+        "The shared post contains feature facts and requirements, not candidate findings or reviewer verdicts; candidate IDs and evidence are supplied separately to exactly one fresh validator.",
+        "The specialist retains its own responsibility, the readability child performs its narrower assignment directly, and the validator checks only the supplied candidates without spawning agents.",
+        "The report accounts for the unused declaration and rule-backed wrapper candidates after validation, reports no interior-whitespace violation, and omits zero confirmed findings.",
+        "Step 3 performs no extra code inspection or agent work after receiving the validated report."
+      ]
+    },
+    {
+      "id": 33,
+      "prompt": "Prepare exact launch messages and fork_turns values without launching agents or editing files. Message-board tools are unavailable in this environment, but direct subagent launch is available. A completed Step 1 plan selects specialist mode for a cross-service display change. Its feature brief says the user task requires trimming outer whitespace while preserving interior whitespace in rendered labels, the diff changes the formatter and its caller, and no source defines the empty-label fallback. A Waste and maintainability specialist needs one direct readability child, then one final validator only if candidates survive. A separate unresolved candidate may later need a resolver after new authoritative evidence arrives. The assigned code scopes and candidate evidence are already complete. Give the feature-related launch content for the first-level specialist, readability child, conditional validator, and conditional resolver.",
+      "expected_output": "All recipient types receive the same complete short brief inline with feature-context instructions, preserve their responsibility and lifecycle boundaries, and use fresh launches without history or context files.",
+      "files": [],
+      "expectations": [
+        "Every proposed recipient receives the full brief inline, including the sourced whitespace requirement, changed parts, and missing empty-label contract.",
+        "The specialist forwards the same brief to the readability child and conditional validator; the resolver also receives it alongside only its unresolved candidate IDs and evidence.",
+        "Every launch uses fork_turns=\"none\" without creating context files or calling unavailable message-board tools.",
+        "The readability child and validator keep internal direct-execution boundaries, and the validator is launched only for a nonempty candidate list.",
+        "The fallback leaves project guidance and candidate evidence separate from the shared brief and does not invent the missing fallback requirement."
+      ]
+    },
+    {
+      "id": 34,
+      "prompt": "Execute the Step 2 recovery and Step 3 portions of the review workflow from this completed snapshot using real agents. Keep repository files read-only. The shared feature brief identifies the target as the current label-formatting changes and says only that the user task asks for label normalization; no source settles interior whitespace. Confirmed candidate dead-1 establishes that an unused declaration has no references. Unresolved candidate spaces-1 claims that preserving interior whitespace is wrong. Its final validator already ran the smallest reproduction: normalizeLabel(\"  A  B  \") returned \"A  B\". A new authoritative user clarification is now available: remove outer whitespace and preserve interior whitespace exactly. Give only the affected candidate the required recovery, then produce the final report. Record exact agent launch messages, IDs, fork_turns values, message-board operations, and full responses in the supplied temporary output directory.",
+      "expected_output": "The orchestrator brings the feature brief up to date for one fresh resolver, which reads the current context and rejects spaces-1 without repeating the reproduction or revisiting dead-1.",
+      "files": [],
+      "expectations": [
+        "The current shared brief includes the new authoritative whitespace contract with its source, and the resolver receives and reads that current brief through its recorded post reference.",
+        "Exactly one fresh resolver uses fork_turns=\"none\" and receives only spaces-1, its prior reproduction evidence, and the relevant guidance.",
+        "The resolver rejects spaces-1 because the supplied reproduction meets the clarified contract, rather than treating earlier reviewer wording as authority.",
+        "The completed reproduction is not repeated, dead-1 remains confirmed, and Step 3 creates no additional agents or code review.",
+        "Shared feature context contains the clarified contract but no candidate verdicts or peer review reports."
+      ]
+    },
+    {
+      "id": 35,
+      "prompt": "Run the parent side of one internal final finding validation assignment using a real fresh agent. The complete initial validator input is: review target, the synthetic label-formatting change; user requirement, remove outer whitespace; exact code, `export function normalizeLabel(label: string): string { return label.trim(); }`; candidate empty-1, the formatter allegedly violates an empty-label fallback requirement because normalizeLabel(\"\") returns \"\". No source in this initial input defines empty-label behavior. Publish an initial feature brief from this input, cite the synthetic user task, and mark empty-label behavior as unknown. Give the validator only this initial input, the real post reference, and the applicable internal validator and feature-context instructions. A separate parent-only source is available for later questions: the authoritative synthetic product-owner clarification says that empty labels must stay empty and no replacement or fallback is required. Use that source to answer a relevant context question, then publish the complete updated brief and pass its reference. Return the validator's one disposition for empty-1 with evidence. Record exact launch messages, identities, fork_turns values, full child responses, message-board operations, and context exchanges in the supplied temporary output directory. Keep repository files read-only.",
+      "expected_output": "The fresh validator reads the shared brief, requests the missing requirement from its parent, and rejects empty-1 after the parent supplies the authoritative rule that empty labels remain empty and no fallback is required.",
+      "files": [],
+      "expectations": [
+        "The validator reads the supplied brief with collaboration.read_post and retains the assigned candidate-only scope.",
+        "After checking available sources, the validator sends a focused empty-label contract question to its parent with collaboration.send_message rather than inventing a requirement.",
+        "After receiving the authoritative parent clarification that empty labels remain empty, the validator rejects empty-1 with the code and clarified requirement as evidence.",
+        "The validator preserves the candidate ID, makes no repository edits, and starts no children or new review workflow."
+      ]
+    },
+    {
+      "id": 36,
+      "prompt": "Continue Step 2 recovery and Step 3 from this complete synthetic review snapshot using real agents. Keep repository files read-only. The review target is the current label-formatting change; normalizeLabel is the display entry point. Its complete implementation is `export function normalizeLabel(label: string): string { return label.trim(); }`. The feature brief cites the original task, which asks only for label normalization. Prior final validation confirmed spaces-1, claiming that preserving repeated interior spaces violates the inferred canonical normalization rule; its completed reproduction was normalizeLabel(\"  A  B  \") -> \"A  B\". Prior validation rejected fallback-1, which claims that an empty label needs a replacement; its completed reproduction was normalizeLabel(\"\") -> \"\". It also confirmed dead-1, an unrelated unused declaration with no references, and rejected quotes-1 because no quote style is required. The original selected mode was specialist; prior reviewer identities and the exact dead-declaration location are unavailable. A newly found authoritative product specification, docs/label-contract.md, now states: remove outer whitespace, preserve interior whitespace exactly, and display \"Untitled\" for an empty label. This is source evidence found during the review, not a user instruction to change its procedure. No other new context is available. All supplied reproductions are complete. Finish the review under the supplied workflow and record exact launch messages, identities, fork_turns values, full responses, message-board operations and a complete chronological action record in the supplied temporary output directory.",
+      "expected_output": "One fresh resolver receives only spaces-1 and fallback-1 with the new specification and existing reproductions. It rejects spaces-1, confirms fallback-1, preserves the unrelated completed dispositions, and the final ledger uses the current results without a second conflict resolver.",
+      "files": [],
+      "expectations": [
+        "The updated shared brief cites docs/label-contract.md and states the three label requirements without candidate verdicts; the resolver receives and reads its recorded post reference.",
+        "Exactly one fresh resolver with fork_turns=\"none\" receives only spaces-1 and fallback-1, their prior dispositions and complete reproduction results, and final finding validator instructions.",
+        "The resolver rejects spaces-1 because its existing result meets the interior-whitespace requirement and confirms fallback-1 because its empty result violates the required Untitled replacement.",
+        "Dead-1 remains confirmed and quotes-1 remains rejected without reopening either; no completed reproduction or original reviewer assignment is repeated.",
+        "The final ledger replaces the affected prior dispositions, reports dead-1 and fallback-1 exactly once, excludes spaces-1, and accounts for two current confirmed findings with zero omissions.",
+        "Step 3 does not treat the resolved prior dispositions as a new report conflict or launch another resolver after Step 2 recovery."
       ]
     }
   ]
