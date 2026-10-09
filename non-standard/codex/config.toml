@@ -6,7 +6,6 @@ model_reasoning_effort = "medium"
 model_context_window = 320000
 model_auto_compact_token_limit = 270000
 model_verbosity = "medium"
-personality = "none"
 sandbox_mode = "workspace-write"
 approvals_reviewer = "auto_review"
 plan_mode_reasoning_effort = "max"
@@ -33,6 +32,7 @@ default_subagent_reasoning_effort = "xhigh"
 
 [features]
 agent_message_board = true
+analytics_plan_history = true
 code_mode = true
 code_mode_tool_search = true
 default_mode_request_user_input = true
