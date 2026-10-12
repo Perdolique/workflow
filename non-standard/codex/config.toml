@@ -3,8 +3,8 @@
 approval_policy = "on-request"
 model = "gpt-6-astra"
 model_reasoning_effort = "medium"
-model_context_window = 320000
-model_auto_compact_token_limit = 270000
+model_context_window = 600000
+model_auto_compact_token_limit = 500000
 model_verbosity = "medium"
 sandbox_mode = "workspace-write"
 approvals_reviewer = "auto_review"

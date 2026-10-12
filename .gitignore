@@ -4,3 +4,6 @@
 
 # FIXME: WEIRD CODEX EMPTY FILE
 /.codex
+
+# Checkout-local research corpus association; no session data.
+/.research-local/

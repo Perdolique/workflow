@@ -1,0 +1,543 @@
+{
+  "schema_version": 1,
+  "method_version": "substantive-work-v1",
+  "archive_updated_on": "2026-10-12",
+  "privacy": "Only aggregate results and general findings. No per-session identities, private source references, or machine fingerprints.",
+  "merge_policy": "Study entries are separate snapshots or slices. Do not add overlapping periods, unique-session counts, or summary quantiles. Cross-corpus overlap must be checked locally before any combined result.",
+  "corpora": [
+    {
+      "id": "corpus-a",
+      "description": "First local collection used for the archived studies; an anonymous dataset label.",
+      "overlap_with_other_corpora": "not_applicable_yet",
+      "completed_coverage": [
+        {
+          "study": "2026-09-30",
+          "interval": {
+            "start_utc": "2026-08-30T07:11:45Z",
+            "end_utc": "2026-09-30T07:11:45Z",
+            "start_inclusive": true,
+            "end_inclusive": true
+          },
+          "selection": "substantive-work-v1"
+        },
+        {
+          "study": "2026-10-12",
+          "interval": {
+            "start_utc": "2026-09-12T07:11:49Z",
+            "end_utc": "2026-10-12T07:11:49Z",
+            "start_inclusive": true,
+            "end_inclusive": true
+          },
+          "selection": "substantive-work-v1"
+        }
+      ],
+      "latest_completed_cutoff_utc": "2026-10-12T07:11:49Z",
+      "next_increment_start_inclusive": false,
+      "coverage_note": "The two completed ranges overlap and cover 30 August through 12 October. Earlier studies below used narrower or less fully preserved selection rules; they do not certify complete earlier coverage. Historical imports may require a separate supplemental slice."
+    }
+  ],
+  "studies": [
+    {
+      "id": "2026-08-19",
+      "corpus": "corpus-a",
+      "kind": "legacy_snapshot",
+      "selection": "Legacy root-only sample; excludes child agents and research itself. Not equivalent to later content selection.",
+      "interval": null,
+      "periods": [
+        {
+          "days": 7,
+          "roots": 101,
+          "roots_with_compaction": 29,
+          "compactions": 79
+        },
+        {
+          "days": 14,
+          "roots": 151,
+          "roots_with_compaction": 44,
+          "compactions": 124
+        },
+        {
+          "days": 30,
+          "roots": 295,
+          "roots_with_compaction": 81,
+          "compactions": 200
+        }
+      ],
+      "limitations": [
+        "Exact interval endpoints were not preserved in the retained public summary.",
+        "Larger-window replay estimates were not measured causal effects and are not used as forecasts."
+      ]
+    },
+    {
+      "id": "2026-08-23",
+      "corpus": "corpus-a",
+      "kind": "legacy_snapshot",
+      "selection": "Legacy root-only sample, not equivalent to later substantive-work selection.",
+      "interval": {
+        "start_utc": "2026-08-15T21:15:00Z",
+        "end_utc": "2026-08-22T21:15:00Z",
+        "start_inclusive": null,
+        "end_inclusive": null
+      },
+      "roots": 78,
+      "roots_with_usage": 77,
+      "roots_with_compaction": 30,
+      "compactions": 67,
+      "post_change_subset": {
+        "roots": 46,
+        "roots_with_compaction": 19,
+        "compactions": 33
+      },
+      "limitations": [
+        "Observation endpoints come from the reported local-time interval; endpoint inclusivity was not retained.",
+        "Post-change exposure was about three and a half days.",
+        "The later study did not validate the claimed one-third causal reduction in compactions."
+      ]
+    },
+    {
+      "id": "2026-09-03",
+      "corpus": "corpus-a",
+      "kind": "legacy_model_comparison",
+      "selection": "Root usage on gpt-5.6-sol; excludes supporting agents and other model usage.",
+      "interval": {
+        "start_utc": "2026-08-12T08:25:00Z",
+        "end_utc": "2026-09-03T11:27:00Z",
+        "start_inclusive": null,
+        "end_inclusive": null
+      },
+      "periods": {
+        "before": {
+          "interval": {
+            "start_utc": "2026-08-12T08:25:00Z",
+            "end_utc": "2026-08-19T08:25:00Z",
+            "start_inclusive": null,
+            "end_inclusive": null
+          },
+          "roots": 87,
+          "ordinary_usage_observations": 10375,
+          "roots_with_compaction": 30,
+          "compactions": 80,
+          "compactions_per_100_observations": 0.771,
+          "per_root_peak_input_p50": 174683.0,
+          "per_root_peak_input_p95": 230110.7,
+          "maximum_input": 243764,
+          "usable_windows": {
+            "258400": 10375
+          }
+        },
+        "after": {
+          "interval": {
+            "start_utc": "2026-08-19T08:25:00Z",
+            "end_utc": "2026-09-03T11:27:00Z",
+            "start_inclusive": null,
+            "end_inclusive": null
+          },
+          "roots": 145,
+          "ordinary_usage_observations": 21287,
+          "roots_with_compaction": 71,
+          "compactions": 179,
+          "compactions_per_100_observations": 0.841,
+          "per_root_peak_input_p50": 216517.0,
+          "per_root_peak_input_p95": 266715.4,
+          "maximum_input": 275318,
+          "usable_windows": {
+            "304000": 21287
+          }
+        },
+        "recent": {
+          "interval": {
+            "start_utc": "2026-08-27T11:27:00Z",
+            "end_utc": "2026-09-03T11:27:00Z",
+            "start_inclusive": null,
+            "end_inclusive": null
+          },
+          "roots": 62,
+          "ordinary_usage_observations": 7905,
+          "roots_with_compaction": 28,
+          "compactions": 65,
+          "compactions_per_100_observations": 0.822,
+          "per_root_peak_input_p50": 211205.5,
+          "per_root_peak_input_p95": 265677.85,
+          "maximum_input": 275318,
+          "usable_windows": {
+            "304000": 7905
+          }
+        }
+      },
+      "recent_timing": {
+        "measured": 19,
+        "compactions": 65,
+        "median_seconds": 100.62,
+        "p90_seconds": 141.39
+      },
+      "responses_above_previous_usable_window": 139,
+      "roots_above_previous_usable_window": 19,
+      "responses_above_272k": 2,
+      "limitations": [
+        "Cohorts are observational; the recent week is a subset of after.",
+        "Peak percentiles describe per-root observed maxima, not whole-task unsummarized requirements.",
+        "Timing was measured for only 19 of 65 recent events."
+      ]
+    },
+    {
+      "id": "2026-09-10",
+      "corpus": "corpus-a",
+      "kind": "diagnostic",
+      "selection": "General finding from a trigger-accounting investigation, not a workload cohort.",
+      "interval": null,
+      "finding": "Internal active-context usage can cross the compaction threshold while the last ordinary response still reports a lower value. This does not imply that the configured threshold was ignored. Individual event values are not retained."
+    },
+    {
+      "id": "2026-09-30",
+      "corpus": "corpus-a",
+      "kind": "rolling_snapshot",
+      "selection": "substantive-work-v1",
+      "interval": {
+        "start_utc": "2026-08-30T07:11:45Z",
+        "end_utc": "2026-09-30T07:11:45Z",
+        "start_inclusive": true,
+        "end_inclusive": true
+      },
+      "root": {
+        "sessions": 282,
+        "sessions_with_usage": 282,
+        "sessions_with_compaction": 167,
+        "sessions_with_repeated_compaction": 93,
+        "ordinary_usage_observations": 55826,
+        "usage_observation_types": {
+          "usage_snapshot": 4558,
+          "identified_response": 51268
+        },
+        "compactions": 422,
+        "input_tokens": {
+          "p50": 132131.5,
+          "p95": 233947.25,
+          "max": 275318
+        },
+        "compaction_seconds": {
+          "n": 422,
+          "p50": 68.96,
+          "p95": 179.11,
+          "max": 1188.091
+        },
+        "compaction_interval_sum_seconds": 37400.529,
+        "usable_windows": {
+          "304000": 53074,
+          "258400": 2752
+        },
+        "recorded_engine_turns": null,
+        "turns_with_repeated_compaction": null,
+        "maximum_compactions_per_turn": null,
+        "weighted_cached_input_fraction": 0.9712797532501383
+      },
+      "supporting": {
+        "sessions": 1932,
+        "sessions_with_usage": 1929,
+        "sessions_with_compaction": 10,
+        "sessions_with_repeated_compaction": 2,
+        "ordinary_usage_observations": 31879,
+        "usage_observation_types": {
+          "usage_snapshot": 3330,
+          "identified_response": 28549
+        },
+        "compactions": 12,
+        "input_tokens": {
+          "p50": 77442.0,
+          "p95": 162949.9,
+          "max": 266763
+        },
+        "compaction_seconds": {
+          "n": 12,
+          "p50": 115.68,
+          "p95": 160.54,
+          "max": 163.587
+        },
+        "compaction_interval_sum_seconds": 1409.657,
+        "usable_windows": {
+          "304000": 29642,
+          "258400": 2237
+        },
+        "recorded_engine_turns": null,
+        "turns_with_repeated_compaction": null,
+        "maximum_compactions_per_turn": null,
+        "weighted_cached_input_fraction": 0.9504664542774376
+      },
+      "supporting_composition": {
+        "agents": 1931,
+        "managed_continuations": 1
+      },
+      "qualitative_coverage": {
+        "roots_with_bounded_excerpts": 282,
+        "visible_excerpts": 560,
+        "deep_roots": 15
+      },
+      "limitations": [
+        "Overlaps the October rolling snapshot.",
+        "Legacy usage snapshots are included separately from identified responses.",
+        "Input percentiles are constrained by compaction.",
+        "Summed timing intervals may overlap across chats."
+      ]
+    },
+    {
+      "id": "2026-10-12",
+      "corpus": "corpus-a",
+      "kind": "rolling_snapshot",
+      "selection": "substantive-work-v1",
+      "interval": {
+        "start_utc": "2026-09-12T07:11:49Z",
+        "end_utc": "2026-10-12T07:11:49Z",
+        "start_inclusive": true,
+        "end_inclusive": true
+      },
+      "root": {
+        "sessions": 223,
+        "sessions_with_usage": 223,
+        "sessions_with_compaction": 146,
+        "sessions_with_repeated_compaction": 85,
+        "ordinary_usage_observations": 48758,
+        "usage_observation_types": {
+          "identified_response": 48758
+        },
+        "compactions": 407,
+        "input_tokens": {
+          "p50": 131351.5,
+          "p95": 234237.3,
+          "max": 270273
+        },
+        "compaction_seconds": {
+          "n": 406,
+          "p50": 96.392,
+          "p95": 233.868,
+          "max": 4435.025
+        },
+        "compaction_interval_sum_seconds": 49823.7,
+        "usable_windows": {
+          "304000": 46034,
+          "258400": 2724
+        },
+        "recorded_engine_turns": 1713,
+        "turns_with_repeated_compaction": 15,
+        "maximum_compactions_per_turn": 4,
+        "weighted_cached_input_fraction": 0.9703376810880356
+      },
+      "supporting": {
+        "sessions": 1402,
+        "sessions_with_usage": 1402,
+        "sessions_with_compaction": 10,
+        "sessions_with_repeated_compaction": 1,
+        "ordinary_usage_observations": 26429,
+        "usage_observation_types": {
+          "identified_response": 26429
+        },
+        "compactions": 11,
+        "input_tokens": {
+          "p50": 91128.0,
+          "p95": 185709.2,
+          "max": 265485
+        },
+        "compaction_seconds": {
+          "n": 11,
+          "p50": 101.997,
+          "p95": 208.497,
+          "max": 266.504
+        },
+        "compaction_interval_sum_seconds": 1216.839,
+        "usable_windows": {
+          "304000": 24192,
+          "258400": 2237
+        },
+        "recorded_engine_turns": 1476,
+        "turns_with_repeated_compaction": 0,
+        "maximum_compactions_per_turn": 1,
+        "weighted_cached_input_fraction": 0.9537857011590717
+      },
+      "incremental_slice": {
+        "interval": {
+          "start_utc": "2026-09-30T07:11:45Z",
+          "end_utc": "2026-10-12T07:11:49Z",
+          "start_inclusive": true,
+          "end_inclusive": true
+        },
+        "root": {
+          "sessions": 79,
+          "sessions_with_usage": 79,
+          "sessions_with_compaction": 55,
+          "sessions_with_repeated_compaction": 36,
+          "ordinary_usage_observations": 16210,
+          "usage_observation_types": {
+            "identified_response": 16210
+          },
+          "compactions": 164,
+          "input_tokens": {
+            "p50": 130441.5,
+            "p95": 236205.8,
+            "max": 269939
+          },
+          "compaction_seconds": {
+            "n": 164,
+            "p50": 147.582,
+            "p95": 265.288,
+            "max": 4435.025
+          },
+          "compaction_interval_sum_seconds": 29973.507999999998,
+          "usable_windows": {
+            "304000": 16210
+          },
+          "recorded_engine_turns": 621,
+          "turns_with_repeated_compaction": 9,
+          "maximum_compactions_per_turn": 3,
+          "weighted_cached_input_fraction": 0.9645714595996439
+        },
+        "supporting": {
+          "sessions": 494,
+          "sessions_with_usage": 494,
+          "sessions_with_compaction": 8,
+          "sessions_with_repeated_compaction": 1,
+          "ordinary_usage_observations": 11459,
+          "usage_observation_types": {
+            "identified_response": 11459
+          },
+          "compactions": 9,
+          "input_tokens": {
+            "p50": 111038.0,
+            "p95": 199236.8,
+            "max": 265485
+          },
+          "compaction_seconds": {
+            "n": 9,
+            "p50": 113.162,
+            "p95": 220.098,
+            "max": 266.504
+          },
+          "compaction_interval_sum_seconds": 1107.836,
+          "usable_windows": {
+            "304000": 11459
+          },
+          "recorded_engine_turns": 539,
+          "turns_with_repeated_compaction": 0,
+          "maximum_compactions_per_turn": 1,
+          "weighted_cached_input_fraction": 0.9586338757625609
+        },
+        "recent_gpt_6_1_sol": {
+          "ordinary_root_responses": 13171,
+          "root_compactions": 142
+        },
+        "note": "A subset of this rolling snapshot, not an additional cohort to add. The original extraction used an inclusive lower bound; future increments use an exclusive lower bound."
+      },
+      "qualitative_coverage": {
+        "roots_with_bounded_excerpts": 223,
+        "visible_excerpts": 446,
+        "deep_cases": 14,
+        "deep_roots": 13,
+        "deep_roots_with_incremental_work": 11
+      },
+      "validation": {
+        "source_lines_checked": 76958,
+        "errors": 0,
+        "independent_root_metrics_agreed": true,
+        "boundary_or_inherited_counter_replays_removed": 2,
+        "empty_review_starts_removed": 3
+      },
+      "post_announcement_work_observations": 0,
+      "limitations": [
+        "All incremental ordinary roots still reported 304000 usable context.",
+        "One compaction started before the interval; its event is counted but its full duration is omitted.",
+        "No measured outcome for native 500K or manual 600K settings.",
+        "No proven compaction-induced memory-loss case in the bounded qualitative inspection; not evidence that none can exist."
+      ]
+    }
+  ],
+  "decisions": [
+    {
+      "date": "2026-08-19",
+      "window": 320000,
+      "compact": 270000,
+      "status": "reported_applied_and_validated",
+      "reason": "More retained history with space above the compaction trigger."
+    },
+    {
+      "date": "2026-08-23",
+      "window": 320000,
+      "compact": 270000,
+      "status": "retain_observed_baseline",
+      "candidate": {
+        "window": 400000,
+        "compact": 340000,
+        "applied": false
+      }
+    },
+    {
+      "date": "2026-09-03",
+      "window": 320000,
+      "compact": 270000,
+      "status": "retain_baseline_and_allow_trial",
+      "candidate": {
+        "window": 400000,
+        "compact": 340000,
+        "applied": false
+      },
+      "clarification": "A later reply allowed a global trial; short tasks do not fill the larger ceiling automatically."
+    },
+    {
+      "date": "2026-09-30",
+      "window": 320000,
+      "compact": 270000,
+      "status": "baseline_with_proposed_trial",
+      "candidate": {
+        "window": 400000,
+        "compact": 300000,
+        "applied": false
+      }
+    },
+    {
+      "date": "2026-10-12",
+      "sequence": 1,
+      "model": "gpt-6.1-sol",
+      "window": 500000,
+      "compact": 450000,
+      "status": "native_recommendation_not_applied",
+      "values": "Code-derived defaults, not observed new-window work."
+    },
+    {
+      "date": "2026-10-12",
+      "sequence": 2,
+      "model": "gpt-6.1-sol",
+      "window": 600000,
+      "compact": 500000,
+      "status": "manual_recommendation_not_applied",
+      "values": "Modest manual trial; no measured advantage over native 500K."
+    },
+    {
+      "date": "2026-10-12",
+      "sequence": 3,
+      "window": 600000,
+      "compact": 500000,
+      "status": "applied_and_config_validated",
+      "scope": "repository_config_and_active_user_config",
+      "user_requested": true,
+      "normal_config_load": "ok",
+      "strict_config_load": "ok",
+      "work_outcomes_measured": false,
+      "note": "Existing model and effort choices were preserved. The temporary repository validation home had no authentication; configuration loading passed."
+    }
+  ],
+  "last_observed_config": {
+    "observed_at_utc": "2026-10-12T08:29:49Z",
+    "model": "gpt-6.1-sol",
+    "effort": "high",
+    "context_window": 600000,
+    "auto_compact_threshold": 500000,
+    "usable_window_expected": 570000,
+    "cli_version": "0.162.1"
+  },
+  "product_snapshot": {
+    "checked_on": "2026-10-12",
+    "model": "gpt-6.1-sol",
+    "catalog_default": 500000,
+    "catalog_maximum": 872000,
+    "usable_percent": 95,
+    "default_trigger_percent_of_resolved_capacity": 90,
+    "subscription_long_context_surcharge": "Announcement says not charged for this model; additional ordinary usage is not free.",
+    "other_models_observed_default": 272000
+  }
+}

@@ -157,6 +157,10 @@ npm install -g @vue/language-server
 
 Make sure the language servers are available in your PATH before using the configuration.
 
+## Research
+
+[Codex context-window research](research/context-window/README.md) preserves aggregate results, the history of recommendations, and a procedure for incremental updates from another computer.
+
 ## License
 
 Unlicense (unless otherwise specified for individual components)

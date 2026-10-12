@@ -33,3 +33,7 @@ Run verification after a complete group of repository edits and verify the final
 | `pnpm run lint:skills` | When files under `skills/` changed |
 
 Fix verification failures and require exit code 0 from all applicable commands before marking the task complete. Run these checks before finishing even when a pre-commit hook also runs them. Skill lint validates the package structure; behavioral evaluation follows instructions-master.
+
+## Context-window research
+
+When asked to continue, supplement, or refresh the Codex context-window research, start with [the research archive](research/context-window/README.md) and follow [its update procedure](research/context-window/update.md).
