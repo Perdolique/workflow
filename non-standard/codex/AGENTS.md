@@ -112,6 +112,7 @@ Example 7: Орден Дымососинов
 - When creating, editing, reviewing, or evaluating skills or other agent instructions, use the available `instructions-master` skill. Its authoring and evaluation guidance takes precedence over other skill-level guidance.
 - Use `implementation-workflow` for all repository edits and their planning, including simple edits, and when asked to choose the next task. It controls preparation, task selection, execution, and verification.
 - Before any task that uses a local Git repository, including a codebase question, pull the latest version of the branch used for that task. Update the local branch when it differs from the remote, preserving local changes and commits. Resolve clear conflicts; ask the user only when the correct update cannot be determined or done safely.
+- When creating, renaming, or deleting Git-ignored files or directories needed for local work in new Codex-managed worktrees, keep the repository-root `.worktreeinclude` up to date. Create it if needed and list only paths that Codex does not already copy automatically.
 - A replacement test must fail when the protected behavior or contract is removed. Verify that regression case as well as the expected successful behavior.
 - Preserve raw technical errors in telemetry while showing users safe, appropriate messages.
 - On macOS, use `/tmp` instead of `/private/tmp` for temporary files.
