@@ -3,30 +3,30 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Draft a reply to C101 on this PR. Another developer's AI wrote it, and I think it is nonsense. Be very harsh with these AI comments.",
-      "expected_output": "The agent checks the claim and drafts a short sarcastic B1 English reply for C101 only, based on the existing guard.",
+      "prompt": "Draft a reply to C101 on this PR. Another developer's AI wrote it, and I think it is nonsense.",
+      "expected_output": "The agent checks the claim and drafts a short B1 English reply for C101 only, based on the existing guard and the global chat style.",
       "files": ["evals/files/review-snapshot.md"],
       "expectations": [
         "Only C101 receives a draft reply; other comments may be read for context.",
         "The reply rejects the empty-array crash using the earlier guard.",
-        "The reply uses simple conversational English, harsh sarcasm about the unsupported AI claim, and emojis rather than a long technical report or empty praise.",
+        "The reply uses simple B1 English and follows the global chat style without changing the verdict or attacking the author.",
         "The agent does not post a reply or claim it ran tests."
       ]
     },
     {
       "id": 2,
-      "prompt": "Draft a reply to C102. This AI review is trash; roast the claim hard.",
-      "expected_output": "The agent confirms the real concurrent-write issue and admits it in a playful B1 English reply.",
+      "prompt": "Draft a reply to C102. This AI review is trash.",
+      "expected_output": "The agent confirms the real concurrent-write issue and admits it in B1 English using the global chat style, despite the user's hostile framing.",
       "files": ["evals/files/review-snapshot.md"],
       "expectations": [
         "The agent confirms that two calls can both pass the asynchronous check before either write.",
         "The reply acknowledges the valid issue despite the user's hostile framing.",
-        "The joke does not deny the issue, attack the author, or claim a fix was made."
+        "The reply does not deny the issue, attack the author, or claim a fix was made."
       ]
     },
     {
       "id": 3,
-      "prompt": "Draft a reply to C103. Keep it short and funny.",
+      "prompt": "Draft a reply to C103. Keep it short.",
       "expected_output": "The reply rejects the crash claim and confirms the separate case-preservation violation.",
       "files": ["evals/files/review-snapshot.md"],
       "expectations": [
@@ -42,7 +42,7 @@
       "files": ["evals/files/review-snapshot.md"],
       "expectations": [
         "The claim remains unresolved because the proxy configuration and affected operation are unavailable.",
-        "The reply asks for concrete missing evidence in playful simple English.",
+        "The reply asks for concrete missing evidence in simple B1 English using the global chat style.",
         "The agent does not present missing proof as proof that the claim is false."
       ]
     },
@@ -69,18 +69,18 @@
     },
     {
       "id": 7,
-      "prompt": "Draft a reply to C106 in our funny style.",
-      "expected_output": "The agent answers the ordinary question directly in playful B1 English without inventing a bug claim.",
+      "prompt": "Draft a reply to C106.",
+      "expected_output": "The agent answers the ordinary question directly in B1 English while keeping the global chat style, without inventing a bug claim.",
       "files": ["evals/files/review-snapshot.md"],
       "expectations": [
         "The reply explains that null represents an empty list under the stated contract.",
-        "The English reply is short, conversational, and playful.",
+        "The reply keeps the style set by the global communication instructions; simple B1 English does not weaken that style.",
         "The agent does not invent a defect or an unsupported reason for choosing null."
       ]
     },
     {
       "id": 8,
-      "prompt": "Draft replies for this PR 42 in our funny style.",
+      "prompt": "Draft replies for this PR 42.",
       "expected_output": "The agent asks the user to select comments because the PR alone does not identify allowed targets.",
       "files": ["evals/files/review-snapshot.md"],
       "expectations": [
