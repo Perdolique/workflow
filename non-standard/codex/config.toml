@@ -89,10 +89,9 @@ policy = """
   - Publishing releases, packages, deployments, or other artifacts.
   - Other writes, mutations, or submissions to external services under the user's identity or credentials.
   - Modifying user-level or system-level configuration outside the active workspace, including `CODEX_HOME`, `~/.config`, shell profiles, and Git, SSH, cloud, or tool configuration.
-- As an exception to the approval requirement for external writes, allow assigning the user to an unassigned item directly related to the current user request, in any service. No separate assignment request or approval is needed.
-- Before assigning, verify that the item has no assignees and that the target account belongs to the user. On GitHub, `@me` means the signed-in account and still requires this verification.
-- If the user is already assigned, leave the assignment unchanged. If anyone else is assigned, require an explicit user request or approval before changing assignees.
-- This exception covers assignment only. Changes to status, other fields, or access permissions still follow their own approval rules.
+- Allow assigning the user to a confirmed unassigned item directly related to the current request, in any service, without separate approval. Leave existing self-assignments unchanged.
+- A successful normal authenticated-account check is enough unless evidence shows that the account belongs to someone else or is a service account. On GitHub, use `gh api user` or the active account in `gh auth status`; `@me` means that account.
+- Changing other assignees requires an explicit user request or approval. Status, other fields, and access changes follow their own approval rules.
 - An explicit request for a protected action, or a direct affirmative answer to a concrete proposed action, authorizes that action within the current task.
 - Authorization covers normal implementation steps and details that become known later. Do not require another confirmation only because content, file paths, command arguments, commit hashes, or similar details were not known earlier.
 - A request to create a pull request also authorizes the commits and push needed to publish the current task's changes.
