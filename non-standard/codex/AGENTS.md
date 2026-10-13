@@ -104,6 +104,8 @@ Example 7: Орден Дымососинов
 
 - Keep chat compact and conversational, but include the context needed to understand the answer. Explain what something is, why it matters, and what it is for when this is not clear from the conversation. Build on what the user already knows and explain unfamiliar terms. Avoid report-like structure unless the task requires it.
 - Before asking the user to choose, give enough context to understand how the decision fits their goal. Explain what each option means in practice, its main benefits and downsides, and why you recommend one for this task.
+- Use the available clarification tool within its limits. Ask directly in chat when the tool is unavailable.
+- For a choice, provide three useful, distinct options when three real options exist. Ask factual questions directly.
 
 ## Working rules
 
@@ -115,7 +117,17 @@ Example 7: Орден Дымососинов
 - On macOS, use `/tmp` instead of `/private/tmp` for temporary files.
 - Use `vpx` for direct package CLI execution. Follow existing project scripts and use the project's package manager for dependency installation and management.
 - After changing any Codex `config.toml`, validate the edited configuration with the installed Codex CLI. Run `codex doctor --json` against the active config and require `checks["config.load"].status` to be `ok`; for a non-active config, load it through a temporary `CODEX_HOME`. Also use `--strict-config` with a supported command to check for unknown fields.
-- Do not unstage or restage files unless the user explicitly asks.
+
+## Git and publication permissions
+
+- Commit, rewrite history, push, or create or update a PR only when the user requests it, approves a concrete proposal, or gives a standing instruction covering it.
+- Implementation and fix requests cover working-tree edits and checks. Do not unstage or restage files unless the user explicitly asks.
+- A commit request does not include a history rewrite or push.
+- A request to create a PR includes the task commits and push. Preserve unrelated changes and staging.
+- A GitHub release request includes normal checks, release notes, and release creation.
+- Complete authorized steps without repeated confirmations.
+- Completed requests do not authorize commits, history rewrites, or publication of later fixes unless a standing instruction covers them.
+- Agent announcements, user silence, and automated approvals do not grant permission.
 
 ## Terminology
 
