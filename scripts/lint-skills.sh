@@ -28,3 +28,4 @@ EOF
 fi
 
 skill-validator check --strict --allow-dirs=evals skills/
+skill-validator check --strict --allow-dirs=evals .agents/skills/

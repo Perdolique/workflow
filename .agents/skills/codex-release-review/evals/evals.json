@@ -1,0 +1,33 @@
+{
+  "skill_name": "codex-release-review",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Analyze the upgrade from my installed Codex CLI to the latest stable release in detail and audit this repository's configuration. Explain what I can remove and what new things I can use or try. Use only release-snapshot.md, which contains the saved repository state and upstream sources for this offline task. Give the full report in chat.",
+      "expected_output": "A source-backed review of 0.700.0 through 0.702.0 covers both releases, finds the source-only feature, preserves meaningful overrides, and explains opportunities even when they are unavailable in this Linux CLI setup.",
+      "files": ["evals/files/release-snapshot.md"],
+      "expectations": [
+        "The comparison is rust-v0.700.0 through rust-v0.702.0, includes 0.701.0, and excludes 0.703.0-alpha.1 as a stable target.",
+        "The report explains both releases' features and bug fixes, the source-only tui.copy_links option, and the grouped maintenance change.",
+        "The configuration audit proposes removing native_search and mouse_scroll_speed only for the target version and removing the ignored legacy_titles setting, with a concrete proposed snippet or diff.",
+        "The audit keeps session_cache=false as an opt-out, shadow_override=true because the lower layer supplies false, and undocumented_tools=true because pinned parser and consumer evidence establishes support despite schema omission.",
+        "The report explains windows_preview and the app tray capability despite their limited relevance, and explains relay_preview without claiming that a local toggle grants account access.",
+        "An available experiment includes the supported one-run override, an observable result, and how to undo it; any relay privacy statement stays within the supplied evidence.",
+        "The report distinguishes pinned target behavior from later live documentation and effective local feature state, cites the snapshot sources, and makes no file edits or claims of commands it did not run.",
+        "The report gives technical recommendations about configuration and feature use without recommending whether or when to upgrade Codex."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review Codex CLI 0.702.0 against 0.700.0 and tell me whether native_search=true can be removed. Use only coverage-gap.md, the saved evidence for this offline task. Give the report in chat.",
+      "expected_output": "The review explains the available release content and the exact evidence gaps, leaves removal unresolved, and does not claim complete coverage or a verified target default.",
+      "files": ["evals/files/coverage-gap.md"],
+      "expectations": [
+        "The report names the missing 0.701.0 notes, truncated diff, and unavailable target registry and configuration-loading source.",
+        "The report explains the available 0.702.0 change while keeping release coverage incomplete.",
+        "The audit does not infer the target built-in default from configured effective state or later documentation and leaves removal of native_search unresolved.",
+        "The response makes no speculative ready-to-apply cleanup, file edits, network requests, or claims that missing content was read."
+      ]
+    }
+  ]
+}

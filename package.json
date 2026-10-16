@@ -4,7 +4,7 @@
   "type": "module",
   "description": "Useful tools and utilities",
   "scripts": {
-    "lint:markdown": "markdownlint '**/*.md'",
+    "lint:markdown": "markdownlint '**/*.md' '.agents/**/*.md'",
     "lint:skills": "./scripts/lint-skills.sh",
     "setup:skills": "./scripts/setup-global-skills.sh",
     "update:skills": "vpx skills update --global",

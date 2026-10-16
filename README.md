@@ -28,6 +28,14 @@ Reusable skills that provide specialized knowledge and capabilities:
 | [vue-components](./skills/vue-components/) | Build and review Vue components and composables |
 | [web-interface-conventions](./skills/web-interface-conventions/) | Build and review usable, accessible web interfaces |
 
+### Repository-local skills
+
+| Skill | Description |
+| --- | --- |
+| [codex-release-review](./.agents/skills/codex-release-review/) | Review Codex CLI releases and audit this repository's configuration |
+
+Use `$codex-release-review` in this repository to request a release review and configuration audit.
+
 ## Quick start
 
 ### Using skills
@@ -43,7 +51,7 @@ Add `--verbose` for detailed output. Setup prints the full log path and preserve
 To install only the skills from this repository:
 
 ```bash
-vpx skills add perdolique/workflow --global --skill '*' --agent universal --yes
+vpx skills add https://github.com/perdolique/workflow/tree/master/skills --global --skill '*' --agent universal --yes
 ```
 
 ### Non-standard coding assistant instructions
