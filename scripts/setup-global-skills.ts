@@ -28,7 +28,7 @@ const sources: SkillSource[] = [
   {
     label: 'Cloudflare skills',
     repo: 'cloudflare/skills',
-    names: ['cloudflare', 'cloudflare-email-service', 'durable-objects', 'turnstile-spin', 'web-perf', 'workers-best-practices', 'wrangler']
+    names: ['basin', 'cf-cli', 'cloudflare', 'cloudflare-email-service', 'durable-objects', 'turnstile-spin', 'web-perf', 'workers-best-practices', 'workers-profiling', 'wrangler']
   }
 ]
 
