@@ -39,10 +39,12 @@ Before planning or editing:
 ## Research and test the approach
 
 - Separate the required result and hard constraints from proposed implementation methods. Treat proposed methods as candidates, including your own suggestions.
-- During planning, research current online sources before choosing a technical approach or editing code. Cover implementation details, credible alternatives, relevant optimizations, and good practices. Scale the depth to the decision's impact and uncertainty. For a local correction fully settled by repository evidence, such as a typo, keep preparation local.
-- Start with official documentation, release notes, and relevant research papers. Check what is current as of the task date, source dates, and whether the advice fits the project's versions, platforms, constraints, and workload. Include hardware when it affects the decision.
-- Use other reliable technical sources to find ideas and different results. Verify key claims with original sources or local checks. Link the sources that support the plan or task report, and state any limits that leave important claims unverified.
+- Before choosing an approach, identify the task's important decisions and research current online evidence for them. Cover relevant architecture, algorithms, user and developer experience, reliability, security, verification and resource costs, not only API use or code syntax. Scale research to the decision's impact and uncertainty. For a mechanical local correction fully settled by repository evidence, such as a typo, keep preparation local.
+- Use official documentation and release notes for API behavior and version support. Also seek first-hand engineering reports, research papers, measured comparisons and accounts of failures or lessons learned. Use these to find established practices, credible alternatives, trade-offs and known mistakes in the relevant field.
+- Check source dates and whether the advice fits the project's versions, platforms, constraints and workload. Include hardware when it affects the decision. Verify key claims with original sources or local checks, and distinguish demonstrated results from recommendations and unsupported claims.
+- Explain how the findings support or change the approach. Link the sources behind important choices in the plan or task report, and state any limits that leave important claims unverified.
 - Check assumptions, gaps, and credible alternatives against this research and repository evidence. Compare correctness, simplicity, readability, maintenance, risk, performance, memory use, and verification where relevant. Use a focused check or measurement when an unresolved claim could change the choice. Follow the project's requirements for experiments and records.
+- Research new important questions that arise during implementation before making the decisions they affect.
 - If the proposed approach holds up, endorse it and proceed. If it does not, explain the concrete issue and resolve the decision before finalizing the plan or editing.
 
 ## Explain decisions before asking

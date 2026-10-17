@@ -321,6 +321,19 @@
         "The saved file still exists after the planning task finishes and contains the agreed moves, command and option preservation, link updates, and verification steps.",
         "The agent does not ask for implementation approval or storage permission already covered by the request and active write permissions."
       ]
+    },
+    {
+      "id": 27,
+      "prompt": "Plan crash-safe autosave and recovery for a small macOS desktop text editor. Documents are plain text, range from 1 KB to 10 MB, and stay on local disk. Preserve unsaved work after a crash, avoid noticeable typing pauses, and make recovery clear to the user. There is no cloud sync or collaboration. The save interval and recovery format have not been chosen. Research and recommend an approach with sources, compare credible options, and state unresolved product choices. Do not implement the feature or modify project files.",
+      "expected_output": "An evidence-based plan uses current field experience, known failures and comparisons for crash safety, recovery usability and resource costs, alongside platform/API facts. It explains applicability, trade-offs and uncertainty without inventing product choices.",
+      "files": [],
+      "expectations": [
+        "The research covers crash and data-loss behavior, the recovery experience, and latency or I/O costs rather than stopping at file-writing API documentation.",
+        "The agent uses relevant first-hand experience, documented failures, research or measured comparisons to assess established practices and alternatives.",
+        "The agent checks source dates and applicability to macOS, local files, document sizes and the project constraints.",
+        "The plan links evidence behind important choices and distinguishes demonstrated results from recommendations or unknowns.",
+        "The agent preserves plan-only scope and does not implement the feature, introduce cloud services or silently settle unspecified product behavior."
+      ]
     }
   ]
 }
