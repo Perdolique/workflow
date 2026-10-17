@@ -10,7 +10,7 @@ description: Use for all repository edits and their planning, including simple c
 
 ## Select a mode
 
-- **Plan only**: inspect and propose without changing files.
+- **Plan only**: inspect and propose without changing project files.
 - **Plan and implement**: plan enough to reduce risk, then continue into code.
 - **Continue or recover**: reconstruct current state, then make the smallest safe move.
 - When asked to split work, make each task independently useful and verifiable. State whether the split is plan-only or will be executed.
@@ -29,17 +29,20 @@ description: Use for all repository edits and their planning, including simple c
 Before planning or editing:
 
 1. Read local instructions, project conventions, and any available relevant domain skills.
-2. Inspect the working tree, nearby patterns, tests, and available evidence.
+2. Inspect the working tree, nearby patterns, tests, and available evidence, including relevant project decision and experiment records.
 3. Identify the result, constraints, non-goals, blast radius, and verification needs.
 
 - Inspect the repository and conversation before asking questions they can answer. Ask narrow clarification questions whenever uncertainty about the task remains, even about minor details, in every mode and throughout the task.
-- Wait for the answer before making the affected decision. Continue independent parts of the current task allowed by the selected mode; plan-only work stays read-only. Treat explicit defaults, established conventions, and information or authorization already provided as settled answers.
+- Wait for the answer before making the affected decision. Continue independent parts of the current task allowed by the selected mode. Treat explicit defaults, established conventions, and information or authorization already provided as settled answers.
 - Keep facts, conditional estimates, and unknowns distinct. Derive requirements, integrations, supported scenarios, and compatibility needs from the request and repository evidence.
 
-## Pressure-test the approach
+## Research and test the approach
 
-- Separate the desired result from the user's proposed approach. Treat the approach as a hypothesis regardless of how confidently it is presented.
-- Before planning or editing, check assumptions, omissions, and credible alternatives against repository evidence and established conventions. Compare relevant alternatives for correctness, scope, risk, simplicity, and verification, with detail proportional to the decision.
+- Separate the required result and hard constraints from proposed implementation methods. Treat proposed methods as candidates, including your own suggestions.
+- During planning, research current online sources before choosing a technical approach or editing code. Cover implementation details, credible alternatives, relevant optimizations, and good practices. Scale the depth to the decision's impact and uncertainty. For a local correction fully settled by repository evidence, such as a typo, keep preparation local.
+- Start with official documentation, release notes, and relevant research papers. Check what is current as of the task date, source dates, and whether the advice fits the project's versions, platforms, constraints, and workload. Include hardware when it affects the decision.
+- Use other reliable technical sources to find ideas and different results. Verify key claims with original sources or local checks. Link the sources that support the plan or task report, and state any limits that leave important claims unverified.
+- Check assumptions, gaps, and credible alternatives against this research and repository evidence. Compare correctness, simplicity, readability, maintenance, risk, performance, memory use, and verification where relevant. Use a focused check or measurement when an unresolved claim could change the choice. Follow the project's requirements for experiments and records.
 - If the proposed approach holds up, endorse it and proceed. If it does not, explain the concrete issue and resolve the decision before finalizing the plan or editing.
 
 ## Explain decisions before asking
@@ -60,11 +63,11 @@ Scale detail to what the user needs to decide. Ask factual clarifications direct
 - Name files, modules, and interfaces when they clarify the change or prevent a mistake. A complete file inventory is not required.
 - Keep completed work, active scope, and ideas distinct in progress lists. Update them as work advances.
 
-1. Store the approved plan separately from progress checklists. Use re-readable native storage that preserves the full plan, or a task-specific `plan.md` in the system temp directory.
-2. Preserve the complete approved text, language, decisions, interfaces, boundaries, examples, verification, assumptions, and non-goals. After Plan Mode, copy the latest `<proposed_plan>` body without its tags. If writes are forbidden, create it immediately after leaving Plan Mode, before implementation. This is task state, not repository content.
-3. Report its location and re-read it before the first project edit and after compaction.
+1. Store the full plan separately from progress checklists. Use re-readable native storage that preserves the full plan, or a task-specific `plan.md` in the system temp directory. If the current instructions forbid file writes, present the full plan in chat and defer file storage until writes are allowed, before implementation.
+2. Preserve the complete approved text, language, decisions, interfaces, boundaries, examples, verification, assumptions, and non-goals. After Plan Mode, copy the latest `<proposed_plan>` body without its tags. This is task state, not repository content.
+3. Report where the plan is available and re-read it before the first project edit and after compaction.
 4. Replace it with the complete updated plan when decisions change.
-5. Delete it when the task completes or is cancelled.
+5. Keep plans delivered as results or needed for continuation or handoff. Delete other task-created temporary plan files only after the work they support is complete or cancelled.
 
 - For broad migrations or refactors, map public entry points, internal helpers, removed legacy paths, and shared behavior ownership before editing.
 - Resolve material decisions within the agreed scope before finalizing the plan. Add requirements only when the task or evidence supports them.
@@ -100,6 +103,6 @@ Scale detail to what the user needs to decide. Ask factual clarifications direct
 
 Before finishing:
 
-1. Inspect the final working tree and diff. Remove task-created debug or generated files; preserve pre-existing changes.
+1. Inspect the final working tree and diff. Remove task-created temporary files that are no longer needed. Preserve required outputs, including generated files, and pre-existing changes.
 2. Confirm the result matches the agreed task and latest user clarifications.
 3. Report changed surfaces, verification run, checks not run, and concrete residual risk.

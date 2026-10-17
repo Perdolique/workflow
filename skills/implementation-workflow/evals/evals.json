@@ -47,7 +47,8 @@
         "The workflow recognizes that the request does not need a non-trivial plan.",
         "The workflow does not use subagents.",
         "The workflow runs only the repository-required documentation verification.",
-        "The workflow avoids unrelated cleanup or full-suite verification."
+        "The workflow avoids unrelated cleanup or full-suite verification.",
+        "The workflow uses local evidence for the typo and does not start unrelated web research, benchmarks, or experiment records."
       ]
     },
     {
@@ -64,14 +65,14 @@
     },
     {
       "id": 6,
-      "prompt": "Split this large migration into PR-sized tasks. I only want the task breakdown, not code changes or new Codex tasks. Keep every task independently shippable and verifiable.",
-      "expected_output": "The agent produces a plan-only sequence of useful PR-sized tasks without editing files or spawning subagents.",
+      "prompt": "Split this large migration into PR-sized tasks. I only want the task breakdown, not code changes or new user-facing Codex tasks. Keep every task independently shippable and verifiable.",
+      "expected_output": "The agent produces a plan-only sequence of useful PR-sized tasks without implementing the migration or creating user-facing Codex tasks.",
       "files": [],
       "expectations": [
         "The workflow stays in plan-only mode.",
         "Each task has an independently useful result and verification step.",
         "Dependencies and ordering are explicit.",
-        "The workflow does not create files, code changes, or subagents."
+        "The workflow does not change project files, implement the migration, or create user-facing Codex tasks."
       ]
     },
     {
@@ -262,6 +263,63 @@
         "The agent asks which browser the user used and relates the fact to reproducing the failure.",
         "The agent does not recommend a browser, compare browser pros and cons, or invent an answer.",
         "The agent preserves the agreed plan and makes no application changes."
+      ]
+    },
+    {
+      "id": 23,
+      "prompt": "Plan file-change detection for our macOS asset editor. It uses C++23 and AppKit, supports macOS 14 and later, and watches up to 200 local assets while open. A 2018 article suggests polling every 100 ms. I think that might be enough. We need low idle CPU use and reliable updates after an editor saves or replaces a file. Do not implement it yet.",
+      "expected_output": "The agent researches current source guidance, compares applicable approaches with the existing polling proposal, and produces a source-backed plan within the stated platform and workload.",
+      "files": [],
+      "expectations": [
+        "Before choosing an approach, the agent consults current online documentation rather than relying only on the old article or recalled API behavior.",
+        "The agent starts with primary sources and verifies important claims used from other technical sources.",
+        "The plan checks source dates and API availability against macOS 14 and the stated workload, rather than assuming the newest API is available.",
+        "The comparison covers implementation behavior, credible alternatives, relevant idle-CPU optimizations, and practices for handling file replacement.",
+        "The plan links sources that support its choices and identifies important claims that remain unverified.",
+        "The agent makes no implementation changes."
+      ]
+    },
+    {
+      "id": 24,
+      "prompt": "Plan a faster lookup for our command palette. It has 120 commands and runs once per keystroke. The supplied decision record describes the current linear lookup and its behavior contract. The repository has no benchmark storage convention. Keep that contract and do not change files yet.",
+      "expected_output": "The agent uses the existing decision record, compares credible options proportionally, and keeps any performance evidence tied to the lookup decision without inventing a repository-wide experiment process.",
+      "files": [
+        "evals/files/command-search/docs/decisions/command-search.md"
+      ],
+      "expectations": [
+        "The agent reads the existing decision record before selecting an approach.",
+        "The comparison preserves configuration order, ASCII case-insensitive substring matching, significant whitespace, all matches for an empty query, and separate commands with equal labels.",
+        "The agent considers whether performance or memory differences matter at the stated size and frequency, using a focused check if unresolved costs could change the choice.",
+        "The agent does not invent a mandatory experiment journal, CSV schema, timestamp layout, or archive policy for the repository.",
+        "The agent stays within plan-only scope and makes no file changes."
+      ]
+    },
+    {
+      "id": 25,
+      "prompt": "Finish the agreed command-manifest update in the supplied workspace and report the result. Implementation and required checks are complete. The application loads generated/command-manifest.json, which this task produced. scratch/trace.txt was created to diagnose this task. notes.txt was already present before the task and contains my release notes.",
+      "expected_output": "The agent removes the temporary diagnostic trace while keeping the required generated manifest and the pre-existing notes.",
+      "files": [
+        "evals/files/cleanup/generated/command-manifest.json",
+        "evals/files/cleanup/scratch/trace.txt",
+        "evals/files/cleanup/notes.txt"
+      ],
+      "expectations": [
+        "The required generated/command-manifest.json remains present with its original content.",
+        "The pre-existing notes.txt remains present with its original content.",
+        "The task-created scratch/trace.txt is removed during final cleanup.",
+        "The final response accurately reports the retained result and cleanup."
+      ]
+    },
+    {
+      "id": 26,
+      "prompt": "Prepare the implementation plan for our approved documentation reorganization. This is planning only; do not change project files. All decisions are settled: README.md keeps the project overview and links to docs/setup.md; move its installation section into docs/setup.md; move its command reference into docs/commands.md; preserve every existing command and option; update relative links and run the repository Markdown and link checks after implementation. There is no native full-plan storage. I will continue the implementation from this plan in another session.",
+      "expected_output": "The agent prepares and saves a complete plan outside the project, leaves it available for the next session, and makes no implementation changes.",
+      "files": [],
+      "expectations": [
+        "The agent makes no project file changes and does not implement the reorganization.",
+        "The agent saves the full plan in a task-specific temporary file and reports its actual path.",
+        "The saved file still exists after the planning task finishes and contains the agreed moves, command and option preservation, link updates, and verification steps.",
+        "The agent does not ask for implementation approval or storage permission already covered by the request and active write permissions."
       ]
     }
   ]

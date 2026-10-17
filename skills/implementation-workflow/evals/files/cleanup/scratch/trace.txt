@@ -1,0 +1,1 @@
+Temporary diagnostic trace from the command-manifest update.
