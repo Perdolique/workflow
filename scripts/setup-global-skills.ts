@@ -29,9 +29,15 @@ const sources: SkillSource[] = [
     label: 'Cloudflare skills',
     repo: 'cloudflare/skills',
     names: ['basin', 'cf-cli', 'cloudflare', 'cloudflare-email-service', 'durable-objects', 'turnstile-spin', 'web-perf', 'workers-best-practices', 'workers-profiling', 'wrangler']
+  },
+  {
+    label: 'Figma skills',
+    repo: 'figma/mcp-server-guide',
+    names: ['figma-generate-design', 'figma-create-new-file']
   }
 ]
 
+const totalSteps = sources.length + 3
 const home = homedir()
 const args = process.argv.slice(2)
 const verbose = args.includes('--verbose')
@@ -97,7 +103,7 @@ async function step(label: string, action: () => Promise<string>) {
   stepNumber += 1
   stepOutput = ''
 
-  const prefix = `[${stepNumber}/6] ${label}`
+  const prefix = `[${stepNumber}/${totalSteps}] ${label}`
 
   record(`\n${prefix}\n`)
   process.stdout.write(`${prefix}...${inline ? '' : '\n'}`)

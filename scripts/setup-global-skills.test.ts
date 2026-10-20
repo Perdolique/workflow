@@ -210,8 +210,11 @@ test('first run installs; rerun delegates scoped updates and preserves config', 
   success(first)
 
   const additions = first.calls.filter(call => call[1] === 'skills' && call[2] === 'add')
+  const figmaInstall = additions.find(call => call[3] === 'figma/mcp-server-guide')
 
-  assert.equal(additions.length, 3)
+  assert.deepEqual(figmaInstall, ['vpx', 'skills', 'add', 'figma/mcp-server-guide', '--global', '--skill', 'figma-generate-design', 'figma-create-new-file', '--agent', 'universal', '--yes'])
+  assert.equal(additions.length, 4)
+  assert.match(first.stdout, /\[7\/7\] Playwright config: created/)
   assert.doesNotMatch(first.stdout, /INSTALLER BANNER|\x1b/)
   assert.match(first.log, /INSTALLER BANNER/)
   assert.match(first.log, /installer stderr/)
@@ -223,8 +226,10 @@ test('first run installs; rerun delegates scoped updates and preserves config', 
   assert.ok(!second.calls.some(call => call[2] === 'add' || call[1] === 'install'))
 
   const updates = second.calls.filter(call => call[2] === 'update')
+  const figmaUpdate = updates.find(call => call.includes('figma-generate-design'))
 
-  assert.equal(updates.length, 3)
+  assert.equal(updates.length, 4)
+  assert.deepEqual(figmaUpdate, ['vpx', 'skills', 'update', '--global', 'figma-generate-design', 'figma-create-new-file', '--yes'])
   assert.deepEqual(updates[0], ['vpx', 'skills', 'update', '--global', 'alpha', 'beta', '--yes'])
   assert.ok(updates.every(call => !call.includes('unrelated')))
   assert.equal(await readFile(f.config, 'utf8'), 'custom config')

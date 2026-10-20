@@ -142,6 +142,9 @@ url = "https://mcp.cloudflare.com/mcp"
 [mcp_servers.formisch]
 url = "https://formisch.dev/mcp"
 
+[mcp_servers.figma]
+url = "https://mcp.figma.com/mcp"
+
 [tui]
 show_tooltips = false
 fullscreen_transcript = false

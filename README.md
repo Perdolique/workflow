@@ -48,6 +48,8 @@ pnpm run setup:skills
 
 Add `--verbose` for detailed output. Setup prints the full log path and preserves your existing Playwright config.
 
+Setup includes the official Figma skills `figma-generate-design` and `figma-create-new-file` from [figma/mcp-server-guide](https://github.com/figma/mcp-server-guide/tree/main/skills).
+
 To install only the skills from this repository:
 
 ```bash
@@ -84,6 +86,16 @@ cp /path/to/workflow/non-standard/codex/config.toml ~/.codex/config.toml
 ```
 
 Merge it manually when `~/.codex/config.toml` already exists.
+
+#### Figma MCP
+
+The tracked config includes the official remote Figma MCP server. After applying the config, sign in to Figma:
+
+```bash
+codex mcp login figma
+```
+
+For a first design on the free Starter plan, ask the agent to create self-contained HTML and import it with `html_to_figma`. This [supported path](https://developers.figma.com/docs/figma-mcp-server/code-to-canvas/) creates plain editable layers without links to library components. Native canvas editing through `use_figma` [requires a paid plan](https://developers.figma.com/docs/figma-mcp-server/write-to-canvas/).
 
 #### Codex command rules
 
