@@ -97,6 +97,18 @@ codex mcp login figma
 
 For a first design on the free Starter plan, ask the agent to create self-contained HTML and import it with `html_to_figma`. This [supported path](https://developers.figma.com/docs/figma-mcp-server/code-to-canvas/) creates plain editable layers without links to library components. Native canvas editing through `use_figma` [requires a paid plan](https://developers.figma.com/docs/figma-mcp-server/write-to-canvas/).
 
+#### Stitch MCP
+
+The tracked config includes the official remote [Stitch MCP server](https://stitch.withgoogle.com/docs/mcp/setup/). Create an API key in [Stitch settings](https://stitch.withgoogle.com/settings), then set it in the environment used to start Codex:
+
+```bash
+export STITCH_API_KEY='your-stitch-api-key'
+```
+
+For zsh, add this export to `~/.zshrc` and open a new terminal before starting Codex. Keep the key out of Git.
+
+After applying the config, restart Codex from that environment. The config reads `STITCH_API_KEY` into the `X-Goog-Api-Key` header and allows up to five minutes for each tool call.
+
 #### Codex command rules
 
 Review and install the tracked personal rules separately:
