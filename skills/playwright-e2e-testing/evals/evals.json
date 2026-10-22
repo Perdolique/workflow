@@ -64,6 +64,72 @@
         "The workflow inspects the relevant child geometry as well as document overflow.",
         "The workflow makes the test fail when protected content becomes clipped or leaves the viewport."
       ]
+    },
+    {
+      "id": 5,
+      "prompt": "Make the payment receipt browser test in regressions/polling.spec.ts faster while preserving the pending-to-paid behavior and receipt checks. Keep production behavior unchanged and report what you verified.",
+      "expected_output": "The test controls application time while retaining real polling, response handling, and visible receipt evidence.",
+      "files": [
+        "evals/files/regressions/polling.html",
+        "evals/files/regressions/polling.spec.ts"
+      ],
+      "expectations": [
+        "The executor installs the browser clock before application timers start and replaces the fixed sleep with controlled time advancement.",
+        "The test registers its HTTP wait before advancing time and awaits both the relevant response and the visible paid state.",
+        "The test retains the pending state, repeated status request, and exact receipt destination checks.",
+        "The executor does not shorten the production interval, invoke checkPayment directly, or write the final DOM state.",
+        "The executor proves that removing the polling interval makes the test fail and restores the production input afterward."
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Reduce the shared browser fixture overhead described in harness/context.md. Update harness/global.fixtures.ts and explain the remaining checks needed in the full application.",
+      "expected_output": "The fixture avoids needless local asset handling and completes async diagnostics while preserving the network guard and independent test state.",
+      "files": [
+        "evals/files/harness/context.md",
+        "evals/files/harness/global.fixtures.ts"
+      ],
+      "expectations": [
+        "The origin guard excludes local assets from interception messages to the test process with a glob or RegExp matcher, preserving normalized origin boundaries and local blob URLs.",
+        "The change preserves blocking and reporting of unmocked external requests and permits later scenario overrides.",
+        "The fixture completes pending console payload reads before page/context teardown, including failure cleanup, and retains the serialized argument values and read errors needed for diagnosis.",
+        "The executor keeps page/context state independent per test and does not disable the modal animation to save time.",
+        "The report does not claim that narrowing route matching restores browser HTTP caching.",
+        "The executor distinguishes available fixture checks from full-suite behavior and timing that cannot be verified from the snapshot."
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Using verification.md, propose the configuration changes and commands needed to verify the current application edits and retain useful failure diagnostics. Explain any assumptions. Do not edit files or start processes.",
+      "expected_output": "The plan checks the current production build in both browsers, avoids the occupied server, and captures first failures with zero retries.",
+      "files": [
+        "evals/files/verification.md"
+      ],
+      "expectations": [
+        "The plan builds the edited checkout before preview and identifies the occupied port as another worktree, not a reusable verification server.",
+        "The plan keeps the server port and shared base URL consistent and avoids stopping the other worktree.",
+        "The plan preserves Chromium and WebKit, zero retries, animation behavior, and the saved-state scenario.",
+        "The plan selects a trace mode that captures the initial failure with zero retries and explains why on-first-retry cannot do so.",
+        "The plan acknowledges recording overhead for retained-on-failure traces rather than claiming passing runs have no trace cost.",
+        "The executor respects the read-only request and does not start a repeated full-suite benchmark."
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Review performance.md and advise whether the browser CI candidate is worthwhile. Explain the measured improvement, its resource trade-offs, and the checks still needed before adopting it. Do not edit files or launch CI runs.",
+      "expected_output": "The assessment separates faster feedback from aggregate resource use and preserves failure propagation and complete test coverage.",
+      "files": [
+        "evals/files/performance.md"
+      ],
+      "expectations": [
+        "The assessment reports median required-result times of 530 and 376 seconds and summed E2E job times of 520 and 669 seconds, with the observed ranges.",
+        "It identifies eight concurrent workers in the candidate versus four in the baseline and does not infer lower monetary cost from faster completion.",
+        "It reports the excluded baseline failure and does not present only successful timing runs as proof of reliability.",
+        "It separates the unchanged build variation from test speed and does not attribute the entire difference to one optimization.",
+        "It reports whole-workflow time as unavailable and labels any sum of build and E2E durations as a partial path rather than the full workflow.",
+        "It requires a failed, cancelled, or missing shard and a missing required report to prevent a successful overall result.",
+        "It preserves the complete test/browser inventory and reports unavailable billing evidence without inventing prices."
+      ]
     }
   ]
 }

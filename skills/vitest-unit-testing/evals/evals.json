@@ -1,0 +1,62 @@
+{
+  "skill_name": "vitest-unit-testing",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "In unit-project, add regression coverage for discounts larger than the item subtotal and for reading a saved locale. Keep the existing supported behavior covered and keep the tests economical. Do not change production behavior. Report the checks you ran.",
+      "expected_output": "Focused tests protect the zero floor and saved preference, using Node for pure calculations and a suitable browser environment for storage imports.",
+      "files": [
+        "evals/files/unit-project/package.json",
+        "evals/files/unit-project/vitest.config.ts",
+        "evals/files/unit-project/src/total.ts",
+        "evals/files/unit-project/src/browser-storage.ts",
+        "evals/files/unit-project/src/preferences.ts",
+        "evals/files/unit-project/src/__tests__/total.test.ts",
+        "evals/files/unit-project/src/__tests__/preferences.test.ts"
+      ],
+      "expectations": [
+        "The total tests use Node through a file annotation or a narrowly scoped project configuration.",
+        "The locale tests keep a DOM or browser environment because browser-storage.ts reads window.localStorage during import.",
+        "The tests assert an independent zero total for an excessive discount and the actual saved locale.",
+        "The executor adds no component mount, E2E test, or production-only testing hook for these contracts.",
+        "The executor verifies that removing the zero floor makes the discount regression fail and that the original production code passes.",
+        "The executor uses focused verification without starting a full performance benchmark for this test addition."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "In unit-project, strengthen the extra guest fee test. The fee should use saved adult ages until an edited age is saved. Keep product behavior unchanged and report what the test now proves and which checks you ran.",
+      "expected_output": "The test exercises the real saved-age calculation and distinguishes an unsaved draft from a saved adult change.",
+      "files": [
+        "evals/files/unit-project/package.json",
+        "evals/files/unit-project/vitest.config.ts",
+        "evals/files/unit-project/src/guests.ts",
+        "evals/files/unit-project/src/fee.ts",
+        "evals/files/unit-project/src/__tests__/fee.test.ts"
+      ],
+      "expectations": [
+        "The replacement runs countSavedAdults normally instead of supplying the expected count through a mock.",
+        "With one included adult and one unsaved child-to-adult edit, the test proves that the draft adds no fee and saving the edit adds exactly 1800 cents.",
+        "The test controls and restores shared guest state so other tests cannot change its outcome.",
+        "The executor demonstrates that switching the calculation to draftAges makes the replacement fail and restores the production code afterward.",
+        "The executor keeps coverage at the domain boundary without adding a browser journey or an export used only by tests."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Review performance.md and recommend the next change to our unit-test setup. Explain the evidence, remaining checks, and likely time or resource effects. Do not edit files or run more benchmarks.",
+      "expected_output": "The recommendation uses measured setup costs and runner limits, preserves isolation, and treats unmeasured changes as candidates.",
+      "files": [
+        "evals/files/performance.md"
+      ],
+      "expectations": [
+        "The recommendation identifies imports and environment creation as the main measured costs.",
+        "It identifies the isolated VM candidate as a measured improvement that fits the stated memory limit and does not choose the failing isolation or out-of-memory variants.",
+        "It proposes evaluating Node for the forty suitable files without claiming an unmeasured speedup.",
+        "It reports medians of 61 and 39 seconds with their ranges and distinguishes test-command time from workflow or monetary cost.",
+        "It treats the pool and recycling limit as project-specific choices and does not impose a fixed memory limit from another project.",
+        "It respects the read-only request and does not start additional benchmarks."
+      ]
+    }
+  ]
+}

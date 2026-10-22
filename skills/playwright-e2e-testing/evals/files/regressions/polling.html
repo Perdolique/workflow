@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head><meta charset="UTF-8"><title>Payment</title></head>
+  <body>
+    <button id="check" type="button">Check payment</button>
+    <p role="status">Pending</p>
+    <a id="receipt" hidden>View receipt</a>
+    <script>
+      const button = document.querySelector('#check')
+      const status = document.querySelector('[role="status"]')
+      const receipt = document.querySelector('#receipt')
+      let polling
+
+      async function checkPayment() {
+        const response = await fetch('/status')
+        const order = await response.json()
+
+        if (order.status === 'paid') {
+          clearInterval(polling)
+          status.textContent = 'Paid'
+          receipt.href = order.receiptUrl
+          receipt.hidden = false
+        }
+      }
+
+      button.addEventListener('click', () => {
+        button.disabled = true
+        polling = setInterval(checkPayment, 5000)
+        checkPayment()
+      })
+    </script>
+  </body>
+</html>

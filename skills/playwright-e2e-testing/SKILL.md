@@ -1,6 +1,6 @@
 ---
 name: playwright-e2e-testing
-description: Write and maintain Playwright browser and end-to-end tests for web apps, plus direct API tests with APIRequestContext. Use for browser or E2E coverage even when the user does not name Playwright, and for mocks, fixtures, and assertions that support Playwright tests.
+description: Write and maintain Playwright browser and end-to-end tests for web apps, plus direct API tests with APIRequestContext. Use for browser or E2E coverage even when the user does not name Playwright, and for related mocks, fixtures, assertions, and test-performance work.
 license: Unlicense
 ---
 
@@ -21,6 +21,11 @@ This skill provides patterns and conventions for Playwright browser, E2E, and di
 ## Project configuration
 
 When setting up or modifying `playwright.config.ts`, see [references/configuration.md](references/configuration.md) for conventions on web server setup, reporters, traces, screenshots, and CI behavior.
+
+## Choose the test boundary
+
+- Name the browser behavior and the plausible failure the test should catch. Check existing coverage first. Keep pure calculations in the project's unit tests and direct HTTP contracts in API tests; use the browser for rendering, interaction, request wiring, navigation, and browser state.
+- Add assertions to an existing flow when they protect the same scenario without another full setup. Use a separate case when it protects a distinct failure or needs different state. Keep mocks outside the decision the test claims to exercise.
 
 ## Test imports
 
@@ -43,6 +48,8 @@ import type { Page, Locator } from '@playwright/test';
 ```
 
 Configure shared browser fixtures to fail on application `pageerror`, `console.error`, hydration warnings, and unresolved components. Preserve these checks when reusing the project's fixtures. Exclude only browser-generated resource errors that tests assert explicitly.
+
+Use the provided `page` and `context` for fresh browser state in each test. Share immutable data or setup resources only when tests cannot change each other's state. Finish async event handlers before page or context teardown, including when the test fails. For owned console listeners, `await page.removeAllListeners('console', { behavior: 'wait' })` in fixture cleanup can wait for registered handlers. Handle each payload-read failure inside its handler so one rejection does not end the handler while other reads are pending. Retain successful argument values and raw read errors, and report them after all owned reads finish.
 
 ## Directory structure
 
@@ -110,6 +117,13 @@ test.describe('Router redirects', () => {
   });
 });
 ```
+
+### Timing and layout
+
+- Wait for the relevant UI state with Playwright assertions. Fixed sleeps and `networkidle` do not establish that the element or data under test is ready.
+- For polling or debounce behavior, install `page.clock` before application timers start, usually before navigation. Advance with `runFor` when the scenario needs each timer callback; use `fastForward` only when skipping time with fewer callbacks matches the behavior being tested.
+- Register request or response waits before the triggering action or clock advance. Advance time, await the relevant HTTP result, and assert the visible outcome. Keep the application's polling, reload, and state changes real; update the mock response instead of calling product internals or setting the final DOM state.
+- For layout measurements, wait for the relevant fonts and finite element animations to finish. When motion or transition timing is the contract, keep animations enabled and observe the required intermediate and final states. A browser clock does not replace CSS animation or server-time evidence.
 
 ### Multi-step flows with test.step()
 
@@ -255,17 +269,15 @@ async function mockPurchase(page: Page, purchaseId: string, response: unknown): 
 
 ### Control unrelated external requests
 
-Choose the network boundary from the scenario and the project's network policy. For a test of application behavior after an external dependency responds, provide controlled responses and handle unexpected requests consistently. One common policy is to block requests outside the app:
+Choose the network boundary from the scenario and the project's network policy. Reuse existing mocks and override only the responses the scenario needs. A glob or regular expression can keep local assets out of an origin guard's interception messages as well as its handler:
 
 ```typescript
-await page.route('**/*', async (route) => {
-  const url = new URL(route.request().url());
+const appOrigin = new URL(appBaseUrl).origin;
+const escapedAppOrigin = appOrigin.replaceAll(/[.*+?^${}()|[\]\\]/gu, String.raw`\$&`);
+const externalRequests = new RegExp(`^(?!(?:blob:)?${escapedAppOrigin}(?:/|$))`, 'u');
 
-  if (url.origin === appBaseUrl) {
-    await route.continue();
-  } else {
-    await route.abort();
-  }
+await page.route(externalRequests, async (route) => {
+  await route.abort();
 });
 ```
 
@@ -309,7 +321,7 @@ For testing server-side API endpoints directly, use Playwright's `APIRequestCont
 
 ### Worker-scoped fixtures for authentication
 
-Use worker-scoped fixtures instead of `beforeAll` + shared mutable `let` variables. Worker scope creates the context once per worker thread (same performance), eliminates shared mutable state, and integrates cleanly with Playwright's teardown lifecycle.
+Use worker-scoped fixtures for API authentication when the session and server data are safe to share. The fixture owns setup and teardown, but its `APIRequestContext` still carries mutable cookies. Use a separate context or identity for tests that change shared authentication or server state.
 
 ```typescript
 // tests/playwright/fixtures.ts
@@ -401,6 +413,8 @@ vpx playwright show-report
 
 Check the project's `package.json` for available test scripts — many projects define shortcuts like `test:playwright`, `test:e2e`, or similar.
 
+Run changed browser scenarios without retries in the project's relevant browser projects. Check that the server serves this checkout's current build; follow [the configuration guide](references/configuration.md) for server reuse and failure traces. Read [the performance guide](references/performance.md) when the task targets suite runtime, fixture overhead, workers, or sharding. Ordinary test changes do not need repeated full-suite benchmarks.
+
 ## Validation checklist
 
 Before considering an E2E test complete, verify:
@@ -420,10 +434,11 @@ Before considering an E2E test complete, verify:
 - [ ] **API tests that read JSON**: The body enters as `unknown` and Valibot validates it; only shape assertions duplicated by the schema are removed
 - [ ] **API tests without JSON reads**: Status, headers, and absent bodies use matching response assertions without an artificial schema
 - [ ] **API tests**: Auth tests use inline anonymous context, not the authenticated fixture
-- [ ] **API tests**: Worker-scoped fixtures used for authentication (not `beforeAll` + `let`)
+- [ ] **API tests**: Authentication uses fixture-owned contexts with a scope that preserves independent state
 - [ ] Test runs successfully
 
 ## Reference files
 
 - [references/configuration.md](references/configuration.md) — Playwright config setup: web server, reporters, traces, screenshots, CI behavior
 - [references/fixtures.md](references/fixtures.md) — Complete fixture patterns, factory functions, variant pattern details
+- [references/performance.md](references/performance.md) — Measure fixture overhead, worker and shard choices, elapsed time, and resource use

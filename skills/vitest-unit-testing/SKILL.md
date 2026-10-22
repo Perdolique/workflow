@@ -1,6 +1,6 @@
 ---
 name: vitest-unit-testing
-description: Write and maintain Vitest 5 unit tests for TypeScript utilities, services, stores, and API clients. Use for unit coverage, related mocks and fixtures, and Vitest review or debugging. Adapt guidance to the project's version. Browser flows and Playwright tests use the project's browser or E2E test setup.
+description: Write and maintain Vitest 5 unit tests for TypeScript utilities, services, stores, and API clients. Use for unit coverage, related mocks and fixtures, and Vitest review, debugging, or performance work. Adapt guidance to the project's version. Browser flows and Playwright tests use the project's browser or E2E test setup.
 license: Unlicense
 ---
 
@@ -14,16 +14,19 @@ Before editing tests, inspect the target project's:
 
 - Vitest version and supported Node.js version
 - package scripts, test root, configuration files, and named projects
-- test environment, such as Node, jsdom, or Browser Mode
+- test environment, such as Node, happy-dom, jsdom, or Browser Mode, and the setup files loaded for each test
 - cleanup settings, especially `clearMocks`, `mockReset`, and `restoreMocks`
 - local naming, file placement, fixtures, helpers, and assertion style
 
 This skill targets Vitest 5. Adapt APIs and defaults when the project uses an older version. A request to change tests does not by itself authorize a dependency upgrade.
 
-## Choose unit-test scope
+## Choose the test boundary and environment
 
 - Use this skill for TypeScript unit tests of utilities, services, stores, transforms, and API clients, including the mocks and fixtures used by those tests. Choose the test tool from the task and the project's existing setup; generic requests about mocks or fixtures do not establish the tool by themselves.
-- Test behavior through the public contract. Mock external collaborators when isolation helps the test, while running the code under test normally. Keep tests independent and deterministic.
+- Name the observable contract and the plausible failure the test should catch. Check nearby tests before adding a case. Choose the smallest public boundary that runs the relevant decision: call a pure function directly; use a store or service when its state or collaborators form the contract. Mount a component when rendering or component interaction matters.
+- Keep the modules that make the tested decision real. For example, a fee test based on saved guest ages needs the real age-to-count calculation; supplying the count through a mock does not test that rule. Mock collaborators outside the protected decision. Keep tests independent and deterministic.
+- Use Node when the test, its transitive imports, and its setup need no browser APIs. Follow the project's environment convention; a file-level `// @vitest-environment node` can avoid DOM setup without changing other files. Keep the appropriate DOM or browser environment when the contract needs it.
+- A browser test needs a separate browser risk beyond a calculation already covered here, such as rendered output, request wiring, focus, or persistence across navigation. Keep that coverage at its owning boundary.
 
 ## Place and name tests
 
@@ -123,8 +126,13 @@ vpx vitest run src/utils/__tests__/config.test.ts --config ./vitest.config.ts --
 ```
 
 - Choose the file, directory, or named project that covers the changed contract and its related mocks or fixtures. Broaden the run when the change can affect more tests. Vitest 5 does not search parent directories for configuration, so run from the correct root or pass `--config` explicitly and scope discovery as needed.
-- Use coverage when the task needs coverage evidence. Use `--repeats` to investigate a suspected flaky test. Use `vpx vitest doctor` only for a test-performance investigation because it runs the suite several times under alternative configurations.
+- Use coverage when the task needs coverage evidence. Use `--repeats` to investigate a suspected flaky test.
+
+## Optimize test performance
+
+Read [the performance guide](references/performance.md) when the task targets test runtime, worker or memory settings, or shared setup costs. Ordinary test changes need the relevant verification above; repeated comparison runs belong to a performance investigation.
 
 ## Reference files
 
 - [references/mocking.md](references/mocking.md) — Module mocks, spies, return behavior, timers, cleanup, assertions, and common dependency patterns
+- [references/performance.md](references/performance.md) — Find setup costs, compare runtime settings, and measure time and resource use
