@@ -43,7 +43,7 @@ Then:
 4. Report if the branch is behind or diverged from its upstream or the fresh remote default before pushing. Continue when upstream changes do not affect the task or safe publication; ask about a dependent decision when they do. Merge, rebase, or rewrite history only with user authorization.
 5. Review the complete changeset below before pushing.
 
-Keep one feature or independent change per final commit; a PR may contain several. Keep independent dependency updates and unrelated work separate. Corrections belong to the matching unmerged commit. Amend matching `HEAD` only with rewrite authorization; otherwise use `git commit --fixup=<target>` and keep its generated subject. Autosquash fixups only with rewrite authorization, preserving independent commits and staging. Report any fixup left pending.
+Keep one feature or independent change per commit; a PR may contain several. Keep independent dependency updates and unrelated work separate. Create a new commit for corrections by default. Corrections to merged work always get new commits. When updating a commit, use history and diffs to find the matching commit; ask if the target is unclear. Preserve independent commits and unrelated staging.
 
 Use the fresh remote-tracking ref for the requested or existing PR target as the base; otherwise use the remote default branch. A local `main` or `master` can be stale even after fetching.
 

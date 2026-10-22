@@ -289,7 +289,7 @@
       "files": [],
       "expectations": [
         "The agent targets the earlier status feature commit rather than amending the dependency commit at HEAD.",
-        "The agent uses a fixup with Git's generated subject and autosquash to leave one final feature commit and a separate dependency commit.",
+        "The rewritten history contains one feature commit with the correction and a separate dependency commit with its original changes.",
         "The agent safely publishes the rewritten branch and creates a draft PR without requiring the unavailable commit-creator skill or repeated authorization."
       ]
     }

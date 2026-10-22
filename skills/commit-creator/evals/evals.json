@@ -158,20 +158,19 @@
       "files": [],
       "expectations": [
         "The agent targets a1b2c3d rather than amending the unrelated dependency commit at HEAD.",
-        "The agent uses a fixup and autosquash to leave one final status commit and a separate dependency commit.",
+        "The rewritten history contains one status commit with the correction and a separate dependency commit with its original changes.",
         "The agent publishes the rewritten history with a one-ref --force-with-lease push and does not ask for permission already covered by amend and push."
       ]
     },
     {
       "id": 16,
       "prompt": "Commit this verified label correction to your unmerged status feature. The matching commit is a1b2c3d, titled feat(status): show clear states for pending items; HEAD d4e5f6a contains an independent dependency update. Both commits are already pushed. There is no standing instruction to rewrite history or publish, and I have only requested a commit.",
-      "expected_output": "The agent creates a fixup for the status commit and reports that folding it into the target still needs rewrite authorization.",
+      "expected_output": "The agent creates a new conventional correction commit and leaves existing commits and publication unchanged.",
       "files": [],
       "expectations": [
-        "The agent creates a fixup targeting a1b2c3d instead of a separate final fix commit or an amendment of unrelated HEAD.",
-        "The agent keeps Git's generated fixup! subject even when the prefix makes it longer than the normal final subject limit.",
-        "The agent does not autosquash, amend, rebase, or push without matching authorization.",
-        "The agent reports the pending rewrite needed to produce one final status commit."
+        "The agent creates a new English conventional correction commit with a subject of at most 50 characters.",
+        "The existing feature and independent dependency commits keep their hashes.",
+        "The agent does not amend, rebase, or push."
       ]
     },
     {
@@ -192,7 +191,7 @@
       "files": [],
       "expectations": [
         "The agent creates a new commit for the correction.",
-        "The agent does not amend, create a fixup for, or rewrite the merged feature commit."
+        "The agent does not amend or rewrite the merged feature commit."
       ]
     }
   ]
