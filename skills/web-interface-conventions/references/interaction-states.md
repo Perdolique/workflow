@@ -9,10 +9,11 @@
 ## Keep the interface stable
 
 - Do not change control dimensions when borders, outlines, labels, validation, or icons change state.
+- Use `font-variant-numeric: tabular-nums` for changing numbers, such as timers and counters, to keep digits the same width. Check that the font supports tabular figures.
 - Use `:focus-visible` for custom keyboard-focus styling. Do not replace native focus behavior with pointer-tracking JavaScript.
 - Keep every interactive element keyboard accessible and give each icon-only control an accessible name.
 - When a custom control is required, match the native equivalent's keyboard, focus, and ARIA behavior.
-- If a transition removes the focused element, move or restore focus to a useful target.
+- When a transition removes or hides the focused element, transfer focus after a useful visible target is rendered. Do this only if that region owned focus before the change and the user has not moved it elsewhere.
 - Make icon variants use a stable box and alignment.
 
 ## Make feedback perceivable
@@ -25,5 +26,5 @@
 
 - Give a dialog a clear accessible name and an initial focus target.
 - Support the close action and the platform's expected keyboard dismissal when cancellation is allowed.
-- On close, cancel or detach work owned by the dialog and restore focus to the control that opened it.
+- On close, cancel or detach work owned by the dialog. Restore focus to the opener if it is still connected and visible; otherwise use a visible fallback for the same task.
 - Keep errors and retry actions inside the dialog while it remains the active task.

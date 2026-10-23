@@ -3,7 +3,11 @@
 ## Model the lifecycle
 
 - Cover every applicable idle, pending, success, empty, error, retry, cancel, stale-result, and uncertain-result state.
-- Make the newest user intent win. Cancel obsolete work when possible and ignore results or callbacks that no longer belong to the active attempt.
+- Decide whether each operation ends with its view or must finish after navigation, closing, or component replacement. Keep required state and completion handling with an owner that lasts that long. Keep DOM work with the current view.
+- Separate hiding a view from cancelling its operation. When an operation ends or becomes obsolete, cancel work where possible and detach its UI callbacks. A removed view must not discard completion that the task still requires.
+- Before applying async data or showing its error, check that the request is still current and that its relevant inputs still match the current state.
+- In cleanup, release only flags and locks still owned by the finishing operation. A result may be obsolete while that operation still owns its loading state.
+- Make the newest valid user intent win. Account for both context changes and overlapping requests in the same context. Keep an older pending response from replacing a confirmed terminal result.
 - Preserve useful content during refresh or retry when it is still valid. Do not replace stable content only to prove that work started.
 - Keep recovery actions available through failure and retry.
 

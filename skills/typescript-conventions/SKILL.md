@@ -13,12 +13,6 @@ license: Unlicense
 
 Do not use `return undefined`. When exiting a function without a value, use a bare `return`.
 
-```typescript
-if (item) {
-  return
-}
-```
-
 ## Extract non-trivial intermediate computations
 
 - Before embedding a non-trivial computation in an argument, property value, array element, condition, loop input, spread source, return value, or larger expression, assign it to a named `const` or `let`.
@@ -28,47 +22,10 @@ if (item) {
 - Keep nested or chained calls in declarative library APIs (embedded DSLs) when their structure expresses a declaration, such as a schema, query, or rule set. Follow the API's established composition style. Extract ordinary data preparation used as input; for example, name the result of `parseId(rawId)` before using it inside `eq(users.id, id)`. A chain of data transformations follows the ordinary extraction rule.
 - Preserve behavior and algorithmic complexity; do not add intermediate collections or passes solely for formatting.
 
-```typescript
-const properties = categoryDetail.value?.properties ?? []
-
-for (const property of properties) {
-  const enumOptions = property.enumOptions ?? []
-  const selectableOptions = enumOptions.map(toOption)
-  const options = [defaultOption, ...selectableOptions]
-
-  const group = {
-    name: property.name,
-    options
-  }
-
-  groups.push(group)
-}
-```
-
 ## Avoid meaningless pass-through wrapper functions
 
 - Do not create a function whose only job is to call another function and immediately return its result or await it without adding any behavior. If the wrapper does not name a real concept and does not own logic such as validation, branching, retries, mapping, instrumentation, or error handling, inline the call at the usage site or rename the underlying function instead.
 - Use a wrapper only when it creates a clearer domain boundary or adds behavior that the caller should not repeat.
-
-```typescript
-// Avoid wrappers that add no behavior
-function getPath() : string {
-  return buildPath()
-}
-
-const path = buildPath()
-
-replaceRoute(path)
-
-// Allowed: wrapper adds real behavior
-async function loadUser() : Promise<User> {
-  const user = await fetchUser()
-
-  trackLoad('user')
-
-  return user
-}
-```
 
 ## Keep wrapper contracts source-owned when possible
 
@@ -81,57 +38,13 @@ async function loadUser() : Promise<User> {
 - When creating a view model, API payload, or other deliberately shaped object, list its properties explicitly. Do not use a broad source spread that hides the resulting contract or copies unrelated fields. Spread is shallow; do not use it when the required isolation is deeper.
 - During authoring and review, be able to state the purpose of each spread. Add a short code comment only when that purpose is not evident from the surrounding operation. Apply the same standard to production code, tests, and fixtures; a focused fixture override is a valid purpose, while an unnecessary copy is not.
 
-```typescript
-// Avoid an unnecessary shallow copy
-const copiedOptions = { ...options }
-runTask(copiedOptions)
-
-// Reuse the safe, unmodified value
-runTask(options)
-
-// Make a deliberately shaped payload explicit
-const payload = {
-  description: formState.description,
-  isArchived: formState.isArchived,
-  name: formState.name
-}
-
-// Spread has a concrete purpose: replace one field without mutating the source
-const archivedPayload = {
-  ...payload,
-  isArchived: true
-}
-```
-
 ## Prefer flat interface structures
 
 - Keep `interface` declarations and named object `type` aliases to one level of named properties. When a property needs an object shape, extract that shape into a separate named interface and reference it from the parent type.
 - Apply this to direct object properties, arrays of objects, and nullable or union forms such as `brand: { ... }`, `items: { ... }[]`, and `brand: { ... } | null`.
 - This rule covers type declarations only. It does not apply to runtime object literals, validator schemas, framework configuration objects, or library DSL values where the object shape is executable configuration rather than a reusable type contract.
 
-```typescript
-// Avoid inline object shapes in interfaces
-interface ItemDetailResponse {
-  brand: {
-    id: number;
-    name: string;
-  };
-  id: string;
-}
+## Explain non-obvious decisions
 
-// Prefer named nested contracts
-interface ItemDetailBrand {
-  id: number;
-  name: string;
-}
-
-interface ItemDetailResponse {
-  brand: ItemDetailBrand;
-  id: string;
-}
-```
-
-## Comment shared utility roles
-
-- For exported helpers, composables, services, and other shared utilities, add a short role-level comment only when nearby layers make the purpose easy to confuse. Explain what contract the utility owns.
-- Avoid line-by-line comments in straightforward code; improve naming or split the function instead.
+- Add a short comment when a purpose, external constraint or workaround is not clear from the code. For a shared utility, explain the contract it owns when nearby layers make its role easy to confuse.
+- Keep the reason when simplifying the code. Use clear names and structure for obvious mechanics instead of line-by-line narration or unrelated implementation detail.

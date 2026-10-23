@@ -23,7 +23,7 @@ If an answer is missing, do not add the case; explain why. Prefer one test at th
 
 A new test must pass these checks. For an existing test, a failed check calls for investigation, not automatic deletion.
 
-- Remove the named behavior. Would the test still pass because it asserts no useful result or an earlier guard rejects first? Repair it.
+- Make the target decision observable: satisfy unrelated prerequisites and choose inputs that distinguish the required result from a plausible wrong one. For ordering, cancellation or pending-state guards, keep work pending through the competing action and release it in a controlled order. Repair a test that still passes when its protected behavior is removed.
 - Trace the expected result. Did the code under test, a mock, or a fixture create it? Use an independent expectation and exercise the product's decision.
 - Rename a private function or change source shape without changing behavior. Would the test fail? Keep it only when the exact name, key, path, or text is the contract.
 - Remove this test. Which remaining test catches its plausible bug? Keep both only if they cover separate boundary risks.
