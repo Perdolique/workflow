@@ -1,8 +1,6 @@
 #:schema https://developers.openai.com/codex/config-schema.json
 
 approval_policy = "on-request"
-model_context_window = 600000
-model_auto_compact_token_limit = 500000
 model_verbosity = "medium"
 # Wait for each optional MCP server up to its startup timeout.
 mcp_optional_startup_grace_ms = 0
