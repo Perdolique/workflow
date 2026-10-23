@@ -1,31 +1,10 @@
 # Deployment
 
-| Trigger | Target |
-| --- | --- |
-| PR to `master` | Protected Preview; URL in the PR comment |
-| Add `deploy:staging` to a PR | [Shared staging](https://relay.staging.example.test) |
-| Push to `master` | [Production](https://relay.example.test) after CI passes |
-
-Staging requires a successful build of the current PR commit and a branch that includes current `master`. The label is removed after the attempt. Fork PRs cannot deploy.
+PRs to `master` create protected Previews. The `deploy:staging` label deploys shared staging after a successful build. Pushes to `master` deploy production after CI passes. Fork PRs cannot deploy.
 
 ## Configuration
 
-- GitHub Actions uses organization secret `CLOUDFLARE_WORKERS_API_TOKEN` and variable `CLOUDFLARE_ACCOUNT_ID`.
-- `wrangler.jsonc` defines domains, D1 databases, Workflows, Access settings, modes, and required secret names. Set secret values separately for each Worker environment.
-- Cloudflare Access allows Example Team Google sign-in. Its Bypass must cover only `/integrations/slack/events` on the app host.
-- Staging and Previews disable Slack intake and classification. The production config enables both intake and the classifier classification and requires `TYPESAFE_API_KEY`. See [Slack setup](slack/intake.md) before changing modes.
-
-## User permissions
-
-Users get no permissions by default. Access managers can open **Settings → Access**, select a user, and save their permissions. **Update request fields**, **Manage requests**, **Manage GitHub repositories**, and **Manage access** are independent. GitHub and request management can be removed. Once saved, **Manage access** cannot be removed through the app or its API.
-
-The access migration gives `owner-one@example.test` and `owner-two@example.test` **Manage access** only. Other users appear after their first sign-in; grant their permissions through **Access**.
-
-The local developer account also starts without permissions. After opening the local app once, grant local access with:
-
-```sh
-vpx wrangler d1 execute relay-local --local --command "INSERT INTO user_permissions (email, permission) VALUES ('local-developer@example.test', 'access.manage'), ('local-developer@example.test', 'requests.reclassify') ON CONFLICT DO NOTHING"
-```
+GitHub Actions uses `CLOUDFLARE_WORKERS_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`. Worker secret values are separate for each environment. Staging and Previews disable Slack intake and classification.
 
 ## GitHub repositories
 
@@ -43,16 +22,4 @@ Grant **Manage GitHub repositories** in **Settings → Access**. This permission
 
 ## Migrations and recovery
 
-CI applies migrations before deployment and saves a D1 recovery bookmark as an Actions artifact for 30 days. Inspect that bookmark before repairing a failed deployment.
-
-Previews share staging D1 and the deployed staging Workflow. A PR migration changes that shared database; each PR must include migrations already applied there. A Preview does not run its own Workflow code.
-
-The `20260927084642_slack_documents` migration clears Slack tables and preserves `users`. Disable intake and finish or terminate old Workflow instances before applying it. Restore the previous intake mode only after the new Worker is deployed.
-
-For a local production artifact check without deploying:
-
-```sh
-vp run build:production
-bash scripts/verify-deployment-artifact.sh production
-vpx wrangler deploy --config dist/relay/wrangler.json --dry-run
-```
+CI applies migrations before deployment and saves a D1 recovery bookmark as an Actions artifact for 30 days. Inspect it before repairing a failed deployment. Previews share staging D1; a PR migration changes that shared database.
