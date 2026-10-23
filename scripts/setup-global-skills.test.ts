@@ -212,7 +212,7 @@ test('first run installs; rerun delegates scoped updates and preserves config', 
   const additions = first.calls.filter(call => call[1] === 'skills' && call[2] === 'add')
   const figmaInstall = additions.find(call => call[3] === 'figma/mcp-server-guide')
 
-  assert.deepEqual(figmaInstall, ['vpx', 'skills', 'add', 'figma/mcp-server-guide', '--global', '--skill', 'figma-generate-design', 'figma-create-new-file', '--agent', 'universal', '--yes'])
+  assert.deepEqual(figmaInstall, ['vpx', 'skills', 'add', 'figma/mcp-server-guide', '--global', '--skill', 'figma-use', 'figma-generate-library', 'figma-generate-design', 'figma-create-new-file', '--agent', 'universal', '--yes'])
   assert.equal(additions.length, 4)
   assert.match(first.stdout, /\[7\/7\] Playwright config: created/)
   assert.doesNotMatch(first.stdout, /INSTALLER BANNER|\x1b/)
@@ -229,7 +229,7 @@ test('first run installs; rerun delegates scoped updates and preserves config', 
   const figmaUpdate = updates.find(call => call.includes('figma-generate-design'))
 
   assert.equal(updates.length, 4)
-  assert.deepEqual(figmaUpdate, ['vpx', 'skills', 'update', '--global', 'figma-generate-design', 'figma-create-new-file', '--yes'])
+  assert.deepEqual(figmaUpdate, ['vpx', 'skills', 'update', '--global', 'figma-use', 'figma-generate-library', 'figma-generate-design', 'figma-create-new-file', '--yes'])
   assert.deepEqual(updates[0], ['vpx', 'skills', 'update', '--global', 'alpha', 'beta', '--yes'])
   assert.ok(updates.every(call => !call.includes('unrelated')))
   assert.equal(await readFile(f.config, 'utf8'), 'custom config')
@@ -243,6 +243,7 @@ test('new, missing and wrong-source skills are added; CLI version changes instal
   f.state.workflow.push('gamma')
 
   f.state.skills = f.state.skills.filter(skill => skill.name !== 'beta')
+  f.state.skills = f.state.skills.filter(skill => !['figma-use', 'figma-generate-library'].includes(skill.name))
   f.state.skills.find(skill => skill.name === 'alpha')!.source = 'wrong/repo'
   f.state.latest = '0.1.20'
 
@@ -254,8 +255,10 @@ test('new, missing and wrong-source skills are added; CLI version changes instal
 
   const additions = result.calls.filter(call => call[2] === 'add')
 
-  assert.equal(additions.length, 1)
+  assert.equal(additions.length, 2)
   assert.deepEqual(additions[0].slice(6, -3), ['alpha', 'beta', 'gamma'])
+  assert.deepEqual(additions[1], ['vpx', 'skills', 'add', 'figma/mcp-server-guide', '--global', '--skill', 'figma-use', 'figma-generate-library', '--agent', 'universal', '--yes'])
+  assert.ok(result.calls.some(call => call.join(' ') === 'vpx skills update --global figma-generate-design figma-create-new-file --yes'))
   assert.ok(result.calls.some(call => call.join(' ') === 'vp install -g @playwright/cli@0.1.20'))
 })
 

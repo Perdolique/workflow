@@ -48,7 +48,17 @@ pnpm run setup:skills
 
 Add `--verbose` for detailed output. Setup prints the full log path and preserves your existing Playwright config.
 
-Setup includes the official Figma skills `figma-generate-design` and `figma-create-new-file` from [figma/mcp-server-guide](https://github.com/figma/mcp-server-guide/tree/main/skills).
+Setup includes the full official Figma skill packages from [figma/mcp-server-guide](https://github.com/figma/mcp-server-guide/tree/main/skills), including their references and scripts: `figma-use` for editable Figma elements through MCP, `figma-generate-library` for tokens, styles, and component libraries from code, `figma-generate-design` for screens built from design system components, and `figma-create-new-file` for new files.
+
+To install only these Figma skills:
+
+```bash
+vpx skills add figma/mcp-server-guide --global --skill figma-use figma-generate-library figma-generate-design figma-create-new-file --agent universal --yes
+```
+
+Start a new agent session after installation so it can discover the skills. If they are still missing, restart the agent app.
+
+The upstream packages also link to separate Code Connect, Slides, and motion skills, which are outside this set. The token scope link in `figma-use/references/working-with-design-systems/wwds-variables.md` has the wrong relative path upstream; use `../../../figma-generate-library/references/token-creation.md` from that file instead.
 
 To install only the skills from this repository:
 
