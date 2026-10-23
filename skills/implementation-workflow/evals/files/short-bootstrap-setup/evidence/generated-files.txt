@@ -1,0 +1,5 @@
+.cloudflare/types/index.d.ts
+.cloudflare/output/v0/workers/default/worker.config.json
+.cloudflare/output/v0/workers/default/bundle/index.js.map
+.cloudflare/output/v0/workers/default/bundle/index.js
+.cloudflare/output/v0/config.json

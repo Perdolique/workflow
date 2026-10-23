@@ -27,5 +27,5 @@ EOF
   exit 1
 fi
 
-skill-validator check --strict --allow-dirs=evals skills/
-skill-validator check --strict --allow-dirs=evals .agents/skills/
+skill-validator check --strict --allow-dirs=evals --exclude-token-paths=evals skills/
+skill-validator check --strict --allow-dirs=evals --exclude-token-paths=evals .agents/skills/

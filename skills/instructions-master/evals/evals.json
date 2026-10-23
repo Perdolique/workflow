@@ -116,6 +116,24 @@
         "The checker performs a direct read-only check and returns supported issues without making edits or delegating another final check.",
         "The final response reports the independent check and the outstanding supported corrections, and does not claim the candidate is complete or correct."
       ]
+    },
+    {
+      "id": 9,
+      "prompt": "When I ask you to start working on a task, whether it is in GitHub, Jira, or another tracker in the future, the task does not show that I am working on it. I think you should at least set me as the assignee if that has not already been done. Update the workflow instructions for this.\n\nWork in the supplied project snapshot and return the edited files and a short explanation. This snapshot contains the relevant instruction and overview files; the full repository and installed package dependencies are not included. Report any unavailable checks accurately.\n\nInput preparation: The historical workflow is stored as skills/implementation-workflow/SKILL.fixture.md so agents do not discover it as an installed skill. In a temporary project copy, rename it to SKILL.md before starting the task.",
+      "expected_output": "A focused edit to the existing full workflow adds the requested ownership action and preserves the surrounding procedure. It does not make task status management part of starting implementation or duplicate the general workflow.",
+      "files": [
+        "evals/files/start-assigned-work/AGENTS.md",
+        "evals/files/start-assigned-work/README.md",
+        "evals/files/start-assigned-work/skills/implementation-workflow/SKILL.fixture.md"
+      ],
+      "expectations": [
+        "The saved implementation-workflow/SKILL.md requires assigning the user to a tracked task when the user starts implementation and the user is not already assigned.",
+        "The assignment rule covers the source tracker in general, including GitHub and Jira, without requiring a particular account name or the agent service account.",
+        "The saved instructions do not require an in-progress status transition, status-field setup, or status-selection question as part of this request.",
+        "The full workflow preserves its existing selection-versus-implementation boundary, plan-only behavior, clarification rules, preservation of user changes, and verification/finish procedure.",
+        "The new rule adds the assignment decision without restating the existing workflow for planning permission, blockers, independent work, and final reporting in a second assignment-specific checklist.",
+        "The output is an actual edit to the instruction file and a truthful report, not only proposed advice or a claim of unavailable repository checks passing."
+      ]
     }
   ]
 }

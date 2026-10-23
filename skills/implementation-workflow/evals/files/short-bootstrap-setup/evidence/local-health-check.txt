@@ -1,0 +1,40 @@
+$ node --input-type=module <<'JS'
+import assert from 'node:assert/strict';
+const response = await fetch('http://127.0.0.1:8787/health');
+const body = await response.json();
+const head = await fetch('http://127.0.0.1:8787/health', { method: 'HEAD' });
+assert.equal(response.status, 200);
+assert.deepEqual(body, { status: 'ok' });
+assert.equal(response.headers.get('cache-control'), 'no-store');
+assert.equal(head.status, response.status);
+for (const name of ['content-type', 'cache-control', 'content-length']) {
+  assert.equal(head.headers.get(name), response.headers.get(name));
+}
+assert.equal(await head.text(), '');
+console.log(JSON.stringify({ GET: { status: response.status, body, headers: Object.fromEntries(response.headers) }, HEAD: { status: head.status, headers: Object.fromEntries(head.headers), body: '' } }, null, 2));
+JS
+
+{
+  "GET": {
+    "status": 200,
+    "body": {
+      "status": "ok"
+    },
+    "headers": {
+      "cache-control": "no-store",
+      "content-encoding": "gzip",
+      "content-type": "application/json",
+      "transfer-encoding": "chunked"
+    }
+  },
+  "HEAD": {
+    "status": 200,
+    "headers": {
+      "cache-control": "no-store",
+      "content-encoding": "gzip",
+      "content-type": "application/json"
+    },
+    "body": ""
+  }
+}
+Exit code: 0

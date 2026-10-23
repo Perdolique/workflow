@@ -1,0 +1,239 @@
+*** Begin Patch
+*** Update File: server/database.ts
+@@
+ import type { RequestStatus, WorkflowStatusAction } from '#request-workflow'
++import type { GitHubRepositories } from '#github-api'
++import type { GitHubInventory } from './github-client'
+@@
+ const githubInstallations = sqliteTable('github_installations', {
+@@
+ })
++
++const githubInventoryCache = sqliteTable('github_inventory_cache', {
++  appId: text('app_id').primaryKey().notNull(),
++  inventory: text({ mode: 'json' }).$type<GitHubInventory>(),
++  fetchedAt: integer('fetched_at'),
++  refreshAfter: integer('refresh_after').notNull().default(0),
++  retryAfter: integer('retry_after').notNull().default(0),
++  leaseId: text('lease_id'),
++  leaseUntil: integer('lease_until').notNull().default(0),
++  failure: text({ mode: 'json' }).$type<GitHubRepositories['failure']>()
++})
+@@
+-export { users, userPermissions, githubInstallations, githubRepositories, githubRepositoryEvents, requestWorkflowEvents, slackUserProfiles, slackEmojiCatalogues, slackRequests, slackMessages, slackEvents, slackProcessingRuns, slackClassificationResults, sourceCreatedAt }
++export { users, userPermissions, githubInstallations, githubInventoryCache, githubRepositories, githubRepositoryEvents, requestWorkflowEvents, slackUserProfiles, slackEmojiCatalogues, slackRequests, slackMessages, slackEvents, slackProcessingRuns, slackClassificationResults, sourceCreatedAt }
+*** Update File: src/github-api.ts
+@@
+   installationUrl: nullable(string()),
++  refreshInMs: pipe(number(), minValue(0)),
++  refreshing: boolean(),
+*** Update File: server/github-client.ts
+@@
+ interface GitHubRequestOptions {
+   body?: string;
+   allowMissing?: boolean;
++  signal: AbortSignal;
+ }
+@@
+-async function githubRequest(url: string, token: string, { body, allowMissing = false }: GitHubRequestOptions = {}): Promise<Response> {
++async function githubRequest(url: string, token: string, { body, allowMissing = false, signal }: GitHubRequestOptions): Promise<Response> {
+@@
+-    signal: AbortSignal.timeout(10_000),
++    signal,
+@@
+     const requestId = response.headers.get('x-github-request-id')
+     const method = options.method ?? 'GET'
++    const retrySeconds = Number(response.headers.get('retry-after'))
++    const resetSeconds = Number(response.headers.get('x-ratelimit-reset'))
++    const limited = response.status === 429 || response.status === 403
++    let retryAt = limited ? Date.now() + 60_000 : 0
++
++    if (limited && Number.isFinite(retrySeconds) && retrySeconds > 0) {
++      retryAt = Math.max(retryAt, Date.now() + retrySeconds * 1000)
++    }
++
++    if (limited && response.headers.get('x-ratelimit-remaining') === '0' && Number.isFinite(resetSeconds)) {
++      retryAt = Math.max(retryAt, resetSeconds * 1000)
++    }
+@@
+         requestId,
+-        diagnostic
++        diagnostic,
++        retryAt
+@@
+ async function readGitHubInventory(configuration: GitHubConfiguration): Promise<GitHubInventory> {
++  // Bound the complete check, including pagination, below the shared cache lease.
++  const signal = AbortSignal.timeout(20_000)
+@@
+-  const installationResponse = await githubRequest(discoveryPath, jwt, { allowMissing: true })
++  const installationResponse = await githubRequest(discoveryPath, jwt, { allowMissing: true, signal })
+@@
+-  const tokenResponse = await githubRequest(tokenPath, jwt, { body: tokenBody })
++  const tokenResponse = await githubRequest(tokenPath, jwt, { body: tokenBody, signal })
+@@
+-    const response = await githubRequest(next, token.token)
++    const response = await githubRequest(next, token.token, { signal })
+@@
+-export type { GitHubInventory }
++export type { GitHubInventory, GitHubConfiguration }
+*** Add File: server/github-inventory-cache.ts
++import { and, eq, isNull, lte, or, sql } from 'drizzle-orm'
++import type { drizzle } from 'drizzle-orm/d1'
++import { integer, maxValue, minValue, number, object, optional, pipe, safeParse } from 'valibot'
++import { githubInventoryCache } from './database'
++import { logAccessFailure } from './access'
++import { readGitHubInventory, type GitHubConfiguration } from './github-client'
++
++const cacheLifetimeMs = 5 * 60_000
++const refreshCooldownMs = 30_000
++const leaseLifetimeMs = 30_000
++
++const githubHttpFailureSchema = object({
++  status: pipe(number(), integer(), minValue(100), maxValue(599)),
++  retryAt: optional(number(), 0)
++})
++
++type GitHubDatabase = ReturnType<typeof drizzle>
++type InventoryCache = typeof githubInventoryCache.$inferSelect
++
++interface ReadOptions {
++  database: GitHubDatabase;
++  configuration: GitHubConfiguration;
++  mode: 'read' | 'refresh' | 'connect';
++}
++
++interface InventoryResult {
++  cached: InventoryCache | undefined;
++  verified: boolean;
++}
++
++function describeFailure(error: unknown) {
++  const cause = error instanceof Error ? error.cause : null
++  const parsed = safeParse(githubHttpFailureSchema, cause)
++
++  if (!parsed.success) {
++    return {
++      message: 'The server could not complete the GitHub check.',
++      retryAt: 0
++    }
++  }
++
++  const { status, retryAt } = parsed.output
++  const explanations: Record<number, string> = {
++    401: 'GitHub rejected the App credentials (HTTP 401). Ask a workspace administrator to check the server key.',
++    403: 'GitHub denied the request (HTTP 403). Check the App access and GitHub rate limits.',
++    429: 'GitHub reached its request limit (HTTP 429). Try again later.'
++  }
++
++  return {
++    message: explanations[status] ?? `GitHub returned HTTP ${status}.`,
++    retryAt
++  }
++}
++
++async function readInventory({ database, configuration, mode }: ReadOptions): Promise<InventoryResult> {
++  const { appId } = configuration
++  const now = Date.now()
++  const cached = await database.select().from(githubInventoryCache).where(
++    eq(githubInventoryCache.appId, appId)
++  ).get()
++
++  const fresh = cached?.fetchedAt !== null && cached?.fetchedAt !== undefined && now - cached.fetchedAt < cacheLifetimeMs
++  const blocked = (cached?.retryAfter ?? 0) > now || (cached?.leaseUntil ?? 0) > now
++  const coolingDown = mode !== 'connect' && (cached?.refreshAfter ?? 0) > now
++
++  if (blocked || coolingDown || (mode === 'read' && fresh && cached?.failure === null)) {
++    return { cached, verified: false }
++  }
++
++  if (cached === undefined) {
++    await database.insert(githubInventoryCache).values({ appId }).onConflictDoNothing()
++  }
++
++  const leaseId = crypto.randomUUID()
++  const eligible = [
++    eq(githubInventoryCache.appId, appId),
++    lte(githubInventoryCache.retryAfter, now),
++    lte(githubInventoryCache.leaseUntil, now)
++  ]
++
++  if (mode !== 'connect') {
++    eligible.push(lte(githubInventoryCache.refreshAfter, now))
++  }
++
++  if (mode === 'read') {
++    const staleBefore = now - cacheLifetimeMs
++    eligible.push(or(isNull(githubInventoryCache.fetchedAt), lte(githubInventoryCache.fetchedAt, staleBefore), sql`${githubInventoryCache.failure} is not null`)!)
++  }
++
++  const claimed = await database.update(githubInventoryCache).set({
++    leaseId,
++    leaseUntil: now + leaseLifetimeMs,
++    refreshAfter: now + refreshCooldownMs
++  }).where(
++    and(...eligible)
++  ).returning()
++
++  if (claimed.length === 0) {
++    const current = await database.select().from(githubInventoryCache).where(
++      eq(githubInventoryCache.appId, appId)
++    ).get()
++
++    return { cached: current, verified: false }
++  }
++
++  const owner = and(eq(githubInventoryCache.appId, appId), eq(githubInventoryCache.leaseId, leaseId))
++
++  try {
++    const inventory = await readGitHubInventory(configuration)
++    const fetchedAt = Date.now()
++
++    // Both writes are fenced by the same lease inside one D1 transaction.
++    const result = await database.batch([
++      database.run(sql`
++        insert into github_installations (app_id, installation_id)
++        select ${appId}, ${inventory.installationId} from github_inventory_cache
++        where app_id = ${appId} and lease_id = ${leaseId} and ${inventory.installationId} is not null
++        on conflict (app_id) do update set installation_id = excluded.installation_id
++      `),
++      database.update(githubInventoryCache).set({
++        inventory,
++        fetchedAt,
++        refreshAfter: fetchedAt + refreshCooldownMs,
++        retryAfter: 0,
++        leaseId: null,
++        leaseUntil: 0,
++        failure: null
++      }).where(owner).returning()
++    ])
++
++    const completed = result[1][0]
++
++    if (completed !== undefined) {
++      return { cached: completed, verified: true }
++    }
++  } catch (error) {
++    const reference = crypto.randomUUID()
++    const { message, retryAt } = describeFailure(error)
++    const retryAfter = Math.max(Date.now() + refreshCooldownMs, retryAt)
++
++    logAccessFailure('github_inventory_failed', error, reference)
++
++    await database.update(githubInventoryCache).set({
++      refreshAfter: retryAfter,
++      retryAfter,
++      leaseId: null,
++      leaseUntil: 0,
++      failure: { message, reference }
++    }).where(owner)
++  }
++
++  const current = await database.select().from(githubInventoryCache).where(
++    eq(githubInventoryCache.appId, appId)
++  ).get()
++
++  return { cached: current, verified: false }
++}
++
++export { readInventory }
+*** End Patch

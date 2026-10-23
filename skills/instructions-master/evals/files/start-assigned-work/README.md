@@ -1,0 +1,167 @@
+# Workflow - AI coding skills
+
+A collection of reusable skills and assistant instructions that extend LLM capabilities with specialized knowledge and workflows.
+
+## What's inside
+
+### Skills
+
+Reusable skills that provide specialized knowledge and capabilities:
+
+| Skill | Description |
+| --- | --- |
+| [code-review](./skills/code-review/) | Orchestrate evidence-based reviews, including applicable practices and code consistency, with one compact reviewer or focused specialists |
+| [cost-aware-development](./skills/cost-aware-development/) | Apply current service pricing and subscription context to implementation decisions with material cost impact |
+| [commit-creator](./skills/commit-creator/) | Create English conventional commit messages for the current changes |
+| [drizzle-orm](./skills/drizzle-orm/) | Drizzle ORM 1.0 patterns with Relations v2, RQB v2, and SQL builder guidance |
+| [github-release](./skills/github-release/) | Create or draft GitHub releases from existing tags and repository history |
+| [implementation-workflow](./skills/implementation-workflow/) | Guide all repository edits and their planning, from small fixes to phased work, and select the next task from the project tracker |
+| [instructions-master](./skills/instructions-master/) | Create, edit, review, and evaluate skills and other agent instructions |
+| [markdownlint](./skills/markdownlint/) | Configure, manage, and troubleshoot markdownlint in projects |
+| [playwright-e2e-testing](./skills/playwright-e2e-testing/) | Write and maintain Playwright browser, E2E, and direct API tests with their fixtures and mocks |
+| [pr-creator](./skills/pr-creator/) | Create GitHub pull requests from code changes or generate PR content in chat |
+| [repository-updater](./skills/repository-updater/) | Analyze repository updates and their relevant release impact by default, then apply explicitly requested updates |
+| [typescript-conventions](./skills/typescript-conventions/) | TypeScript coding conventions for typed code in `.ts`, `.tsx`, and embedded TypeScript files |
+| [vitest-unit-testing](./skills/vitest-unit-testing/) | Write and maintain TypeScript unit tests with Vitest 5, mocks, and focused contract coverage |
+| [vue-components](./skills/vue-components/) | Vue 3 and TypeScript conventions for component APIs, state, SFC structure, template mechanics, lifecycle, and Vue-specific bindings |
+| [web-interface-conventions](./skills/web-interface-conventions/) | Framework-independent HTML, accessibility, CSS, visual design, interaction, and UX conventions for web interfaces |
+
+## Quick start
+
+### Using skills
+
+Install or update the global skills and Playwright CLI, including Chromium. Requires Node.js 26 and Vite+ (`vp` and `vpx`).
+
+```bash
+pnpm run setup:skills
+```
+
+Add `--verbose` for detailed output. Setup prints the full log path and preserves your existing Playwright config.
+
+To install only the skills from this repository:
+
+```bash
+vpx skills add example/assistant-workflows --global --skill '*' --agent universal --yes
+```
+
+### Non-standard coding assistant instructions
+
+This repository includes my personal custom instructions for coding assistants. The canonical file is `non-standard/codex/AGENTS.md`; Copilot-specific files point to it where that setup is useful for my tools.
+
+| File | Target | Description |
+| --- | --- | --- |
+| [AGENTS.md](./non-standard/codex/AGENTS.md) | Codex | Personal instructions that guide the assistant across projects |
+| [config.toml](./non-standard/codex/config.toml) | Codex CLI, IDE, and desktop app | Personal Codex configuration |
+| [personal.rules](./non-standard/codex/rules/personal.rules) | Codex command policy | Personal Codex execution rules |
+| [copilot-instructions.md](./non-standard/copilot/copilot-instructions.md) | GitHub Copilot CLI | Symlink to the canonical Codex instructions |
+
+#### Codex global instructions
+
+Codex reads my global guidance from `~/.codex/AGENTS.md`.
+
+```bash
+mkdir -p ~/.codex
+ln -s /path/to/workflow/non-standard/codex/AGENTS.md ~/.codex/AGENTS.md
+```
+
+#### Codex configuration
+
+Copy the tracked configuration into a new Codex home:
+
+```bash
+mkdir -p ~/.codex
+cp /path/to/workflow/non-standard/codex/config.toml ~/.codex/config.toml
+```
+
+Merge it manually when `~/.codex/config.toml` already exists.
+
+#### Codex command rules
+
+Review and install the tracked personal rules separately:
+
+```bash
+mkdir -p ~/.codex/rules
+cp /path/to/workflow/non-standard/codex/rules/personal.rules \
+  ~/.codex/rules/personal.rules
+```
+
+#### GitHub Copilot CLI instructions
+
+GitHub Copilot CLI reads local user instructions from `$HOME/.copilot/copilot-instructions.md`.
+
+```bash
+mkdir -p ~/.copilot
+ln -s /path/to/workflow/non-standard/copilot/copilot-instructions.md ~/.copilot/copilot-instructions.md
+```
+
+#### GitHub Copilot in VS Code
+
+VS Code can use repository-wide instructions from `.github/copilot-instructions.md` or `AGENTS.md`. For my user-level prompt instructions, VS Code can also read `.instructions.md` files from `~/.copilot/instructions/`. Those files need `applyTo` frontmatter to apply automatically, so do not symlink the Codex `AGENTS.md` file directly as a VS Code instructions file.
+
+```bash
+mkdir -p ~/.copilot/instructions
+{
+  printf '%s\n' '---' 'applyTo: "**"' '---' ''
+  cat /path/to/workflow/non-standard/codex/AGENTS.md
+} > ~/.copilot/instructions/global.instructions.md
+```
+
+Replace `/path/to/workflow` with the actual path to this repository.
+
+Official references:
+
+- [Codex AGENTS.md guidance](https://developers.openai.com/codex/codex-manual.md#custom-instructions-with-agentsmd)
+- [GitHub Copilot CLI custom instructions](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-custom-instructions)
+- [GitHub Copilot custom instructions support](https://docs.github.com/en/copilot/reference/custom-instructions-support)
+- [VS Code custom instructions](https://code.visualstudio.com/docs/copilot/customization/custom-instructions)
+
+> [!WARNING]
+> These instructions override assistant defaults and contain opinionated
+> communication style preferences. Review the file before installing.
+
+### LSP configuration
+
+The repository includes an LSP (Language Server Protocol) configuration for GitHub Copilot CLI's `/lsp` command. This configuration enables language-specific features and autocompletion by specifying LSP servers for different file types.
+
+**Configuration file**: [non-standard/copilot/lsp-config.json](./non-standard/copilot/lsp-config.json)
+
+**Supported language servers**:
+
+- TypeScript/JavaScript - `typescript-language-server`
+- Vue - `vue-language-server`
+
+#### Installation
+
+Place the configuration file in your Copilot directory:
+
+```bash
+cp /path/to/workflow/non-standard/copilot/lsp-config.json ~/.copilot/lsp-config.json
+```
+
+Or symlink it:
+
+```bash
+ln -s /path/to/workflow/non-standard/copilot/lsp-config.json ~/.copilot/lsp-config.json
+```
+
+Replace `/path/to/workflow` with the actual path to this repository.
+
+#### Prerequisites
+
+Install the required language servers globally:
+
+```bash
+npm install -g typescript-language-server typescript
+npm install -g @vue/language-server
+```
+
+Make sure the language servers are available in your PATH before using the configuration.
+
+## License
+
+Unlicense (unless otherwise specified for individual components)
+
+---
+
+> [!NOTE]
+> This is a personal collection of opinionated and sometimes quirky skills. Feel free to explore, use, and adapt them for your own projects.

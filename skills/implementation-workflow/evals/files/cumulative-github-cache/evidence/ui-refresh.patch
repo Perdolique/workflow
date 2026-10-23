@@ -1,0 +1,103 @@
+*** Begin Patch
+*** Update File: server/github-repositories.ts
+@@
+-          return context.json({ error: 'GitHub verification is temporarily unavailable. Try again shortly.' }, 429)
++          const status = result.cached?.failure ? 503 : 429
++
++          return context.json({ error: 'GitHub verification is temporarily unavailable. Try again shortly.' }, status)
+*** Update File: src/GitHubSettings.vue
+@@
+-        <Button.Root :class="$style.button" :disabled="isBusy" @click="refreshRepositories"><Button.Content>Refresh</Button.Content></Button.Root>
++        <Button.Root :class="$style.button" :disabled="cannotRefresh" @click="refreshRepositories"><Button.Content>{{ refreshLabel }}</Button.Content></Button.Root>
+@@
+-      <div v-if="isUpstreamUnavailable" :class="$style.notice">
++      <p v-if="isChecking" :class="$style.description">Checking GitHub…</p>
++      <div v-if="isUpstreamUnavailable" :class="$style.notice">
+@@
+-import { Alert, Button, Checkbox, Dialog, useDocumentEventListener, useWindowEventListener } from '@vuetify/v0'
++import { Alert, Button, Checkbox, Dialog, useDocumentEventListener, useTimer, useWindowEventListener } from '@vuetify/v0'
+@@
+ const isSaving = shallowRef(false)
++const isCoolingDown = shallowRef(false)
+@@
+-const isUpstreamUnavailable = toRef(() => snapshot.value?.status === 'unavailable')
++const isChecking = toRef(() => snapshot.value?.refreshing === true)
++const isUpstreamUnavailable = toRef(() => snapshot.value?.status === 'unavailable' && !isChecking.value)
+@@
+-const cannotConnect = toRef(() => isSaving.value || isRefreshing.value || selectedIds.value.length === 0 || isOverSelectionLimit.value)
++const cannotConnect = toRef(() => isSaving.value || isRefreshing.value || isChecking.value || snapshot.value?.status !== 'ready' || selectedIds.value.length === 0 || isOverSelectionLimit.value)
++
++const cooldown = useTimer(() => {
++  isCoolingDown.value = false
++  void checkGitHubReturn()
++}, { duration: () => Math.min(snapshot.value?.refreshInMs ?? 0, 2_147_483_647) })
++
++const pendingCheck = useTimer(() => {
++  if (pendingGitHubAction.value !== null) {
++    void checkGitHubReturn()
++  } else {
++    void loadRepositories()
++  }
++}, { duration: 1000 })
++
++const cannotRefresh = toRef(() => isBusy.value || isCoolingDown.value || isChecking.value)
++
++const refreshLabel = toRef(() => {
++  const seconds = Math.ceil(cooldown.remaining.value / 1000)
++
++  return isCoolingDown.value ? `Refresh (${seconds}s)` : 'Refresh'
++})
+@@
+-async function loadRepositories(): Promise<boolean> {
++async function loadRepositories(refresh = false): Promise<boolean> {
+@@
+     const response = await fetch('/api/github/repositories', {
++      headers: refresh ? { 'X-GitHub-Refresh': 'true' } : undefined,
+@@
+     snapshot.value = parsed.output
+     state.value = 'ready'
++    isCoolingDown.value = parsed.output.refreshInMs > 0
++
++    cooldown.stop()
++    pendingCheck.stop()
++
++    if (isCoolingDown.value) { cooldown.start() }
++
++    if (parsed.output.refreshing) { pendingCheck.start() }
+@@
+ async function checkGitHubReturn(): Promise<void> {
+   if (pendingGitHubAction.value === null || globalThis.document.hidden || isBusy.value) { return }
+ 
++  if (isCoolingDown.value && !isChecking.value) { return }
++
+   const action = pendingGitHubAction.value
+ 
+-  pendingGitHubAction.value = null
+   progressMessage.value = 'Checking GitHub connection…'
+ 
+-  const refreshed = await loadRepositories()
++  const refreshed = await loadRepositories(!isChecking.value)
++
++  if (snapshot.value?.refreshing) { return }
++
++  if (refreshed) { pendingGitHubAction.value = null }
+@@
+ function refreshRepositories(): void {
++  if (cannotRefresh.value) { return }
++
+@@
+-    void loadRepositories()
++    void loadRepositories(true)
+@@
+     if (response.status === 409) {
+@@
+       return
+     }
++
++    if (response.status === 429) {
++      await loadRepositories()
++      actionError.value = 'GitHub is updating. Try again shortly.'
++
++      return
++    }
+*** End Patch

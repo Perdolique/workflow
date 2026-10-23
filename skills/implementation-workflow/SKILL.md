@@ -102,6 +102,7 @@ Scale detail to what the user needs to decide. Ask factual clarifications direct
   - New browser flows should run the focused scenario before the full suite.
 - Do not run a full suite reflexively for a tiny change. Do not under-verify a risky change.
 - If a check fails, determine whether the change caused it. Fix change-caused failures. Do not mark the task complete while an in-scope check fails; report unrelated or pre-existing failures with evidence.
+- For docs, assume readers know standard tools and visible UI controls. Rewrite the affected section around non-obvious setup, contracts and operating limits; link to routine commands and settings. General cleanup does not cancel reference documents required by project instructions. Keep task history in the response unless a stored record is required.
 
 Before finishing:
 
