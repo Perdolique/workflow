@@ -19,6 +19,12 @@ Before adding a test or a new case to an existing test, answer these questions f
 
 If an answer is missing, do not add the case; explain why. Prefer one test at the owning boundary. Add a table row for another input to the same contract. A second layer needs a separate transport, storage, or user risk. Small, reversible changes need no new test when existing checks cover their risk.
 
+### Remove a feature
+
+When removing a feature, first identify retired requirements and behavior that must remain. Remove tests that cover only retired requirements and fixtures no remaining test uses. Keep checks of shared behavior and required negative outcomes, such as denying access. When updating fixtures, keep input differences needed to prove the remaining behavior.
+
+Update existing tests to cover the remaining behavior before adding cases. An absence check needs a current requirement and a credible failure in remaining code, such as shared controls appearing on the wrong tab. Apply the gate above before proving a regression: restoring deleted code to make a test fail only proves that it detects that change.
+
 ### Test the proof
 
 A new test must pass these checks. For an existing test, a failed check calls for investigation, not automatic deletion.

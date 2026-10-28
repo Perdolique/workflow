@@ -143,6 +143,23 @@
         "The executor explains the remaining contract and reports the focused test result.",
         "The executor does not change unrelated production behavior."
       ]
+    },
+    {
+      "id": 10,
+      "prompt": "In remove-feature, remove repository and feature filtering from API usage totals. After this change, the public options contain only environment. Keep totals scoped to that environment. Update the implementation and tests, then report your changes and checks.",
+      "expected_output": "The executor removes the retired filters and their tests while keeping the existing proof of environment-wide totals without adding tests for retired options or deleted code.",
+      "files": [
+        "evals/files/remove-feature/package.json",
+        "evals/files/remove-feature/src/api-usage.js",
+        "evals/files/remove-feature/tests/api-usage.test.js"
+      ],
+      "expectations": [
+        "The implementation removes repository and feature filtering while retaining the environment scope and total calculation.",
+        "The executor deletes the repository and feature filtering tests and keeps the existing total test with an independent expected value.",
+        "The executor adds no cases for ignored or rejected repository/feature options and no source-text or symbol-absence checks.",
+        "The remaining test fails if environment isolation or cross-repository and cross-feature aggregation is broken.",
+        "The executor reports the focused test result and explains why the retired tests were removed without adding replacement cases."
+      ]
     }
   ]
 }
