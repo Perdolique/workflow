@@ -143,11 +143,9 @@ url = "https://formisch.dev/mcp"
 [mcp_servers.figma]
 url = "https://mcp.figma.com/mcp"
 
-[mcp_servers.stitch]
-url = "https://stitch.googleapis.com/mcp"
-
-[mcp_servers.stitch.env_http_headers]
-X-Goog-Api-Key = "STITCH_API_KEY"
+[mcp_servers.open-pencil]
+command = "vpx"
+args = ["--package", "@open-pencil/mcp", "openpencil-mcp"]
 
 [tui]
 show_tooltips = false
