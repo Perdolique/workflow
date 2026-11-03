@@ -157,8 +157,101 @@
         "The implementation removes repository and feature filtering while retaining the environment scope and total calculation.",
         "The executor deletes the repository and feature filtering tests and keeps the existing total test with an independent expected value.",
         "The executor adds no cases for ignored or rejected repository/feature options and no source-text or symbol-absence checks.",
+        "The retained input data still distinguishes repositories and features within the requested environment and includes another environment.",
         "The remaining test fails if environment isolation or cross-repository and cross-feature aggregation is broken.",
         "The executor reports the focused test result and explains why the retired tests were removed without adding replacement cases."
+      ]
+    },
+    {
+      "id": 11,
+      "prompt": "In strengthen-existing, search labels must trim surrounding whitespace and use lowercase letters so matching is case-insensitive. normalizeLabel currently preserves case. Fix this behavior and update tests as needed. Report your changes and checks.",
+      "expected_output": "The executor fixes case normalization and strengthens the existing search-label test instead of adding another case for the same scenario.",
+      "files": [
+        "evals/files/strengthen-existing/package.json",
+        "evals/files/strengthen-existing/src/normalize-label.js",
+        "evals/files/strengthen-existing/tests/normalize-label.test.js"
+      ],
+      "expectations": [
+        "The implementation trims surrounding whitespace and converts letters to lowercase.",
+        "The existing search-label test uses mixed-case input with surrounding whitespace and an independent lowercase expected result.",
+        "The whitespace-only behavior remains protected, and no additional test or table row is added for ordinary label normalization.",
+        "The strengthened test fails on the pre-fix implementation and when trimming is removed, then passes with both behaviors present.",
+        "The executor reports the actual checks and explains why strengthening the existing scenario was sufficient."
+      ]
+    },
+    {
+      "id": 12,
+      "prompt": "In overlapping-coverage, clean up redundant tests. Keep the supported behavior unchanged and report the reason for each change and the checks you ran.",
+      "expected_output": "The executor removes repeated normalization proof across table rows and test files while retaining the distinct normalization and public API contracts.",
+      "files": [
+        "evals/files/overlapping-coverage/package.json",
+        "evals/files/overlapping-coverage/README.md",
+        "evals/files/overlapping-coverage/src/normalize-id.js",
+        "evals/files/overlapping-coverage/src/record-api.js",
+        "evals/files/overlapping-coverage/tests/normalize-id.test.js",
+        "evals/files/overlapping-coverage/tests/record-api.test.js"
+      ],
+      "expectations": [
+        "The cleanup consolidates the equivalent ordinary-ID table rows and removes the direct normalizeId-only check from the API test file without adding equivalent cases elsewhere.",
+        "The remaining tests catch lost trimming, lost lowercasing, and a whitespace-only result other than null, using independent expected values.",
+        "The real getRecord tests retain request normalization, status and record_id response mapping, and the not-found response as separate API risks.",
+        "The executor identifies the remaining check for each contract and does not remove API proof merely because it also exercises normalization.",
+        "The production behavior is unchanged, and the executor reports focused results and evidence for the retained protection."
+      ]
+    },
+    {
+      "id": 13,
+      "prompt": "In retired-feature, clean up obsolete tests based on the project's current supported behavior. Report your decisions and checks.",
+      "expected_output": "The executor removes tests of the retired XML feature without treating an old test or private leftover helper as a current requirement.",
+      "files": [
+        "evals/files/retired-feature/package.json",
+        "evals/files/retired-feature/README.md",
+        "evals/files/retired-feature/src/handle-export.js",
+        "evals/files/retired-feature/src/legacy-xml.js",
+        "evals/files/retired-feature/tests/handle-export.test.js",
+        "evals/files/retired-feature/tests/legacy-xml.test.js"
+      ],
+      "expectations": [
+        "The executor uses the current JSON-only contract and checks the legacy helper's callers before deciding that XML proof is obsolete.",
+        "The XML test is deleted; the unused private helper may also be deleted after its callers are checked.",
+        "The existing public JSON test remains and catches a changed content type, record_count key, or count.",
+        "No new test checks XML source or symbol absence, or invents handling for an unsupported format option.",
+        "The executor preserves the supported export behavior and reports the focused test result and the basis for retiring XML proof."
+      ]
+    },
+    {
+      "id": 14,
+      "prompt": "In remove-preview, remove preview mode from approve. The public operation now takes only actor and request. Keep the authorization rules: only active actors from the request's team can approve. Update implementation and tests, then report your changes and checks.",
+      "expected_output": "The executor rewrites preview-only proof to cover inactive-actor denial while retaining the existing approval and cross-team denial checks.",
+      "files": [
+        "evals/files/remove-preview/package.json",
+        "evals/files/remove-preview/src/approve.js",
+        "evals/files/remove-preview/tests/approve.test.js"
+      ],
+      "expectations": [
+        "The implementation removes preview mode while retaining the active-actor and same-team rules.",
+        "The executor rewrites the retired preview scenario as an inactive-actor denial test and retains the existing authorized and cross-team denial checks.",
+        "The cross-team test uses an active actor, fails when the same-team rule is removed, and passes when that rule is present.",
+        "The inactive-actor denial test uses an actor from the request's team, fails when the active-actor rule is removed, and passes when it is present, without using the retired preview argument.",
+        "No new case exists solely to check missing preview symbols or ignored or rejected preview options.",
+        "The executor reports the actual focused checks and distinguishes the retired mode from required negative behavior."
+      ]
+    },
+    {
+      "id": 15,
+      "prompt": "In debug-label, change the cache-hit console prefix from [cache] to [cache lookup]. Keep cache lookup behavior unchanged and update tests as needed. Report your changes and checks.",
+      "expected_output": "The executor makes the small diagnostic-label change and uses the existing syntax check without creating a new test setup or tests for non-contract wording.",
+      "files": [
+        "evals/files/debug-label/package.json",
+        "evals/files/debug-label/README.md",
+        "evals/files/debug-label/src/trace-cache.js",
+        "evals/files/debug-label/src/read-cache.js"
+      ],
+      "expectations": [
+        "The diagnostic prefix changes to [cache lookup] while cache lookup behavior stays unchanged.",
+        "The executor uses the current callers and documented use of the message to assess the change's risk.",
+        "The executor adds no tests, test runner, test-only export, or source-text assertion for the diagnostic wording.",
+        "The existing syntax check passes, and the executor explains why no important uncovered risk justifies a new test."
       ]
     }
   ]
