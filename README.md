@@ -56,9 +56,17 @@ To install only these Figma skills:
 vpx skills add figma/mcp-server-guide --global --skill figma-use figma-generate-library figma-generate-design figma-create-new-file --agent universal --yes
 ```
 
-Start a new agent session after installation so it can discover the skills. If they are still missing, restart the agent app.
+The upstream Figma packages also link to separate Code Connect, Slides, and motion skills, which are outside this set. The token scope link in `figma-use/references/working-with-design-systems/wwds-variables.md` has the wrong relative path upstream; use `../../../figma-generate-library/references/token-creation.md` from that file instead.
 
-The upstream packages also link to separate Code Connect, Slides, and motion skills, which are outside this set. The token scope link in `figma-use/references/working-with-design-systems/wwds-variables.md` has the wrong relative path upstream; use `../../../figma-generate-library/references/token-creation.md` from that file instead.
+Setup also includes the official [OpenPencil skill](https://github.com/open-pencil/open-pencil/tree/master/skills/open-pencil) and its design authoring reference for inspecting and editing design files and the running OpenPencil app.
+
+To install only this skill:
+
+```bash
+vpx skills add open-pencil/open-pencil --global --skill open-pencil --agent universal --yes
+```
+
+Start a new agent session after installation so it can discover the skills. If they are still missing, restart the agent app.
 
 To install only the skills from this repository:
 

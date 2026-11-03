@@ -34,6 +34,11 @@ const sources: SkillSource[] = [
     label: 'Figma skills',
     repo: 'figma/mcp-server-guide',
     names: ['figma-use', 'figma-generate-library', 'figma-generate-design', 'figma-create-new-file']
+  },
+  {
+    label: 'OpenPencil skill',
+    repo: 'open-pencil/open-pencil',
+    names: ['open-pencil']
   }
 ]
 
