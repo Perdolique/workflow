@@ -90,7 +90,7 @@ Scale detail to what the user needs to decide. Ask factual clarifications direct
 
 ## Use parallel work selectively
 
-- Use subagents only when independent work can run concurrently and the benefit exceeds coordination cost. Prefer read-only research, risk analysis, test discovery, and architecture comparison.
+- Use subagents for required independent reviews. For other work, use them when independent parallel tasks justify the coordination cost. Prefer read-only research, risk analysis, test discovery, and architecture comparison.
 - Give each subagent a narrow objective, exact evidence to inspect, boundaries, edit permission, and required output. Avoid overlapping edits. The orchestrator integrates decisions and runs final verification.
 
 ## Verify and finish
