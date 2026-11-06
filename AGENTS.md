@@ -17,6 +17,8 @@ This repository contains reusable skills and assistant instructions that extend 
 
 ## Workflow rules
 
+- The usual setup installs the global instructions and all repository skills together. Keep shared policies in `non-standard/codex/AGENTS.md` and preserve requirements across the set.
+- Skills should work without this repository's specific global instruction file. References to standard instruction files such as a project's `AGENTS.md` are allowed. Refer to other skills by name.
 - Before any repository edit, including a small one, read the applicable AGENTS.md files and relevant skills and follow the established naming, formatting, and structural conventions.
 - For creating, editing, reviewing, or evaluating skills or other agent instructions, use [instructions-master](skills/instructions-master/SKILL.md). It controls authoring scope and evaluation, including tasks that only inspect instructions.
 - This project publishes directly from `master`. When the user asks to push, commit all uncommitted changes and push `master` to `origin`.
