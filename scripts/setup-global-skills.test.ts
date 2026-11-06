@@ -211,10 +211,12 @@ test('first run installs; rerun delegates scoped updates and preserves config', 
 
   const additions = first.calls.filter(call => call[1] === 'skills' && call[2] === 'add')
   const figmaInstall = additions.find(call => call[3] === 'figma/mcp-server-guide')
+  const openPencilInstall = additions.find(call => call[3] === 'open-pencil/open-pencil')
 
   assert.deepEqual(figmaInstall, ['vpx', 'skills', 'add', 'figma/mcp-server-guide', '--global', '--skill', 'figma-use', 'figma-generate-library', 'figma-generate-design', 'figma-create-new-file', '--agent', 'universal', '--yes'])
-  assert.equal(additions.length, 4)
-  assert.match(first.stdout, /\[7\/7\] Playwright config: created/)
+  assert.deepEqual(openPencilInstall, ['vpx', 'skills', 'add', 'open-pencil/open-pencil', '--global', '--skill', 'open-pencil', '--agent', 'universal', '--yes'])
+  assert.equal(additions.length, 5)
+  assert.match(first.stdout, /\[8\/8\] Playwright config: created/)
   assert.doesNotMatch(first.stdout, /INSTALLER BANNER|\x1b/)
   assert.match(first.log, /INSTALLER BANNER/)
   assert.match(first.log, /installer stderr/)
@@ -227,9 +229,11 @@ test('first run installs; rerun delegates scoped updates and preserves config', 
 
   const updates = second.calls.filter(call => call[2] === 'update')
   const figmaUpdate = updates.find(call => call.includes('figma-generate-design'))
+  const openPencilUpdate = updates.find(call => call.includes('open-pencil'))
 
-  assert.equal(updates.length, 4)
   assert.deepEqual(figmaUpdate, ['vpx', 'skills', 'update', '--global', 'figma-use', 'figma-generate-library', 'figma-generate-design', 'figma-create-new-file', '--yes'])
+  assert.deepEqual(openPencilUpdate, ['vpx', 'skills', 'update', '--global', 'open-pencil', '--yes'])
+  assert.equal(updates.length, 5)
   assert.deepEqual(updates[0], ['vpx', 'skills', 'update', '--global', 'alpha', 'beta', '--yes'])
   assert.ok(updates.every(call => !call.includes('unrelated')))
   assert.equal(await readFile(f.config, 'utf8'), 'custom config')

@@ -4,6 +4,7 @@
   "type": "module",
   "description": "Useful tools and utilities",
   "scripts": {
+    "test": "vp node --test scripts/setup-global-skills.test.ts",
     "lint:markdown": "markdownlint '**/*.md' '.agents/**/*.md'",
     "lint:skills": "./scripts/lint-skills.sh",
     "setup:skills": "./scripts/setup-global-skills.sh",

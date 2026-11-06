@@ -25,16 +25,21 @@ This repository contains reusable skills and assistant instructions that extend 
 
 ### Task verification
 
-Run verification after a complete group of repository edits and verify the final state before finishing. Use intermediate checks when they help diagnose a problem; repeat affected checks after further edits.
+After each complete group of repository edits, run all four checks below and verify the final state before finishing, including for documentation-only changes.
 
-| Check | When to run |
-| --- | --- |
-| `pnpm exec worsier --write <changed-files>` | Before final checks when TypeScript files changed; rerun relevant tests after formatting |
-| `pnpm exec worsier --check .` | For every task that changes repository files |
-| `pnpm run lint:markdown` | For every task that changes repository files |
-| `pnpm run lint:skills` | When files under `skills/` changed |
+- Complete any required dependency installation first. If TypeScript files changed, run `pnpm exec worsier --write <changed-files>` before validation.
+- Run independent checks in parallel when safe; keep dependent steps sequential.
 
-Fix verification failures and require exit code 0 from all applicable commands before marking the task complete. Run these checks before finishing even when a pre-commit hook also runs them. Skill lint validates the package structure; behavioral evaluation follows instructions-master.
+```bash
+pnpm exec worsier --check .
+pnpm run lint:markdown
+pnpm run lint:skills
+pnpm test
+```
+
+- Wait for every check to finish, inspect each result, and require exit code 0 from all four before marking the task complete. Fix failures and rerun affected checks.
+- Use intermediate checks when they help diagnose a problem, and repeat affected checks after further edits.
+- Run these checks before finishing even when a pre-commit hook also runs them. Skill lint validates the package structure; behavioral evaluation follows instructions-master.
 
 ## Context-window research
 
