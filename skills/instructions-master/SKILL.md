@@ -5,47 +5,40 @@ description: Create, edit, review, or evaluate reusable skills and other agent i
 
 # Instructions master
 
-- Write English instructions at B1 level: use common words, short sentences, and correct grammar. Keep needed technical terms and explain unfamiliar ones.
-- Make the full instruction set clear and consistent. Preserve working behavior, scope, and useful exceptions; rewrite the wording as needed.
-- This skill controls authoring and evaluation when skills disagree. Follow higher-priority instructions and explicit user direction. Use domain sources for domain facts.
+Use short, direct B1 English with correct grammar. Keep needed technical terms and explain unfamiliar ones.
+
+This skill controls authoring and evaluation when skills disagree. Follow higher-priority instructions and explicit user direction. Use domain sources for domain facts.
 
 ## Establish the contract
 
 - Read the full target and the instructions that apply to it. Identify its audience, scope, priority, and how it is loaded.
-- Map the rules by meaning before editing: what each rule requires, when it applies, and where rules overlap or conflict. Separate confirmed requirements from assumptions and proposals.
-- Check related instructions, history, and automated checks when they can affect the decision.
-- Use context and settled user or project conventions to resolve uncertainty first. Ask about remaining uncertainty before the affected decision; continue independent work while waiting.
+- List required behavior, triggers, scope, and useful exceptions in a short checklist. Separate confirmed requirements from assumptions and proposals. Check related rules, history, and automation where relevant.
+- Use context and settled conventions first. Ask about remaining uncertainty before the affected decision; continue independent work while waiting.
 
-## Reshape the rules
+## Draft compact instructions
 
-- Build the normal procedure first: what to do, when to do it, and what result to produce. Prefer this positive guidance over a list of forbidden alternatives.
-- Base each rule on a confirmed user or project requirement, a tool constraint, or an observed problem. Treat explicit requirements and tool constraints as sufficient grounds for their boundaries.
-- For each added constraint, exception, or clarification, identify its source and the decision it changes. Keep it when it adds needed guidance beyond the normal procedure. Carry settled decisions into the procedure; use the task report for the history of discarded alternatives.
-- Address observed mistakes by making the required action or decision clearer first. Earlier mistakes alone do not show that the clarified instruction needs an extra prohibition.
-- Add a prohibition only when it expresses an explicit requirement or a real tool constraint, or when recorded executions show that clear positive guidance still fails without it. Keep its scope tied to that evidence and place it with the rule it qualifies.
-- Rewrite the affected section as a whole when local patches would add repetition or complex conditions. Merge rules with the same purpose and resolve conflicts across applicable instructions in priority order.
-- Preserve established user and project preferences. Extend a rule to new situations only when confirmed needs support that scope.
-- Place each rule at the narrowest level that reaches its audience. Repeat it only when separate audiences or enforcement layers need it independently. Before removing a rule covered by automation, verify that the checks enforce the same behavior.
-- Make each skill work on its own. Include its core procedure and bundle required references in its package. Other installed skills may add optional guidance.
-- Preserve user control. Change descriptions and triggers only when the scope changes or observed selection errors show a need. Edit related files only when their own requirements or behavior are affected.
+- State when to act, what to do, and the expected result. Prefer a positive procedure.
+- Base each rule on a confirmed need, tool limit, or observed problem. Keep details only when they change a decision or prevent a misunderstanding. Put task history in the report.
+- Clarify the required action before adding a ban. A ban needs an explicit requirement, a tool limit, or evidence that clearer positive guidance still fails. Keep it with the rule it qualifies.
+- Preserve user and project preferences. Extend scope only for confirmed needs. Change descriptions and triggers only for scope changes or observed selection errors; edit related files only when their requirements or behavior change.
+- Place rules at the narrowest level that reaches their audience. Repeat them only for audiences or enforcement layers that need them independently. Before removing a rule covered by automation, verify equivalent behavior.
+- Keep each skill self-contained: include its core procedure and bundle required references. Other skills may add optional guidance.
+- Use lists for standalone instructions, one main idea per item. Number steps when order matters.
 
-## Write clearly
+## Shorten and validate
 
-- Split chains of conditions and actions into clear steps. Add a brief reason or example when it helps explain a non-obvious goal, trade-off, or boundary.
-- Use lists for consecutive standalone instructions, with one main idea per item. Use numbered lists when order matters. Keep introductions, explanations, and example lead-ins as prose where that reads naturally.
-- Keep each rule understandable from the loaded document and its linked materials. Keep useful examples, correct grammar, and necessary articles when shortening text.
+1. Write a shorter draft of each section containing a changed rule. Include unchanged rules in that section; merge repetition while preserving behavior. Leave unrelated sections alone.
+2. Check the draft against every checklist item and related instructions, including permissions and hidden dependencies. Resolve conflicts by instruction priority.
+3. Keep the shortest clear version that passes. Retain examples and extra wording only when they add needed guidance or avoid a specific ambiguity.
 
 ## Evaluate proportionally
 
-- For a narrow wording change, review the full final document and diff, then run required repository checks.
-- Read [the evaluation method](references/evaluation.md) when the user requests evaluation or a change materially affects behavior, skill selection, or how instructions work together.
+For wording changes, review the full final text and diff, then run required checks. For evaluation requests or material changes to behavior, selection, or instruction interactions, use [the evaluation method](references/evaluation.md).
 
 ## Finish
 
 After the final edit to any skill or other agent instructions, apply this skill again to the complete final state before finishing. Use one fresh independent subagent with `fork_turns="none"` when available. Otherwise, run the final check yourself and report this limit.
 
-- Give the checker the confirmed task, complete changed instructions and final diff, and all applicable or related instructions. Ask it to apply this skill in a direct read-only check and return supported issues.
-- Read the full result alongside the other applicable instructions. Check B1 wording, repetition, conflicts, and hidden dependencies. Confirm that the agreed behavior, scope, and needed exceptions remain intact.
-- Recheck each added rule against its source and purpose. Compare the final instructions with a shorter draft that preserves the required behavior. Keep the clearer version and only files needed for the change.
-- Fix supported issues. If instructions change after the check, repeat it on the updated final state.
+- Give the checker the task, checklist, original text, shorter draft, complete final instructions, diff, and related instructions. Ask for a direct read-only check of meaning, B1 wording, repetition, conflicts, and dependencies, with shorter replacements for wordy rules.
+- Read the full result and recheck each added rule's source and purpose. Fix supported issues, keep only needed files, and repeat the check after further edits.
 - Report the checks performed and any behavior that could not be verified.

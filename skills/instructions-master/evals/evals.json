@@ -134,6 +134,21 @@
         "The new rule adds the assignment decision without restating the existing workflow for planning permission, blockers, independent work, and final reporting in a second assignment-specific checklist.",
         "The output is an actual edit to the instruction file and a truthful report, not only proposed advice or a claim of unavailable repository checks passing."
       ]
+    },
+    {
+      "id": 10,
+      "prompt": "Update evals/files/check-results-guide.md so the final response also lists checks that were not run. Keep the existing statuses, command-result rules, and publication permission. Return the revised guide and a brief explanation.",
+      "expected_output": "The affected reporting section is made compact by default while adding the requested report item. A concrete shorter draft is checked against the contract without weakening status or publication rules.",
+      "files": [
+        "evals/files/check-results-guide.md"
+      ],
+      "expectations": [
+        "The final report includes checks that were not run, as well as completed checks and useful failure output.",
+        "The guide waits for command completion and uses exit code 0 for pass and nonzero for fail; commands that cannot start remain not run.",
+        "The revision consolidates repeated waiting, classification, and reporting instructions instead of keeping the verbose section and appending another rule.",
+        "The execution gives the independent final checker a concrete compact draft and the required behavior to compare, rather than only claiming that the instructions are concise.",
+        "The publication section remains outside the edit, and the revision adds no unrelated workflow, quotas, or dependencies."
+      ]
     }
   ]
 }
