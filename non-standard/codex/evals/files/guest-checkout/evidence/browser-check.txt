@@ -1,0 +1,4 @@
+BrowserKit smoke check
+Scenario: open a static page, press Close.
+Observed: closed event fired once. PASS.
+Other controller presentations, bank app switching and process termination were not exercised.

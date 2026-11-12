@@ -11,8 +11,9 @@ This skill controls authoring and evaluation when skills disagree. Follow higher
 
 ## Establish the contract
 
-- Read the full target and the instructions that apply to it. Identify its audience, scope, priority, and how it is loaded.
-- List required behavior, triggers, scope, and useful exceptions in a short checklist. Separate confirmed requirements from assumptions and proposals. Check related rules, history, and automation where relevant.
+- Establish what the instructions help the user or product achieve. Read the full target and applicable guidance. Identify its audience, scope, priority, and actual entry points.
+- Follow relevant references, neighboring rules, configuration and handoffs to check how the target is selected, loaded, used and summarized. Check their combined behavior, including unchanged rules. Stop extending the inspection when more context cannot affect the contract or requested result.
+- List required behavior, triggers, scope, and useful exceptions in a short checklist. Separate confirmed requirements from assumptions and proposals. Use relevant history and automation to check uncertain requirements.
 - Use context and settled conventions first. Ask about remaining uncertainty before the affected decision; continue independent work while waiting.
 
 ## Draft compact instructions
@@ -28,7 +29,7 @@ This skill controls authoring and evaluation when skills disagree. Follow higher
 ## Shorten and validate
 
 1. Write a shorter draft of each section containing a changed rule. Include unchanged rules in that section; merge repetition while preserving behavior. Leave unrelated sections alone.
-2. Check the draft against every checklist item and related instructions, including permissions and hidden dependencies. Resolve conflicts by instruction priority.
+2. Check the draft against every checklist item and how related instructions work together, including unchanged rules, permissions and hidden dependencies. Resolve conflicts by instruction priority.
 3. Keep the shortest clear version that passes. Retain examples and extra wording only when they add needed guidance or avoid a specific ambiguity.
 
 ## Evaluate proportionally
@@ -39,6 +40,6 @@ For wording changes, review the full final text and diff, then run required chec
 
 After the final edit to any skill or other agent instructions, apply this skill again to the complete final state before finishing. Use one fresh independent subagent with `fork_turns="none"` when available. Otherwise, run the final check yourself and report this limit.
 
-- Give the checker the task, checklist, original text, shorter draft, complete final instructions, diff, and related instructions. Ask for a direct read-only check of meaning, B1 wording, repetition, conflicts, and dependencies, with shorter replacements for wordy rules.
+- Give the checker the task, checklist, original text, shorter draft, complete final instructions, diff, and related instructions with the relevant entry points and handoffs. Ask for a direct read-only check of meaning, B1 wording, repetition, conflicts, and dependencies, with shorter replacements for wordy rules.
 - Read the full result and recheck each added rule's source and purpose. Fix supported issues, keep only needed files, and repeat the check after further edits.
 - Report the checks performed and any behavior that could not be verified.

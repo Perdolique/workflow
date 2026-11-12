@@ -25,7 +25,8 @@ Apply this section when asked to choose or plan the next task without a named ta
 
 ## Prepare the implementation
 
-- Read project instructions and inspect the working tree, current diff, nearby patterns, tests, decisions, and experiment records. Identify the result, constraints, non-goals, affected areas, and verification needs.
+- Establish the user or business goal and trace the affected journey or workflow through relevant entry points, systems, and failure or recovery paths. Follow dependencies far enough to check that the proposed change can deliver the intended result. Scale this to the task.
+- Read project instructions and inspect the working tree, current diff, relevant briefs, surrounding code and patterns, tests, decisions, and experiment records. Confirm the result, constraints, non-goals, affected areas, and verification needs before choosing an approach.
 - Apply `typescript-conventions` to TypeScript, `vue-components` to Vue, `web-interface-conventions` to interface work, and `drizzle-orm` to Drizzle queries as relevant.
 - Use `repository-updater` for dependency, tooling, runtime, or infrastructure updates. Use `cost-aware-development` before choices with material cost or allowance impact when its supported providers apply.
 - Use `markdownlint` for Markdown lint configuration or problems.

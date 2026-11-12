@@ -4,14 +4,14 @@ Test behavior, skill selection, or how instructions work together when a wording
 
 ## Evaluation data
 
-Use an existing `evals/evals.json` when available. It contains `skill_name` and an `evals` array.
+Use an existing `evals/evals.json` when available. It contains an `evals` array and identifies the target with `skill_name` for a skill or `instruction_file` for other instructions. Resolve `instruction_file` relative to `evals.json`.
 
 Each case contains:
 
 - `id`: unique case identifier.
 - `prompt`: realistic task given to the executor.
 - `expected_output`: concise description of success.
-- `files`: input paths relative to the evaluated skill directory.
+- `files`: input paths relative to the evaluated skill directory, or to the instruction file's directory for other instructions.
 - `expectations`: independently verifiable statements about the result or actions.
 
 Preserve existing cases unless the intended behavior changes. Add or revise a case only for an important requirement that the current set does not test.
@@ -20,6 +20,7 @@ Preserve existing cases unless the intended behavior changes. Add or revise a ca
 
 - Derive cases from the intended behavior, observed failures, and close alternatives that must remain valid.
 - Include ordinary matching tasks, boundary cases, and likely near-misses when testing selection.
+- When wider context is part of the change, include evidence outside the immediate target that changes the correct result, plus a small task that needs only a local check.
 - Make each expectation capable of detecting a regression. Do not grade wording, headings, or file size unless they are the actual contract.
 - Avoid telling the executor the desired solution, suspected failure, or grading expectations.
 
@@ -55,6 +56,7 @@ For every expectation, report:
 - Evidence identifying the relevant output, artifact, or action; explain what is missing for `unverified`.
 
 - Inspect artifacts directly when possible. An executor's claim that a check passed is not proof.
+- When research quality is in scope, check which decision questions the evidence resolves, whether the executor seeks evidence against its leading option, and whether decisive caveats reach the final user answer. Judge the reasoning against source evidence and the user or business goal; source counts and stated confidence alone do not prove quality.
 - Keep failures with different causes separate. Count each cause once.
 
 ## Decide and iterate

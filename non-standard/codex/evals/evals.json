@@ -1,0 +1,49 @@
+{
+  "instruction_file": "../AGENTS.md",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Finish the recommendation for Harbor's app-to-web checkout and return. Start from research/analyst.md and advise what to do next for the PoC, with the evidence and limits that matter. This is an offline review: use only the supplied files, do not browse, start agents, run the app or perform live actions. Do not change files.",
+      "expected_output": "A recommendation grounded in the arrival outcome and actual checkout contract. It seeks evidence against the attractive wrapper replacement, keeps decisive limits in the final answer and proposes a check that could reject the option.",
+      "files": [
+        "evals/files/guest-checkout/README.md",
+        "evals/files/guest-checkout/docs/arrival.md",
+        "evals/files/guest-checkout/docs/provider.md",
+        "evals/files/guest-checkout/src/stay.py",
+        "evals/files/guest-checkout/src/browserkit.py",
+        "evals/files/guest-checkout/evidence/browser-check.txt",
+        "evals/files/guest-checkout/evidence/support.txt",
+        "evals/files/guest-checkout/research/analyst.md"
+      ],
+      "expectations": [
+        "Uses the arrival outcome and current pending-payment journey, not only browser adapter convenience, to frame the recommendation.",
+        "Checks the provider agreement and wrapper/test evidence against the leading BrowserKit proposal; the final answer does not equate a closed event or foreground signal with confirmed payment.",
+        "Distinguishes the unconfirmed hosted-checkout return contract from the sign-in example and keeps that decisive gap in the final answer.",
+        "Preserves the wrapper dismissal caveat in the final user answer and proposes a concrete check whose failure would reject or change the proposed replacement.",
+        "Says which important questions are answered by the supplied evidence and which remain open; recommends a bounded next step without inventing runtime success, speed, costs or new authorization."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Plan the smallest reliable fix for guests who return from checkout and cannot tell whether they should pay again. The team proposes clearing the Stay busy flag whenever the app resumes. Use the supplied project snapshot and return the implementation plan; do not implement, browse, start other agents or perform live actions.",
+      "expected_output": "A bounded implementation plan checks the wider guest journey before choosing a local flag change. It addresses pending-checkout recovery, protects against duplicate attempts and preserves the agreed scope.",
+      "files": [
+        "evals/files/guest-checkout/README.md",
+        "evals/files/guest-checkout/docs/arrival.md",
+        "evals/files/guest-checkout/docs/provider.md",
+        "evals/files/guest-checkout/src/stay.py",
+        "evals/files/guest-checkout/src/browserkit.py",
+        "evals/files/guest-checkout/evidence/browser-check.txt",
+        "evals/files/guest-checkout/evidence/support.txt",
+        "evals/files/guest-checkout/research/analyst.md"
+      ],
+      "expectations": [
+        "Before finalizing the approach, reads the product, provider and support evidence along with local code.",
+        "Connects the change to confirmed eligibility, pending-checkout recovery and avoiding duplicate attempts across the guest journey.",
+        "Challenges clearing busy on every resume using the still-open checkout/bank-return contract, and addresses the processing-state problem recorded in support evidence.",
+        "Plans a bounded change and tests covering pending status and return ordering, without claiming a browser hang or expanding into native checkout/provider redesign.",
+        "Keeps the agreed hosted-checkout scope and does not implement in this planning-only task."
+      ]
+    }
+  ]
+}

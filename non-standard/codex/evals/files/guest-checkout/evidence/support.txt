@@ -1,0 +1,4 @@
+Support reproduction
+Guest opened checkout, approved in a bank app, returned to hosted checkout, then pressed Close.
+Stay reloaded once and showed the existing checkout as processing. The screen offered Pay again without explaining the pending state.
+An engineer proposed clearing busy on every app resume to make the button available sooner. There is no evidence that the browser operation hung after actual dismissal.

@@ -149,6 +149,25 @@
         "The execution gives the independent final checker a concrete compact draft and the required behavior to compare, rather than only claiming that the instructions are concise.",
         "The publication section remains outside the edit, and the revision adds no unrelated workflow, quotas, or dependencies."
       ]
+    },
+    {
+      "id": 11,
+      "prompt": "Review guides/research.md for clarity and whether it serves this assistant's purpose. Recommend the smallest changes needed. Work read-only with the supplied snapshot; do not browse or start other agents.",
+      "expected_output": "A read-only assessment traces real loading and reporting across the complete instruction set, identifies a conflict that hides decision-relevant risks, and recommends a small fix at the responsible rule.",
+      "files": [
+        "evals/files/report-handoff/README.md",
+        "evals/files/report-handoff/agent-config.json",
+        "evals/files/report-handoff/guides/research.md",
+        "evals/files/report-handoff/references/report-handoff.md",
+        "evals/files/report-handoff/policies/final-report.md"
+      ],
+      "expectations": [
+        "Traces the guide's real use through the README, configuration, handoff and report policy rather than judging only its bullet wording.",
+        "Identifies the conflict between the analyst returning readiness risks and the reporter suppressing those risks from the operator.",
+        "Explains the operator decision harmed by that conflict and locates the fix in the affected report/handoff rule.",
+        "Keeps publication approval and the actual upload limit; does not invent new workflow, quotas or permission gates.",
+        "Provides a read-only evaluation grounded in the current complete rules and keeps unrelated guidance outside proposed edits."
+      ]
     }
   ]
 }
