@@ -31,7 +31,7 @@ Coordinate a compact reviewer or focused specialists to review an existing chang
 ## Subagent model selection
 
 - Apply this policy to every subagent assignment, including planning, review children, validation, and resolution. Leave the user's main-agent model and effort unchanged.
-- Use the configured subagent defaults for ordinary assignments, including routine final validation, and omit both `model` and `reasoning_effort` at launch. The intended baseline is `gpt-6.1-sol` with `xhigh`. Routine cross-file tracing, asynchronous UI states, and fixture or guard checks belong on this baseline.
+- For ordinary assignments, including routine final validation, explicitly pass `model="gpt-6.1-sol"` and `reasoning_effort="xhigh"` at launch, even when configured subagent defaults differ. Routine cross-file tracing, asynchronous UI states, and fixture or guard checks use this baseline.
 - Before choosing stronger settings, collect available context and check the assignment. Split independent responsibilities that compete for attention, but keep interacting contracts together when they need joint analysis.
 - Choose from these automatic escalations based on the assignment's concrete reasoning difficulty:
 
