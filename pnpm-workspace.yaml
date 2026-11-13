@@ -1,5 +1,2 @@
 saveExact: true
 minimumReleaseAgeExcludePrune: true
-overrides:
-  markdownlint-cli@0.50.0>minimatch: 11.0.8
-  micromark-extension-math@3.1.0>katex: 0.19.1
