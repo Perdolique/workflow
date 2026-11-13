@@ -19,7 +19,7 @@
     "check": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm lint:md && pnpm knip && pnpm test && pnpm build"
   },
   "dependencies": {
-    "hono": "4.13.13"
+    "hono": "4.13.18"
   },
   "devDependencies": {
     "@cloudflare/vitest-plugin": "1.4.4",
