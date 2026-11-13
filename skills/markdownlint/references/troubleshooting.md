@@ -2,63 +2,51 @@
 
 Common markdownlint issues and their solutions.
 
-**Note:** This guide uses `pnpm` in examples. Replace with your project's package manager (npm/yarn/bun).
-
 ## Too many linting errors in existing markdown files
 
-**Solution:** Start with a permissive configuration and gradually enable rules. Suggest running `pnpm run lint:markdown` first to see what fails, then offer to disable the most common failing rules temporarily.
-
-**Quick fix:** Disable problematic rules:
-
-```yaml
-line-length: false
-no-trailing-spaces: false
-no-multiple-blanks: false
-```
-
-Then gradually re-enable and fix one rule at a time.
+Run the project's lint command to see which files and rules fail. Fix authorized violations in small groups under the existing policy, using automatic fixes where safe. Report work outside the requested scope. Change rules or exclusions only when that change is part of the request or settled project requirements.
 
 ## Line-length rule conflicts with generated content
 
-**Solution:** This is already handled in the default config by disabling `line-length`. If other generated-content issues appear, add specific files to `.markdownlintignore` rather than disabling more rules globally.
+Check the active rule and how the project handles generated files. If exclusion is appropriate within the requested scope, ignore the specific generated files. Preserve the rule for maintained content.
 
 ## Markdown files in subdirectories aren't being checked
 
-**Solution:** The glob pattern `'**/*.md'` should catch all files unless they're in ignored directories. Verify `.markdownlintignore` isn't too aggressive and check for shell expansion issues (the single quotes around the glob are important).
+Check the quoted glob, ignore patterns, and working directory. Hidden directories need `--dot` or explicit paths.
 
 **Debug steps:**
 
-1. Run with explicit path: `markdownlint docs/subfolder/file.md`
+1. Run with an explicit path: `vpx markdownlint docs/subfolder/file.md`
 2. Check if file is in `.markdownlintignore`
 3. Verify npm script uses quotes: `"markdownlint '**/*.md'"`
 
 ## Pre-commit hook fails in CI or on other machines
 
-**Solution:** Ensure `husky` is installed as a devDependency and the `prepare` script runs `husky` (or `husky install` for older versions). Also verify the hook file has executable permissions in git: `git add --chmod=+x .husky/pre-commit`.
+Check that Husky is installed and initialized for the project's version. Inspect the tracked hook mode with `git ls-files --stage .husky/pre-commit` (`100755` means executable), and its working-tree permissions with `ls -l .husky/pre-commit`. If the hook needs executable permissions, use `chmod +x .husky/pre-commit` and leave the change for review.
 
 ## Config file changes not taking effect
 
 **Solution:**
 
-1. Verify `.markdownlint.yaml` syntax is correct (proper YAML format)
+1. Check the existing config's syntax in its current format
 2. Check for typos in rule names
-3. Ensure file is in project root, not subdirectory
-4. Try running with explicit config: `markdownlint '**/*.md' --config .markdownlint.yaml`
+3. Check the CLI's working directory and config discovery
+4. Run with the actual config path, for example: `vpx markdownlint '**/*.md' --config .markdownlint.jsonc`
 
 ## "Cannot find module 'markdownlint'" error
 
 **Solution:**
 
-1. Verify packages are installed: `ls node_modules/markdownlint`
-2. Install if missing: `pnpm add -D markdownlint markdownlint-cli`
-3. Check if running in correct directory (where package.json is)
-4. Clear and reinstall: `rm -rf node_modules pnpm-lock.yaml && pnpm install`
+1. Check the failing command's working directory and the relevant package or workspace.
+2. Compare its declared dependencies with the installed core library and CLI.
+3. If a declared dependency is missing, run the project's install command using its existing lockfile. Add only a package that is actually missing from the required dependency declarations.
+4. If the error remains, inspect package resolution and the install error before choosing a targeted repair. Keep the lockfile and unrelated dependencies.
 
 ## Linting is too slow in large repositories
 
 **Solutions:**
 
-1. **Add more to ignore file** - Exclude generated docs, vendor files
+1. **Review exclusions** - Exclude confirmed generated docs and vendor files within the requested scope
 2. **Use staged files only** in Husky - Only check changed files
 3. **Split by directory** - Create separate scripts for different doc areas:
 
@@ -71,9 +59,7 @@ Then gradually re-enable and fix one rule at a time.
 
 ## VS Code extension conflicts with CLI config
 
-**Solution:** Both should use `.markdownlint.yaml` automatically, but if they differ:
-
-1. Verify VS Code extension is installed: `DavidAnson.vscode-markdownlint`
-2. Check workspace settings don't override config
-3. Reload VS Code window after config changes
-4. Ensure no `.markdownlintrc` or other config formats exist (use only `.markdownlint.yaml`)
+1. Check the installed extension (`DavidAnson.vscode-markdownlint`) and its workspace settings.
+2. Compare the config loaded by the editor with the CLI's config and working directory.
+3. Align both with the project's existing config, keeping its format and intended rules. Remove a duplicate config only after confirming it is unused or conflicting.
+4. Reload the editor after changing its settings or config.

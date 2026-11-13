@@ -1,6 +1,6 @@
 ---
 name: cost-aware-development
-description: Use when planning, implementing, or reviewing a change that can materially affect infrastructure cost, metered usage, plan allowances, or subscription requirements in a project using Cloudflare, Neon, HIBP, or GitHub Actions. Confirm the provider is actually used or proposed from repository evidence and read only its matching reference. Skip unrelated changes and projects without covered services. Preserve correctness and user experience, and present material cost trade-offs before implementation.
+description: Use when planning, implementing, or reviewing a change that adds a known charge or can materially affect infrastructure cost, metered usage, plan allowances, or subscription requirements in a project using Cloudflare, Neon, HIBP, or GitHub Actions. Confirm provider use from repository evidence and read only its matching reference. Skip unrelated changes and projects without covered services. Preserve correctness and user experience, and present material cost trade-offs before implementation.
 ---
 
 # Cost-aware development
@@ -12,9 +12,9 @@ Use the user's existing services and subscriptions as implementation context. Se
 Apply this skill only when both conditions are true:
 
 1. Repository instructions, configuration, dependencies, bindings, CI, existing code, or the requested design show that the project uses or is considering a covered service.
-2. The task can materially change a paid resource, metered usage, an allowance, or a subscription requirement.
+2. The task adds a known charge or can materially change cost, metered usage, an allowance, or a subscription requirement.
 
-Do not infer provider usage from this skill's availability. If neither condition is established, stop applying the skill and continue the task without a cost report.
+Confirm provider use from project evidence, not this skill's availability. If either condition is missing, continue the task without a cost report.
 
 Covered references:
 
@@ -45,16 +45,15 @@ Before comparing designs:
 - Check whether an already subscribed service provides the needed capability without a new paid resource.
 - Prefer a simpler, lower-cost design when behavior, correctness, reliability, user experience, and operational burden are materially equivalent.
 - When a cheaper design adds limits, latency, complexity, weaker reliability, reduced visibility, degraded user experience, or stronger provider coupling, explain the concrete trade-off and let the user choose before implementation.
-- Do not invent a behavior-changing cost-control option merely to provide an alternative. When the direct incremental cost is small and no budget pressure or scaling evidence makes it material, report the cost without manufacturing a restriction or approval decision.
 - Do not add caching, batching, retention jobs, queues, sampling, quotas, or other cost controls for hypothetical usage. Recommend them only when repository evidence, expected volume, or a clear billing threshold establishes a material benefit.
 - Preserve raw technical errors in telemetry while keeping user-facing errors safe; cost reduction does not justify removing necessary diagnostics.
 - When cost is one factor among several, keep the technical conclusion independent: reject a cheaper design that does not meet the actual requirements.
 
 ## Communicate only useful cost information
 
-If the change has no material cost effect, stop the cost analysis and continue the task without mentioning providers, plans, billing, allowances, subscriptions, this skill, or the absence of a cost effect.
+Skip cost reporting for unrelated changes or changes with no relevant billing effect. Report a small known added charge briefly, without inventing a cost-control option or approval decision.
 
-When cost can change materially, communicate only what supports the decision:
+When cost can change materially, communicate what supports the decision:
 
 - the billing dimension and scope
 - the known or estimated incremental effect
@@ -62,4 +61,4 @@ When cost can change materially, communicate only what supports the decision:
 - the behavioral or operational trade-off
 - the user decision required before implementation, if any
 
-If no material trade-off is established, say so rather than creating one. Use ranges or break-even thresholds when exact workload data is unavailable. Label facts, estimates, assumptions, and unknowns explicitly, and avoid false precision.
+Use ranges or break-even thresholds when exact workload data is unavailable. Label facts, estimates, assumptions, and unknowns explicitly, and avoid false precision.

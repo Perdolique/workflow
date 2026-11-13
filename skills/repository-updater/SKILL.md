@@ -150,11 +150,10 @@ Render one direct update card for every candidate in the ordinary result.
 3. Apply targets from the ordinary result unless the user explicitly requests newly published releases or accepts bypassing the maturity period; in that case, apply the matching targets from the zero-maturity result.
 4. Apply required migrations and every automatic or user-approved adaptation across all causally affected usage.
 5. If the repository uses pnpm 11.22.0 or later after the update, add `minimumReleaseAgeExcludePrune: true` to `pnpm-workspace.yaml` unless the setting is already present. Preserve an explicit `false`. This prunes `minimumReleaseAgeExclude` entries no longer resolved by the lockfile ([introduced in pnpm 11.22.0](https://github.com/pnpm/pnpm/releases/tag/v11.22.0)). If added, mention the setting and its purpose in the final report.
-6. Prefer the discovered repository workflow; otherwise use the ecosystem's standard update method.
+6. Use the discovered repository workflow, or the ecosystem's standard method, to update the selected declarations and refresh their lockfile resolutions. Preserve authorized direct versions and package scope; choose commands from their documented behavior. Include transitive resolution changes needed for the selected updates.
 7. Keep affected manifests, lockfiles, and version pins consistent.
-8. After updating declared Node.js dependencies, run `vp update` to update transitive dependencies in the lockfile.
-9. Run relevant repository checks after all update and adaptation steps.
-10. Inspect the final diff and every lockfile change to confirm that every selected direct update and adaptation was applied, identify every transitive version that changed and every package resolution that was added or removed, and verify that the resulting manifest, lockfile, and version-pin changes are consistent.
+8. Run relevant repository checks after all update and adaptation steps.
+9. Inspect the final diff and every lockfile change to confirm that every selected direct update and adaptation was applied, that other direct versions stayed unchanged, and that manifests, lockfiles, and version pins agree. Identify every transitive version change and every added or removed package resolution for the report below.
 
 Finish with this form:
 

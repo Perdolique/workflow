@@ -1,8 +1,6 @@
 # Integration management
 
-Use when user wants to modify existing integrations (npm scripts, git hooks, CI).
-
-**Note:** This guide uses `pnpm` in examples. Replace with your project's package manager (npm/yarn/bun).
+Use when the user wants to modify existing integrations (npm scripts, git hooks, CI).
 
 ## Updating npm scripts
 
@@ -12,7 +10,7 @@ Use when user wants to modify existing integrations (npm scripts, git hooks, CI)
 "scripts": {
   "lint:markdown": "markdownlint '**/*.md'",
   "lint:markdown:fix": "markdownlint '**/*.md' --fix",
-  "lint:markdown:verbose": "markdownlint '**/*.md' --verbose"
+  "lint:markdown:json": "markdownlint '**/*.md' --json"
 }
 ```
 
@@ -24,7 +22,7 @@ Use when user wants to modify existing integrations (npm scripts, git hooks, CI)
 }
 ```
 
-**Add output formatting:**
+**Set an explicit config:**
 
 ```json
 "scripts": {
@@ -54,7 +52,7 @@ pnpm run lint:markdown
 . "$(dirname "$0")/_/husky.sh"
 
 # Lint only staged markdown files
-git diff --cached --name-only --diff-filter=ACM | grep '\.md$' | xargs -r markdownlint
+git diff --cached --name-only --diff-filter=ACM -z -- '*.md' | xargs -0 -r vpx markdownlint
 ```
 
 **Remove from Husky:**
@@ -98,4 +96,4 @@ lint:markdown:
 
 ## VS Code integration (optional)
 
-Suggest to user they can install `DavidAnson.vscode-markdownlint` extension for real-time linting in editor. The extension will automatically use `.markdownlint.yaml` config.
+Suggest `DavidAnson.vscode-markdownlint` for linting in the editor. Use the project's existing config and check workspace settings if editor and CLI results differ.

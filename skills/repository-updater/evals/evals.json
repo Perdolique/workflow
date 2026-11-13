@@ -173,6 +173,20 @@
         "The report labels removal of node_compat as Applied and identifies the simpler configuration and unchanged runtime behavior.",
         "The report does not attribute a decline to the user or present the selected adaptation as rejected, and reports the verification result in chat."
       ]
+    },
+    {
+      "id": 11,
+      "prompt": "Apply only atlas-build 4.2.0 to 4.3.0 using this repository's vp-based package workflow. Completed ordinary-policy research says 4.3.0 adds a JSON build report and requires no migration or optional adaptation. Source: https://atlas-build.example/releases/4.3.0. The other direct dependency is quiet-lib 5.0.0; discovery also found quiet-lib 5.2.0. The selected atlas-build update resolves engine-core 2.9.0 to 3.0.0 and adds fast-hash 1.0.0 transitively. Release-impact research is complete. Apply the update, run the relevant repository checks, and report the result.",
+      "expected_output": "The agent uses package-scoped update and lockfile resolution steps that keep atlas-build at the authorized 4.3.0 target and quiet-lib unchanged, then reports the selected direct update, actual notable transitive changes, and checks.",
+      "files": [],
+      "expectations": [
+        "The resulting atlas-build declaration and lockfile resolution use the authorized 4.3.0 target.",
+        "The quiet-lib direct declaration and its lockfile resolution stay at 5.0.0.",
+        "The package commands keep the requested package and version scope; the agent does not run an all-packages update, including a lockfile-only all-packages update.",
+        "The final direct-update report contains atlas-build only, with its JSON build report feature and supplied official source.",
+        "The notable transitive report records the actual engine-core major change and fast-hash addition rather than suppressing transitive updates.",
+        "The agent runs and reports the relevant repository checks."
+      ]
     }
   ]
 }

@@ -1,6 +1,6 @@
 # Fixing violations
 
-Use when user has markdownlint errors and wants to fix them.
+Use when the user has markdownlint errors and wants to fix them.
 
 ## Understanding error messages
 
@@ -24,17 +24,17 @@ Many violations can be auto-fixed:
 
 ```bash
 # Fix all auto-fixable issues
-markdownlint '**/*.md' --fix
+vpx markdownlint '**/*.md' --fix
 
 # Fix specific file
-markdownlint docs/README.md --fix
+vpx markdownlint docs/README.md --fix
 ```
 
 **After auto-fix:**
 
-1. Review changes with git diff
-2. Commit if acceptable
-3. Manually fix remaining issues that couldn't be auto-fixed
+1. Review changes with `git diff`.
+2. Manually fix remaining violations within the requested scope.
+3. Run the project's lint command and required checks, then report the changes and any remaining errors.
 
 ## Common violations and manual fixes
 
@@ -67,7 +67,7 @@ markdownlint docs/README.md --fix
 **MD041 - First line should be heading:**
 
 - Issue: File doesn't start with # heading
-- Fix: Add heading at top OR disable rule if intentional
+- Fix: Add a meaningful first heading when the project requires one; follow existing policy for document fragments
 
 ## Fixing by file vs by rule
 
@@ -75,17 +75,17 @@ markdownlint docs/README.md --fix
 
 ```bash
 # See errors for one file
-markdownlint docs/guide.md
+vpx markdownlint docs/guide.md
 
 # Fix one file
-markdownlint docs/guide.md --fix
+vpx markdownlint docs/guide.md --fix
 ```
 
 **Focus on specific rule:**
 
 ```bash
 # Find all files with MD009 errors
-markdownlint '**/*.md' | grep MD009
-
-# If it's a lot, consider disabling the rule instead
+vpx markdownlint '**/*.md' 2>&1 | rg MD009
 ```
+
+Use filtered output to locate violations. Run the full lint command to verify the result under the existing rules.

@@ -2,44 +2,26 @@
 
 Complete workflow for setting up markdownlint from scratch in a Node.js project.
 
-**Note:** This guide uses `pnpm` in examples. Replace with your project's package manager (npm/yarn/bun) as detected in the main skill file.
-
 ## Step 1: Check project setup
 
-Before making changes, verify the project structure:
-
-1. Check if `package.json` exists — if not, ask whether to initialize a Node.js project first
-2. Identify the package manager from the project's lockfile and `packageManager` field and use its commands throughout setup
-3. Check if markdownlint is already installed — if so, skip installation and only update configuration files
+1. Read existing lint scripts, config, ignore patterns, and project instructions.
+2. Check the core library and CLI separately. An installed `markdownlint` library does not provide the `markdownlint` command.
+3. Use the project's package manager for any needed install. If installation needs a new `package.json`, ask whether to initialize a Node.js project.
 
 ## Step 2: Install dependencies
 
-Add markdownlint packages as dev dependencies. We need both packages because:
+Keep the project's existing CLI when configured. For a setup using `markdownlint-cli`, add only missing dev dependencies:
 
 - `markdownlint` — the core linting library with configuration schemas
 - `markdownlint-cli` — the command-line interface for running checks
 
-```bash
-pnpm add -D markdownlint markdownlint-cli
-```
+Use `pnpm add -D markdownlint markdownlint-cli` when both are missing, or name only the missing package.
 
 Wait for installation to complete before proceeding.
 
-## Step 3: Create configuration file
+## Step 3: Configure rules
 
-Create `.markdownlint.yaml` in the project root. This file defines which rules to enable or disable.
-
-**Default configuration:**
-
-```yaml
-$schema: ./node_modules/markdownlint/schema/markdownlint-config-schema.json
-
-line-length: false # Autowraping should be handled in editors/viewers
-```
-
-**Why disable line-length?** Modern editors and markdown viewers handle text wrapping automatically, so enforcing a fixed line length often creates unnecessary friction without improving readability. Focus on semantic issues instead of presentation.
-
-Apply established project and user style requirements. Ask about remaining uncertainty in the desired rules. Common customizations include:
+Update the existing config in its current format. For a new config, use the [default in the main skill](../SKILL.md#new-configuration-default) unless project or user requirements specify other rules. Ask only about unresolved style choices. Common customizations include:
 
 - `no-inline-html: false` — allow HTML in markdown (useful for advanced formatting)
 - `no-duplicate-heading: false` — allow duplicate headings across the document
@@ -47,7 +29,7 @@ Apply established project and user style requirements. Ask about remaining uncer
 
 ## Step 4: Create ignore file
 
-Create `.markdownlintignore` in the project root to exclude generated files and external dependencies from linting.
+Preserve existing exclusions. For a new `.markdownlintignore`, start with external dependencies:
 
 **Default ignore patterns:**
 
@@ -55,16 +37,15 @@ Create `.markdownlintignore` in the project root to exclude generated files and 
 node_modules
 ```
 
-Common additional patterns to suggest if relevant:
+Add other patterns only when they match the project's content:
 
 - `dist/` or `build/` — generated documentation
-- `CHANGELOG.md` — often auto-generated and shouldn't be manually linted
-- `*.log` — log files that might use .md extension
+- `CHANGELOG.md` — if generated
 - `vendor/` — third-party markdown files
 
 ## Step 5: Add npm script
 
-Add a `lint:markdown` script to `package.json` for easy execution. Place it in the `scripts` section:
+Keep a working lint script if one exists. Otherwise, add a `lint:markdown` script to `package.json`:
 
 ```json
 "scripts": {
@@ -72,13 +53,7 @@ Add a `lint:markdown` script to `package.json` for easy execution. Place it in t
 }
 ```
 
-This script checks all markdown files in the project recursively. The `.markdownlintignore` file prevents checking unwanted directories.
-
-**Why use a script instead of running markdownlint directly?**
-
-- Works the same way across all environments (CI, local, hooks)
-- Easier to remember and document (`pnpm run lint:markdown` vs remembering CLI flags)
-- Can be extended with additional flags if needed later
+This script checks Markdown recursively, except hidden paths and files matched by `.markdownlintignore`. Add `--dot` if hidden directories are part of the requested scope. Use the same script locally, in hooks, and in CI.
 
 ## Step 6: Test the setup
 
@@ -88,11 +63,7 @@ Run the linting script to verify everything works:
 pnpm run lint:markdown
 ```
 
-If linting fails with actual issues in markdown files, show the user the errors and ask whether to:
-
-1. Fix the issues automatically (if possible)
-2. Fix them manually later
-3. Adjust the configuration to be less strict
+Fix violations within the authorized scope using [the fixing reference](fixing.md) and rerun linting. Report remaining errors and ask only if their treatment is unresolved.
 
 ## Step 7: Add verification to AGENTS.md
 
@@ -110,13 +81,7 @@ This gives future contributors the command and its scope without adding a separa
 
 ## Step 8: Integrate with Husky (if applicable)
 
-Check if Husky is already configured in the project by looking for:
-
-- `.husky/` directory
-- `husky` in devDependencies
-- `prepare` script in package.json
-
-**Only if Husky exists**, offer to add markdown linting to the pre-commit hook. This prevents committing markdown with linting errors.
+Check `.husky/`, dev dependencies, and the `prepare` script. If Husky is already used and hook integration remains open, offer it. When integration is requested, add the lint command to the existing pre-commit hook.
 
 Add or update `.husky/pre-commit`:
 
@@ -132,14 +97,14 @@ If creating a new pre-commit hook file, make it executable:
 chmod +x .husky/pre-commit
 ```
 
-**Why not always set up Husky?** Installing and configuring Husky is a separate decision that affects the entire git workflow. Only integrate with it if the user has already made that choice. If Husky doesn't exist but the user wants pre-commit linting, suggest setting up Husky separately first.
+Installing Husky affects the project's Git workflow. If no hook tool exists, settle that choice before adding one.
 
 ## Step 9: Document the setup
 
 After completing the setup, briefly explain to the user:
 
 - How to run linting: `pnpm run lint:markdown`
-- Where to customize rules: `.markdownlint.yaml`
+- Where to customize rules: the actual config path
 - How to ignore files: `.markdownlintignore`
 - Where verification is documented: `AGENTS.md` (if created/updated)
 - Whether Husky integration was added

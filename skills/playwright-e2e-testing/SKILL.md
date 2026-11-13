@@ -47,7 +47,7 @@ Standalone types are always fine to import directly:
 import type { Page, Locator } from '@playwright/test';
 ```
 
-Configure shared browser fixtures to fail on application `pageerror`, `console.error`, hydration warnings, and unresolved components. Preserve these checks when reusing the project's fixtures. Exclude only browser-generated resource errors that tests assert explicitly.
+Configure shared browser fixtures to fail on unexpected application `pageerror`, `console.error`, hydration warnings, and unresolved components. Preserve these checks when reusing the project's fixtures. For an expected diagnostic, register a narrow expectation before its trigger and assert its payload and count.
 
 Use the provided `page` and `context` for fresh browser state in each test. Share immutable data or setup resources only when tests cannot change each other's state. Finish async event handlers before page or context teardown, including when the test fails. For owned console listeners, `await page.removeAllListeners('console', { behavior: 'wait' })` in fixture cleanup can wait for registered handlers. Handle each payload-read failure inside its handler so one rejection does not end the handler while other reads are pending. Retain successful argument values and raw read errors, and report them after all owned reads finish.
 
@@ -253,19 +253,7 @@ async function mockProducts(page: Page, response: unknown): Promise<void> {
 
 ### Mock a create-and-poll flow
 
-```typescript
-async function mockPurchase(page: Page, purchaseId: string, response: unknown): Promise<void> {
-  // Mock POST (create)
-  await page.route('**/api/purchases', async (route) => {
-    await route.fulfill({ json: { id: purchaseId } });
-  });
-
-  // Mock GET (status poll)
-  await page.route(`**/api/purchases/${purchaseId}`, async (route) => {
-    await route.fulfill({ json: response });
-  });
-}
-```
+Mock the create request with the new resource ID, then mock status reads for that ID. Change the status response when the scenario needs a pending-to-complete transition. Keep the application's polling real; see [the create-and-poll helper](references/fixtures.md#successful-action-mock-post--get).
 
 ### Control unrelated external requests
 
@@ -328,6 +316,8 @@ Use worker-scoped fixtures for API authentication when the session and server da
 import { test as base, type APIRequestContext } from '@playwright/test'
 import { appBaseUrl } from './constants'
 
+export { expect } from '@playwright/test'
+
 interface WorkerFixtures {
   authedRequest: APIRequestContext;
 }
@@ -345,7 +335,7 @@ export const test = base.extend<Record<never, never>, WorkerFixtures>({
 })
 ```
 
-Import `test` from this file in API test files. The fixture is available as `{ authedRequest }` in the test callback.
+Import `test` and `expect` from this file in API tests. The fixture is available as `{ authedRequest }` in the test callback.
 
 ### Type-safe JSON parsing
 
@@ -433,7 +423,7 @@ Before considering an E2E test complete, verify:
 - [ ] Dependencies outside the tested behavior are controlled according to project network policy; tested integrations remain real in the configured test environment
 - [ ] **API tests that read JSON**: The body enters as `unknown` and Valibot validates it; only shape assertions duplicated by the schema are removed
 - [ ] **API tests without JSON reads**: Status, headers, and absent bodies use matching response assertions without an artificial schema
-- [ ] **API tests**: Auth tests use inline anonymous context, not the authenticated fixture
+- [ ] **Unauthenticated API tests**: Use an inline anonymous context
 - [ ] **API tests**: Authentication uses fixture-owned contexts with a scope that preserves independent state
 - [ ] Test runs successfully
 

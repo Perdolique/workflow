@@ -26,5 +26,5 @@
 
 - Give a dialog a clear accessible name and an initial focus target.
 - Support the close action and the platform's expected keyboard dismissal when cancellation is allowed.
-- On close, cancel or detach work owned by the dialog. Restore focus to the opener if it is still connected and visible; otherwise use a visible fallback for the same task.
+- On close, cancel or detach work owned by the dialog. Restore focus only if the dialog owned it when closing started; use the connected, visible opener or a visible fallback for the same task.
 - Keep errors and retry actions inside the dialog while it remains the active task.

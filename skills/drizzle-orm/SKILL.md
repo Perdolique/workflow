@@ -318,11 +318,14 @@ if (search) {
   const escaped = search
     .replaceAll('%', String.raw`\%`)
     .replaceAll('_', String.raw`\_`)
+  const searchPattern = `%${escaped}%`
 
   conditions.push(
-    ilike(items.name, `%${escaped}%`)
+    ilike(items.name, searchPattern)
   )
 }
+
+const offset = (page - 1) * limit
 
 const results = await db
   .select({
@@ -330,9 +333,11 @@ const results = await db
     name: items.name
   })
   .from(items)
-  .where(and(...conditions))
+  .where(
+    and(...conditions)
+  )
   .limit(limit)
-  .offset((page - 1) * limit)
+  .offset(offset)
 ```
 
 Always escape user input before passing to `ilike()` because `%` and `_` are wildcards in SQL LIKE patterns.

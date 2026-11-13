@@ -1,0 +1,59 @@
+{
+  "skill_name": "markdownlint",
+  "evals": [
+    {
+      "id": "explain-without-package-operation",
+      "prompt": "What does this error mean, and how would the Markdown change? `notes.md:4 MD022/blanks-around-headings Headings should be surrounded by blank lines`. The file contains `Intro text\n## Usage\nRun the tool.` This is a folder of notes with no package.json or lockfile.",
+      "expected_output": "A direct explanation with the corrected Markdown and no package setup step.",
+      "files": [],
+      "expectations": [
+        "Explains the heading spacing error and shows a blank line before and after the heading.",
+        "Answers without asking for a package manager, adding package files, or installing tools."
+      ]
+    },
+    {
+      "id": "fix-authorized-violations",
+      "prompt": "Fix our Markdown lint failures. package.json uses pnpm and has `lint:markdown: markdownlint '**/*.md' --dot`. `.markdownlint.yaml` has `no-trailing-spaces: true` and `no-multiple-blanks: true`; `.markdownlintignore` contains only `node_modules/`. The last run reported 180 MD009 and MD012 errors across docs/ and .github/CONTRIBUTING.md. These are all maintained by our team. There is already a staged src/app.ts change from my work. Return the actions you would take and the checks you would run.",
+      "expected_output": "A concrete repair procedure that keeps project policy and staging, includes fixes for the maintained Markdown, and gives verification commands.",
+      "files": [],
+      "expectations": [
+        "Proposes fixing the authorized Markdown violations and verifying with the existing lint script rather than pausing for another fix-versus-relax choice.",
+        "Retains the enabled rules and lint coverage of maintained docs and .github/CONTRIBUTING.md.",
+        "Reviews the resulting changes without proposing a commit, push, or index mutation.",
+        "Uses vpx for any direct markdownlint CLI execution while preserving the existing script and pnpm package operations."
+      ]
+    },
+    {
+      "id": "setup-missing-cli",
+      "prompt": "Finish setting up Markdown linting and fix the docs it flags. package.json has `packageManager: npm@11.0.0` and a devDependency on markdownlint, but no lint script or CLI package. package-lock.json exists. The repo already uses `.markdownlint.jsonc` with comments and `{ \"line-length\": { \"line_length\": 100 }, \"heading-style\": { \"style\": \"atx\" } }`. docs/guide.md uses Setext headings. Give the changes and verification commands.",
+      "expected_output": "A setup proposal includes the missing CLI and a usable script with npm, retains the JSONC policy, and gives the authorized heading changes and verification commands.",
+      "files": [],
+      "expectations": [
+        "Recognizes that the core library alone does not supply the CLI and includes adding the missing CLI dependency with npm.",
+        "Updates or uses the existing JSONC config without replacing it with a YAML config or applying a new default line-length policy.",
+        "Includes a working lint script, ATX heading changes, and verification commands without reopening permission to fix the docs."
+      ]
+    },
+    {
+      "id": "missing-module-in-workspace",
+      "prompt": "Help repair this failure: from packages/docs, `pnpm run lint:markdown` exits with `Cannot find module 'markdownlint'`. The repository root has packageManager pnpm, pnpm-workspace.yaml, and a committed pnpm-lock.yaml. The docs package declares markdownlint-cli; the root declares markdownlint. CI used to pass. Give the diagnosis steps and the repair you would try first.",
+      "expected_output": "Diagnosis checks the workspace, dependency declarations, and install state, then uses a scoped repair with the existing lockfile.",
+      "files": [],
+      "expectations": [
+        "Checks the command's working directory, relevant workspace declarations, installed packages, and package resolution before broad repair.",
+        "Uses the established package manager and preserves the lockfile and unrelated dependencies; it does not recommend deleting the lockfile or all node_modules as the default fix."
+      ]
+    },
+    {
+      "id": "hook-mode-and-config-diagnosis",
+      "prompt": "Explain why our pre-commit Markdown check might work locally and fail on Linux CI, and show any useful commands. `.husky/pre-commit` runs our lint:markdown script. `git ls-files --stage .husky/pre-commit` shows mode 100644. The project uses `.markdownlint.json` with first-line-heading disabled, and editor checks disagree with the CLI. I want a diagnosis and any working-tree fixes needed.",
+      "expected_output": "Read-only inspection separates tracked and local hook permissions, a working-tree permission fix is shown, and editor and CLI config are aligned with the existing JSON policy.",
+      "files": [],
+      "expectations": [
+        "Uses read-only inspection for tracked hook mode and working-tree permissions, and uses chmod for any working-tree permission repair.",
+        "Does not use git add, git update-index, or another staging command as inspection or part of the working-tree repair.",
+        "Investigates config discovery and editor settings while preserving the JSON format and selected first-line-heading policy."
+      ]
+    }
+  ]
+}

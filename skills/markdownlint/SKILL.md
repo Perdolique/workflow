@@ -1,34 +1,16 @@
 ---
 name: markdownlint
-description: Configure, manage, and troubleshoot markdownlint in projects. Use when user wants to setup/install/configure markdownlint, add/remove/modify linting rules, fix markdown validation issues, customize .markdownlint.yaml, update ignore patterns, integrate with tools (Husky, CI), or troubleshoot markdown linting errors. Use even when user mentions markdown formatting problems, quality issues, or style consistency without explicitly saying "markdownlint".
+description: Configure, manage, and troubleshoot markdownlint in projects. Use when the user wants to set up, install, or configure markdownlint, add/remove/modify linting rules, fix markdown validation issues, customize .markdownlint.yaml, update ignore patterns, integrate with tools (Husky, CI), or troubleshoot markdown linting errors. Use even when the user mentions markdown formatting problems, quality issues, or style consistency without explicitly saying "markdownlint".
 license: Unlicense
 ---
 
 # Markdownlint
 
-## Package manager detection
+## Working approach
 
-**Before any operation**, detect which package manager the project uses:
-
-1. Check for lock files:
-   - `pnpm-lock.yaml` → use `pnpm`
-   - `yarn.lock` → use `yarn`
-   - `package-lock.json` → use `npm`
-   - `bun.lockb` → use `bun`
-
-2. Check `packageManager` field in package.json:
-
-   ```json
-   "packageManager": "pnpm@8.0.0"
-   ```
-
-3. If no indicators, ask the user which package manager they prefer
-
-**Throughout this skill**, commands use `pnpm` as examples. Replace with the detected package manager:
-
-- `pnpm add -D` → `npm install --save-dev` / `yarn add -D` / `bun add -d`
-- `pnpm run` → `npm run` / `yarn run` / `bun run`
-- `pnpm install` → `npm install` / `yarn install` / `bun install`
+- Use the requested scope and existing project rules, config format, ignore patterns, and scripts. Fix authorized violations under that policy. Change rules or exclusions when requested or required by settled project conventions. Ask only about decisions that remain open.
+- Before package operations, identify the package manager from `packageManager`, lockfiles (`pnpm-lock.yaml`, `yarn.lock`, `package-lock.json`, `bun.lock`, or `bun.lockb`), and project instructions. Ask if the choice remains unclear and is needed for the work.
+- Package commands below use `pnpm` as an example; adapt them to the project's package manager. Prefer existing scripts. Use `vpx` for direct package CLI commands.
 
 ## Operation selection guide
 
@@ -64,47 +46,12 @@ vpx markdownlint README.md
 vpx markdownlint 'docs/**/*.md'
 ```
 
-## Quick reference: Config file basics
+## New configuration default
 
-`.markdownlint.yaml` in project root:
+When no project config or style requirement exists, create `.markdownlint.yaml` with the standard rules and disable `line-length`. Editors and viewers handle wrapping.
 
 ```yaml
 $schema: ./node_modules/markdownlint/schema/markdownlint-config-schema.json
 
-# Disable a rule
 line-length: false
-
-# Enable a rule
-no-duplicate-heading: true
-
-# Configure a rule
-heading-style:
-  style: "atx"
 ```
-
-`.markdownlintignore` in project root (gitignore syntax):
-
-```gitignore
-node_modules
-dist/
-build/
-CHANGELOG.md
-```
-
-## Default configuration philosophy
-
-When setting up markdownlint, use this opinionated default configuration:
-
-```yaml
-$schema: ./node_modules/markdownlint/schema/markdownlint-config-schema.json
-
-line-length: false # Modern editors handle wrapping
-```
-
-Keep the standard rules enabled and disable `line-length` in this default configuration because:
-
-- Modern editors and viewers handle text wrapping automatically
-- Fixed line length creates unnecessary friction in most projects
-- Semantic issues are more valuable to catch than presentation issues
-
-Customize other rules when the user requests it or established project requirements call for it.

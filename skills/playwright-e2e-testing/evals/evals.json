@@ -83,8 +83,8 @@
     },
     {
       "id": 6,
-      "prompt": "Reduce the shared browser fixture overhead described in harness/context.md. Update harness/global.fixtures.ts and explain the remaining checks needed in the full application.",
-      "expected_output": "The fixture avoids needless local asset handling and completes async diagnostics while preserving the network guard and independent test state.",
+      "prompt": "Reduce the shared browser fixture overhead and support the handled-error regression described in harness/context.md. Update harness/global.fixtures.ts, show how the retry test uses it, and explain the remaining checks needed in the full application.",
+      "expected_output": "The fixture avoids needless local asset handling, completes async diagnostics, and verifies the expected error while preserving unrelated guards and independent test state.",
       "files": [
         "evals/files/harness/context.md",
         "evals/files/harness/global.fixtures.ts"
@@ -93,6 +93,7 @@
         "The origin guard excludes local assets from interception messages to the test process with a glob or RegExp matcher, preserving normalized origin boundaries and local blob URLs.",
         "The change preserves blocking and reporting of unmocked external requests and permits later scenario overrides.",
         "The fixture completes pending console payload reads before page/context teardown, including failure cleanup, and retains the serialized argument values and read errors needed for diagnosis.",
+        "The retry test registers its expected diagnostic before the failing action and asserts its task ID, status, raw payload, and exact count; missing, repeated, or different diagnostics fail without weakening unrelated page-error, console-error, hydration, or unresolved-component checks.",
         "The executor keeps page/context state independent per test and does not disable the modal animation to save time.",
         "The report does not claim that narrowing route matching restores browser HTTP caching.",
         "The executor distinguishes available fixture checks from full-suite behavior and timing that cannot be verified from the snapshot."
@@ -129,6 +130,21 @@
         "It reports whole-workflow time as unavailable and labels any sum of build and E2E durations as a partial path rather than the full workflow.",
         "It requires a failed, cancelled, or missing shard and a missing required report to prevent a successful overall result.",
         "It preserves the complete test/browser inventory and reports unavailable billing evidence without inventing prices."
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "Add the shared fixture and direct API tests described in api-auth.md. Keep each test independent and report what you can verify from the supplied project contract.",
+      "expected_output": "API tests use the shared test and expect exports, share authentication only where safe, and check the successful session and missing-session HTTP contracts.",
+      "files": [
+        "evals/files/api-auth.md"
+      ],
+      "expectations": [
+        "The fixture exports both its extended test and expect, and both API tests import them from that fixture.",
+        "The successful authenticated read uses the fixture-owned session context and checks HTTP 200.",
+        "The missing-session test creates an anonymous context and checks HTTP 401 without using the authenticated context.",
+        "The fixture owns authenticated context teardown, and the anonymous test disposes its own context.",
+        "The tests check status without adding JSON parsing or a response schema for a body they do not read."
       ]
     }
   ]

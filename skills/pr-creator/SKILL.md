@@ -37,15 +37,13 @@ git ls-remote --symref origin HEAD
 
 Then:
 
-1. For GitHub creation, if the current branch is the base branch, create and switch to a task branch before committing. Follow the project's branch naming conventions and preserve the current changes and staging. For a known task, include its tracker ID and preserve the key's case, for example `feat/gh-42-session-cache` or `fix/APP-123-token-refresh`. Include the repository or project when the ID would otherwise be ambiguous. Text-only requests keep the current branch.
-2. For PR creation, use the installed `commit-creator` skill to commit uncommitted task changes. If it is unavailable, follow the applicable repository commit instructions.
-3. Check whether the current branch already has an open PR. Update that PR instead of creating a duplicate.
-4. Report if the branch is behind or diverged from its upstream or the fresh remote default before pushing. Continue when upstream changes do not affect the task or safe publication; ask about a dependent decision when they do. Merge, rebase, or rewrite history only with user authorization.
+1. Find any open PR for the current branch and reuse it. Resolve the target before switching branches or committing: use the requested target, otherwise the existing PR target, otherwise the remote default. Use its fresh remote-tracking ref as the base.
+2. For a new GitHub PR, if the current branch is the base branch, create and switch to a task branch before committing. Follow the project's branch naming conventions and preserve current changes and staging. For a known task, include its tracker ID and preserve the key's case, for example `feat/gh-42-session-cache` or `fix/APP-123-token-refresh`. Include the repository or project when the ID would otherwise be ambiguous. Text-only requests keep the current branch.
+3. For PR creation, use the installed `commit-creator` skill to commit uncommitted task changes. If it is unavailable, follow the repository commit instructions.
+4. Report if the branch is behind or diverged from its upstream or the chosen base before pushing. Continue when upstream changes do not affect the task or safe publication; ask about a dependent decision when they do. Merge, rebase, or rewrite history only with user authorization.
 5. Review the complete changeset below before pushing.
 
 Keep one feature or independent change per commit; a PR may contain several. Keep independent dependency updates and unrelated work separate. Create a new commit for corrections by default. Corrections to merged work always get new commits. When updating a commit, use history and diffs to find the matching commit; ask if the target is unclear. Preserve independent commits and unrelated staging.
-
-Use the fresh remote-tracking ref for the requested or existing PR target as the base; otherwise use the remote default branch. A local `main` or `master` can be stale even after fetching.
 
 ## Analyze the complete changeset
 

@@ -32,8 +32,7 @@ Handle mixed comments claim by claim. Preserve a real issue even when the rest i
 
 ## Write the reply
 
-- Use the style set by the global instructions for ordinary chat with the user.
-- Write in English and aim for B1 wording without weakening that style. Keep needed code names as written.
+- Write GitHub replies in English using the project's normal style and short, clear B1 wording. Use the user's chat voice only when explicitly requested for the reply. Keep code names as written.
 - Focus on the claim and its evidence. Do not invent the author's motives, insult their personal worth, or guess that a comment came from AI based only on its style.
 - Usually write two to four short sentences. Include the verdict in natural words and one decisive fact. Add a code link or short reproduction only when it helps settle the point.
 - For a rejected claim, explain why it is wrong. For a confirmed claim, admit it directly. For an unresolved claim, state the missing evidence and ask for the exact input or requirement needed to decide. Style must not change the facts, severity, or uncertainty.

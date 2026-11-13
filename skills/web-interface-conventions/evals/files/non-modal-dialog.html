@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head><meta charset="UTF-8"><title>Task notes</title></head>
+  <body>
+    <main>
+      <h1 id="task-heading" tabindex="-1">Task notes</h1>
+      <button id="open" type="button">Edit task</button>
+      <label for="notes">Background notes</label>
+      <textarea id="notes"></textarea>
+      <dialog id="task-dialog" aria-labelledby="dialog-title">
+        <h2 id="dialog-title">Edit task</h2>
+        <label for="title">Title</label>
+        <input id="title" value="Review notes">
+        <button id="save" type="button">Save</button>
+        <button id="close" type="button">Close</button>
+      </dialog>
+    </main>
+    <script>
+      const opener = document.querySelector('#open')
+      const dialog = document.querySelector('#task-dialog')
+      const title = document.querySelector('#title')
+
+      function closeTask() {
+        dialog.close()
+        opener.focus()
+      }
+
+      opener.addEventListener('click', () => {
+        dialog.show()
+        title.focus()
+      })
+      document.querySelector('#close').addEventListener('click', closeTask)
+      document.querySelector('#save').addEventListener('click', () => {
+        setTimeout(closeTask, 500)
+      })
+    </script>
+  </body>
+</html>

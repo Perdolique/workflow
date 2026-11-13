@@ -1,12 +1,10 @@
 # Updating ignore patterns
 
-Use when user wants to exclude specific files or directories from linting.
-
-**Note:** This guide uses `pnpm` in examples. Replace with your project's package manager (npm/yarn/bun).
+Use when the user wants to exclude specific files or directories from linting.
 
 ## Adding ignore patterns
 
-Common scenarios:
+Use patterns for content that the project treats as generated, external, or outside the requested lint scope. Confirm that the files match that purpose before adding a broad pattern.
 
 **Ignore generated documentation:**
 
@@ -31,7 +29,6 @@ CHANGELOG.md
 vendor/
 third-party/
 node_modules/
-.github/
 ```
 
 **Ignore specific files:**
@@ -61,8 +58,13 @@ After updating `.markdownlintignore`:
    pnpm run lint:markdown
    ```
 
-2. To verify a specific file is ignored, add `--verbose` flag (requires updating npm script):
+2. For a file with known violations, compare the normal result with an empty ignore file. On Unix:
 
-   ```json
-   "lint:markdown:debug": "markdownlint '**/*.md' --verbose"
+   ```bash
+   vpx markdownlint docs/generated.md
+   vpx markdownlint docs/generated.md --ignore-path /dev/null
    ```
+
+   The second command uses an empty ignore file instead of `.markdownlintignore` and should report those violations. A successful check of a clean file alone does not prove it was ignored.
+
+Use `--dot` when the requested lint scope includes hidden directories such as `.github`.

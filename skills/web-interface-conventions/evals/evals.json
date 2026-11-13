@@ -123,7 +123,7 @@
         "The workflow prefers native dialog and button semantics before manual roles.",
         "The workflow gives the dialog and icon-only close control accessible names.",
         "The workflow gives the informative image meaningful alternative text and hides decorative shapes from assistive technology.",
-        "The workflow defines initial focus, allowed keyboard dismissal, and focus restoration on close.",
+        "The workflow defines initial focus, allowed keyboard dismissal, and focus restoration to the opener on ordinary modal close, with a useful visible fallback when the opener is gone or hidden.",
         "The workflow keeps the error and retry action inside the active dialog."
       ]
     },
@@ -279,6 +279,21 @@
         "The workflow shows perceivable progress for a slow save in reserved or existing space without requiring one specific indicator design.",
         "The workflow keeps each action's accessible name stable and preserves its optimistic pressed state while exposing the pending state.",
         "The workflow verifies fast and held slow saves, including geometry before, during, and after the pending state."
+      ]
+    },
+    {
+      "id": 19,
+      "prompt": "Fix the close behavior in non-modal-dialog.html. Users can keep editing Background notes while Save is pending, but completion moves focus away from their notes. Preserve the non-modal interaction and ordinary close behavior, including when the Edit task button is removed or hidden.",
+      "expected_output": "Closing preserves focus already moved outside the non-modal dialog and restores a useful target only when the closing dialog still owns focus.",
+      "files": [
+        "evals/files/non-modal-dialog.html"
+      ],
+      "expectations": [
+        "The dialog stays non-modal, and users can move focus to Background notes while Save remains pending.",
+        "Save completion leaves focus and the editing position in Background notes unchanged after the user moves there.",
+        "Ordinary close while focus is inside the dialog restores the connected, visible opener, or a useful visible target for the task when the opener is gone or hidden.",
+        "A dialog that owns focus at close still restores a useful target if closing itself moves focus to the document.",
+        "Verification keeps Save pending while moving focus outside and checks the close-from-inside case separately; removing the ownership protection makes the outside-focus case fail."
       ]
     }
   ]

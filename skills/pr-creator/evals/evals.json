@@ -238,10 +238,13 @@
     },
     {
       "id": 22,
-      "prompt": "Update the existing PR from feat/gh-42-session-cache. It targets release/2.x, while main is the default branch. Issue #42 is fully addressed. Keep the PR target and ready state unchanged.",
-      "expected_output": "The agent keeps the requested metadata and uses a normal task reference without promising closure from merging into release/2.x.",
+      "prompt": "Update the PR for the current branch in acme/app. I am on main, which is also the default branch. GitHub has an open, ready PR from main into release/2.x. Its verified task commits fully address issue #42, and a final task correction is uncommitted. Keep the PR target and ready state unchanged.",
+      "expected_output": "The agent discovers the current branch PR and its release/2.x base before branch or commit changes, commits the task correction on main, and updates that PR with a normal task reference while preserving its metadata.",
       "files": [],
       "expectations": [
+        "The agent finds the open PR for main and resolves origin/release/2.x as the base before any branch switch or task commit.",
+        "The agent keeps main as the PR source, commits the authorized correction there, and updates the existing PR instead of creating a branch or duplicate PR.",
+        "The complete changeset analysis uses the fresh release/2.x base rather than origin/main.",
         "The agent preserves release/2.x and the existing ready state.",
         "The description references #42 without promising automatic closure on this merge.",
         "The agent does not close #42 directly."

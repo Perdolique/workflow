@@ -81,37 +81,18 @@ test.each([
 - Cover normal behavior and error, edge, or boundary cases that protect distinct contract risks. Do not add one case per source branch when existing tests catch the same failure. Include `null`, `undefined`, empty values, and invalid types when the code owns validation of those inputs, such as at an external-data boundary. For internal typed code that receives already validated values, use supported inputs and do not invent unsupported cases.
 - A useful replacement test fails when the protected behavior is removed. Give every test at least one assertion of its outcome, directly or through an assertion helper. Prefer exact assertions such as `toBe`, `toStrictEqual`, `toHaveLength`, `toHaveBeenCalledWith`, and `toHaveBeenCalledTimes` when they express the contract.
 
-## Mock and clean up deliberately
+## Handle mocks and async work
 
-Read [the mocking guide](references/mocking.md) for module mocks, spies, conditional behavior, timers, async failures, and cleanup.
+Read [the mocking guide](references/mocking.md) before changing module mocks, spies, timers, async assertions, or cleanup. It contains the version-specific APIs and defaults.
 
-In Vitest 5, `clearMocks` defaults to `true`, so call history is cleared before each test while mock implementations remain. `mockReset` and `restoreMocks` default to `false`.
-Inspect the active configuration and add only the cleanup required by state that the test changes:
-
-- Reset a mock when a test changes an implementation that later tests must not inherit.
-- Restore a manual `vi.spyOn` spy when `restoreMocks` is disabled.
-- Return to real timers after a test or suite uses fake timers.
-
-- Place hoisted `vi.mock`, `vi.unmock`, and `vi.hoisted` calls at module level. Vitest 5 rejects these calls inside functions, blocks, hooks, and test or suite callbacks. Use `vi.doMock` or `vi.doUnmock` only when the test needs the non-hoisted behavior for a later dynamic import.
-
-## Handle asynchronous behavior
-
-Await asynchronous assertions, including `resolves`, `rejects`, `expect.poll`, and async snapshot matchers. Vitest 5 fails unawaited async assertions.
-
-Use async timer controls when timer callbacks schedule promises:
-
-```typescript
-await vi.advanceTimersByTimeAsync(1_000);
-```
-
-When a timer triggers a rejection, create the rejection assertion before advancing time, then await both operations. This attaches the rejection handler before the promise settles.
+- Match cleanup to changed state and the active configuration: reset changed implementations, restore manual spies, and return to real timers as needed.
+- Await async assertions and timer controls that run promise work. Attach a rejection assertion before advancing a timer that can reject the promise.
 
 ## Keep TypeScript checks useful
 
 - Use `vi.mocked()` for type-safe access to mocked functions.
 - Use `satisfies` to check fixtures and expected payloads against known contracts without widening literal types.
 - Use `@ts-expect-error` when a test deliberately passes an invalid type to verify runtime validation.
-- Use the typed `vi.mock(import(...))` signature for partial module factories; its exports are optional and their returned types stay checked.
 
 ## Run the relevant tests
 
