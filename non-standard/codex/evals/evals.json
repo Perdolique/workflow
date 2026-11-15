@@ -44,6 +44,24 @@
         "Plans a bounded change and tests covering pending status and return ordering, without claiming a browser hang or expanding into native checkout/provider redesign.",
         "Keeps the agreed hosted-checkout scope and does not implement in this planning-only task."
       ]
+    },
+    {
+      "id": 3,
+      "prompt": "Prepare the next delegation call for each situation in evals/files/subagent-routing.md. Apply the supplied global instructions and the relevant lifecycle rules from skills/code-review/SKILL.md. Return the action, arguments, and task message for each call. Do not launch agents, edit files, browse, or run project commands.",
+      "expected_output": "Dispatch decisions use fresh agents for a different type of work or an unrelated task, continue the existing assignment for a clarification, and preserve independent final review validation. Standalone tasks use fork_turns=\"none\"; the history-dependent implementation receives the parent discussion. Each message includes the context needed for its assignment.",
+      "files": [
+        "evals/files/subagent-routing.md",
+        "../../skills/code-review/SKILL.md"
+      ],
+      "expectations": [
+        "Breakfast implementation uses spawn_agent with fork_turns=\"none\", rather than assigning code changes to breakfast_research, even though both assignments share APP-42.",
+        "The implementation message includes the accepted plan or its reference, relevant research conclusion, code scope, constraints, and required output; it does not pass the researcher's full history or raw search results.",
+        "Breakfast clarification addresses breakfast_model with the confirmed server-timestamp answer and does not start a replacement developer for the same assignment.",
+        "Parking label uses a fresh agent with fork_turns=\"none\" for APP-43 rather than reusing breakfast_cache for an unrelated implementation task.",
+        "APP-44 uses a fresh implementation agent with fork_turns=\"all\" so it receives the required parent discussion, rather than reusing cancellation_research or passing only the incomplete summary.",
+        "Final review validation uses a fresh agent with fork_turns=\"none\" rather than reusing order_reviewer; its input contains order-1 and the supplied evidence, without unrelated review history.",
+        "The response prepares dispatch calls without actually launching agents or changing files."
+      ]
     }
   ]
 }
