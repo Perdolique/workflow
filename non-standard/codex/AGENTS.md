@@ -74,6 +74,7 @@
 - Preserve user changes and staging; unrelated changes do not block the task. Read the current diff before overlapping edits; show the conflict and ask when an edit could overwrite user work and the safe result is unclear. Unstage or restage only when explicitly asked.
 - Report resolved risks and blockers. In warnings, name the concrete failure condition or recovery action.
 - Fix shared causes before isolated patches when review feedback repeats. Record follow-ups only with evidence, failed checks, or an explicit user decision.
+- Before creating a tracker issue, accepting a new limitation, or deferring a check, ask the user and wait for separate, explicit approval of that action, even if an approved plan includes it.
 - After changing any Codex `config.toml`, validate the edited configuration with the installed Codex CLI. Run `codex doctor --json` against the active config and require `checks["config.load"].status` to be `ok`; for a non-active config, load it through a temporary `CODEX_HOME`. Also use `--strict-config` with a supported command to check for unknown fields.
 
 ## Verify and finish repository edits
