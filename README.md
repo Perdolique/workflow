@@ -27,6 +27,7 @@ Reusable skills that provide specialized knowledge and capabilities:
 | [vitest-unit-testing](./skills/vitest-unit-testing/) | Write and maintain TypeScript unit tests with Vitest |
 | [vue-components](./skills/vue-components/) | Build and review Vue components and composables |
 | [web-interface-conventions](./skills/web-interface-conventions/) | Build and review usable, accessible web interfaces |
+| [web-to-native-adaptation](./skills/web-to-native-adaptation/) | Adapt web app changes to native mobile apps |
 
 ### Repository-local skills
 
