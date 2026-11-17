@@ -30,7 +30,7 @@ Inspect older material only when needed to understand a resumed task, recover co
 
 Use the established content selection: substantive programming, analytics, and research. Exclude ordinary automation, guardian/permission reviews, micro/admin work, empty starts, and context-window research itself. A previously excluded chat can become substantive later. For mixed chats, select only the human substantive work ranges. Keep supporting agents separate from roots and exclude inherited parent execution.
 
-For a substantive research update, keep selection, analysis, and final interpretation separate. The established research preference is one GPT-6 Astra xhigh agent for selection, another GPT-6 Astra xhigh agent for analysis, and an independent parent check. This is not a working-model recommendation. Honor the user's current model instructions and report unavailable requested models before substituting. Give the analyst the selected new work and the aggregate archive; do not ask it to reselect the whole historical corpus.
+For a substantive research update, keep selection, analysis, and final interpretation separate. The established research preference is one GPT-6.2 Astra xhigh agent for selection, another GPT-6.2 Astra xhigh agent for analysis, and an independent parent check. This is not a working-model recommendation. Honor the user's current model instructions and report unavailable requested models before substituting. Give the analyst the selected new work and the aggregate archive; do not ask it to reselect the whole historical corpus.
 
 ## Count and interpret consistently
 

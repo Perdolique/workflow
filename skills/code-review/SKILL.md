@@ -31,14 +31,14 @@ Coordinate a compact reviewer or focused specialists to review an existing chang
 ## Subagent model selection
 
 - Apply this policy to every subagent assignment, including planning, review children, validation, and resolution. Leave the user's main-agent model and effort unchanged.
-- For ordinary assignments, including routine final validation, explicitly pass `model="gpt-6.1-sol"` and `reasoning_effort="xhigh"` at launch, even when configured subagent defaults differ. Routine cross-file tracing, asynchronous UI states, and fixture or guard checks use this baseline.
+- For ordinary assignments, including routine final validation, explicitly pass `model="gpt-6.2-sol"` and `reasoning_effort="xhigh"` at launch, even when configured subagent defaults differ. Routine cross-file tracing, asynchronous UI states, and fixture or guard checks use this baseline.
 - Before choosing stronger settings, collect available context and check the assignment. Split independent responsibilities that compete for attention, but keep interacting contracts together when they need joint analysis.
 - Choose from these automatic escalations based on the assignment's concrete reasoning difficulty:
 
   | Model | Effort | Use when |
   | --- | --- | --- |
-  | `gpt-6.1-sol` | `max` | A focused assignment needs a long, well-defined chain of reasoning across files or states. |
-  | `gpt-6-astra` | `high` | Available evidence supports competing explanations across interacting contracts that are hard to distinguish, or a well-scoped Sol analysis leaves a specific reasoning problem that stronger expertise can settle with the available evidence. |
+  | `gpt-6.2-sol` | `max` | A focused assignment needs a long, well-defined chain of reasoning across files or states. |
+  | `gpt-6.2-astra` | `high` | Available evidence supports competing explanations across interacting contracts that are hard to distinguish, or a well-scoped Sol analysis leaves a specific reasoning problem that stronger expertise can settle with the available evidence. |
 
 - Select the needed tier directly. Record the chosen settings and concrete reason in routing metadata, outside the scope packet, and pass both `model` and `reasoning_effort` explicitly for each escalation.
 - Return any escalation records with your report so the orchestrator can account for nested assignments.
