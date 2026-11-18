@@ -291,7 +291,7 @@
         "evals/files/conventions-fixture.md"
       ],
       "expectations": [
-        "The execution record identifies exactly one fresh resolver launched with fork_turns=\"none\" under the Step 3 conflict path.",
+        "The Step 3 request launches exactly one fresh resolver with fork_turns=\"none\" under the conflict path and starts no full-review orchestrator.",
         "The resolver launch message assigns only the conflicting verbatim-1 and includes both dispositions, prior reproduction, and final finding validator instructions.",
         "The resolver launch message includes the relevant comparable pattern and nested verbatim rule with their sources and scopes, without depending on parent history or fixture access.",
         "The resolver rejects verbatim-1 from the scoped exception; the final report retains export-1 exactly once with zero omitted confirmed findings.",
@@ -496,6 +496,18 @@
         "Dead-1 remains confirmed and quotes-1 remains rejected without reopening either; no completed reproduction or original reviewer assignment is repeated.",
         "The final ledger replaces the affected prior dispositions, reports dead-1 and fallback-1 exactly once, excludes spaces-1, and accounts for two current confirmed findings with zero omissions.",
         "Step 3 does not treat the resolved prior dispositions as a new report conflict or launch another resolver after Step 2 recovery."
+      ]
+    },
+    {
+      "id": 37,
+      "prompt": "Look for bugs, regressions, and maintainability problems in the uncommitted checkout label change before I commit. Have separate reviewers cover the receipt contract and maintainability. Three agent slots are available to this review across all levels. Treat this snapshot as the complete change set. The checkout label is also sent to the receipt service. We agreed to trim the label edges and preserve interior spaces exactly, since customers use spacing to align printed labels. Only this user message records that decision. The existing focused test passed on this snapshot with input `  A  ` and output `A`. The old public formatter returned `label.trim()`. The new src/checkoutLabel.ts is line 1 `const defaultLabel = \"Order\";`, line 2 `export function formatCheckoutLabel(label: string): string {`, line 3 `  return label.trim().replace(/ +/g, \" \");`, and line 4 `}`. There are no other references to defaultLabel. Use real agents and keep repository files read-only. If the runner does not record them, capture each spawn's exact arguments, parent, returned agent ID, and result across all levels in the supplied temporary output directory.",
+      "expected_output": "A fresh orchestrator runs the full specialist review with the user's whitespace contract. The main agent returns the reconciled report with the receipt regression and unused declaration.",
+      "files": [],
+      "expectations": [
+        "The main agent starts exactly one full-review orchestrator with fork_turns=\"none\", model=\"gpt-6.2-sol\", and reasoning_effort=\"high\". The orchestrator runs Steps 1–3 without starting another orchestrator.",
+        "The planner receives the target, the user-sourced requirement to preserve interior spaces, and the passing edge-trim test with its scope. The feature brief carries the contract to the reviewers.",
+        "The review selects specialist mode for the receipt service contract. With the orchestrator occupying one of three slots, it runs the two specialist assignments in separate batches and lets the specialists complete their child work and final validation.",
+        "The final report includes the confirmed interior-space regression and the unused declaration, reports zero omitted confirmed findings, and requires no repository edits."
       ]
     }
   ]

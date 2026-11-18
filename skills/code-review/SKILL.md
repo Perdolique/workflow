@@ -8,6 +8,12 @@ license: Unlicense
 
 Coordinate a compact reviewer or focused specialists to review an existing change set as read-only input and produce one evidence-backed report.
 
+## Review entry point
+
+- For a full review, spawn one fresh subagent with `fork_turns="none"` and the orchestrator settings below. Mark its assignment `internal-review-orchestrator` and ask it to read this skill. Pass the repository or worktree, the review request and any specified target and scope, known requirements, acceptance criteria, decisions, and constraints with their sources, applicable user instructions, and available validation evidence.
+- While it runs, answer its questions from available context, ask the user when an answer is needed, and forward material updates. Use the orchestrator's completed report as the user-facing review, with all confirmed findings, accounting, incomplete scope, and human-review items. If orchestration cannot finish, report the blocker and any confirmed results as an incomplete review.
+- When assigned `internal-review-orchestrator`, run Steps 1–3 directly and return the report to the parent. For a request limited to specific steps or an internal assignment, start at the requested step or role.
+
 ## Orchestrator instructions
 
 - Spawn every reviewer fresh with `fork_turns="none"`; never reuse one for validation or resolution.
@@ -15,7 +21,6 @@ Coordinate a compact reviewer or focused specialists to review an existing chang
 - Keep repository files read-only. Use collaboration messages for review state. Repository task-completion verification instructions apply to implementation work, not review.
 - Record validation results available when review starts as `Available validation evidence`, including their exact target and actual status when known; use `Unavailable` when none exist. Treat this evidence as context, not proof that the change is correct.
 - Build each reviewer launch envelope from the shared review context, its assignment packet, [feature context instructions](#feature-context) and brief reference, [reviewer instructions](#reviewer-instructions), applicable mode instructions, assigned [review roles](#review-roles), and applicable guidance collected in Step 1. Include [subagent model selection](#subagent-model-selection) when the recipient can delegate. Keep review-wide routing and lifecycle metadata outside assignment packets so packets describe only review responsibility; do not ask reviewers to rediscover scope.
-- Schedule or batch specialists so each specialist can spawn its required children without exceeding the available agent limit.
 - Report checked scope and actual findings. Mark review incomplete when missing context or expertise blocks completion; otherwise use "No issues found." when none exist.
 
 ## Feature context
@@ -30,7 +35,7 @@ Coordinate a compact reviewer or focused specialists to review an existing chang
 
 ## Subagent model selection
 
-- Apply this policy to every subagent assignment, including planning, review children, validation, and resolution. Leave the user's main-agent model and effort unchanged.
+- Launch the full-review orchestrator with `model="gpt-6.2-sol"` and `reasoning_effort="high"`. Apply the remaining settings to planning, reviewers, review children, validation, and resolution. Leave the user's main-agent model and effort unchanged.
 - For ordinary assignments, including routine final validation, explicitly pass `model="gpt-6.2-sol"` and `reasoning_effort="xhigh"` at launch, even when configured subagent defaults differ. Routine cross-file tracing, asynchronous UI states, and fixture or guard checks use this baseline.
 - Before choosing stronger settings, collect available context and check the assignment. Split independent responsibilities that compete for attention, but keep interacting contracts together when they need joint analysis.
 - Choose from these automatic escalations based on the assignment's concrete reasoning difficulty:
@@ -80,7 +85,7 @@ Coordinate a compact reviewer or focused specialists to review an existing chang
 
 ### Step 1: Select review mode and assignments
 
-- Use one subagent with `fork_turns="none"` for this internal planning task to identify review source: branch, commit, pull request, or uncommitted changes. Give it the applicable global and user instructions already available to the orchestrator, available feature requirements and accepted decisions with their sources, the feature context instructions, and the subagent model selection policy. Unless the user specifies one, review all uncommitted changes when any exist; otherwise fetch the remote default branch and review the entire current branch against its fresh remote-tracking ref.
+- Spawn one fresh planner with `fork_turns="none"` for the internal planning assignment. Pass the full review handoff, applicable global instructions, the feature context instructions, and the subagent model selection policy. The planner prepares the plan directly. It identifies the review source: branch, commit, pull request, or uncommitted changes. Unless the user specifies one, review all uncommitted changes when any exist; otherwise fetch the remote default branch and review the entire current branch against its fresh remote-tracking ref.
 - Collect applicable guidance for the changed code: global user instructions, root and nested repository instructions, relevant documentation and tool configuration, and domain skills. Inspect nearby code and shared helpers for established patterns in comparable implementations. Record each rule or pattern with its source and scope, including relevant exceptions; resolve conflicts by instruction priority. Keep this guidance in shared context and pass the relevant parts to reviewers, children, validators, and resolvers instead of relying on inherited conversation history.
 - Select `compact` only for one clearly local, simple, low-risk, self-contained responsibility that one generalist can review from one packet. Use `specialist` for authorization, security, privacy, destructive or transactional data changes, concurrency, migrations, public or cross-system contracts, backward compatibility, infrastructure, any other material risk, or uncertain classification.
 - File or line count may rule out `compact` but never justify it.
@@ -95,7 +100,7 @@ Coordinate a compact reviewer or focused specialists to review an existing chang
 - For `specialist` mode, build one launch envelope per routed packet and spawn one fresh subagent per selected specialist, in batches when necessary to leave capacity for specialist-owned children.
 - Collect validated reviewer reports and reproduction results. If new context or expertise can settle unresolved IDs, or new authoritative context changes the basis of a completed disposition, give one fresh resolver with `fork_turns="none"` only those affected candidate IDs, all prior evidence, feature context instructions and brief reference, and applicable guidance with its sources, scope, and exceptions. Never rerun the reviewer assignment, repeat a completed reproduction, or revisit unaffected IDs. Replace affected dispositions with the resolver's results; keep still-unresolved candidates separate as an incomplete review.
 
-### Step 3: Produce final review report to user
+### Step 3: Produce the final review report
 
 - Build a finding ledger from the current validated dispositions, using each resolver's result in place of the prior disposition for that stable ID. Merge confirmed IDs only when they describe the same root cause. If validated reports still conflict, give one fresh resolver with `fork_turns="none"` only the conflicting candidate IDs, prior evidence, feature context instructions and brief reference, and applicable guidance with its sources, scope, and exceptions before finalizing. Resolvers follow the final finding validator instructions.
 - Outside that conflict path, do not inspect code, rerun validation, or spawn agents during Step 3; deduplication alone never justifies a resolver.
