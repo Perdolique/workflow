@@ -96,71 +96,72 @@
     },
     {
       "id": 8,
-      "prompt": "Perform only Step 1 of the code-review workflow. The review target contains two uncommitted TypeScript files: src/normalizeTitle.ts changes a private pure helper to trim a title before returning it, and src/normalizeTitle.test.ts adds the matching focused assertion. The change has one local responsibility, no I/O or mutable state, no authorization, privacy, data-loss, migration, transaction, concurrency, public API, backward-compatibility, infrastructure, style, dependency, or cross-system behavior, and all required context is supplied. Eight lines changed and the focused test passed. Select the review mode and return planning output only.",
-      "expected_output": "The planning agent selects compact mode once in shared context, returns one scope-only assignment packet plus separate reviewer routing and Available validation evidence, and does not spawn reviewers or report findings.",
-      "files": [],
+      "prompt": "Perform the internal Step 1 planning assignment for two uncommitted TypeScript files. src/normalizeTitle.ts changes a private pure helper to trim a title before returning it, and src/normalizeTitle.test.ts adds the matching focused assertion. The change has one local responsibility, no I/O or mutable state, and no public or cross-system contracts. All required context is supplied. Eight lines changed and the focused test passed. Return the planning output only. For this isolated planning case, use the names in references/roles.md as the supplied role list.",
+      "expected_output": "The planner returns one specialist assignment for the local behavior and test change, with separate routing and exact validation evidence.",
+      "files": [
+        "references/roles.md"
+      ],
       "expectations": [
-        "The planning agent selects exactly compact mode because the target has one coherent local responsibility and all applicable concerns fit one direct review assignment.",
-        "The selection rationale does not treat the small file or line count as sufficient evidence by itself.",
-        "The shared context declares compact mode once and records the changed behavior, entry points, and the focused test under Available validation evidence.",
-        "Exactly one assignment packet covers both changed files and the title-normalization responsibility without repeating mode or first-level lifecycle instructions such as internal or direct-execution restrictions.",
-        "Separate reviewer routing maps the packet to every applicable review role and the known applicable TypeScript domain skill.",
-        "The planning agent does not spawn reviewers or report findings and guesses."
+        "The planner works directly, launches no agents, and returns no findings.",
+        "One assignment covers both changed files because the roles fit one local responsibility.",
+        "The shared context records the changed behavior, entry points, and the focused test under Available validation evidence.",
+        "The assignment packet contains the responsibility and relevant code or context without role, skill, or execution metadata.",
+        "Separate routing maps the packet to every applicable review role and the known applicable TypeScript domain skill."
       ]
     },
     {
       "id": 9,
-      "prompt": "Perform only Step 1 of the code-review workflow. The review target changes one line in src/deleteAccount.ts so the authorization check now runs after the account deletion. No other files changed and the diff is otherwise fully supplied. Select the review mode and return planning output only.",
-      "expected_output": "The planning agent selects specialist mode once in shared context despite the tiny diff, returns focused scope-only packets with separate reviewer routing, and does not report findings.",
-      "files": [],
+      "prompt": "Perform the internal Step 1 planning assignment. The review target changes one line in src/deleteAccount.ts so the authorization check now runs after the account deletion. No other files changed and the diff is otherwise fully supplied. Return the review plan only. For this isolated planning case, use the names in references/roles.md as the supplied role list.",
+      "expected_output": "The plan assigns focused responsibilities for authorization and the destructive mutation despite the one-line diff.",
+      "files": [
+        "references/roles.md"
+      ],
       "expectations": [
-        "The planning agent selects exactly specialist mode rather than compact mode.",
-        "The selection rationale identifies authorization, mutation-before-permission, and data-loss risk instead of classifying by line count.",
-        "The shared context declares specialist mode once rather than repeating it inside each assignment packet.",
-        "Separate reviewer routing maps focused packets to Behavioral and contract, Data and concurrency, Security and vulnerability, and Test and regressions responsibilities.",
-        "Each assignment packet contains only its coherent responsibility and relevant code or context, without packet-level mode, internal markers, or direct-execution restrictions.",
-        "The planning agent does not spawn reviewers or present the supplied risk as a validated finding."
+        "The responsibilities address authorization before mutation and data-loss risk regardless of line count.",
+        "Separate routing maps focused assignments to Behavioral and contract, Data and concurrency, Security and vulnerability, and Test and regressions responsibilities.",
+        "Assignments with distinct responsibilities may reference the same deletion code, with one owner per responsibility.",
+        "Each packet contains its coherent responsibility and relevant code or context, without internal markers or direct-execution restrictions.",
+        "The planner does not launch agents or present the supplied risk as a validated finding."
       ]
     },
     {
       "id": 10,
-      "prompt": "Continue the code-review workflow from a completed Step 1 result that selected compact mode once in shared context. One scope-only packet covers src/normalizeTitle.ts with exact code `export function normalizeTitle(title: string): string { const normalizedTitle = title.trim(); return normalizedTitle; }`. Its focused test passes input `' task '` to normalizeTitle and asserts that the returned value is `'task'`; the test passed. Separate reviewer routing assigns Behavioral and contract, Test and regressions, and Waste and maintainability roles plus the TypeScript domain skill. Direct inspection establishes the intended trimming behavior and leaves no candidates. Execute Step 2 and Step 3 without editing files.",
-      "expected_output": "The orchestrator builds one compact launch envelope from shared context, routing, and the scope-only packet; exactly one reviewer performs every assigned role directly without children; no validator is spawned for the empty candidate list; and the final report says No issues found.",
+      "prompt": "Continue from a completed Step 1 plan. One assignment covers src/normalizeTitle.ts with code `export function normalizeTitle(title: string): string { return title.trim(); }` and its focused test. The test asserts that input ' task ' returns 'task' and passed. Separate routing assigns Behavioral and contract and Test and regressions, plus the TypeScript skill. The complete snapshot contains no other changes. Execute Step 2 and Step 3 without editing files.",
+      "expected_output": "One specialist receives the combined responsibility for behavior and test protection. The checked scope is complete and the final report says No issues found.",
       "files": [],
       "expectations": [
-        "Exactly one fresh compact reviewer receives a launch envelope containing the shared context, scope-only packet, compact reviewer instructions, every assigned review role, and the TypeScript domain skill.",
-        "The launch envelope does not turn the packet itself into a container for mode, role, skill, or lifecycle routing metadata.",
-        "The compact reviewer performs the full assignment directly without spawning specialist, readability, CSS, or validator children.",
-        "The empty candidate list does not spawn a final finding validator.",
-        "The final report identifies compact mode, reports checked scope and No issues found., and spawns no agents during Step 3."
+        "Exactly one fresh specialist receives the relevant shared context, scope packet, specialist instructions, both roles, and the TypeScript skill.",
+        "The scope packet itself contains no role, skill, or execution metadata.",
+        "The specialist launches no review children or validator because these roles require no child and there are no candidates.",
+        "The final report says No issues found. and gives the checked scope. Step 3 launches no agents."
       ]
     },
     {
       "id": 11,
-      "prompt": "Continue the code-review workflow from a completed Step 1 result that selected compact mode once in shared context. One scope-only packet covers src/normalizeTitle.ts with exact code `const staleLabel = 'task'; export function normalizeTitle(title: string): string { const normalizedTitle = title.trim(); return normalizedTitle; }` and its focused test. Separate reviewer routing assigns Behavioral and contract, Test and regressions, and Waste and maintainability roles plus the TypeScript domain skill. The compact reviewer establishes that staleLabel has no references and the helper behavior is correct. Execute Step 2 and Step 3 without editing files.",
-      "expected_output": "One compact reviewer directly returns a stable dead-code candidate without children, the orchestrator sends it to exactly one independent final validator, and the validated finding reaches the final lossless ledger.",
+      "prompt": "Continue from a completed Step 1 plan with one Test and regressions assignment for a TypeScript title-trimming change. The source is `export function normalizeTitle(title: string): string { return title.trim(); }`. src/normalizeTitle.test.ts line 4 asserts that `normalizeTitle('task')` is 'task'. The task requires trimming outer spaces, and this is the only test. Separate routing assigns that role and the TypeScript skill. Execute Step 2 and Step 3 using this complete snapshot. Keep repository files read-only.",
+      "expected_output": "The test specialist identifies the regression gap and owns the launch of exactly one independent validator. Step 3 reports the confirmed gap once.",
       "files": [],
       "expectations": [
-        "Exactly one fresh compact reviewer receives the launch envelope, performs every assigned role directly, and spawns no children or validators.",
-        "The compact reviewer assigns a stable ID to the staleLabel dead-code candidate and returns its exact evidence without confirming it itself.",
-        "The orchestrator spawns exactly one fresh final finding validator with the candidate ID, packet code scope, prior evidence, applicable repository instructions and domain skills, and validator instructions rather than reusing the reviewer launch envelope.",
-        "The validator confirms the staleLabel candidate from its lack of references, and Step 3 reports it once with zero duplicate merges and zero omitted findings.",
-        "The finding does not infer compiler, build, deployment, or runtime effects without supplied evidence.",
-        "Step 3 spawns no agents after receiving the validator disposition."
+        "A fresh specialist assigns a stable ID to the test gap and explains why the current test also passes with an identity implementation.",
+        "The specialist launches one fresh validator with the candidate ID, scope, evidence, and applicable guidance and validator instructions.",
+        "The validator confirms the gap and recommends a case that supplies outer spaces. It searches for no unrelated findings.",
+        "Step 3 reports that finding once with zero duplicate merges and omissions and launches no further agent."
       ]
     },
     {
       "id": 12,
-      "prompt": "Perform only Step 1 of the code-review workflow. Review range ec6a36342918c444ef2c29a6437b13b9ec8d163d...9af36ce5bbbfd0ce899c742a4f4c32db34f6ff3a adds an authenticated GET /api/catalog/search endpoint in a Cloudflare Worker, extracts shared current-session resolution from apps/api/src/auth/routes.ts into apps/api/src/auth/current-session.ts, adds locale-aware matching in apps/api/src/catalog/search.ts and PostgreSQL access in apps/api/src/catalog/repository.ts, introduces catalog tables in packages/database/src/schema.ts plus a generated migration and seeded data, and adds unit, database integration, and Worker integration tests. The Worker queries PostgreSQL through the existing Hyperdrive-backed database layer. CI on exact HEAD 9af36ce5bbbfd0ce899c742a4f4c32db34f6ff3a reports successful lint, typecheck, unit, integration, database migration, build, and staging jobs; skipped duplicate jobs are identified separately. No frontend or style files changed. Select the review mode and return planning output only without reviewing findings.",
-      "expected_output": "The planning agent selects specialist mode once in shared context, records exact Available validation evidence once, returns coherent scope-only packets with separate reviewer routing, and does not leak child lifecycle instructions into first-level packets.",
-      "files": [],
+      "prompt": "Perform the internal Step 1 planning assignment. Review range ec6a36342918c444ef2c29a6437b13b9ec8d163d...9af36ce5bbbfd0ce899c742a4f4c32db34f6ff3a adds an authenticated GET /api/catalog/search endpoint in a Cloudflare Worker, extracts shared current-session resolution from apps/api/src/auth/routes.ts into apps/api/src/auth/current-session.ts, adds locale-aware matching in apps/api/src/catalog/search.ts and PostgreSQL access in apps/api/src/catalog/repository.ts, introduces catalog tables in packages/database/src/schema.ts plus a generated migration and seeded data, and adds unit, database integration, and Worker integration tests. The Worker queries PostgreSQL through the existing Hyperdrive-backed database layer. CI on exact HEAD 9af36ce5bbbfd0ce899c742a4f4c32db34f6ff3a reports successful lint, typecheck, unit, integration, database migration, build, and staging jobs; skipped duplicate jobs are identified separately. No frontend or style files changed. Return the review plan only. For this isolated planning case, use the names in references/roles.md as the supplied role list.",
+      "expected_output": "The plan records exact validation evidence and assigns coherent specialist responsibilities with separate routing.",
+      "files": [
+        "references/roles.md"
+      ],
       "expectations": [
-        "The planning agent selects specialist mode because authorization, a public API, a migration, seeded data, and Worker-to-database behavior cross material responsibility boundaries rather than because the diff is large.",
-        "The shared context declares specialist mode once and records the exact target, changed contracts, entry points, and successful and skipped jobs under Available validation evidence without treating success as proof of correctness.",
-        "Focused packets collectively cover every applicable Behavioral and contract, Data and concurrency, Security and vulnerability, Privacy and data protection, Performance and resource usage, Test and regressions, and Waste and maintainability responsibility while omitting Frontend and user experience.",
-        "Separate reviewer routing maps every packet to its assigned review roles and known applicable domain skills rather than embedding that routing metadata in the packet.",
-        "Each first-level assignment packet contains only a coherent responsibility and relevant code or context; it does not repeat mode or include internal markers or direct-execution restrictions intended for specialist-owned children and validators.",
-        "The planning agent does not spawn reviewers, validate candidate findings, or report findings and guesses."
+        "The plan splits material responsibilities across the authenticated API, database and migration, and test coverage.",
+        "Shared context records the exact target, changed contracts, entry points, and successful and skipped jobs under Available validation evidence without treating success as proof of correctness.",
+        "Focused assignments collectively cover applicable Behavioral and contract, Data and concurrency, Security and vulnerability, Privacy and data protection, Performance and resource usage, Test and regressions, and Waste and maintainability responsibilities while omitting Frontend and user experience.",
+        "Separate routing maps every assignment to its review roles and known applicable domain skills.",
+        "Each assignment packet contains only its responsibility and relevant code or context. It has no internal markers or direct-execution restrictions.",
+        "The planner launches no agents and returns no candidate findings."
       ]
     },
     {
@@ -209,22 +210,23 @@
     },
     {
       "id": 17,
-      "prompt": "Perform only the internal Step 1 planning assignment for the changes in evals/files/conventions-fixture.md. Treat the snapshot as the complete review input. Return the review plan without spawning agents, reviewing findings, or editing files.",
-      "expected_output": "The plan carries applicable global and repository guidance, the nested exception, and comparable formatter patterns with sources and scopes into shared context for the compact reviewer.",
+      "prompt": "Perform only the internal Step 1 planning assignment for the changes in evals/files/conventions-fixture.md. Treat the snapshot as the complete review input. Return the review plan without spawning agents, reviewing findings, or editing files. For this isolated planning case, use the names in references/roles.md as the supplied role list.",
+      "expected_output": "The plan carries applicable global and repository guidance, the nested exception, and comparable formatter patterns with sources and scopes into shared context for the assigned specialist.",
       "files": [
-        "evals/files/conventions-fixture.md"
+        "evals/files/conventions-fixture.md",
+        "references/roles.md"
       ],
       "expectations": [
         "Shared context preserves the global named-export rule, with its source and JavaScript scope.",
         "Shared context preserves the root formatter naming rule and the nested verbatim normalization exception, with their sources and scopes.",
         "The plan identifies normalizeLabel reuse in formatTitle and formatTag as comparable repository practice for formatBadge, without extending it to verbatim formatters.",
-        "The plan selects compact mode and routes responsibility for applicable practices and consistency without creating a separate specialist.",
+        "The plan assigns responsibility for applicable practices and consistency to the relevant role owners.",
         "The planner does not return findings or spawn agents, and records passing output tests without inventing a lint result."
       ]
     },
     {
       "id": 18,
-      "prompt": "Act as the internal compact reviewer for the changes in evals/files/conventions-fixture.md. Treat the snapshot as the complete review input. Your roles are Behavioral and contract, Test and regressions, and Waste and maintainability. Return candidates and checked scope directly without spawning agents or editing files.",
+      "prompt": "Perform candidate discovery for an internal specialist assignment. Review only the changes in evals/files/conventions-fixture.md. Treat the snapshot as the complete review input. Your roles are Behavioral and contract, Test and regressions, and Waste and maintainability. Return candidates with stable IDs and the checked scope without spawning agents or editing files.",
       "expected_output": "The reviewer identifies the global export and repository naming violations and the duplicated normalization pattern, while respecting the verbatim exception and excluding unsupported preferences.",
       "files": [
         "evals/files/conventions-fixture.md"
@@ -255,17 +257,17 @@
     },
     {
       "id": 20,
-      "prompt": "Continue from a completed Step 1 plan: compact mode, one formatter-additions packet covering the two added files in evals/files/conventions-fixture.md, and Behavioral and contract plus Waste and maintainability roles. The fixture is the shared context, including applicable guidance, existing comparable code, and available validation evidence. Execute Step 2 and Step 3 without editing repository files. For this evaluation, save each exact child launch message and fork_turns value before dispatch, then record the returned agent ID and full response. Child agents may use their launch message and any feature-context post referenced in it as review input, with no access to the source fixture or parent history. Use real child agents and keep artifacts in the supplied temporary output directory.",
-      "expected_output": "A fresh compact reviewer receives the global and repository rules, nested exception, and comparable patterns. A separate fresh validator receives the guidance relevant to its candidate IDs. The final report includes only the three supported convention and reuse findings.",
+      "prompt": "Continue from a completed Step 1 plan: one formatter-additions assignment covering the two added files in evals/files/conventions-fixture.md, with Behavioral and contract as the assigned role. The fixture is the shared context, including applicable guidance, existing comparable code, and available validation evidence. Execute Step 2 and Step 3 without editing repository files. For this evaluation, save each exact child launch message and fork_turns value before dispatch, then record the returned agent ID and full response. Child agents may use their launch message and any feature-context post referenced in it as review input, with no access to the source fixture or parent history. Use real child agents and keep artifacts in the supplied temporary output directory.",
+      "expected_output": "A fresh specialist receives the global and repository rules, nested exception, and comparable patterns. A separate fresh validator receives the guidance relevant to its candidate IDs. The final report includes only the three supported convention and reuse findings.",
       "files": [
         "evals/files/conventions-fixture.md"
       ],
       "expectations": [
-        "The execution record identifies one real compact reviewer and one distinct final validator, both launched with fork_turns=\"none\".",
+        "The execution record identifies one real specialist and one distinct final validator launched by that specialist, both with fork_turns=\"none\".",
         "The recorded reviewer launch message carries the global named-export rule, root formatter naming rule, nested verbatim exception, and comparable normalization helper use with sources and scopes.",
         "The recorded validator launch message carries the global export and root naming rules with their scopes, the comparable normalization pattern, and exact reviewer candidate IDs rather than relying on a fixture path or inherited history.",
         "The final report preserves the export, naming, and helper-reuse findings and reports no quote-style or verbatim-normalization violation.",
-        "The record shows no additional agents during Step 3, no child orchestration, and no repository edits."
+        "Neither the specialist nor the validator invokes the full review workflow. The record shows no Step 3 launches or repository edits."
       ]
     },
     {
@@ -300,7 +302,7 @@
     },
     {
       "id": 23,
-      "prompt": "Act as the internal compact reviewer for evals/files/skill-discovery/context.md. Your roles are Behavioral and contract plus Waste and maintainability. Return candidates and checked scope directly without spawning agents or editing files. Record file reads in execution order.",
+      "prompt": "Perform candidate discovery for an internal specialist assignment. Review only the changes in evals/files/skill-discovery/context.md. Your roles are Behavioral and contract plus Waste and maintainability. Return candidates with stable IDs and the checked scope without spawning agents or editing files. Record file reads in execution order. For this fixture, use context.md as the supplied feature brief.",
       "expected_output": "The reviewer reads relevant global and repository-local skills and the local skill's required reference before reviewing the formatter, then reports the export and unnecessary-wrapper violations with their sources.",
       "files": [
         "evals/files/skill-discovery/context.md",
@@ -311,7 +313,6 @@
         "evals/files/skill-discovery/src/formatLabel.js"
       ],
       "expectations": [
-        "The read record shows the full global and repository-local catalog is inspected before code review, rather than only the supplied javascript-exports skill.",
         "The reviewer reads javascript-exports, private-helpers, and references/cleanup.md before inspecting src/formatLabel.js.",
         "The reviewer does not read the unrelated release-notes skill body or start a release workflow.",
         "Candidates cite the global named-export rule and the local wrapper rule with exact source locations and stable IDs.",
@@ -321,8 +322,8 @@
     },
     {
       "id": 24,
-      "prompt": "Act as the internal code readability child for a Waste and maintainability specialist. Your assigned scope is the formatter described in evals/files/skill-discovery/context.md. Use the common reviewer instructions and code readability reviewer instructions. Return candidates directly without spawning agents or editing files. Record file reads in execution order.",
-      "expected_output": "The readability child independently prepares relevant skills from the full available catalog before inspecting the formatter and identifies the rule-backed cleanup even though the parent supplied only the export skill.",
+      "prompt": "Act as the internal code readability child for a Waste and maintainability specialist. Your assigned scope is the formatter described in evals/files/skill-discovery/context.md. For this fixture, use context.md as the supplied feature brief. Apply references/review.md, references/child-review.md, and references/role-readability.md. Return candidates directly without spawning agents or editing files. Record file reads in execution order.",
+      "expected_output": "The readability child applies the relevant skills before inspecting the formatter and identifies the rule-backed cleanup even though the parent supplied only the export skill.",
       "files": [
         "evals/files/skill-discovery/context.md",
         "evals/files/skill-discovery/global/javascript-exports/SKILL.fixture.md",
@@ -332,14 +333,14 @@
         "evals/files/skill-discovery/src/formatLabel.js"
       ],
       "expectations": [
-        "The child inspects the full global and repository-local catalog and reads both relevant skills plus the required cleanup reference before inspecting code.",
+        "The child reads both relevant skills and the required cleanup reference before inspecting code.",
         "The child reports the one-caller native-method wrapper with an exact location and the local cleanup rule as evidence.",
         "The child does not load release-notes, expand to unrelated scope, edit files, or spawn agents."
       ]
     },
     {
       "id": 25,
-      "prompt": "Act as the internal final finding validator for evals/files/skill-discovery/context.md. Validate only these candidates: export-1 says the default export at src/formatLabel.js:5 violates the project export rules; wrapper-1 says trimLabel at src/formatLabel.js:1 adds unnecessary indirection. Return one disposition per ID without spawning agents or editing files. Record file reads in execution order.",
+      "prompt": "Act as the internal final finding validator for evals/files/skill-discovery/context.md. Validate only these candidates: export-1 says the default export at src/formatLabel.js:5 violates the project export rules; wrapper-1 says trimLabel at src/formatLabel.js:1 adds unnecessary indirection. Return one disposition per ID without spawning agents or editing files. Record file reads in execution order. For this fixture, use context.md as the supplied feature brief.",
       "expected_output": "The validator reads applicable global and repository-local skill instructions and required references before checking the supplied candidates, then confirms both from their rules and code evidence.",
       "files": [
         "evals/files/skill-discovery/context.md",
@@ -350,15 +351,15 @@
         "evals/files/skill-discovery/src/formatLabel.js"
       ],
       "expectations": [
-        "The validator inspects the full available catalog and reads both relevant skills plus the cleanup reference before checking the source, even though the supplied guidance names only javascript-exports.",
+        "The validator reads both relevant skills and the required cleanup reference before checking the source, even though the supplied guidance names only javascript-exports.",
         "The validator confirms export-1 from the named-export rule and wrapper-1 from the scoped cleanup rule without demanding a runtime failure.",
         "The validator preserves both candidate IDs, introduces no new findings, does not load release-notes, and does not edit files or spawn agents."
       ]
     },
     {
       "id": 26,
-      "prompt": "Prepare launch decisions for a code review, without launching agents or editing files. The main agent is gpt-6.2-astra with max effort. The configured subagent defaults are gpt-6.2-sol and high; there are no custom agent overrides. The next work is routine scope planning, then a compact review of a private title-trimming helper and its focused test. If that review returns a dead-variable candidate with a complete reference search, it needs independent final validation. For each stage, give the model-related spawn arguments, effective settings, reason, and required launch context. All needed evidence is available.",
-      "expected_output": "Ordinary planning, compact review, and any needed final validator explicitly use Sol xhigh despite configured high defaults; the main agent is unchanged.",
+      "prompt": "Prepare launch decisions for a code review, without launching agents or editing files. The main agent is gpt-6.2-astra with max effort. The configured subagent defaults are gpt-6.2-sol and high; there are no custom agent overrides. The next work is routine scope planning, then one specialist review of a private title-trimming helper and its focused test. If that review returns a dead-variable candidate with a complete reference search, it needs independent final validation. For each stage, give the model-related spawn arguments, effective settings, reason, and required launch context. All needed evidence is available.",
+      "expected_output": "Ordinary planning, specialist review, and any needed final validator explicitly use Sol xhigh despite configured high defaults; the main agent is unchanged.",
       "files": [],
       "expectations": [
         "Each ordinary launch explicitly supplies model=gpt-6.2-sol and reasoning_effort=xhigh despite the configured high default.",
@@ -406,11 +407,13 @@
     },
     {
       "id": 30,
-      "prompt": "Perform only the internal Step 1 planning assignment, using this snapshot as the complete input; do not launch agents, inspect another repository, report findings, or edit files. The uncommitted change adds a two-provider media import wizard. Product changes include selecting and restoring result cards, replacing controls after selection, pagination, overlapping provider requests, live result announcements, and a preview step. Browser tests add automatic-query mocks, card-selection assertions, keyboard navigation, and a separate Worker origin for one provider. Shared console and unexpected-request guards filter requests by origin. The UI and test changes each cover several distinct transitions and supporting helpers. Repository guidance requires visible keyboard focus, stable interaction feedback, and tests that fail when the protected behavior is removed. Existing happy-path tests passed on this exact diff; no browser or mutation evidence is supplied. Subagent defaults are gpt-6.2-sol high. Return shared context, scope-only packets, and separate routing with roles, skills, and any model overrides.",
+      "prompt": "Perform only the internal Step 1 planning assignment, using this snapshot as the complete input; do not launch agents, inspect another repository, report findings, or edit files. The uncommitted change adds a two-provider media import wizard. Product changes include selecting and restoring result cards, replacing controls after selection, pagination, overlapping provider requests, live result announcements, and a preview step. Browser tests add automatic-query mocks, card-selection assertions, keyboard navigation, and a separate Worker origin for one provider. Shared console and unexpected-request guards filter requests by origin. The UI and test changes each cover several distinct transitions and supporting helpers. Repository guidance requires visible keyboard focus, stable interaction feedback, and tests that fail when the protected behavior is removed. Existing happy-path tests passed on this exact diff; no browser or mutation evidence is supplied. Subagent defaults are gpt-6.2-sol high. Return shared context, scope-only packets, and separate routing with roles, skills, and any model overrides. For this isolated planning case, use the names in references/roles.md as the supplied role list.",
       "expected_output": "The planner explicitly uses Sol xhigh for separate product-interaction, test-protection, and applicable maintainability responsibilities despite configured high defaults; ordinary asynchronous states and fixture/guard checks do not justify stronger models.",
-      "files": [],
+      "files": [
+        "references/roles.md"
+      ],
       "expectations": [
-        "The planner selects specialist mode and assigns product interaction and test protection to separate focused assignments.",
+        "The planner gives product interaction and test protection separate focused assignments.",
         "Test-protection scope connects fixtures and assertions to plausible incorrect product outcomes and checks whether shared guards cover the added origin.",
         "Frontend scope includes visible keyboard focus, replacement controls, asynchronous feedback, and state changes rather than only accessibility attributes.",
         "The plan assigns every applicable responsibility, including Waste and maintainability, without requiring a separate agent for every role or duplicating the full review.",
@@ -420,9 +423,11 @@
     },
     {
       "id": 31,
-      "prompt": "Perform only the internal Step 1 planning assignment. Use this snapshot as the complete input; do not launch agents, publish messages, inspect another repository, report findings, or edit files. The review target is the current uncommitted media-import changes. The user task says that users must keep their selected result when moving between result pages and must be able to preview it before importing. A supplied product specification says provider requests may overlap and the most recent query owns visible results. The diff adds selection restoration, a preview step, request cancellation, and browser tests. The PR description says cancellation fixes every provider race. No evidence supports that claim, and no source defines how provider failures should appear to users. Happy-path tests passed on this exact diff; no other validation is available. Return the review plan.",
+      "prompt": "Perform only the internal Step 1 planning assignment. Use this snapshot as the complete input; do not launch agents, publish messages, inspect another repository, report findings, or edit files. The review target is the current uncommitted media-import changes. The user task says that users must keep their selected result when moving between result pages and must be able to preview it before importing. A supplied product specification says provider requests may overlap and the most recent query owns visible results. The diff adds selection restoration, a preview step, request cancellation, and browser tests. The PR description says cancellation fixes every provider race. No evidence supports that claim, and no source defines how provider failures should appear to users. Happy-path tests passed on this exact diff; no other validation is available. Return the review plan. For this isolated planning case, use the names in references/roles.md as the supplied role list.",
       "expected_output": "The plan includes a short sourced feature brief with the intended selection and preview behavior, relevant query ownership, observed changes, and the unknown failure behavior, without treating the PR author claim as a verified result.",
-      "files": [],
+      "files": [
+        "references/roles.md"
+      ],
       "expectations": [
         "Shared context contains a feature brief that covers the whole feature, its review target, expected selection and preview behavior, main changes and connections, and the query-ownership contract.",
         "The brief identifies the user task, product specification, and observed diff as separate sources, and does not turn observed implementation behavior into an invented requirement.",
@@ -433,30 +438,17 @@
     },
     {
       "id": 32,
-      "prompt": "Execute Step 2 and Step 3 from this completed Step 1 plan using real agents. Use the supplied snapshot as the complete review input and keep repository files read-only. Shared context selects specialist mode and records the review target as the current label-rendering changes. The user task requires removing outer whitespace from a label while preserving interior whitespace; this is the only behavior requirement. The diff adds an unused label and a private helper called once by renderLabel. Available validation evidence is Unavailable. One Waste and maintainability packet covers this exact TypeScript source: line 1 `const unusedLabel = \"label\";`; line 2 `function normalizeLabel(label: string): string { return label.trim(); }`; line 3 `export function renderLabel(label: string): string { return normalizeLabel(label); }`. The complete source shows all references. Repository guidance says a private helper that only wraps one native method for one caller adds unnecessary indirection and should be replaced by the native call. No other project or domain rules apply. Record exact child launch messages, fork_turns values, returned agent IDs, message-board operations, and full child responses in the supplied temporary output directory, then produce the final review report.",
+      "prompt": "Execute Step 2 and Step 3 from this completed Step 1 plan using real agents. Use the supplied snapshot as the complete review input and keep repository files read-only. Shared context records the review target as the current label-rendering changes. The user task requires removing outer whitespace from a label while preserving interior whitespace; this is the only behavior requirement. The diff adds an unused label and a private helper called once by renderLabel. Available validation evidence is Unavailable. One Waste and maintainability packet covers this exact TypeScript source: line 1 `const unusedLabel = \"label\";`; line 2 `function normalizeLabel(label: string): string { return label.trim(); }`; line 3 `export function renderLabel(label: string): string { return normalizeLabel(label); }`. The complete source shows all references. Repository guidance says a private helper that only wraps one native method for one caller adds unnecessary indirection and should be replaced by the native call. No other project or domain rules apply. Record exact child launch messages, fork_turns values, returned agent IDs, message-board operations, and full child responses in the supplied temporary output directory, then produce the final review report.",
       "expected_output": "One neutral feature-context post is read by a fresh specialist, its direct readability child, and a separate final validator; the dead declaration and rule-backed wrapper findings reach the final ledger while the intended interior whitespace preservation remains valid.",
       "files": [],
       "expectations": [
         "The orchestrator publishes one high-level feature brief with the review target and the user task as the source, and records its real message ID outside the scope packet.",
-        "The specialist, readability child, and final validator each receive the same post reference and feature-context instructions, and read the full post before analyzing code.",
+        "The specialist, readability child, and final validator each receive the same post reference and shared review rules, and read the full post before analyzing code.",
         "Every child launch uses fork_turns=\"none\" and passes the brief reference without copying parent history or the full brief into the launch message.",
         "The shared post contains feature facts and requirements, not candidate findings or reviewer verdicts; candidate IDs and evidence are supplied separately to exactly one fresh validator.",
         "The specialist retains its own responsibility, the readability child performs its narrower assignment directly, and the validator checks only the supplied candidates without spawning agents.",
         "The report accounts for the unused declaration and rule-backed wrapper candidates after validation, reports no interior-whitespace violation, and omits zero confirmed findings.",
         "Step 3 performs no extra code inspection or agent work after receiving the validated report."
-      ]
-    },
-    {
-      "id": 33,
-      "prompt": "Prepare exact launch messages and fork_turns values without launching agents or editing files. Message-board tools are unavailable in this environment, but direct subagent launch is available. A completed Step 1 plan selects specialist mode for a cross-service display change. Its feature brief says the user task requires trimming outer whitespace while preserving interior whitespace in rendered labels, the diff changes the formatter and its caller, and no source defines the empty-label fallback. A Waste and maintainability specialist needs one direct readability child, then one final validator only if candidates survive. A separate unresolved candidate may later need a resolver after new authoritative evidence arrives. The assigned code scopes and candidate evidence are already complete. Give the feature-related launch content for the first-level specialist, readability child, conditional validator, and conditional resolver.",
-      "expected_output": "All recipient types receive the same complete short brief inline with feature-context instructions, preserve their responsibility and lifecycle boundaries, and use fresh launches without history or context files.",
-      "files": [],
-      "expectations": [
-        "Every proposed recipient receives the full brief inline, including the sourced whitespace requirement, changed parts, and missing empty-label contract.",
-        "The specialist forwards the same brief to the readability child and conditional validator; the resolver also receives it alongside only its unresolved candidate IDs and evidence.",
-        "Every launch uses fork_turns=\"none\" without creating context files or calling unavailable message-board tools.",
-        "The readability child and validator keep internal direct-execution boundaries, and the validator is launched only for a nonempty candidate list.",
-        "The fallback leaves project guidance and candidate evidence separate from the shared brief and does not invent the missing fallback requirement."
       ]
     },
     {
@@ -474,19 +466,19 @@
     },
     {
       "id": 35,
-      "prompt": "Run the parent side of one internal final finding validation assignment using a real fresh agent. The complete initial validator input is: review target, the synthetic label-formatting change; user requirement, remove outer whitespace; exact code, `export function normalizeLabel(label: string): string { return label.trim(); }`; candidate empty-1, the formatter allegedly violates an empty-label fallback requirement because normalizeLabel(\"\") returns \"\". No source in this initial input defines empty-label behavior. Publish an initial feature brief from this input, cite the synthetic user task, and mark empty-label behavior as unknown. Give the validator only this initial input, the real post reference, and the applicable internal validator and feature-context instructions. A separate parent-only source is available for later questions: the authoritative synthetic product-owner clarification says that empty labels must stay empty and no replacement or fallback is required. Use that source to answer a relevant context question, then publish the complete updated brief and pass its reference. Return the validator's one disposition for empty-1 with evidence. Record exact launch messages, identities, fork_turns values, full child responses, message-board operations, and context exchanges in the supplied temporary output directory. Keep repository files read-only.",
-      "expected_output": "The fresh validator reads the shared brief, requests the missing requirement from its parent, and rejects empty-1 after the parent supplies the authoritative rule that empty labels remain empty and no fallback is required.",
+      "prompt": "Run one internal final finding validation assignment using a real fresh agent. The synthetic label-formatting change must remove outer whitespace. Exact code: `export function normalizeLabel(label: string): string { return label.trim(); }`. Candidate empty-1 claims that `normalizeLabel(\"\")` returning an empty string violates a fallback requirement. That result was already verified. The supplied user task and code are the complete available evidence, and neither defines what the product should show for empty labels. Publish a feature brief citing the task and recording the missing requirement. Give the validator the real post reference, candidate, code, prior result, and applicable instructions. Return its decision and evidence. Record the post, launch, instruction reads, messages, and response in the supplied temporary output directory. Keep repository files read-only.",
+      "expected_output": "The validator reads the brief and returns Unresolved for empty-1 because the available evidence shows the output but does not establish an empty-label requirement.",
       "files": [],
       "expectations": [
-        "The validator reads the supplied brief with collaboration.read_post and retains the assigned candidate-only scope.",
-        "After checking available sources, the validator sends a focused empty-label contract question to its parent with collaboration.send_message rather than inventing a requirement.",
-        "After receiving the authoritative parent clarification that empty labels remain empty, the validator rejects empty-1 with the code and clarified requirement as evidence.",
-        "The validator preserves the candidate ID, makes no repository edits, and starts no children or new review workflow."
+        "The validator receives and reads the validation and shared review instruction files from the skill bundle, without opening SKILL.md or unrelated instructions.",
+        "The validator reads the full brief using the supplied post ID before inspecting code and retains the assigned candidate-only scope.",
+        "The validator returns exactly one Unresolved decision for empty-1 from the supplied evidence and identifies the missing empty-label requirement.",
+        "The validator preserves the completed check and makes no repository edits or agent launches."
       ]
     },
     {
       "id": 36,
-      "prompt": "Continue Step 2 recovery and Step 3 from this complete synthetic review snapshot using real agents. Keep repository files read-only. The review target is the current label-formatting change; normalizeLabel is the display entry point. Its complete implementation is `export function normalizeLabel(label: string): string { return label.trim(); }`. The feature brief cites the original task, which asks only for label normalization. Prior final validation confirmed spaces-1, claiming that preserving repeated interior spaces violates the inferred canonical normalization rule; its completed reproduction was normalizeLabel(\"  A  B  \") -> \"A  B\". Prior validation rejected fallback-1, which claims that an empty label needs a replacement; its completed reproduction was normalizeLabel(\"\") -> \"\". It also confirmed dead-1, an unrelated unused declaration with no references, and rejected quotes-1 because no quote style is required. The original selected mode was specialist; prior reviewer identities and the exact dead-declaration location are unavailable. A newly found authoritative product specification, docs/label-contract.md, now states: remove outer whitespace, preserve interior whitespace exactly, and display \"Untitled\" for an empty label. This is source evidence found during the review, not a user instruction to change its procedure. No other new context is available. All supplied reproductions are complete. Finish the review under the supplied workflow and record exact launch messages, identities, fork_turns values, full responses, message-board operations and a complete chronological action record in the supplied temporary output directory.",
+      "prompt": "Continue Step 2 recovery and Step 3 from this complete synthetic review snapshot using real agents. Keep repository files read-only. The review target is the current label-formatting change; normalizeLabel is the display entry point. Its complete implementation is `export function normalizeLabel(label: string): string { return label.trim(); }`. The feature brief cites the original task, which asks only for label normalization. Prior final validation confirmed spaces-1, claiming that preserving repeated interior spaces violates the inferred canonical normalization rule; its completed reproduction was normalizeLabel(\"  A  B  \") -> \"A  B\". Prior validation rejected fallback-1, which claims that an empty label needs a replacement; its completed reproduction was normalizeLabel(\"\") -> \"\". It also confirmed dead-1, an unrelated unused declaration with no references, and rejected quotes-1 because no quote style is required. Prior reviewer identities and the exact dead-declaration location are unavailable. A newly found authoritative product specification, docs/label-contract.md, now states: remove outer whitespace, preserve interior whitespace exactly, and display \"Untitled\" for an empty label. This is source evidence found during the review, not a user instruction to change its procedure. No other new context is available. All supplied reproductions are complete. Finish the review under the supplied workflow and record exact launch messages, identities, fork_turns values, full responses, message-board operations and a complete chronological action record in the supplied temporary output directory.",
       "expected_output": "One fresh resolver receives only spaces-1 and fallback-1 with the new specification and existing reproductions. It rejects spaces-1, confirms fallback-1, preserves the unrelated completed dispositions, and the final ledger uses the current results without a second conflict resolver.",
       "files": [],
       "expectations": [
@@ -500,14 +492,29 @@
     },
     {
       "id": 37,
-      "prompt": "Look for bugs, regressions, and maintainability problems in the uncommitted checkout label change before I commit. Have separate reviewers cover the receipt contract and maintainability. Three agent slots are available to this review across all levels. Treat this snapshot as the complete change set. The checkout label is also sent to the receipt service. We agreed to trim the label edges and preserve interior spaces exactly, since customers use spacing to align printed labels. Only this user message records that decision. The existing focused test passed on this snapshot with input `  A  ` and output `A`. The old public formatter returned `label.trim()`. The new src/checkoutLabel.ts is line 1 `const defaultLabel = \"Order\";`, line 2 `export function formatCheckoutLabel(label: string): string {`, line 3 `  return label.trim().replace(/ +/g, \" \");`, and line 4 `}`. There are no other references to defaultLabel. Use real agents and keep repository files read-only. If the runner does not record them, capture each spawn's exact arguments, parent, returned agent ID, and result across all levels in the supplied temporary output directory.",
-      "expected_output": "A fresh orchestrator runs the full specialist review with the user's whitespace contract. The main agent returns the reconciled report with the receipt regression and unused declaration.",
+      "prompt": "Look for bugs, regressions, and maintainability problems in the uncommitted checkout label change before I commit. Have separate reviewers cover the receipt contract and maintainability. At most three review agents may be active at once, including the orchestrator and agents launched at any level. A slot becomes available again when an agent finishes. Treat this snapshot as the complete change set. The checkout label is also sent to the receipt service. We agreed to trim the label edges and preserve interior spaces exactly, since customers use spacing to align printed labels. Only this user message records that decision. The existing focused test passed on this snapshot with input `  A  ` and output `A`. The old public formatter returned `label.trim()`. The new src/checkoutLabel.ts is line 1 `const defaultLabel = \"Order\";`, line 2 `export function formatCheckoutLabel(label: string): string {`, line 3 `  return label.trim().replace(/ +/g, \" \");`, and line 4 `}`. There are no other references to defaultLabel. Use real agents and keep repository files read-only. If the runner does not record them, capture each spawn's exact arguments, parent, returned agent ID, instruction files read, and result across all levels in the supplied temporary output directory.",
+      "expected_output": "A fresh orchestrator runs the full review with the user's whitespace contract. The main agent returns the reconciled report with the receipt regression and unused declaration.",
       "files": [],
       "expectations": [
-        "The main agent starts exactly one full-review orchestrator with fork_turns=\"none\", model=\"gpt-6.2-sol\", and reasoning_effort=\"high\". The orchestrator runs Steps 1–3 without starting another orchestrator.",
+        "The main agent starts exactly one orchestrator with fork_turns=\"none\", model=\"gpt-6.2-sol\", and reasoning_effort=\"high\". The orchestrator runs Steps 1–3 without starting another orchestrator.",
         "The planner receives the target, the user-sourced requirement to preserve interior spaces, and the passing edge-trim test with its scope. The feature brief carries the contract to the reviewers.",
-        "The review selects specialist mode for the receipt service contract. With the orchestrator occupying one of three slots, it runs the two specialist assignments in separate batches and lets the specialists complete their child work and final validation.",
+        "The planner uses the supplied role names. It reads only the planning instructions and model policy from the code-review skill package.",
+        "Reviewers receive paths to shared and assigned role instructions. The validators use the shared review and validation instructions without loading unrelated roles or the full skill.",
+        "Separate specialists review the receipt contract and maintainability. At most three agents, including the orchestrator, are active at once. Required child reviews and validation complete.",
         "The final report includes the confirmed interior-space regression and the unused declaration, reports zero omitted confirmed findings, and requires no repository edits."
+      ]
+    },
+    {
+      "id": 39,
+      "prompt": "Produce Step 3 from two completed specialist handoffs. The Waste and maintainability specialist completed the assigned JavaScript check with zero candidates. Its CSS assessment could not finish because the required adjacent style files were unavailable. The Behavioral and contract specialist checked src/renderLabel.ts and returned validated candidate label-1 as Unresolved at line 8. Only the product owner can confirm whether empty labels must be hidden, and no source or new evidence exists. There are no confirmed findings. Use these reports as the complete input.",
+      "expected_output": "The report states that review remains incomplete and shows the two open items in the sections that match their causes.",
+      "files": [],
+      "expectations": [
+        "The report identifies the checked JavaScript scope and incomplete CSS assessment. It does not give the clean verdict No issues found.",
+        "The unavailable style files appear under Incomplete review with the affected CSS scope and what evidence would unblock it.",
+        "label-1 appears once under Human review with its location, Unresolved status, consequence, and the decision needed from the product owner.",
+        "The accounting reports zero confirmed findings, final comments, duplicate merges, and omissions.",
+        "Step 3 inspects no new code and launches no agents."
       ]
     }
   ]

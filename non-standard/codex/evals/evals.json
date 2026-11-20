@@ -47,11 +47,16 @@
     },
     {
       "id": 3,
-      "prompt": "Prepare the next delegation call for each situation in evals/files/subagent-routing.md. Apply the supplied global instructions and the relevant lifecycle rules from skills/code-review/SKILL.md. Return the action, arguments, and task message for each call. Do not launch agents, edit files, browse, or run project commands.",
+      "prompt": "Prepare the next delegation call for each situation in evals/files/subagent-routing.md. Apply the supplied global instructions and the relevant lifecycle rules in the supplied code-review files. Return the action, arguments, and task message for each call. Do not launch agents, edit files, browse, or run project commands.",
       "expected_output": "Dispatch decisions use fresh agents for a different type of work or an unrelated task, continue the existing assignment for a clarification, and preserve independent final review validation. Standalone tasks use fork_turns=\"none\"; the history-dependent implementation receives the parent discussion. Each message includes the context needed for its assignment.",
       "files": [
         "evals/files/subagent-routing.md",
-        "../../skills/code-review/SKILL.md"
+        "../../skills/code-review/SKILL.md",
+        "../../skills/code-review/references/launch.md",
+        "../../skills/code-review/references/models.md",
+        "../../skills/code-review/references/review.md",
+        "../../skills/code-review/references/specialist.md",
+        "../../skills/code-review/references/validation.md"
       ],
       "expectations": [
         "Breakfast implementation uses spawn_agent with fork_turns=\"none\", rather than assigning code changes to breakfast_research, even though both assignments share APP-42.",
