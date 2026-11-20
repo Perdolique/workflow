@@ -24,6 +24,7 @@ Reusable skills that provide specialized knowledge and capabilities:
 | [repository-updater](./skills/repository-updater/) | Review and apply dependency and tooling updates |
 | [test-audit](./skills/test-audit/) | Assess test quality and usefulness |
 | [typescript-conventions](./skills/typescript-conventions/) | Use consistent conventions for TypeScript code |
+| [ui-design-direction](./skills/ui-design-direction/) | Choose an app’s visual direction and turn it into sketches, editable mockups, or a design brief |
 | [vitest-unit-testing](./skills/vitest-unit-testing/) | Write and maintain TypeScript unit tests with Vitest |
 | [vue-components](./skills/vue-components/) | Build and review Vue components and composables |
 | [web-interface-conventions](./skills/web-interface-conventions/) | Build and review usable, accessible web interfaces |

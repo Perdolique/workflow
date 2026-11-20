@@ -1,0 +1,90 @@
+{
+  "skill_name": "ui-design-direction",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I'm planning a Flutter phone screen where musicians book rehearsal rooms available at a chosen time. The main action is to book one. I have two sketches: compact price rows with quiet buttons, and large room cards with a bold accent on Book. I want it clean and a bit lively. Help me choose a direction and prepare the UI brief before we make the mockup.",
+      "follow_up": "Let's mix the two ideas I like: compact room rows so I can compare prices, and a bold accent only on the Book button. You can decide the rest. Please save the brief.",
+      "expected_output": "The agent offers two or three directions and waits for an answer. After the follow-up in the same chat, it saves the chosen mix in ui-brief.md.",
+      "files": [],
+      "expectations": [
+        "The agent treats the phone platform, available rooms, and booking action as settled.",
+        "The sketches use the same rooms and prices in the chosen clean, lively style and show different ways to compare rooms or find Book.",
+        "The agent recommends a direction for the booking task. For each option, it explains a trade-off that the sketch shows.",
+        "The agent asks a question that would change the visual direction and does not write ui-brief.md before the answer.",
+        "After the follow-up, the saved ui-brief.md specifies compact room rows with prices visible for comparison.",
+        "The saved brief reserves the bold accent for the Book button."
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "We have settled the UI for a responsive web maintenance queue. Dispatchers scan open issues and assign a technician. On wide screens show the issue list and selected issue together. On narrow screens open the detail separately and keep the active filters when returning to the list. Use the project's design-guide.md. Keep the Assign action prominent, and cover loading, no matching issues, and a retry after failure with the selection intact. I leave exact type sizes and spacing to the designer. Save the UI handoff as ui-brief.md in the working directory.",
+      "expected_output": "The agent writes a usable ui-brief.md from the settled decisions and design guide.",
+      "files": ["evals/files/design-guide.md"],
+      "expectations": [
+        "The agent writes ui-brief.md without asking for details already provided or left to the designer.",
+        "The brief links the design guide and carries forward its rule for the amber color.",
+        "The brief makes Assign the primary action for the selected issue.",
+        "The brief gives dispatchers a visible sign that the queue is still loading.",
+        "The brief shows how dispatchers can tell that loading has finished and no issues match the active filters.",
+        "The brief preserves the separate narrow detail view, filter retention on return, and selection during retry.",
+        "The brief gives observable checks for the responsive layout and recovery behavior, and leaves exact type sizes and spacing to the designer.",
+        "The agent delivers the brief without creating a mockup or implementing the screen."
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "The design of this web settings page is already approved. Fix the overflow on narrow screens in settings.html and keep the approved visual style.",
+      "expected_output": "The agent fixes the reported layout issue using the approved design as the source.",
+      "files": ["evals/files/settings.html"],
+      "expectations": [
+        "The agent fixes the approved layout without reopening design choices or writing ui-brief.md.",
+        "The agent makes the settings panel fit a narrow viewport while preserving the approved spacing, colors, content, and controls."
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Our desktop dispatchers work through a queue of 100 issues. They read an issue’s history, assign a technician, then pick the next issue. Which layout would you choose and why?",
+      "expected_output": "The agent recommends a layout in chat and explains its main trade-off.",
+      "files": [],
+      "expectations": [
+        "The reply explains how the recommended layout supports moving from one issue to the next and names a trade-off.",
+        "The agent gives its recommendation in chat without creating sketches or a brief."
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Our dispatch queue has an approved calm, dark style and layout. The Queue heading sits above a Replace lock row with an Urgent badge and an Assign button. Amber means urgent. I'm unsure about the palette. What options would work here?",
+      "expected_output": "The user can compare palettes on the approved screen and understand which one the agent recommends.",
+      "files": [],
+      "expectations": [
+        "With previews available, the agent picks a tool and shows two or three palettes without asking the user to choose a tool or color first.",
+        "The options use the same dark queue layout with the same issue, badge, and action.",
+        "Each palette keeps amber for urgency and uses readable contrast for text, the badge, and the Assign button against their backgrounds.",
+        "The recommendation explains how the chosen palette helps dispatchers spot urgency and find Assign."
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Our mobile app serves both people booking rehearsal rooms and studio staff managing bookings. Show me two sketches for the home screen of our next release. We have a specific audience in mind for this release.",
+      "follow_up": "It's for studio staff. Their first task is to see which rooms need a turnover before the next band arrives. You can choose the visual style.",
+      "expected_output": "The agent clarifies the audience before sketching, then shows options for staff.",
+      "files": [],
+      "expectations": [
+        "Before creating sketches, the agent asks which audience the home screen serves and waits.",
+        "After the answer, both sketches help staff identify upcoming room turnovers without another question about style."
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Create an editable SVG mockup of our desktop queue. Use a Queue heading, a Replace lock row, an Urgent badge, and an Assign button. I need to move the badge and change the button label later.",
+      "expected_output": "The user receives an inspected, editable SVG, or an explanation if the requested output is unavailable.",
+      "files": [],
+      "expectations": [
+        "With SVG authoring available, the agent delivers an SVG with a separately movable badge and an editable text label for Assign.",
+        "When the agent creates the file, it inspects it before sharing.",
+        "If the available tools can only produce a flat image, the agent explains the limit and waits for agreement before switching formats."
+      ]
+    }
+  ]
+}
