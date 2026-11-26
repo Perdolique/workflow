@@ -516,6 +516,20 @@
         "The accounting reports zero confirmed findings, final comments, duplicate merges, and omissions.",
         "Step 3 inspects no new code and launches no agents."
       ]
+    },
+    {
+      "id": 40,
+      "prompt": "Finish specialist finalization and Step 3 from one completed Behavioral and contract specialist assignment. The task requires renderLabel to return 'Untitled' for non-string inputs and to trim the edges of strings while preserving interior whitespace. The complete target is src/renderLabel.js. Line 1 is `function normalizeLabel(text) { return text.trim().replace(/ +/g, ' '); }`, line 2 is `export function renderLabel(value) {`, line 3 is `  return typeof value === 'string' ? normalizeLabel(value) : 'Untitled';`, and line 4 is `}`. The specialist's null-1 candidate claims that renderLabel(null) throws because normalizeLabel(null) already threw in a direct check. Its spaces-1 candidate claims that renderLabel('  A  B  ') returns 'A B', contrary to the spacing requirement. It proposes replacing the normalizeLabel body with `return text;`. Use this snapshot as the complete input. Keep repository files read-only. Record the validator launch and response, the specialist handoff, and the final review comments.",
+      "expected_output": "One independent validator rejects the unreachable null failure and confirms the spacing regression. It separately rejects the proposed fix because it removes required edge trimming. Step 3 reports the confirmed finding without recommending that fix.",
+      "files": [],
+      "expectations": [
+        "The specialist passes both candidates and the proposed fix to exactly one fresh final validator.",
+        "The validator rejects null-1 with evidence that the renderLabel guard returns 'Untitled' before the helper can run.",
+        "The validator confirms spaces-1 and separately rejects `return text;` with evidence that it would preserve outer whitespace.",
+        "The specialist handoff keeps the proposed fix and its assessment with spaces-1.",
+        "Step 3 reports spaces-1 as the sole confirmed finding and includes only fix advice supported by the validation.",
+        "The validator and Step 3 launch no agents and do not invoke the comment-handling skill."
+      ]
     }
   ]
 }

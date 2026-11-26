@@ -10,18 +10,19 @@ Use the [launch rules](launch.md) to start one planner. Pass the review handoff,
 
 - Post the plan's feature brief once in a review channel and record its message ID. Keep candidate findings and verdicts in their own messages.
 - Use the [launch rules](launch.md) to start one specialist per assignment. Use the [role index](roles.md) to resolve assigned roles to checklist paths. Pass those paths, the brief ID, relevant shared context, routing, and [specialist instructions](specialist.md).
-- Collect the specialists' validated decisions, evidence, completed scope, and open items.
-- When authoritative information changes the brief, publish a complete update and give affected active and later agents the new ID. Use the [resolver](#resolver) if new context or expertise can settle unresolved candidates or authoritative information could change an earlier decision.
+- Collect the specialists' validated decisions, proposed fixes and their assessments, evidence, completed scope, and open items.
+- When authoritative information changes the brief, publish a complete update and give affected active and later agents the new ID. Use the [resolver](#resolver) if new context or expertise can settle unresolved candidates or authoritative information could change an earlier finding decision or fix assessment.
 
 ## Step 3: Report the review
 
 - Use only the collected reports and current decisions to write the report. Launch a [resolver](#resolver) only when validated reports still disagree, and only for the conflicting IDs.
 - Give each confirmed ID one final comment or explicitly list it as a source of a comment on the same root cause. Priority controls order and labels. Account for every confirmed ID, including low-priority findings.
+- Include a proposed fix in a final comment only when the current validation supports it.
 - Report the number of confirmed findings, final comments, duplicate merges, and omitted findings. Count each extra confirmed ID folded into a shared comment as one merge. The omitted count must be zero.
 - Report the target, checked scope, actual reviewers and validators, and model escalations with reasons. Summarize the findings and include each final comment.
 - Include open items under [Review results](results.md). Verify and deduplicate `Human review` items, or use `None.` when there are none.
 
 ## Resolver
 
-- Use a fresh internal agent with the [final finding validator instructions](validation.md). Give it only the affected IDs, their prior decisions and evidence, and the new evidence or conflicting reports. Use the [launch rules](launch.md) to pass the current brief reference and relevant guidance.
-- Replace the previous decisions for those IDs with the resolver's results. Preserve unaffected decisions and completed reproduction evidence. Keep the reviewer's original assignment complete without rerunning it.
+- Use a fresh internal agent with the [final finding validator instructions](validation.md). Give it only the affected candidates with their IDs, any proposed fixes, prior validation results and evidence, and the new evidence or conflicting reports. Use the [launch rules](launch.md) to pass the current brief reference and relevant guidance.
+- Replace the previous decisions and fix assessments for those IDs with the resolver's results. Preserve unaffected results and completed reproduction evidence. Keep the reviewer's original assignment complete without rerunning it.
