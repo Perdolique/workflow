@@ -47,6 +47,6 @@ Apply this section when asked to choose or plan the next task without a named ta
 - When tracked implementation starts, assign the user if needed. Ask before replacing another assignee.
 - Work in the smallest useful slices and verify after risky changes.
 - For test additions, changes, or value/coverage audits, use `test-audit`. Use `vitest-unit-testing` for Vitest unit-test mechanics and `playwright-e2e-testing` for Playwright browser, E2E, and API tests, following project conventions. Running existing tests alone does not require `test-audit`.
-- If the request includes an open-ended changeset review, use `code-review`; use `github-comment-reply` only for explicitly selected GitHub comments.
+- Use `code-review` for an open-ended review of code changes. Use `code-review-comment-handling` to check existing code review comments and draft replies.
 - Use `commit-creator`, `pr-creator`, or `github-release` for the corresponding authorized request.
 - Run required checks, fix change-caused failures, and inspect the final tree and diff. Remove only unneeded task-created temporary files; preserve required outputs, pre-existing work, and retained plans. Report changes, actual checks or limits, and remaining risks.

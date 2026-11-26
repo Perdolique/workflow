@@ -11,10 +11,10 @@ Reusable skills that provide specialized knowledge and capabilities:
 | Skill | Description |
 | --- | --- |
 | [code-review](./skills/code-review/) | Review code changes and report issues |
+| [code-review-comment-handling](./skills/code-review-comment-handling/) | Check code review comments and replies, explain findings, and draft responses |
 | [cost-aware-development](./skills/cost-aware-development/) | Assess the cost impact of development decisions |
 | [commit-creator](./skills/commit-creator/) | Create conventional commits and commit messages |
 | [drizzle-orm](./skills/drizzle-orm/) | Write and review database queries with Drizzle ORM |
-| [github-comment-reply](./skills/github-comment-reply/) | Check selected GitHub comments and reply in the user's current chat style |
 | [github-release](./skills/github-release/) | Create GitHub releases and release notes |
 | [implementation-workflow](./skills/implementation-workflow/) | Plan, implement, and verify repository changes |
 | [instructions-master](./skills/instructions-master/) | Write and improve skills and assistant instructions |
