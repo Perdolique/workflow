@@ -41,5 +41,5 @@ For wording changes, review the full final text and diff, then run required chec
 After the final edit to any skill or other agent instructions, apply this skill again to the complete final state before finishing. Use one fresh independent subagent with `fork_turns="none"` when available. Otherwise, run the final check yourself and report this limit.
 
 - Give the checker the task, checklist, original text, shorter draft, complete final instructions, diff, and related instructions with the relevant entry points and handoffs. Ask for a direct read-only check of meaning, B1 wording, repetition, conflicts, and dependencies, with shorter replacements for wordy rules.
-- Read the full result and recheck each added rule's source and purpose. Fix supported issues, keep only needed files, and repeat the check after further edits.
+- Read the full result and recheck each added rule's source and purpose. Fix each supported issue. For each finding you decline, briefly tell the user why. Keep only needed files and repeat the check after further edits.
 - Report the checks performed and any behavior that could not be verified.
