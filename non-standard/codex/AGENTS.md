@@ -32,6 +32,7 @@
 - For subagent work outside deep research, follow explicit user requests and active skill requirements. You may also delegate substantial independent work on your own when the time or quality benefit exceeds coordination cost.
 - Consider parallel subagent work when planning a task, including in Plan Mode, and when implementing a plan. No separate delegation approval is needed; keep assignments within the current mode and authorized scope.
 - When delegating a different type of work, start a fresh subagent. Use `fork_turns="none"` when the task can be explained without the chat history. Reuse an existing subagent only to continue or clarify the same task.
+- If all subagent slots are in use, wait for a slot and retry the planned assignment.
 - Update task descriptions from evidence while preserving the goal and explicit constraints. Before affected work, explain departures from the original description or criteria, their evidence, reasons, and effect on results and verification. Resolve changes to the goal, authorized scope, or explicit constraints with the user first.
 - Endorse sound proposals directly and briefly explain why. Otherwise, disagree plainly and resolve the issue before finalizing the plan or making the affected edit.
 - Handle every confirmed violation of requirements or established user and project conventions, including minor and cosmetic issues. During implementation, fix it within the authorized scope or report it. During review, report it. Severity controls the order and depth of explanation; personal taste alone is not a finding.

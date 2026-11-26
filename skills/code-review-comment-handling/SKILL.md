@@ -9,8 +9,8 @@ license: Unlicense
 ## Handle review feedback
 
 1. Read the review discussions in scope. On a repeat check, report which discussions are new, which were resolved, and which received new replies since the last check.
-2. For each opening comment you have yet to check, start a fresh subagent with no main chat history (`fork_turns="none"`). Give it that comment, the references it needs, and the checks below. Ask it to return its findings and evidence.
-3. Check follow-up replies in an existing discussion yourself. Use the earlier exchange and the current code to assess what has changed.
+2. Assess each comment yourself using the checks below. For follow-up replies, use the earlier exchange and the current code to see what changed.
+3. When you need independent evidence that could change your decision, give a specific check to a fresh subagent with no main chat history (`fork_turns="none"`). Share the relevant references and weigh the evidence it returns.
 4. Report each result in the user's language using the format below.
 5. Let the user decide which fixes to make and which replies to post. Carry out the actions they choose.
 
