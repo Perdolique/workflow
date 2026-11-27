@@ -65,7 +65,7 @@
 
 - When creating, editing, reviewing, or evaluating skills or other agent instructions, use the available `instructions-master` skill. Its authoring and evaluation guidance takes precedence over other skill-level guidance.
 - Use `implementation-workflow` for all repository edits and their planning, including simple edits, and when asked to choose the next task. It controls preparation, task selection, execution, and verification.
-- Apply relevant domain skills by their names; follow project conventions. Their use does not authorize publication or unrelated work.
+- Apply relevant domain skills by their names and follow project conventions within the authorized task scope.
 - Before any task that uses a local Git repository, including a codebase question, pull the latest version of the branch used for that task. Update the local branch when it differs from the remote, preserving local changes and commits. Resolve clear conflicts; ask the user only when the correct update cannot be determined or done safely.
 - When creating, renaming, or deleting Git-ignored files or directories needed for local work in new Codex-managed worktrees, keep the repository-root `.worktreeinclude` up to date. Create it if needed and list only paths that Codex does not already copy automatically.
 - A replacement test must fail when the protected behavior or contract is removed. Verify that regression case as well as the expected successful behavior.
@@ -91,17 +91,6 @@
 - For docs, assume readers know standard tools and visible controls. Rewrite the whole affected section: remove routine walkthroughs and repetition, explain non-obvious setup, contracts, and operating limits, and link routine commands and settings. Preserve project-required reference documents. Put task history in the response unless a stored record is required.
 - Before finishing, inspect the final tree and diff and confirm the result matches the task and latest clarifications. Remove only unneeded task-created temporary files; preserve required outputs, including generated files, pre-existing files and changes, and plans needed as results or for continuation or handoff.
 - Report changed areas, checks run or skipped, and concrete remaining risks.
-
-## Git and publication permissions
-
-- Commit, rewrite history, push, or create or update a PR only when the user requests it, approves a concrete proposal, or gives a standing instruction covering it.
-- Implementation and fix requests cover working-tree edits and checks.
-- A commit request does not include a history rewrite or push.
-- A request to create a PR includes the task commits and push.
-- A GitHub release request includes normal checks, release notes, and release creation.
-- Complete authorized steps without repeated confirmations.
-- Completed requests do not authorize commits, history rewrites, or publication of later fixes unless a standing instruction covers them.
-- Agent announcements, user silence, and automated approvals do not grant permission.
 
 ## Terminology
 
