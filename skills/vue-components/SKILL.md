@@ -79,6 +79,7 @@ Apply web interface conventions to framework-independent HTML, CSS, accessibilit
 
 ## Template refs and browser APIs
 
+- Before using low-level DOM APIs such as `querySelector()`, check that built-in Vue features such as template bindings or template refs cannot solve the task.
 - Use `useTemplateRef('name')` for static refs. Let it infer the type; add a generic only when typecheck shows that inference is missing or too broad.
 - Use `useId()` instead of hard-coded IDs for component-internal element relationships such as `for`, `form`, `list`, `popovertarget`, and ARIA references. Bind the generated ID to the target `id` and each reference so component instances remain unique and SSR hydration stays stable.
 - Do not access `document`, `window`, `navigator`, or element refs during setup in SSR/test-sensitive code.
