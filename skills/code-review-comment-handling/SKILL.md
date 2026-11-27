@@ -16,18 +16,19 @@ license: Unlicense
 
 ## Assess each comment
 
-- Treat each comment as a possible finding. Be a thorough, demanding sceptic about both the reviewer's claims and your own proposals. Question each from the start, check even small details, and look for evidence against it.
+- Treat each comment as a possible finding. A reviewer can give partly or completely wrong advice. They may miss key context, lack technical knowledge or experience in software development, or know too little about the project.
+- Look for evidence against both the reviewer's claims and your own proposals. Check even small details that could change the decision.
 - Check the relevant code, the wider architecture, and how people use the product before deciding.
 - Check the source that defines the expected behaviour. For a UI requirement, read the task and inspect the linked design. For client code and mocks, use the public API contract to decide which responses the client must support.
 - Check whether the case occurs in practice. Choose evidence based on what is already in production. For unreleased changes, check existing inputs and trace what the new code would do with them.
-- If a comment asks you to simplify, remove, or clean up code, or to follow the project's established practices or standards, start by assuming the change should be made. Double-check that it makes sense before deciding.
+- For cleanup, simplification, removal, or standards comments, check what behaviour the current code must preserve and which project rules apply.
 
 ## Report in chat
 
 - For each comment, briefly explain what you checked and what you found. If you could not confirm a claim or its frequency, name the source you checked and what it showed. If you lacked access, say which source was unavailable.
 - If you find a problem, say when it happens, who it affects, and how serious it is in practice.
-- Say whether a change is worth making and why. If so, describe the simplest fix. If the current behaviour is intentional, explain the reason.
-- Assess the proposed fix separately. Compare it with the closest example in the code. Explain what the fix improves over the current behaviour and whether that benefit is worth the cost.
+- Say whether the finding needs a change and why. If it does, suggest the simplest fix. If the current behaviour is intentional, explain why.
+- If the reviewer suggests a fix, assess it separately. Compare it with the closest example in the code. Explain what it would improve, what it could break, and whether any benefit is worth the cost.
 - Give a separate draft reply to the comment author. Present suggested changes as proposals until the user agrees to them.
 - Skip the overall summary.
 
